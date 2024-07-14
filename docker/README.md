@@ -28,10 +28,3 @@ How to start test?
 docker run spatial-php8 composer test-coverage
 ```
 
-How to commit a contribution?
------------------------------
-This command will run all tests and check the code quality.
-Run it before commiting your changes.
-```sh
-docker run spatial-php8 composer pre-commit
-```
