@@ -9,4 +9,4 @@ parameters:
         - ../../lib
         - ../../tests
     excludePaths:
-        - ../../tests/LongitudeOne/Spatial/Tests/OrmMockTestCase.php
+        - ../../tests/LongitudeOne/SpatialTypes/Tests/OrmMockTestCase.php

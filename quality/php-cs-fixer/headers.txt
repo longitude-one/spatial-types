@@ -1,4 +1,4 @@
-This file is part of the spatial-interfaces project.
+This file is part of the spatial project.
 
 PHP 8.1 | 8.2 | 8.3
 
