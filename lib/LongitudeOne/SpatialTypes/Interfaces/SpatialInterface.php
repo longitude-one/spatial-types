@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Exception\JsonException;
 use Stringable;
 
 /**
@@ -75,6 +76,8 @@ interface SpatialInterface extends \JsonSerializable, Stringable
 
     /**
      * Convert any spatial object to its JSON representation.
+     *
+     * @throws JsonException if an error occurred during the JSON encoding
      */
     public function toJson(): string;
 }

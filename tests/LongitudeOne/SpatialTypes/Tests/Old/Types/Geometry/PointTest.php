@@ -99,15 +99,9 @@ class PointTest extends TestCase
     }
 
     /**
-     * Test exception on embedded arrays.
-     */
-    public function testEmbeddedArrays(): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
      * Test getType method.
+     *
+     * @throws InvalidValueException It shall NOT happen
      */
     public function testGetType(): void
     {

@@ -27,6 +27,13 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 interface MultiPolygonInterface extends CollectionInterface
 {
     /**
+     * Return an ordered array of spatial interfaces in the collection.
+     *
+     * @return PolygonInterface[]
+     */
+    public function getElements(): array;
+
+    /**
      * Return each polygon composing the multi-polygon.
      *
      * @return PolygonInterface[]

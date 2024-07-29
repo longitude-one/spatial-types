@@ -32,7 +32,7 @@ class BadMethodCallException extends \BadMethodCallException implements SpatialT
      * @param string        $method    the method name
      * @param DimensionEnum $dimension the dimension
      */
-    public static function create(string $method, DimensionEnum $dimension): static
+    public static function create(string $method, DimensionEnum $dimension): BadMethodCallException
     {
         return new BadMethodCallException(sprintf('The method "%s" cannot be called with a spatial object with dimensions "%s".', $method, $dimension->value));
     }

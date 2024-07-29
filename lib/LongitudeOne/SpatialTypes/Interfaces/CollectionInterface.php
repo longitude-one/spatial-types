@@ -28,14 +28,7 @@ interface CollectionInterface extends SpatialInterface
     /**
      * Return an ordered array of spatial interfaces in the collection.
      *
-     * @return array<int, SpatialInterface>
-     */
-    public function getElements(): array;
-
-    /**
-     * Return an array of spatial interfaces in the collection.
-     *
      * @return SpatialInterface[]
      */
-    public function toArray(): array;
+    public function getElements(): array;
 }

@@ -22,6 +22,13 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 interface MultiLineStringInterface extends CollectionInterface
 {
     /**
+     * Return an ordered array of spatial interfaces in the collection.
+     *
+     * @return LineStringInterface[]
+     */
+    public function getElements(): array;
+
+    /**
      * Return an array of LineStrings composing the polygon.
      *
      * @return LineStringInterface[]

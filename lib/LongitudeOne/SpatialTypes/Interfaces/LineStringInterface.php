@@ -30,6 +30,13 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 interface LineStringInterface extends SpatialInterface
 {
     /**
+     * Return an ordered array of spatial interfaces in the collection.
+     *
+     * @return LineStringInterface[]
+     */
+    public function getElements(): array;
+
+    /**
      * Return points composing the line string.
      *
      * @return PointInterface[]

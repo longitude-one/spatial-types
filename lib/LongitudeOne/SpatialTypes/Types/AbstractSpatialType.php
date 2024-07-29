@@ -19,6 +19,7 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\SpatialTypes\Exception\JsonException;
 use LongitudeOne\SpatialTypes\Helper\DimensionHelper;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
@@ -123,10 +124,18 @@ abstract class AbstractSpatialType implements SpatialInterface
 
     /**
      * Convert any spatial object to its JSON representation.
+     *
+     * @throws JsonException if an error occurred during the JSON encoding
      */
     public function toJson(): string
     {
-        return json_encode($this);
+        $json = json_encode($this);
+
+        if (false === $json) {
+            throw new JsonException('An error occurred during the JSON encoding.');
+        }
+
+        return $json;
     }
 
     /**

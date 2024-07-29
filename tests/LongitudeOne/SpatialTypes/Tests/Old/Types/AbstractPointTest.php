@@ -20,6 +20,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Tests\Old\DataProvider as LoDataProvider;
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\PointHelperTrait;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
+use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  *
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
- *    covers \LongitudeOne\SpatialTypes\Types\Geography\Point
+ * @covers \LongitudeOne\SpatialTypes\Types\Geography\Point
  * @covers \LongitudeOne\SpatialTypes\Types\Geometry\Point
  */
 class AbstractPointTest extends TestCase
@@ -51,7 +52,7 @@ class AbstractPointTest extends TestCase
     {
         $points = [
             'GeometricPoint' => GeometricPoint::class,
-            // 'GeographicPoint' => GeographicPoint::class,
+            'GeographicPoint' => GeographicPoint::class,
         ];
 
         $methods = [
@@ -84,7 +85,7 @@ class AbstractPointTest extends TestCase
     {
         $points = [
             'GeometricPoint' => GeometricPoint::class,
-            // 'GeographicPoint' => GeographicPoint::class,
+            'GeographicPoint' => GeographicPoint::class,
         ];
 
         /** @var array<string, array{0: float, 1: float}> $geodesicCoordinates */
@@ -113,7 +114,7 @@ class AbstractPointTest extends TestCase
     {
         yield 'GeometricPoint' => [GeometricPoint::class];
 
-        // yield 'GeographicPoint' => [GeographicPoint::class];
+        yield 'GeographicPoint' => [GeographicPoint::class];
     }
 
     /**
@@ -123,7 +124,7 @@ class AbstractPointTest extends TestCase
     {
         $points = [
             'GeometricPoint' => GeometricPoint::class,
-            // 'GeographicPoint' => GeographicPoint::class,
+            'GeographicPoint' => GeographicPoint::class,
         ];
 
         $exceptions = [
@@ -179,7 +180,7 @@ class AbstractPointTest extends TestCase
     {
         $points = [
             'GeometricPoint' => GeometricPoint::class,
-            // 'GeographicPoint' => GeographicPoint::class,
+            'GeographicPoint' => GeographicPoint::class,
         ];
         $methods = [
             'setX',
@@ -201,7 +202,7 @@ class AbstractPointTest extends TestCase
     {
         $points = [
             'GeometricPoint' => GeometricPoint::class,
-            // 'GeographicPoint' => GeographicPoint::class,
+            'GeographicPoint' => GeographicPoint::class,
         ];
         foreach ($points as $point) {
             foreach (LoDataProvider::validGeodesicCoordinateProvider() as $key => $value) {
@@ -219,17 +220,6 @@ class AbstractPointTest extends TestCase
     private static function assertObjectHasMethod(object $object, string $method): void
     {
         static::assertTrue(method_exists($object, $method), sprintf('Method "%s":"%s" does not exist.', $object::class, $method));
-    }
-
-    /**
-     * Test bad array parameter - Object as value.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testArrayWithObject(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
     }
 
     /**
@@ -290,28 +280,6 @@ class AbstractPointTest extends TestCase
     }
 
     /**
-     * Test argument 1 with too few values - Two invalid parameters.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testInvalidArrayWithTooFewValues(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
-     * Test argument 1 with too many values - Two invalid parameters.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testInvalidArrayWithTooManyValues(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
      * Test to convert point to json.
      *
      * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
@@ -332,39 +300,6 @@ class AbstractPointTest extends TestCase
     }
 
     /**
-     * Test bad string parameters - No parameters.
-     *
-     * @param class-string<AbstractPoint> $pointType Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testMissingArguments(string $pointType): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
-     * Test a point created with an array.
-     *
-     * @param class-string<AbstractPoint> $pointType Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testPointFromArrayToString(string $pointType): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
-     * Test error when point is created with too many arguments.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testPointTooManyArguments(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
      * Test point with srid.
      *
      * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
@@ -379,17 +314,6 @@ class AbstractPointTest extends TestCase
         $point->setSrid(4326);
         $actual = $point->getSrid();
         static::assertSame(4326, $actual);
-    }
-
-    /**
-     * Test error when point was created with the wrong arguments type.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testPointWrongArgumentTypes(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
     }
 
     /**
@@ -512,27 +436,5 @@ class AbstractPointTest extends TestCase
         $point = new $abstractPoint(-42.42, 42.43);
         $actual = $point->toArray();
         static::assertEquals($expected, $actual);
-    }
-
-    /**
-     * Test bad string parameters - Two invalid parameters.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testTwoInvalidArguments(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
-    }
-
-    /**
-     * Test bad string parameters - More than 3 parameters.
-     *
-     * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     */
-    #[DataProvider('pointTypeProvider')]
-    public function testUnusedArguments(string $abstractPoint): void
-    {
-        static::markTestSkipped('This test is now skipped.');
     }
 }

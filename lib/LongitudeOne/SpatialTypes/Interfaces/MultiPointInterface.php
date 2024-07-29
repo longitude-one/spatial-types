@@ -25,6 +25,13 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 interface MultiPointInterface extends CollectionInterface
 {
     /**
+     * Return an ordered array of spatial interfaces in the collection.
+     *
+     * @return PointInterface[]
+     */
+    public function getElements(): array;
+
+    /**
      * Return points composing the line string.
      *
      * @return PointInterface[]
