@@ -67,6 +67,30 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
+     * Set the X coordinate. In Geography, the X coordinate is the longitude, this method is an alias of setLongitude.
+     *
+     * @param float|int|string $x X coordinate
+     *
+     * @throws InvalidValueException when x is not valid
+     */
+    public function setX(float|int|string $x): static
+    {
+        return $this->setLongitude($x);
+    }
+
+    /**
+     * Set the Y coordinate. In Geography, the Y coordinate is the latitude, this method is an alias of setLatitude.
+     *
+     * @param float|int|string $y Y coordinate
+     *
+     * @throws InvalidValueException when y is not valid
+     */
+    public function setY(float|int|string $y): static
+    {
+        return $this->setLatitude($y);
+    }
+
+    /**
      * Initialize the dimension.
      *
      * @return DimensionEnum::X_Y
