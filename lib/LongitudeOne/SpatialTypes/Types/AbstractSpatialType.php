@@ -51,6 +51,14 @@ abstract class AbstractSpatialType implements SpatialInterface
     protected TypeEnum $type;
 
     /**
+     * Dimension getter.
+     */
+    public function getDimension(): DimensionEnum
+    {
+        return $this->dimension;
+    }
+
+    /**
      * Family getter.
      *
      * @return FamilyEnum the family of the object (Geometry, Geography)
