@@ -18,6 +18,9 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\MissingValueException;
+use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Factory\FactoryPoint;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -34,28 +37,45 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     /**
      * AbstractLineString constructor.
      *
-     * @param (float|int|PointInterface)[] $points
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface)[] $points points of the line string
+     * @param null|int                                                                                                                        $srid   Spatial Reference Identifier
+     *
+     * @throws InvalidDimensionException when the point dimension is not compatible with the line string dimension
+     * @throws InvalidSridException      when the point SRID is not compatible with the line string SRID
+     * @throws InvalidValueException     when coordinates of the point are invalid
+     * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $points)
+    public function __construct(array $points, ?int $srid = null)
     {
         $this->preConstruct();
+        $this->setSrid($srid);
 
         foreach ($points as $point) {
             $this->addPoint($point);
         }
     }
 
+    /**
+     * Add a point to the line string.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface $point point to add
+     *
+     * @throws InvalidDimensionException when the point dimension is not compatible with the line string dimension
+     * @throws InvalidSridException      when the point SRID is not compatible with the line string SRID
+     * @throws InvalidValueException     when coordinates of the point are invalid
+     * @throws MissingValueException     when a coordinate of the point is missing
+     */
     public function addPoint(array|PointInterface $point): AbstractLineString
     {
         if (is_array($point)) {
-            $point = FactoryPoint::fromArray($point, $this->getSrid(), $this->getFamily(), $this->getDimension());
+            $point = FactoryPoint::fromIndexedArray($point, $this->getSrid(), $this->getFamily(), $this->getDimension());
         }
 
-        if ($point->getDimension() !== $this->getDimension()) {
+        if (!$this->hasSameDimension($point)) {
             throw new InvalidDimensionException('The point dimension is not compatible with the line string dimension.');
         }
 
-        if (!empty($point->getSrid()) && $point->getSrid() !== $this->getSrid()) {
+        if (!empty($point->getSrid()) && !empty($this->getSrid()) && $point->getSrid() !== $this->getSrid()) {
             throw new InvalidSridException('The point SRID is not compatible with the line string SRID.');
         }
 
@@ -75,6 +95,28 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     }
 
     /**
+     * Get a point of the line string.
+     *
+     * @param int $index index of the point. -1 is the last point. -2 is the penultimate point, etc.
+     *
+     * @throws OutOfBoundsException when the line string is empty
+     */
+    public function getPoint(int $index): PointInterface
+    {
+        if (empty($this->points)) {
+            throw new OutOfBoundsException('The line string is empty.');
+        }
+
+        $index = $index % count($this->points);
+
+        if ($index < 0) {
+            $index = count($this->points) + $index;
+        }
+
+        return $this->points[$index];
+    }
+
+    /**
      * Get the points of this line string.
      *
      * @return PointInterface[]
@@ -89,7 +131,7 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
      */
     public function isClosed(): bool
     {
-        return $this->isLine() && $this->points[0] === $this->points[count($this->points) - 1];
+        return $this->isLine() && $this->points[0]->equalsTo($this->points[count($this->points) - 1]);
     }
 
     /**
@@ -113,7 +155,7 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     /**
      * Return an array representation of the line string.
      *
-     * @return (float|int)[][]
+     * @return (\DateTimeInterface|float|int)[][]
      */
     public function toArray(): array
     {
@@ -123,10 +165,5 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
             static fn (PointInterface $point) => $point->toArray(),
             $points
         );
-    }
-
-    public function __toString(): string
-    {
-        return '('.implode('), (', $this->toArray()).')';
     }
 }

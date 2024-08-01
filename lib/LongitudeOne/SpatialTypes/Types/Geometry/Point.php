@@ -32,8 +32,13 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * New point constructor.
      *
-     * @param float|int|string $x    X coordinate can be a string and will be parsed by the geo-parser
-     * @param float|int|string $y    Y coordinate can be a string and will be parsed by the geo-parser
+     * First coordinate is X then Y, abscisse then ordinate, longitude then latitude.
+     *
+     * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
+     * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
+     *
+     * @param float|int|string $x    X (abscisse) coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int|string $y    Y (ordinate) coordinate can be a string and will be parsed by the geo-parser
      * @param null|int         $srid SRID
      *
      * @throws InvalidValueException when point is invalid
@@ -94,14 +99,5 @@ class Point extends AbstractPoint implements PointInterface
     protected function initType(): TypeEnum
     {
         return TypeEnum::POINT;
-    }
-
-    /**
-     * Convert coordinates to their string representation.
-     * Example: '(42 42)'.
-     */
-    public function __toString(): string
-    {
-        return sprintf('%s %s', $this->x, $this->y);
     }
 }

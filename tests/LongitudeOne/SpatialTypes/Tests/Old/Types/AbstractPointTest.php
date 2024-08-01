@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\JsonException;
 use LongitudeOne\SpatialTypes\Tests\Old\DataProvider as LoDataProvider;
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\PointHelperTrait;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
@@ -29,13 +30,9 @@ use PHPUnit\Framework\TestCase;
  * Geometric and geographic points tests.
  * These methods involve tests launched on both Geometric and Geographic points.
  *
- * @group php
- *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
- * @covers \LongitudeOne\SpatialTypes\Types\Geography\Point
- * @covers \LongitudeOne\SpatialTypes\Types\Geometry\Point
+ * @coversNothing
  */
 class AbstractPointTest extends TestCase
 {
@@ -283,6 +280,8 @@ class AbstractPointTest extends TestCase
      * Test to convert point to json.
      *
      * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
+     *
+     * @throws JsonException it shall NOT happen
      */
     #[DataProvider('pointTypeProvider')]
     public function testJson(string $abstractPoint): void
@@ -290,12 +289,10 @@ class AbstractPointTest extends TestCase
         $expected = '{"type":"Point","coordinates":[5,5],"srid":null}';
         $point = new $abstractPoint(5, 5);
 
-        static::assertEquals($expected, $point->toJson());
         static::assertEquals($expected, json_encode($point));
 
         $point->setSrid(4326);
         $expected = '{"type":"Point","coordinates":[5,5],"srid":4326}';
-        static::assertEquals($expected, $point->toJson());
         static::assertEquals($expected, json_encode($point));
     }
 

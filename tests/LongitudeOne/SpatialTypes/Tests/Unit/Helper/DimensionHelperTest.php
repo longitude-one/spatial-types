@@ -31,17 +31,17 @@ class DimensionHelperTest extends TestCase
     /**
      * Dimension provider.
      *
-     * @return \Generator<string, array{0: DimensionEnum, 1: bool, 2: bool, 3: bool, 4: bool}, null, void>
+     * @return \Generator<string, array{0: DimensionEnum, 1: bool, 2: bool, 3: bool, 4: bool, 5: string}, null, void>
      */
     public static function dimensionProvider(): \Generator
     {
-        yield 'XY' => [DimensionEnum::X_Y, true, true, false, false];
+        yield 'XY' => [DimensionEnum::X_Y, true, true, false, false, 'XY'];
 
-        yield 'XYM' => [DimensionEnum::X_Y_M, true, true, false, true];
+        yield 'XYM' => [DimensionEnum::X_Y_M, true, true, false, true, 'XYM'];
 
-        yield 'XYZ' => [DimensionEnum::X_Y_Z, true, true, true, false];
+        yield 'XYZ' => [DimensionEnum::X_Y_Z, true, true, true, false, 'XYZ'];
 
-        yield 'XYZM' => [DimensionEnum::X_Y_Z_M, true, true, true, true];
+        yield 'XYZM' => [DimensionEnum::X_Y_Z_M, true, true, true, true, 'XYZM'];
     }
 
     /**
@@ -52,14 +52,16 @@ class DimensionHelperTest extends TestCase
      * @param bool          $y             Y dimension present
      * @param bool          $z             Z dimension present
      * @param bool          $m             M dimension present
+     * @param string        $expectedValue The expected value returned by the getDimension method
      */
     #[DataProvider('dimensionProvider')]
-    public function testDimensionHelper(DimensionEnum $dimensionEnum, bool $x, bool $y, bool $z, bool $m): void
+    public function testDimensionHelper(DimensionEnum $dimensionEnum, bool $x, bool $y, bool $z, bool $m, string $expectedValue): void
     {
         $dimensionHelper = new DimensionHelper($dimensionEnum);
         static::assertSame($x, $dimensionHelper->hasX());
         static::assertSame($y, $dimensionHelper->hasY());
         static::assertSame($z, $dimensionHelper->hasZ());
         static::assertSame($m, $dimensionHelper->hasM());
+        static::assertSame($expectedValue, $dimensionHelper->getDimension());
     }
 }

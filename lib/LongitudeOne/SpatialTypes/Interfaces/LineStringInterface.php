@@ -37,6 +37,13 @@ interface LineStringInterface extends SpatialInterface
     public function getElements(): array;
 
     /**
+     * Get a point of the linestring.
+     *
+     * @param int $index index of the point. -1 is the last point. -2 is the penultimate point, etc.
+     */
+    public function getPoint(int $index): PointInterface;
+
+    /**
      * Return points composing the line string.
      *
      * @return PointInterface[]

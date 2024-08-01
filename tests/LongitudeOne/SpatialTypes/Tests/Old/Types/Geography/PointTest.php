@@ -25,11 +25,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * Point geographic object tests.
  *
- * @group php
- *
  * @internal
  *
- * @coversDefaultClass
+ * @coversNothing
  */
 class PointTest extends TestCase
 {
@@ -142,7 +140,6 @@ class PointTest extends TestCase
 
         static::assertEqualsWithDelta(40.446111111111, $point->getLatitude(), 0.000000000001);
         static::assertEqualsWithDelta(-79.948611111111, $point->getLongitude(), 0.000000000001);
-        static::assertSame($expected, $point->toJson());
         static::assertSame($expected, json_encode($point));
 
         $point = new Point('79°56\'55"W', '40°26\'46"N');
@@ -151,7 +148,6 @@ class PointTest extends TestCase
 
         static::assertEqualsWithDelta(40.446111111111, $point->getLatitude(), 0.000000000001);
         static::assertEqualsWithDelta(-79.948611111111, $point->getLongitude(), 0.000000000001);
-        static::assertSame($expected, $point->toJson());
         static::assertSame($expected, json_encode($point));
 
         $point = new Point('79° 56\' 55" W', '40° 26\' 46" N');

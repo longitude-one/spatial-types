@@ -24,13 +24,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Point object tests.
- *
- * @group php
+ * Unit tests of geometric points.
  *
  * @internal
  *
- * @coversDefaultClass
+ * @coversNothing
  */
 class PointTest extends TestCase
 {

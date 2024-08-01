@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\JsonException;
-use Stringable;
 
 /**
  * All geometric and geographic spatial objects implements this interface.
@@ -27,7 +25,7 @@ use Stringable;
  * the type of the object (Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection),
  * the SpatialTypes Reference Identifier (SRID) and the dimension of the object (2D, 3D, 4D).
  */
-interface SpatialInterface extends \JsonSerializable, Stringable
+interface SpatialInterface extends \JsonSerializable
 {
     /**
      * Return the family of this spatial object.
@@ -73,11 +71,4 @@ interface SpatialInterface extends \JsonSerializable, Stringable
      * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[]
      */
     public function toArray(): array;
-
-    /**
-     * Convert any spatial object to its JSON representation.
-     *
-     * @throws JsonException if an error occurred during the JSON encoding
-     */
-    public function toJson(): string;
 }

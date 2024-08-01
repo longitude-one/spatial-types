@@ -35,6 +35,13 @@ interface PointInterface extends SpatialInterface
     public function __construct(float|int|string $x, float|int|string $y, ?int $srid = null);
 
     /**
+     * Is this point equal to another point?
+     *
+     * @param PointInterface $point The point to compare
+     */
+    public function equalsTo(PointInterface $point): bool;
+
+    /**
      * Get the latitude.
      */
     public function getLatitude(): float|int;

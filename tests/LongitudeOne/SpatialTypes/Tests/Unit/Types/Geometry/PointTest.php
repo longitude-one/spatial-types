@@ -21,11 +21,14 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
  * @covers \LongitudeOne\SpatialTypes\Types\Geometry\Point
  */
 class PointTest extends TestCase
@@ -44,6 +47,53 @@ class PointTest extends TestCase
     {
         parent::setUp();
         $this->point = new Point(1, 2);
+    }
+
+    /**
+     * @return \Generator<string, array{0: string, 1: string, 2: string}, null, void>
+     */
+    public static function provideInvalidCoordinates(): \Generator
+    {
+        yield 'Longitude greater than 180' => ['181W', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181W".'];
+
+        yield 'Latitude greater than 90' => ['180W', '100N', 'Out of range latitude value, latitude must be between -90 and 90, got "100N".'];
+
+        yield 'Minutes greater than 60' => ['79:60:55.832W', '100N', 'Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".'];
+
+        yield 'Secondes greater than 60' => ['79:55:60.832W', '100N', 'Out of range second value, second must be between 0 and 59, got "79:55:60.832W".'];
+
+        yield 'Invalid coordinate value' => ['180W', '85N 60', 'Invalid coordinate value, got "85N 60".'];
+
+        yield 'Invalid array value' => ['180W 85N', '160W 85S', 'Invalid coordinate value, coordinate cannot be an array.'];
+
+        yield 'Invalid value' => ['FOO', 'BAR', 'Invalid coordinate value, got "FOO".'];
+    }
+
+    /**
+     * Test the equalsTo method of PointInterface.
+     */
+    public function testEqualsTo(): void
+    {
+        $point = new Point(1, 2);
+        static::assertTrue($this->point->equalsTo($point));
+        static::assertTrue($point->equalsTo($this->point));
+
+        $point->setSrid(4326);
+        static::assertFalse($this->point->equalsTo($point));
+        static::assertFalse($point->equalsTo($this->point));
+
+        $this->point->setSrid(4326);
+        static::assertTrue($this->point->equalsTo($point));
+        static::assertTrue($point->equalsTo($this->point));
+
+        $point->setX(3);
+        static::assertFalse($this->point->equalsTo($point));
+        static::assertFalse($point->equalsTo($this->point));
+
+        $point->setX(1);
+        $point->setY(3);
+        static::assertFalse($this->point->equalsTo($point));
+        static::assertFalse($point->equalsTo($this->point));
     }
 
     /**
@@ -131,18 +181,41 @@ class PointTest extends TestCase
     }
 
     /**
+     * Test the json serialize.
+     */
+    public function testJsonSerialize(): void
+    {
+        static::assertSame('{"type":"Point","coordinates":[1,2],"srid":null}', json_encode($this->point));
+        $this->point->setSrid(4326);
+        static::assertSame('{"type":"Point","coordinates":[1,2],"srid":4326}', json_encode($this->point));
+    }
+
+    /**
+     * Test that the out of range coordinates throw exceptions.
+     *
+     * @param string $longitude       Longitude
+     * @param string $latitude        Latitude
+     * @param string $expectedMessage Expected message thrown by exception
+     *
+     * @throws InvalidValueException It shall happen
+     */
+    #[DataProvider('provideInvalidCoordinates')]
+    public function testOutOfRange(string $longitude, string $latitude, string $expectedMessage): void
+    {
+        // No exception
+        new Point(181, 91);
+        new Point('181', '91');
+
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessage($expectedMessage);
+        new Point($longitude, $latitude);
+    }
+
+    /**
      * Test the toArray method.
      */
     public function testToArray(): void
     {
         static::assertSame([1, 2], $this->point->toArray());
-    }
-
-    /**
-     * Test the toString method.
-     */
-    public function testToString(): void
-    {
-        static::assertSame('1 2', (string) $this->point);
     }
 }

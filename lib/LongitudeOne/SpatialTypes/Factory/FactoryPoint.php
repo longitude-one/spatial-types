@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Helper\DimensionHelper;
@@ -27,45 +28,6 @@ use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
 
 class FactoryPoint
 {
-    /**
-     * Create a point from an array.
-     *
-     * @throws MissingValueException when one of the coordinates is missing
-     * @throws InvalidValueException when one of the coordinates is invalid
-     * @throws \LogicException       as long as the third and fourth dimensions are not supported
-     */
-    public static function fromArray(
-        array $point,
-        ?int $srid = null,
-        FamilyEnum $family = FamilyEnum::GEOMETRY,
-        DimensionEnum $dimension = DimensionEnum::X_Y
-    ): PointInterface {
-        $dimensionHelper = new DimensionHelper($dimension);
-
-        if (!isset($point['x']) && !isset($point[0])) {
-            throw new MissingValueException('The first coordinate of array is missing.');
-        }
-
-        if (!isset($point['y']) && !isset($point[1])) {
-            throw new MissingValueException('The second coordinate of array is missing.');
-        }
-
-        if ($dimensionHelper->hasZ() && !isset($point['z']) && !isset($point[2])) {
-            throw new MissingValueException('The third coordinate of array is missing.');
-        }
-
-        if ($dimensionHelper->hasM() && !isset($point['m']) && !isset($point[3])) {
-            throw new MissingValueException('The fourth coordinate of array is missing.');
-        }
-
-        $x = $point['x'] ?? $point[0] ?? null;
-        $y = $point['y'] ?? $point[1] ?? null;
-        $z = $point['z'] ?? $point[2] ?? null;
-        $m = $point['m'] ?? $point[3] ?? null;
-
-        return self::fromCoordinates($x, $y, $z, $m, $srid, $family, $dimension);
-    }
-
     /**
      * Create a point from coordinates.
      *
@@ -77,8 +39,8 @@ class FactoryPoint
      * @param FamilyEnum                        $family    The family of the point
      * @param DimensionEnum                     $dimension The dimension of the point
      *
-     * @throws InvalidValueException when one of the coordinates is invalid
-     * @throws \LogicException       as long as the third and fourth dimensions are not supported
+     * @throws InvalidValueException     when one of the coordinates is invalid
+     * @throws InvalidDimensionException as long as the third and fourth dimensions are not supported
      */
     public static function fromCoordinates(float|int|string $x, float|int|string $y, null|float|int $z = null, null|\DateTimeInterface|float|int $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
@@ -90,6 +52,55 @@ class FactoryPoint
             return new GeometricPoint($x, $y, $srid);
         }
 
-        throw new \LogicException('Only the two-dimensions points are yet supported.');
+        // TODO Remove these line and update the code to support the third and fourth dimensions.
+        if ($m instanceof \DateTimeInterface) {
+            $m = $m::class;
+        }
+
+        throw new InvalidDimensionException(sprintf('Only the two-dimensions points are yet supported. Point(%s %s %s %s) cannot be created.', $x, $y, $z, $m));
+    }
+
+    /**
+     * Create a point from an array.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int} $point     The point as an array
+     * @param null|int                                                                                                     $srid      The Spatial Reference Identifier
+     * @param FamilyEnum                                                                                                   $family    The family of the point
+     * @param DimensionEnum                                                                                                $dimension The dimension of the point
+     *
+     * @throws MissingValueException when one of the coordinates is missing
+     * @throws InvalidValueException when one of the coordinates is invalid
+     * @throws \LogicException       as long as the third and fourth dimensions are not supported
+     */
+    public static function fromIndexedArray(
+        array $point,
+        ?int $srid = null,
+        FamilyEnum $family = FamilyEnum::GEOMETRY,
+        DimensionEnum $dimension = DimensionEnum::X_Y
+    ): PointInterface {
+        $dimensionHelper = new DimensionHelper($dimension);
+
+        if (!isset($point[0])) {
+            throw new MissingValueException('The first coordinate of array is missing.');
+        }
+
+        if (!isset($point[1])) {
+            throw new MissingValueException('The second coordinate of array is missing.');
+        }
+
+        if ($dimensionHelper->hasZ() && !isset($point[2])) {
+            throw new MissingValueException('The third coordinate of array is missing.');
+        }
+
+        if ($dimensionHelper->hasM() && !isset($point[3])) {
+            throw new MissingValueException('The fourth coordinate of array is missing.');
+        }
+
+        $x = $point[0];
+        $y = $point[1];
+        $z = $point[2] ?? null;
+        $m = $point[3] ?? null;
+
+        return self::fromCoordinates($x, $y, $z, $m, $srid, $family, $dimension);
     }
 }

@@ -25,12 +25,17 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 /**
- * GEOMETRIC POINT object for POINT spatial types.
+ * Geographic POINT object for POINT spatial types.
  */
 class Point extends AbstractPoint implements PointInterface
 {
     /**
      * New point constructor.
+     *
+     * First coordinate is longitude then latitude, X then Y, abscisse then ordinate.
+     *
+     * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
+     * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
      *
      * @param float|int|string $x    X coordinate can be a string and will be parsed by the geo-parser
      * @param float|int|string $y    Y coordinate can be a string and will be parsed by the geo-parser
@@ -118,14 +123,5 @@ class Point extends AbstractPoint implements PointInterface
     protected function initType(): TypeEnum
     {
         return TypeEnum::POINT;
-    }
-
-    /**
-     * Convert coordinates to their string representation.
-     * Example: '(42 42)'.
-     */
-    public function __toString(): string
-    {
-        return sprintf('%s %s', $this->x, $this->y);
     }
 }

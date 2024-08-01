@@ -42,6 +42,32 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     protected float|int $y;
 
     /**
+     * Is the current point equal to another point?
+     *
+     * @param PointInterface $point the point to compare
+     */
+    public function equalsTo(PointInterface $point): bool
+    {
+        if (!($point instanceof static && $point->getSrid() === $this->getSrid() && $point->getFamily() === $this->getFamily() && $point->getDimension() === $this->getDimension())) {
+            return false;
+        }
+
+        if ($point->getX() !== $this->getX() || $point->getY() !== $this->getY()) {
+            return false;
+        }
+
+        if ($point->hasM() && $this->hasM() && $this->getM() !== $point->getM()) {
+            return false;
+        }
+
+        if ($point->hasZ() && $this->hasZ() && $this->getZ() !== $point->getZ()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Latitude getter.
      */
     public function getLatitude(): float|int

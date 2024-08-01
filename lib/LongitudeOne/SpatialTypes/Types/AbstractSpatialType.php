@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
-use LongitudeOne\SpatialTypes\Exception\JsonException;
 use LongitudeOne\SpatialTypes\Helper\DimensionHelper;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
@@ -49,14 +48,6 @@ abstract class AbstractSpatialType implements SpatialInterface
      * @var TypeEnum The type of the object (Point, LineString, Polygon, etc.).
      */
     protected TypeEnum $type;
-
-    /**
-     * Dimension getter.
-     */
-    public function getDimension(): DimensionEnum
-    {
-        return $this->dimension;
-    }
 
     /**
      * Family getter.
@@ -131,29 +122,21 @@ abstract class AbstractSpatialType implements SpatialInterface
     }
 
     /**
-     * Convert any spatial object to its JSON representation.
-     *
-     * @throws JsonException if an error occurred during the JSON encoding
+     * Dimension getter.
      */
-    public function toJson(): string
+    protected function getDimension(): DimensionEnum
     {
-        $json = json_encode($this);
-
-        if (false === $json) {
-            throw new JsonException('An error occurred during the JSON encoding.');
-        }
-
-        return $json;
+        return $this->dimension;
     }
 
     /**
-     * Return the namespace of this class.
+     * Does this object have the same dimension as the other object?
+     *
+     * @param SpatialInterface $spatial the other object
      */
-    protected function getNamespace(): string
+    protected function hasSameDimension(SpatialInterface $spatial): bool
     {
-        $class = static::class;
-
-        return mb_substr($class, 0, mb_strrpos($class, '\\') - mb_strlen($class));
+        return !(($this->hasM() ^ $spatial->hasM()) || ($this->hasZ() ^ $spatial->hasZ()));
     }
 
     /**

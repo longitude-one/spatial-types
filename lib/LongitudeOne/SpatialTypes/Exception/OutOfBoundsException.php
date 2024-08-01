@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Exception;
 
 /**
- * This exception is thrown when a coordinate is missing in an array.
+ * This exception is thrown when a developer tries to get a point of an empty linestring.
  */
-class MissingValueException extends \Exception implements SpatialTypeExceptionInterface
+class OutOfBoundsException extends \OutOfBoundsException implements SpatialTypeExceptionInterface
 {
 }
