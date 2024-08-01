@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geography;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Types\Geography\LineString;
 use LongitudeOne\SpatialTypes\Types\Geography\Point;
 use PHPUnit\Framework\TestCase;
@@ -83,5 +84,15 @@ class LineStringTest extends TestCase
         static::assertFalse($lineString->isLine());
         static::assertEquals([], $lineString->toArray());
         static::assertEquals([], $lineString->getPoints());
+    }
+
+    /**
+     * Test out of range constructor.
+     */
+    public function testOutOfRangeConstructor(): void
+    {
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage('Out of range longitude value, longitude must be between -180 and 180, got "181".');
+        new LineString([[181, 0]]);
     }
 }

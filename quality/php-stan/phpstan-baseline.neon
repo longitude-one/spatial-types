@@ -9,3 +9,18 @@ parameters:
 			message: "#^Offset 1 on array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\} in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../lib/LongitudeOne/SpatialTypes/Types/AbstractLineString.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: ../../lib/LongitudeOne/SpatialTypes/Types/AbstractMultiPoint.php
+
+		-
+			message: "#^Parameter \\#1 \\$points of class LongitudeOne\\\\SpatialTypes\\\\Types\\\\Geometry\\\\MultiPoint constructor expects array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\{1, 2, 3, 4\\} given\\.$#"
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPointTest.php

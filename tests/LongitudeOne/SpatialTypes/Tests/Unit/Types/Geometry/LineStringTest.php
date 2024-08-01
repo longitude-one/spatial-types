@@ -44,7 +44,7 @@ class LineStringTest extends TestCase
         static::assertCount(2, $lineString->getPoints());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessage('The point SRID is not compatible with the line string SRID.');
+        self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
         $lineString->addPoint(new Point(1, 2, 4327));
     }
 
@@ -130,7 +130,7 @@ class LineStringTest extends TestCase
         static::assertSame(3, $lineString->getPoint(-3)->getX());
 
         self::expectException(OutOfBoundsException::class);
-        self::expectExceptionMessage('The line string is empty.');
+        self::expectExceptionMessage('The current collection of points is empty.');
         (new LineString([]))->getPoint(0);
     }
 

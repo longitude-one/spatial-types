@@ -31,4 +31,9 @@ interface CollectionInterface extends SpatialInterface
      * @return SpatialInterface[]
      */
     public function getElements(): array;
+
+    /**
+     * Is this spatial collection empty?
+     */
+    public function isEmpty(): bool;
 }
