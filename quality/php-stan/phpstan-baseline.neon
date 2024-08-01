@@ -1,2 +1,11 @@
 parameters:
 	ignoreErrors:
+		-
+			message: "#^Offset 0 on array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
+
+		-
+			message: "#^Offset 1 on array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
