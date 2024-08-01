@@ -68,9 +68,9 @@ class FactoryPoint
      * @param FamilyEnum                                                                                                   $family    The family of the point
      * @param DimensionEnum                                                                                                $dimension The dimension of the point
      *
-     * @throws MissingValueException when one of the coordinates is missing
-     * @throws InvalidValueException when one of the coordinates is invalid
-     * @throws \LogicException       as long as the third and fourth dimensions are not supported
+     * @throws MissingValueException     when one of the coordinates is missing
+     * @throws InvalidValueException     when one of the coordinates is invalid
+     * @throws InvalidDimensionException as long as the third and fourth dimensions are not supported
      */
     public static function fromIndexedArray(
         array $point,
