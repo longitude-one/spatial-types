@@ -52,7 +52,7 @@ interface SpatialInterface extends \JsonSerializable
     public function hasM(): bool;
 
     /**
-     * Is this a spatial object with a Z dimension? (Z: elevation).
+     * Is this a spatial object with a Z dimension? (Z: elevation, third spatial dimension).
      */
     public function hasZ(): bool;
 
