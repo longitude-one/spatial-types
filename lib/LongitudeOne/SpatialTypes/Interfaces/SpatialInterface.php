@@ -34,8 +34,6 @@ interface SpatialInterface extends \JsonSerializable
 
     /**
      * Return the SpatialTypes Reference Identifier (SRID) of this object.
-     *
-     * @return ?int
      */
     public function getSrid(): ?int;
 
