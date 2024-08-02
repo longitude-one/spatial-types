@@ -44,6 +44,10 @@ class FactoryPoint
      */
     public static function fromCoordinates(float|int|string $x, float|int|string $y, null|float|int $z = null, null|\DateTimeInterface|float|int $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
+        if (DimensionEnum::X_Y === $dimension && !(empty($m) && empty($z))) {
+            throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
+        }
+
         if (DimensionEnum::X_Y === $dimension) {
             if (FamilyEnum::GEOGRAPHY === $family) {
                 return new GeographicPoint($x, $y, $srid);
@@ -79,6 +83,14 @@ class FactoryPoint
         DimensionEnum $dimension = DimensionEnum::X_Y
     ): PointInterface {
         $dimensionHelper = new DimensionHelper($dimension);
+
+        if (count($point) < 2) {
+            throw new MissingValueException('The array must contain at least two coordinates to create a point.');
+        }
+
+        if (count($point) > 4) {
+            throw new InvalidDimensionException('The array must contain at most four coordinates.');
+        }
 
         if (!isset($point[0])) {
             throw new MissingValueException('The first coordinate of array is missing.');
