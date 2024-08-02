@@ -27,6 +27,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Test the FactoryPoint class.
+ *
  * @internal
  *
  * @covers \LongitudeOne\SpatialTypes\Factory\FactoryPoint
