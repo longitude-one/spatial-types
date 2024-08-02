@@ -86,6 +86,16 @@ abstract class AbstractSpatialType implements SpatialInterface
     }
 
     /**
+     * Does this object have the same dimension as the other object?
+     *
+     * @param SpatialInterface $spatial the other object
+     */
+    public function hasSameDimension(SpatialInterface $spatial): bool
+    {
+        return !(($this->hasM() ^ $spatial->hasM()) || ($this->hasZ() ^ $spatial->hasZ()));
+    }
+
+    /**
      * Does this object (or point of this object) have a Z coordinate?
      */
     public function hasZ(): bool
@@ -127,16 +137,6 @@ abstract class AbstractSpatialType implements SpatialInterface
     protected function getDimension(): DimensionEnum
     {
         return $this->dimension;
-    }
-
-    /**
-     * Does this object have the same dimension as the other object?
-     *
-     * @param SpatialInterface $spatial the other object
-     */
-    protected function hasSameDimension(SpatialInterface $spatial): bool
-    {
-        return !(($this->hasM() ^ $spatial->hasM()) || ($this->hasZ() ^ $spatial->hasZ()));
     }
 
     /**

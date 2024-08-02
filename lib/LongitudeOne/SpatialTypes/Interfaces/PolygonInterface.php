@@ -19,6 +19,13 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 interface PolygonInterface extends SpatialInterface
 {
     /**
+     * Return a ring of the polygon.
+     *
+     * @param int $index Index of the ring
+     */
+    public function getRing(int $index): LineStringInterface;
+
+    /**
      * Return each ring composing the polygon.
      *
      * @return LineStringInterface[]

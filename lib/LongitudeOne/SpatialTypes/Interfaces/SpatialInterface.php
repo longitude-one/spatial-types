@@ -51,6 +51,13 @@ interface SpatialInterface extends \JsonSerializable
 
     /**
      * Is this a spatial object with a Z dimension? (Z: elevation, third spatial dimension).
+     *
+     * @param SpatialInterface $spatial the spatial instance to compare
+     */
+    public function hasSameDimension(SpatialInterface $spatial): bool;
+
+    /**
+     * Is this a spatial object with a Z dimension? (Z: elevation, third spatial dimension).
      */
     public function hasZ(): bool;
 
