@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @coversNothing
+ * @covers \LongitudeOne\SpatialTypes\Factory\FactoryPoint
  */
 class FactoryPointTest extends TestCase
 {
