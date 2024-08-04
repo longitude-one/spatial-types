@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
@@ -30,8 +29,8 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
  * @covers \LongitudeOne\SpatialTypes\Trait\LineStringTrait
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
  * @covers \LongitudeOne\SpatialTypes\Types\Geometry\Polygon
  */
@@ -39,7 +38,8 @@ class PolygonTest extends TestCase
 {
     /**
      * Test the constructor with array of cartesian coordinates.
-     * @throws SpatialTypeExceptionInterface Test shall not throw any exception.
+     *
+     * @throws SpatialTypeExceptionInterface test shall not throw any exception
      */
     public function testConstructorWithCartesianCoordinates(): void
     {
@@ -54,7 +54,8 @@ class PolygonTest extends TestCase
 
     /**
      * Test the constructor with geodesic points.
-     * @throws SpatialTypeExceptionInterface Test shall not throw any exception.
+     *
+     * @throws SpatialTypeExceptionInterface test shall not throw any exception
      */
     public function testConstructorWithGeodesicPoints(): void
     {
@@ -75,7 +76,8 @@ class PolygonTest extends TestCase
 
     /**
      * Test the constructor with points and addRing method.
-     * @throws SpatialTypeExceptionInterface Test shall not throw any exception.
+     *
+     * @throws SpatialTypeExceptionInterface test shall not throw any exception
      */
     public function testConstructorWithPoints(): void
     {
@@ -95,7 +97,7 @@ class PolygonTest extends TestCase
     /**
      * Test the empty constructor.
      *
-     * @throws SpatialTypeExceptionInterface Test shall not throw any exception.
+     * @throws SpatialTypeExceptionInterface test shall not throw any exception
      */
     public function testEmptyConstructor(): void
     {
@@ -120,19 +122,9 @@ class PolygonTest extends TestCase
     }
 
     /**
-     * Test the json serialize.
-     */
-    public function testJsonSerialize(): void
-    {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":null}', json_encode($polygon));
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
-    }
-
-    /**
      * Test the getRing method.
-     * @throws SpatialTypeExceptionInterface Test shall not throw any exception.
+     *
+     * @throws SpatialTypeExceptionInterface test shall not throw any exception
      */
     public function testGetRing(): void
     {
@@ -144,5 +136,16 @@ class PolygonTest extends TestCase
         static::assertSame($lineB, $polygon->getRing(1)->toArray());
         static::assertSame($lineA, $polygon->getRing(-2)->toArray());
         static::assertSame($lineB, $polygon->getRing(-1)->toArray());
+    }
+
+    /**
+     * Test the json serialize.
+     */
+    public function testJsonSerialize(): void
+    {
+        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":null}', json_encode($polygon));
+        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
+        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
     }
 }
