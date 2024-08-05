@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Trait;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
@@ -37,7 +38,8 @@ trait LineStringTrait
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
      *
-     * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
+     * @throws InvalidValueException  when the line string dimension is not compatible with the current dimension
+     * @throws InvalidFamilyException when the line string family is not compatible with the current family
      */
     private function traitAddLineString(array|LineStringInterface $lineString): static
     {
@@ -50,7 +52,7 @@ trait LineStringTrait
         }
 
         if ($lineString->getFamily() !== $this->getFamily()) {
-            throw new InvalidValueException('The line string family is not compatible with the family of the current linestring collection.');
+            throw new InvalidFamilyException('The line string family is not compatible with the family of the current linestring collection.');
         }
 
         if (!empty($lineString->getSrid()) && !empty($this->getSrid()) && $lineString->getSrid() !== $this->getSrid()) {

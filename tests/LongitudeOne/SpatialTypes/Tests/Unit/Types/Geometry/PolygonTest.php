@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
+use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Types\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
 use LongitudeOne\SpatialTypes\Types\Geometry\Polygon;
@@ -37,6 +40,20 @@ use PHPUnit\Framework\TestCase;
  */
 class PolygonTest extends TestCase
 {
+    /**
+     * Test that an exception is thrown when we add a geographic linestring in a geometric polygon.
+     */
+    public function testAddGeographicLineStringInGeometricPolygon(): void
+    {
+        $ring = static::createMock(GeographicLineString::class);
+        $ring->method('isRing')->willReturn(true);
+        $ring->method('getFamily')->willReturn(FamilyEnum::GEOGRAPHY);
+        $polygon = new Polygon([], 4326);
+        static::expectException(InvalidFamilyException::class);
+        static::expectExceptionMessage('The ring family is not compatible with the family of the current polygon.');
+        $polygon->addRing($ring);
+    }
+
     /**
      * Test the addRing with a non-closed LineString.
      */

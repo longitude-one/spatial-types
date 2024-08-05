@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -65,6 +66,10 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
 
         if (!$ring->isRing()) {
             throw new InvalidValueException('The line string is not a ring.');
+        }
+
+        if ($ring->getFamily() !== $this->getFamily()) {
+            throw new InvalidFamilyException('The ring family is not compatible with the family of the current polygon.');
         }
 
         return $this->traitAddLineString($ring);

@@ -16,8 +16,11 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
+use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
 use PHPUnit\Framework\TestCase;
@@ -34,6 +37,17 @@ use PHPUnit\Framework\TestCase;
 class LineStringTest extends TestCase
 {
     /**
+     * Test that an exception is thrown when we add a geographic point in a geometric linestring.
+     */
+    public function testAddGeographicPointInGeometricLineString(): void
+    {
+        $lineString = new LineString([], 4326);
+        static::expectException(InvalidFamilyException::class);
+        static::expectExceptionMessage('The ');
+        $lineString->addPoint(new GeographicPoint('40W', '40S', 4326));
+    }
+
+    /**
      * Test the addPoint method.
      */
     public function testAddPoint(): void
@@ -46,6 +60,17 @@ class LineStringTest extends TestCase
         self::expectException(InvalidSridException::class);
         self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
         $lineString->addPoint(new Point(1, 2, 4327));
+    }
+
+    /**
+     * Test the addPoint methods with invalid argument.
+     */
+    public function testAddPointsWithInvalidArgument(): void
+    {
+        $lineString = new LineString([], 4326);
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessage('Argument shall contain an array of PointInterface or an array of coordinates.');
+        $lineString->addPoints(['foo', 'bar']);
     }
 
     /**

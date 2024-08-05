@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Trait;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -62,6 +63,10 @@ trait PointTrait
             throw new InvalidSridException('The point SRID is not compatible with the SRID of this current spatial collection.');
         }
 
+        if ($this->getFamily() !== $point->getFamily()) {
+            throw new InvalidFamilyException('The point family is not compatible with the family of the current spatial collection.');
+        }
+
         $this->points[] = $point;
 
         return $this;
@@ -81,7 +86,7 @@ trait PointTrait
     {
         foreach ($points as $point) {
             if (!is_array($point) && !$point instanceof PointInterface) {
-                throw new InvalidValueException('The point is missing.');
+                throw new InvalidValueException('Argument shall contain an array of PointInterface or an array of coordinates.');
             }
 
             $this->addPoint($point);

@@ -51,6 +51,13 @@ interface LineStringInterface extends SpatialInterface
     public function getPoints(): array;
 
     /**
+     * Is the line string empty?
+     *
+     * A line string is empty when it does not contain any point.
+     */
+    public function isEmpty(): bool;
+
+    /**
      * Is the line string a line?
      *
      * A line is a LineString value with exactly two points.

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -58,7 +59,11 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      */
     public function addLineString(array|LineStringInterface $lineString): static
     {
-        return $this->traitAddLineString($lineString);
+        try {
+            return $this->traitAddLineString($lineString);
+        } catch (InvalidFamilyException $e) {
+            throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
+        }
     }
 
     /**

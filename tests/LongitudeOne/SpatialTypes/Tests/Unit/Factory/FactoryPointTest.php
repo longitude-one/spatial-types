@@ -20,6 +20,7 @@ use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Factory\FactoryPoint;
@@ -127,6 +128,36 @@ class FactoryPointTest extends TestCase
         static::assertSame(TypeEnum::POINT->value, $point->getType());
     }
 
+    /**
+     * Test the factory with an invalid value.
+     */
+    public function testFromIndexedArrayInvalidCoordinate(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessage('Invalid coordinate value, got "invalid".');
+        FactoryPoint::fromIndexedArray(['invalid', 2]);
+    }
+
+    /**
+     * Test the factory with the first coordinate missing in the array.
+     */
+    public function testFromIndexedArrayMissingFirstCoordinate(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessage('The first coordinate of array is missing.');
+        FactoryPoint::fromIndexedArray([null, 2]);
+    }
+
+    /**
+     * Test the factory with some bad values in an array.
+     */
+    public function testFromIndexedArrayMissingSecondCoordinate(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessage('The second coordinate of array is missing.');
+        FactoryPoint::fromIndexedArray([1, null]);
+    }
+
     // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint
 
     /**
@@ -142,5 +173,28 @@ class FactoryPointTest extends TestCase
         self::expectException($exceptedException);
         self::expectExceptionMessage($expectedMessage);
         FactoryPoint::fromIndexedArray($values);
+    }
+
+    /**
+     * Test the factory with some non-compatible dimensions.
+     */
+    public function testFromIndexedArrayWithDifferentDimensions(): void
+    {
+        static::markTestSkipped('The third dimensions have not been created yet.');
+        $point = FactoryPoint::fromIndexedArray([1, 2, 3], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z);
+        static::assertSame(1, $point->getX());
+        static::assertSame(2, $point->getY());
+        static::assertSame(3, $point->getZ());
+        static::assertFalse($point->hasM());
+        static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame(TypeEnum::POINT->value, $point->getType());
+
+        $point = FactoryPoint::fromIndexedArray([1, 2, null, 4], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_M);
+        static::assertSame(1, $point->getX());
+        static::assertSame(2, $point->getY());
+        static::assertSame(4, $point->getM());
+        static::assertFalse($point->hasZ());
+        static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame(TypeEnum::POINT->value, $point->getType());
     }
 }

@@ -19,7 +19,7 @@ namespace LongitudeOne\SpatialTypes\Exception;
 /**
  * This exception is thrown when a coordinate is invalid.
  */
-class InvalidValueException extends \Exception implements SpatialTypeExceptionInterface
+class InvalidValueException extends \InvalidArgumentException implements SpatialTypeExceptionInterface
 {
     public const OUT_OF_RANGE_LATITUDE = 'Out of range latitude value, latitude must be between -90 and 90, got "%s".';
     public const OUT_OF_RANGE_LONGITUDE = 'Out of range longitude value, longitude must be between -180 and 180, got "%s".';

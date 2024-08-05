@@ -16,9 +16,11 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Types\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\MultiLineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
@@ -36,6 +38,18 @@ use PHPUnit\Framework\TestCase;
  */
 class MultiLineStringTest extends TestCase
 {
+    /**
+     * Test that a geographic line string cannot be added in a geometric multi line string.
+     */
+    public function testAddGeographicLineStringInGeometricMultiLineString(): void
+    {
+        $lineString = new GeographicLineString([], 4326);
+        $multiLineString = new MultiLineString([], 4326);
+        static::expectException(InvalidFamilyException::class);
+        static::expectExceptionMessage('The line string family is not compatible with the family of the current multilinestring.');
+        $multiLineString->addLineString($lineString);
+    }
+
     /**
      * Test the constructor with array of cartesian coordinates.
      *
