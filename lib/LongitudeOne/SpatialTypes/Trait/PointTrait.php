@@ -144,7 +144,7 @@ trait PointTrait
     {
         foreach ($this->getPoints() as $point) {
             foreach ($this->getPoints() as $otherPoint) {
-                if ($point !== $otherPoint && $point->equalsTo($otherPoint)) {
+                if ($this->arePointsEqual($point, $otherPoint)) {
                     return false;
                 }
             }
@@ -166,5 +166,16 @@ trait PointTrait
             static fn (PointInterface $point) => $point->toArray(),
             $points
         );
+    }
+
+    /**
+     * Are the provided points equals?
+     *
+     * @param PointInterface $origin      first point to compare
+     * @param PointInterface $destination second point to compare
+     */
+    private function arePointsEqual(PointInterface $origin, PointInterface $destination): bool
+    {
+        return $origin !== $destination && $origin->equalsTo($destination);
     }
 }
