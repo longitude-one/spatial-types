@@ -17,12 +17,11 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Geometry\MultiLineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
-use LongitudeOne\SpatialTypes\Types\Geometry\Polygon;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,24 +30,12 @@ use PHPUnit\Framework\TestCase;
  * @internal
  *
  * @covers \LongitudeOne\SpatialTypes\Trait\LineStringTrait
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineString
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Geometry\Polygon
+ * @covers \LongitudeOne\SpatialTypes\Types\Geometry\MultiLineString
  */
-class PolygonTest extends TestCase
+class MultiLineStringTest extends TestCase
 {
-    /**
-     * Test the addRing with a non-closed LineString.
-     */
-    public function testAddRingWithNonClosedLineString(): void
-    {
-        $multiLineString = new Polygon([]);
-        $lineString = new LineString([new Point(1, 2), new Point(2, 4), new Point(3, 6)]);
-        static::expectException(InvalidValueException::class);
-        static::expectExceptionMessage('The line string is not a ring.');
-        $multiLineString->addRing($lineString);
-    }
-
     /**
      * Test the constructor with array of cartesian coordinates.
      *
@@ -56,13 +43,17 @@ class PolygonTest extends TestCase
      */
     public function testConstructorWithCartesianCoordinates(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertCount(1, $polygon->getRings());
-        static::assertEquals([[[1, 2], [3, 4], [3, 6], [1, 2]]], $polygon->toArray());
+        $multiLineString = new MultiLineString([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        static::assertCount(1, $multiLineString->getLineStrings());
+        static::assertEquals([[[1, 2], [3, 4], [3, 6], [1, 2]]], $multiLineString->toArray());
 
-        $polygon->addRing([[3, 4], [997, 997], [992, 811], [3, 4]]);
-        static::assertCount(2, $polygon->getRings());
-        static::assertEquals([[[1, 2], [3, 4], [3, 6], [1, 2]], [[3, 4], [997, 997], [992, 811], [3, 4]]], $polygon->toArray());
+        $multiLineString->addLineString([[3, 4], [997, 997], [992, 811], [3, 4]]);
+        static::assertCount(2, $multiLineString->getLineStrings());
+        static::assertEquals([[[1, 2], [3, 4], [3, 6], [1, 2]], [[3, 4], [997, 997], [992, 811], [3, 4]]], $multiLineString->toArray());
+
+        $multiLineString->addLineStrings([[[1, 2]], [[1, 2]]]);
+        static::assertCount(4, $multiLineString->getLineStrings());
+        static::assertEquals([[[1, 2], [3, 4], [3, 6], [1, 2]], [[3, 4], [997, 997], [992, 811], [3, 4]], [[1, 2]], [[1, 2]]], $multiLineString->toArray());
     }
 
     /**
@@ -94,17 +85,17 @@ class PolygonTest extends TestCase
      */
     public function testConstructorWithPoints(): void
     {
-        $polygon = new Polygon([new LineString([new Point(1, 2), new Point(2, 4), new Point(3, 6), new Point(1, 2)])], 4326);
-        static::assertCount(1, $polygon->getRings());
-        static::assertEquals([[[1, 2], [2, 4], [3, 6], [1, 2]]], $polygon->toArray());
+        $multiLineString = new MultiLineString([new LineString([new Point(1, 2), new Point(2, 4), new Point(3, 6), new Point(1, 2)])], 4326);
+        static::assertCount(1, $multiLineString->getLineStrings());
+        static::assertEquals([[[1, 2], [2, 4], [3, 6], [1, 2]]], $multiLineString->toArray());
 
-        $polygon->addRing(new LineString([new Point(3, 4), new Point(7, 7), new Point(2, 11), new Point(3, 4)]));
-        static::assertCount(2, $polygon->getRings());
-        static::assertEquals([[[1, 2], [2, 4], [3, 6], [1, 2]], [[3, 4], [7, 7], [2, 11], [3, 4]]], $polygon->toArray());
+        $multiLineString->addLineString(new LineString([new Point(3, 4), new Point(7, 7), new Point(2, 11), new Point(3, 4)]));
+        static::assertCount(2, $multiLineString->getLineStrings());
+        static::assertEquals([[[1, 2], [2, 4], [3, 6], [1, 2]], [[3, 4], [7, 7], [2, 11], [3, 4]]], $multiLineString->toArray());
 
         self::expectException(InvalidSridException::class);
         self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
-        $polygon->addRing(new LineString([[0, 0], [1, 1], [1, 0], [0, 0]], 4327));
+        $multiLineString->addLineString(new LineString([[0, 0], [1, 1], [1, 0], [0, 0]], 4327));
     }
 
     /**
@@ -114,15 +105,15 @@ class PolygonTest extends TestCase
      */
     public function testEmptyConstructor(): void
     {
-        $polygon = new Polygon([]);
-        static::assertEmpty($polygon->getRings());
-        static::assertEmpty($polygon->getElements());
-        static::assertEquals([], $polygon->toArray());
-        static::assertEquals([], $polygon->getRings());
+        $multiLineString = new MultiLineString([]);
+        static::assertEmpty($multiLineString->getLineStrings());
+        static::assertEmpty($multiLineString->getElements());
+        static::assertEquals([], $multiLineString->toArray());
+        static::assertEquals([], $multiLineString->getLineStrings());
 
         static::expectException(OutOfBoundsException::class);
-        static::expectExceptionMessage('The current collection of rings is empty.');
-        $polygon->getRing(0);
+        static::expectExceptionMessage('The current collection of lineStrings is empty.');
+        $multiLineString->getLineString(0);
     }
 
     /**
@@ -130,8 +121,8 @@ class PolygonTest extends TestCase
      */
     public function testGetElements(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame($polygon->getElements(), $polygon->getRings());
+        $multiLineString = new MultiLineString([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        static::assertSame($multiLineString->getElements(), $multiLineString->getLineStrings());
     }
 
     /**
@@ -143,12 +134,12 @@ class PolygonTest extends TestCase
     {
         $lineA = [[1, 2], [2, 4], [3, 6], [1, 2]];
         $lineB = [[3, 4], [7, 7], [2, 11], [3, 4]];
-        $polygon = new Polygon([$lineA, $lineB]);
-        static::assertCount(2, $polygon->getRings());
-        static::assertSame($lineA, $polygon->getRing(0)->toArray());
-        static::assertSame($lineB, $polygon->getRing(1)->toArray());
-        static::assertSame($lineA, $polygon->getRing(-2)->toArray());
-        static::assertSame($lineB, $polygon->getRing(-1)->toArray());
+        $multiLineString = new MultiLineString([$lineA, $lineB]);
+        static::assertCount(2, $multiLineString->getLineStrings());
+        static::assertSame($lineA, $multiLineString->getLineString(0)->toArray());
+        static::assertSame($lineB, $multiLineString->getLineString(1)->toArray());
+        static::assertSame($lineA, $multiLineString->getLineString(-2)->toArray());
+        static::assertSame($lineB, $multiLineString->getLineString(-1)->toArray());
     }
 
     /**
@@ -156,9 +147,9 @@ class PolygonTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":null}', json_encode($polygon));
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
+        $multiLineString = new MultiLineString([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        static::assertSame('{"type":"MultiLineString","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":null}', json_encode($multiLineString));
+        $multiLineString = new MultiLineString([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
+        static::assertSame('{"type":"MultiLineString","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($multiLineString));
     }
 }

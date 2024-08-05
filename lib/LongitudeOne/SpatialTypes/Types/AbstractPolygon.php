@@ -21,6 +21,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
+use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -46,6 +48,42 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
         $this->preConstruct();
         $this->setSrid($srid);
         $this->addRings($rings);
+    }
+
+    /**
+     * Get the line strings of the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
+     *
+     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the ring
+     */
+    public function addRing(array|LineStringInterface $ring): static
+    {
+        if (is_array($ring)) {
+            $ring = FactoryLineString::fromIndexedArray($ring, $this->getSrid(), $this->getFamily(), $this->getDimension());
+        }
+
+        if (!$ring->isRing()) {
+            throw new InvalidValueException('The line string is not a ring.');
+        }
+
+        return $this->traitAddLineString($ring);
+    }
+
+    /**
+     * Add a ring to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
+     *
+     * @throws SpatialTypeExceptionInterface when one of the linestring is not a ring
+     */
+    public function addRings(array $rings): static
+    {
+        foreach ($rings as $ring) {
+            $this->addRing($ring);
+        }
+
+        return $this;
     }
 
     /**
@@ -76,6 +114,18 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
         }
 
         return $this->getRings()[$index];
+    }
+
+    /**
+     * Get the rings of the spatial collection.
+     *
+     * @return LineStringInterface[]
+     *
+     * @throws InvalidValueException when at least one of the line strings is not a ring
+     */
+    public function getRings(): array
+    {
+        return $this->traitGetLineStrings();
     }
 
     /**
