@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Types\Geometry;
+namespace LongitudeOne\SpatialTypes\Types\Geography;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
@@ -22,7 +22,7 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractCollection;
 
-class GeometryCollection extends AbstractCollection implements CollectionInterface
+class GeographyCollection extends AbstractCollection implements CollectionInterface
 {
     /**
      * initDimension.
@@ -37,7 +37,7 @@ class GeometryCollection extends AbstractCollection implements CollectionInterfa
      */
     protected function initFamily(): FamilyEnum
     {
-        return FamilyEnum::GEOMETRY;
+        return FamilyEnum::GEOGRAPHY;
     }
 
     /**
