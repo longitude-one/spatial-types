@@ -27,7 +27,6 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Trait\PolygonTrait
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
  * @covers \LongitudeOne\SpatialTypes\Types\Geography\MultiPolygon
