@@ -45,10 +45,19 @@ class Point extends AbstractPoint implements PointInterface
      */
     public function __construct(float|int|string $x, float|int|string $y, ?int $srid = null)
     {
-        $this->preConstruct();
         $this->setX($x);
         $this->setY($y);
         $this->srid = $srid;
+    }
+
+    /**
+     * Initialize the family.
+     *
+     * @return FamilyEnum::GEOMETRY
+     */
+    public function getFamily(): FamilyEnum
+    {
+        return FamilyEnum::GEOMETRY;
     }
 
     /**
@@ -58,7 +67,15 @@ class Point extends AbstractPoint implements PointInterface
      */
     public function getM(): float|int
     {
-        throw BadMethodCallException::create(__METHOD__, $this->dimension);
+        throw BadMethodCallException::create(__METHOD__, $this->getDimension());
+    }
+
+    /**
+     * Initialize the type.
+     */
+    public function getType(): string
+    {
+        return TypeEnum::POINT->value;
     }
 
     /**
@@ -68,7 +85,7 @@ class Point extends AbstractPoint implements PointInterface
      */
     public function getZ(): float|int
     {
-        throw BadMethodCallException::create(__METHOD__, $this->dimension);
+        throw BadMethodCallException::create(__METHOD__, $this->getDimension());
     }
 
     /**
@@ -76,28 +93,8 @@ class Point extends AbstractPoint implements PointInterface
      *
      * @return DimensionEnum::X_Y
      */
-    protected function initDimension(): DimensionEnum
+    protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y;
-    }
-
-    /**
-     * Initialize the family.
-     *
-     * @return FamilyEnum::GEOMETRY
-     */
-    protected function initFamily(): FamilyEnum
-    {
-        return FamilyEnum::GEOMETRY;
-    }
-
-    /**
-     * Initialize the type.
-     *
-     * @return TypeEnum::POINT
-     */
-    protected function initType(): TypeEnum
-    {
-        return TypeEnum::POINT;
     }
 }

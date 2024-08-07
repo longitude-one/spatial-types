@@ -46,7 +46,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      */
     public function __construct(array $rings, ?int $srid = null)
     {
-        $this->preConstruct();
         $this->setSrid($srid);
         $this->addRings($rings);
     }

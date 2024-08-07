@@ -25,17 +25,9 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString;
 class MultiLineString extends AbstractMultiLineString implements MultiLineStringInterface
 {
     /**
-     * Initialize the dimension of the object.
-     */
-    protected function initDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
-    }
-
-    /**
      * Initialize the family of the object.
      */
-    protected function initFamily(): FamilyEnum
+    public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOGRAPHY;
     }
@@ -43,8 +35,16 @@ class MultiLineString extends AbstractMultiLineString implements MultiLineString
     /**
      * Initialize the type of the object.
      */
-    protected function initType(): TypeEnum
+    public function getType(): string
     {
-        return TypeEnum::MULTILINESTRING;
+        return TypeEnum::MULTILINESTRING->value;
+    }
+
+    /**
+     * Initialize the dimension of the object.
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y;
     }
 }

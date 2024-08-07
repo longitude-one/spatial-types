@@ -41,7 +41,6 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
      */
     public function __construct(array $points, ?int $srid = null)
     {
-        $this->preConstruct();
         $this->setSrid($srid);
 
         $this->addPoints($points);

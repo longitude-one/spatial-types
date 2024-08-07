@@ -25,17 +25,9 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon;
 class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
 {
     /**
-     * Initialize the dimension of the object.
-     */
-    protected function initDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
-    }
-
-    /**
      * Initialize the family of the object.
      */
-    protected function initFamily(): FamilyEnum
+    public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
     }
@@ -43,8 +35,16 @@ class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
     /**
      * Initialize the type of the object.
      */
-    protected function initType(): TypeEnum
+    public function getType(): string
     {
-        return TypeEnum::MULTIPOLYGON;
+        return TypeEnum::MULTIPOLYGON->value;
+    }
+
+    /**
+     * Initialize the dimension of the object.
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y;
     }
 }

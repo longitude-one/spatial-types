@@ -52,7 +52,6 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
      */
     public function __construct(array $polygons, ?int $srid = null)
     {
-        $this->preConstruct();
         $this->setSrid($srid);
         $this->addPolygons($polygons);
     }

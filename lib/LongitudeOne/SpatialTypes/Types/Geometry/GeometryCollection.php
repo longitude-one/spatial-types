@@ -25,17 +25,9 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection;
 class GeometryCollection extends AbstractCollection implements CollectionInterface
 {
     /**
-     * initDimension.
-     */
-    protected function initDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
-    }
-
-    /**
      * init Family.
      */
-    protected function initFamily(): FamilyEnum
+    public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
     }
@@ -43,8 +35,16 @@ class GeometryCollection extends AbstractCollection implements CollectionInterfa
     /**
      * initType.
      */
-    protected function initType(): TypeEnum
+    public function getType(): string
     {
-        return TypeEnum::COLLECTION;
+        return TypeEnum::COLLECTION->value;
+    }
+
+    /**
+     * initDimension.
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y;
     }
 }

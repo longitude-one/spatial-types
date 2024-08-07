@@ -41,7 +41,6 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
      */
     public function __construct(array $points, ?int $srid = null)
     {
-        $this->preConstruct();
         $this->setSrid($srid);
 
         $this->addPoints($points);

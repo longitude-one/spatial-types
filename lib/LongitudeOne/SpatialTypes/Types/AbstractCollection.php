@@ -39,7 +39,6 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     public function __construct(?int $srid = null)
     {
-        $this->preConstruct();
         $this->setSrid($srid);
     }
 

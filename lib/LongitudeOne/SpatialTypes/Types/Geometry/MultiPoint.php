@@ -25,17 +25,9 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPoint;
 class MultiPoint extends AbstractMultiPoint implements MultiPointInterface
 {
     /**
-     * Define the dimension.
-     */
-    protected function initDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
-    }
-
-    /**
      * Define the family.
      */
-    protected function initFamily(): FamilyEnum
+    public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
     }
@@ -43,8 +35,16 @@ class MultiPoint extends AbstractMultiPoint implements MultiPointInterface
     /**
      * Define the type.
      */
-    protected function initType(): TypeEnum
+    public function getType(): string
     {
-        return TypeEnum::MULTIPOINT;
+        return TypeEnum::MULTIPOINT->value;
+    }
+
+    /**
+     * Define the dimension.
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y;
     }
 }

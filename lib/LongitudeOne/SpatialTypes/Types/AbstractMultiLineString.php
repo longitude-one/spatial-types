@@ -45,7 +45,6 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      */
     public function __construct(array $lineStrings, ?int $srid = null)
     {
-        $this->preConstruct();
         $this->setSrid($srid);
         $this->addLineStrings($lineStrings);
     }

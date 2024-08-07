@@ -25,17 +25,9 @@ use LongitudeOne\SpatialTypes\Types\AbstractLineString;
 class LineString extends AbstractLineString implements LineStringInterface
 {
     /**
-     * Define the dimension.
-     */
-    protected function initDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
-    }
-
-    /**
      * Define the family.
      */
-    protected function initFamily(): FamilyEnum
+    public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
     }
@@ -43,8 +35,16 @@ class LineString extends AbstractLineString implements LineStringInterface
     /**
      * Define the type.
      */
-    protected function initType(): TypeEnum
+    public function getType(): string
     {
-        return TypeEnum::LINESTRING;
+        return TypeEnum::LINESTRING->value;
+    }
+
+    /**
+     * Define the dimension.
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y;
     }
 }

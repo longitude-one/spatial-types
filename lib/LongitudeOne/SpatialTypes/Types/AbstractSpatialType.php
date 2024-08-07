@@ -18,8 +18,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
-use LongitudeOne\SpatialTypes\Helper\DimensionHelper;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /**
@@ -30,34 +28,9 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 abstract class AbstractSpatialType implements SpatialInterface
 {
     /**
-     * @var DimensionEnum the dimension of the object (2D, 3D with elevation, 3D with moment, 4D)
-     */
-    protected DimensionEnum $dimension;
-
-    /**
-     * @var FamilyEnum the family of the object (Geometry, Geography)
-     */
-    protected FamilyEnum $family;
-
-    /**
      * @var null|int the SpatialTypes Reference Identifier (SRID)
      */
     protected ?int $srid = null;
-
-    /**
-     * @var TypeEnum The type of the object (Point, LineString, Polygon, etc.).
-     */
-    protected TypeEnum $type;
-
-    /**
-     * Family getter.
-     *
-     * @return FamilyEnum the family of the object (Geometry, Geography)
-     */
-    public function getFamily(): FamilyEnum
-    {
-        return $this->family;
-    }
 
     /**
      * SRID getter.
@@ -68,21 +41,14 @@ abstract class AbstractSpatialType implements SpatialInterface
     }
 
     /**
-     * Type getter.
-     */
-    public function getType(): string
-    {
-        return $this->type->value;
-    }
-
-    /**
      * Does this object (or point of this object) have an M coordinate?
      */
     public function hasM(): bool
     {
-        $dimensionHelper = new DimensionHelper($this->dimension);
-
-        return $dimensionHelper->hasM();
+        return match ($this->getDimension()) {
+            DimensionEnum::X_Y_M, DimensionEnum::X_Y_Z_M => true,
+            default => false,
+        };
     }
 
     /**
@@ -100,9 +66,10 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     public function hasZ(): bool
     {
-        $dimensionHelper = new DimensionHelper($this->dimension);
-
-        return $dimensionHelper->hasZ();
+        return match ($this->getDimension()) {
+            DimensionEnum::X_Y_Z, DimensionEnum::X_Y_Z_M => true,
+            default => false,
+        };
     }
 
     /**
@@ -134,41 +101,19 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Dimension getter.
      */
-    protected function getDimension(): DimensionEnum
-    {
-        return $this->dimension;
-    }
+    abstract protected function getDimension(): DimensionEnum;
 
     /**
-     * Pre-construct method.
-     */
-    protected function preConstruct(): void
-    {
-        $this->type = $this->initType();
-        $this->family = $this->initFamily();
-        $this->dimension = $this->initDimension();
-    }
-
-    /**
-     * This function is called in the main constructor.
-     *
-     * @return DimensionEnum the dimension of the object (2D, 3D with elevation, 3D with moment, 4D)
-     */
-    abstract protected function initDimension(): DimensionEnum;
-
-    /**
-     * This function is called in the main constructor.
+     * Family getter.
      *
      * @return FamilyEnum the family of the object (Geometry, Geography)
      */
-    abstract protected function initFamily(): FamilyEnum;
+    abstract public function getFamily(): FamilyEnum;
 
     /**
-     * This function is called in the main constructor.
-     *
-     * @return TypeEnum The type of the object (Point, LineString, Polygon, etc.).
+     * Type getter.
      */
-    abstract protected function initType(): TypeEnum;
+    abstract public function getType(): string;
 
     /**
      * Convert any spatial object to its array representation.
