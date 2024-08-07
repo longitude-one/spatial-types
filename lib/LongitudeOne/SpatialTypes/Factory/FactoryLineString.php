@@ -76,6 +76,10 @@ class FactoryLineString
     {
         $points = [];
         foreach ($indexedArray as $point) {
+            if (!is_array($point) && !$point instanceof PointInterface) {
+                throw new InvalidValueException('The array must contain only objects implementing PointInterface or array of coordinates.');
+            }
+
             if ($point instanceof PointInterface) {
                 $points[] = $point;
 

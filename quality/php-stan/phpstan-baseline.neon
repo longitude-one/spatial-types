@@ -1,39 +1,14 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Comparison operation \"\\<\" between int\\<2, 4\\> and 2 is always false\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
-
-		-
-			message: "#^Comparison operation \"\\>\" between int\\<2, 4\\> and 4 is always false\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
-
-		-
-			message: "#^Offset 0 on array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\} in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
-
-		-
-			message: "#^Offset 1 on array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\} in isset\\(\\) always exists and is not nullable\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Types/AbstractLineString.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Types/AbstractMultiPoint.php
-
-		-
 			message: "#^Parameter \\#1 \\$points of class LongitudeOne\\\\SpatialTypes\\\\Types\\\\Geometry\\\\MultiPoint constructor expects array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\{1, 2, 3, 4\\} given\\.$#"
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPointTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$polygon of method LongitudeOne\\\\SpatialTypes\\\\Types\\\\AbstractMultiPolygon\\:\\:addPolygon\\(\\) expects array\\<array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\LineStringInterface\\>\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PolygonInterface, array\\{'foo'\\} given\\.$#"
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPolygonTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$points of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryLineString\\:\\:fromArrayOfPoints\\(\\) expects array\\<LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\<int, string\\> given\\.$#"
@@ -59,6 +34,11 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$lineStrings of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryPolygon\\:\\:fromArrayOfLineStrings\\(\\) expects array\\<LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\LineStringInterface\\>, array\\<int, array\\<int, array\\<int, int\\>\\>\\> given\\.$#"
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPolygonTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$points of method LongitudeOne\\\\SpatialTypes\\\\Types\\\\AbstractLineString\\:\\:addPoints\\(\\) expects array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\{'foo', 'bar'\\} given\\.$#"

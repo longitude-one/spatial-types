@@ -85,6 +85,10 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     public function addRings(array $rings): static
     {
         foreach ($rings as $ring) {
+            if (!is_array($ring) && !$ring instanceof LineStringInterface) {
+                throw new InvalidValueException('The array must contain only objects implementing LineStringInterface or array of coordinates.');
+            }
+
             $this->addRing($ring);
         }
 

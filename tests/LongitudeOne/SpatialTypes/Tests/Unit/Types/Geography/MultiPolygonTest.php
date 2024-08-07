@@ -19,7 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geography;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\Polygon;
+use LongitudeOne\SpatialTypes\Types\Geography\MultiPolygon;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,12 +27,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Trait\LineStringTrait
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
+ * @covers \LongitudeOne\SpatialTypes\Trait\PolygonTrait
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Geography\Polygon
+ * @covers \LongitudeOne\SpatialTypes\Types\Geography\MultiPolygon
  */
-class PolygonTest extends TestCase
+class MultiPolygonTest extends TestCase
 {
     /**
      * Test the constructor with array of cartesian coordinates.
@@ -43,7 +43,7 @@ class PolygonTest extends TestCase
     {
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessage('Out of range latitude value, latitude must be between -90 and 90, got "186".');
-        new Polygon([[[1, 2], [3, 4], [93, 186], [1, 2]]]);
+        new MultiPolygon([[[[1, 2], [3, 4], [93, 186], [1, 2]]]]);
     }
 
     /**
@@ -54,8 +54,8 @@ class PolygonTest extends TestCase
     public function testConstructorWithGeodesicPoints(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('g');
-        new Polygon([[['240W', '340S'], ['45W', '45N'], ['45W', '90N'], ['240W', '340S']]]);
+        self::expectExceptionMessage('Out of range longitude value, longitude must be between -180 and 180, got "240W".');
+        new MultiPolygon([[[['240W', '340S'], ['45W', '45N'], ['45W', '90N'], ['240W', '340S']]]]);
     }
 
     /**
@@ -63,15 +63,15 @@ class PolygonTest extends TestCase
      */
     public function testGetDimension(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        $multiPolygon = new MultiPolygon([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
+        static::assertFalse($multiPolygon->hasZ());
+        static::assertFalse($multiPolygon->hasM());
+        $polygon = $multiPolygon->getPolygon(0);
         static::assertFalse($polygon->hasZ());
         static::assertFalse($polygon->hasM());
-        $ring = $polygon->getRing(0);
-        static::assertFalse($ring->hasZ());
-        static::assertFalse($ring->hasM());
-        foreach ($ring->getPoints() as $point) {
-            static::assertFalse($point->hasZ());
-            static::assertFalse($point->hasM());
+        foreach ($polygon->getRings() as $ring) {
+            static::assertFalse($ring->hasZ());
+            static::assertFalse($ring->hasM());
         }
     }
 
@@ -81,12 +81,12 @@ class PolygonTest extends TestCase
     public function testGetFamily(): void
     {
         $expected = FamilyEnum::GEOGRAPHY;
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        $multiPolygon = new MultiPolygon([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
+        static::assertSame($expected, $multiPolygon->getFamily());
+        $polygon = $multiPolygon->getPolygon(0);
         static::assertSame($expected, $polygon->getFamily());
-        $ring = $polygon->getRing(0);
-        static::assertSame($expected, $ring->getFamily());
-        foreach ($ring->getPoints() as $point) {
-            static::assertSame($expected, $point->getFamily());
+        foreach ($polygon->getRings() as $ring) {
+            static::assertSame($expected, $ring->getFamily());
         }
     }
 
@@ -95,8 +95,8 @@ class PolygonTest extends TestCase
      */
     public function testGetType(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('Polygon', $polygon->getType());
+        $multiPolygon = new MultiPolygon([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
+        static::assertSame('MultiPolygon', $multiPolygon->getType());
     }
 
     /**
@@ -104,9 +104,9 @@ class PolygonTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":null}', json_encode($polygon));
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
+        $multiPolygon = new MultiPolygon([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
+        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2],[3,4],[3,6],[1,2]]]],"srid":null}', json_encode($multiPolygon));
+        $multiPolygon = new MultiPolygon([[[[1, 2], [3, 4], [3, 6], [1, 2]]]], 4326);
+        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2],[3,4],[3,6],[1,2]]]],"srid":4326}', json_encode($multiPolygon));
     }
 }
