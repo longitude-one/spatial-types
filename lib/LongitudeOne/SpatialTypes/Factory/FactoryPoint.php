@@ -56,7 +56,7 @@ class FactoryPoint
             return new GeometricPoint($x, $y, $srid);
         }
 
-        // TODO Remove these line and update the code to support the third and fourth dimensions.
+        // TODO Remove these lines and update the code to support the third and fourth dimensions.
         if ($m instanceof \DateTimeInterface) {
             $m = $m::class;
         }
