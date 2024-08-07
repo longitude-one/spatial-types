@@ -74,7 +74,7 @@ interface PointInterface extends SpatialInterface
     /**
      * Return an array of all coordinates.
      *
-     * @return (\DateTimeInterface|float|int)[]
+     * @return (float|int)[]
      */
     public function toArray(): array;
 }

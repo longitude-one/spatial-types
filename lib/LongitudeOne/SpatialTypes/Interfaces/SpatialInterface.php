@@ -71,9 +71,15 @@ interface SpatialInterface extends \JsonSerializable
     /**
      * Convert any spatial object to its array representation.
      *
-     * Array contains SpatialInterface or multidimensional arrays of floats|integers.
+     * Array contains only multidimensional arrays of floats|integers.
      *
-     * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[]
+     * Be careful, some data are lost in the array.
+     * As example, the export of a linestring with two points is exactly the same that a multipoint with these same points.
+     * Another example, SRID isn't exported.
+     *
+     * If you want to export all data, you should have a look at the longitude-one/spatial-writer library.
+     *
+     * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]
      */
     public function toArray(): array;
 }
