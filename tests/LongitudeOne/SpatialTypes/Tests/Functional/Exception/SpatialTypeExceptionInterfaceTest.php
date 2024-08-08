@@ -47,6 +47,11 @@ use PHPUnit\Framework\TestCase;
  */
 class SpatialTypeExceptionInterfaceTest extends TestCase
 {
+    /**
+     * Exception provider.
+     *
+     * @return \Generator<string, array{0: class-string<\Exception>}, null, void>
+     */
     public static function exceptionProvider(): \Generator
     {
         yield 'BadMethodCallException' => [BadMethodCallException::class];
@@ -65,6 +70,9 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
 
         yield 'RangeException' => [RangeException::class];
     }
+
+    // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint
+    // phpcs:disable Squiz.Commenting.FunctionComment.MissingParamComment
 
     /**
      * Let's check that each exception thrown by the library can be caught with the SpatialTypeExceptionInterface.
