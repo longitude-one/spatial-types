@@ -1,8 +1,8 @@
-# spatial-types
+# Spatial Types Library
 Implement spatial PHP types and their geometric and geographic classes.
 
 If you want to persist spatial data in a database,
-you can use the [longitude-one/doctrine2-spatial](https://github.com/longitude-one/doctrine2-spatial) package.
+you should use the [longitude-one/doctrine2-spatial](https://github.com/longitude-one/doctrine2-spatial) package.
 
 ## Current status
 ![longitude-one/spatial--types](https://img.shields.io/badge/longitude--one-spatial--types-blue)
