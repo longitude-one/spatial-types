@@ -27,6 +27,14 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\Polygon as GeographyPolygon;
 use LongitudeOne\SpatialTypes\Types\Geometry\Polygon as GeometryPolygon;
 
+/**
+ * Factory Polygon class.
+ *
+ * This class helps
+ * to create a polygon from an array of lineStrings or a bi-dimensional array of Points or an indexed array.
+ *
+ * @internal This class is internal. You can use it, but be aware that there is no backward compatibility pledge.
+ */
 class FactoryPolygon
 {
     /**

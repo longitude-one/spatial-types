@@ -29,6 +29,11 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
 
+/**
+ * Abstract Polygon class.
+ *
+ * @internal This class is internal. It is used to create geometry or geography polygon of spatial objects.
+ */
 abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInterface
 {
     use LineStringTrait;

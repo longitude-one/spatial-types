@@ -28,6 +28,8 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
  *
  * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
  * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
+ *
+ * @internal This class is internal. It is used to create geometry or geography point of spatial objects.
  */
 abstract class AbstractPoint extends AbstractSpatialType implements PointInterface
 {

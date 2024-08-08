@@ -25,6 +25,11 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\GeographyCollection;
 use LongitudeOne\SpatialTypes\Types\Geometry\GeometryCollection;
 
+/**
+ * Abstract Collection class.
+ *
+ * @internal This class is internal. It is used to create geometry or geography collection of spatial objects.
+ */
 abstract class AbstractCollection extends AbstractSpatialType implements CollectionInterface
 {
     /**

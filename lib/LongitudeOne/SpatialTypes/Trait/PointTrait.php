@@ -29,6 +29,8 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
  * This trait helps to manage point in linestring and multipoint classes.
  *
  * Line string and multipoint are considered as spatial collections of points.
+ *
+ * @internal trait is used internally to avoid code duplication
  */
 trait PointTrait
 {

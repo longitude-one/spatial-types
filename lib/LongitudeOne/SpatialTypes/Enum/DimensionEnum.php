@@ -19,7 +19,7 @@ namespace LongitudeOne\SpatialTypes\Enum;
 /**
  * Dimension enumeration.
  *
- * This enumeration is used to define the dimensions of a geometry or a geography instance.
+ * This enumeration is used to define the dimensions of spatial instances.
  */
 enum DimensionEnum: string
 {

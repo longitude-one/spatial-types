@@ -19,7 +19,9 @@ namespace LongitudeOne\SpatialTypes\Exception;
 use Throwable;
 
 /**
- * All exceptions throwable by spatial types must implement this interface.
+ * All exceptions throwable by longitude-one/spatial-types implement this interface.
+ *
+ * So developers can catch all exceptions related to spatial types with this interface.
  */
 interface SpatialTypeExceptionInterface extends \Throwable
 {

@@ -30,7 +30,9 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 
 /**
- * Multi polygon abstract class.
+ * Abstract MultiPolygon class.
+ *
+ * @internal This class is internal. It is used to create geometry or geography multi polygon of spatial objects.
  */
 abstract class AbstractMultiPolygon extends AbstractSpatialType implements MultiPolygonInterface
 {

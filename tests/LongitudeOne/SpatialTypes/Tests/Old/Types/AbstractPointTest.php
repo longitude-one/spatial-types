@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Exception\JsonException;
 use LongitudeOne\SpatialTypes\Tests\Old\DataProvider as LoDataProvider;
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\PointHelperTrait;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
@@ -280,8 +279,6 @@ class AbstractPointTest extends TestCase
      * Test to convert point to json.
      *
      * @param class-string<AbstractPoint> $abstractPoint Geometric point and geographic point
-     *
-     * @throws JsonException it shall NOT happen
      */
     #[DataProvider('pointTypeProvider')]
     public function testJson(string $abstractPoint): void

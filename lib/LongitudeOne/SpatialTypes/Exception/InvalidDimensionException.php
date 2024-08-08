@@ -18,6 +18,8 @@ namespace LongitudeOne\SpatialTypes\Exception;
 
 /**
  * This exception is thrown when mixing objects with non-compatible dimensions.
+ *
+ * For example, when you try to add a PointM in a MultiPointZ object, this exception is thrown.
  */
 class InvalidDimensionException extends \Exception implements SpatialTypeExceptionInterface
 {

@@ -24,6 +24,11 @@ use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 
+/**
+ * Line string trait.
+ *
+ * @internal trait is used internally to avoid code duplication
+ */
 trait LineStringTrait
 {
     /**

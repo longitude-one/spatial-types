@@ -26,6 +26,13 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\LineString as GeographyLineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString as GeometryLineString;
 
+/**
+ * Factory LineString class.
+ *
+ * @internal This class is internal. It is used to create a linestring from an array of points or an indexed array.
+ *
+ * Developer can use it, but be aware that there is no backward compatibility pledge.
+ */
 class FactoryLineString
 {
     /**

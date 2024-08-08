@@ -21,11 +21,17 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
-use LongitudeOne\SpatialTypes\Helper\DimensionHelper;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
 
+/**
+ * Factory Point class.
+ *
+ * @internal This class is internal. It is used to create a point from an array of coordinates.
+ *
+ * Developer can use it, but be aware that there is no backward compatibility pledge.
+ */
 class FactoryPoint
 {
     /**
@@ -82,8 +88,6 @@ class FactoryPoint
         FamilyEnum $family = FamilyEnum::GEOMETRY,
         DimensionEnum $dimension = DimensionEnum::X_Y
     ): PointInterface {
-        $dimensionHelper = new DimensionHelper($dimension);
-
         if (count($point) < 2) {
             throw new MissingValueException('The array must contain at least two coordinates to create a point.');
         }
@@ -100,11 +104,11 @@ class FactoryPoint
             throw new MissingValueException('The second coordinate of array is missing.');
         }
 
-        if ($dimensionHelper->hasZ() && !isset($point[2])) {
+        if (in_array($dimension, [DimensionEnum::X_Y_Z, DimensionEnum::X_Y_Z_M], true) && !isset($point[2])) {
             throw new MissingValueException('The third coordinate of array is missing.');
         }
 
-        if ($dimensionHelper->hasM() && !isset($point[3])) {
+        if (in_array($dimension, [DimensionEnum::X_Y_M, DimensionEnum::X_Y_Z_M], true) && !isset($point[3])) {
             throw new MissingValueException('The fourth coordinate of array is missing.');
         }
 

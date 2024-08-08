@@ -21,9 +21,9 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /**
- * Abstract Spatial Type.
+ * Abstract Spatial Type class.
  *
- * This class is the base class for all spatial types.
+ * @internal This class is internal. It is used to create geometry or geography objects.
  */
 abstract class AbstractSpatialType implements SpatialInterface
 {

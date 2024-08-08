@@ -16,6 +16,17 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Enum;
 
+/**
+ * Family enumeration.
+ *
+ * This enumeration is used to define the family of spatial instances.
+ *
+ * Geography instances use by default Longitude and latitude.
+ * So, coordinates are in degrees and shall respect ranges.
+ *
+ * Geometric instances use by default Cartesian coordinates.
+ * So, coordinates shall not respect any ranges.
+ */
 enum FamilyEnum: string
 {
     case GEOGRAPHY = 'Geography';

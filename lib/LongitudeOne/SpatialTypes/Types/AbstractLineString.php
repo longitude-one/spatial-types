@@ -24,6 +24,11 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Trait\PointTrait;
 
+/**
+ * Abstract LineString class.
+ *
+ * @internal This class is internal. It is used to create geometry or geography line string of spatial objects.
+ */
 abstract class AbstractLineString extends AbstractSpatialType implements LineStringInterface
 {
     use PointTrait;

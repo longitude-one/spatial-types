@@ -17,7 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Exception;
 
 /**
- * This exception is thrown when a developer tries to get a point of an empty linestring.
+ * This exception is thrown when a developer tries to get an instance point of an empty collection.
+ *
+ * For example, when you try to get the first point of an empty linestring, this exception is thrown.
  */
 class OutOfBoundsException extends \OutOfBoundsException implements SpatialTypeExceptionInterface
 {

@@ -44,7 +44,6 @@ class BadMethodCallExceptionTest extends TestCase
     public function testInstance(): void
     {
         $exception = new BadMethodCallException();
-        static::assertInstanceOf(BadMethodCallException::class, $exception);
         static::assertInstanceOf(SpatialTypeExceptionInterface::class, $exception);
     }
 }
