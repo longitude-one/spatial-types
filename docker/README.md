@@ -12,7 +12,6 @@ It builds an image of the minimum PHP version.
 This version is compiled to contain all needed tools.
 
 ```sh
-cd docker
 docker compose build
 docker compose up -d
 ```
