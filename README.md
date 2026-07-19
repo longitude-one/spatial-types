@@ -19,11 +19,13 @@ you should use the [longitude-one/doctrine2-spatial](https://github.com/longitud
 
 
 ## Installation
+
 ```bash
 composer require longitude-one/spatial-types
 ```
 
 ## Usage
+
 ```php
 use LongitudeOne\Spatial\Types\Geometry\Point;
 
