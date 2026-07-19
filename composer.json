@@ -43,8 +43,8 @@
         "test": "phpunit",
         "test-local": [
             "phpunit",
-            "sed -i.bak 's|/var/www/|./|g' .phpunit-cache/clover.xml",
-            "rm .phpunit-cache/clover.xml.bak",
+            "sed -i.bak 's|/var/www/|./|g' .phpunit-cache/coverage.xml",
+            "rm .phpunit-cache/coverage.xml.bak",
             "cat .phpunit-cache/coverage-results.txt"
         ]
     }
