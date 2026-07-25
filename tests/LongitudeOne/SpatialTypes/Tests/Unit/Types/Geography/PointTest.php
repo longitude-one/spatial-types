@@ -2,10 +2,10 @@
 /**
  * This file is part of the spatial project.
  *
- * PHP 8.1 | 8.2 | 8.3
+ * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024
- * Copyright Longitude One 2024
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -47,38 +47,6 @@ class PointTest extends TestCase
     {
         parent::setUp();
         $this->point = new Point('1.1W', '45.1N');
-    }
-
-    /**
-     * Provide invalid coordinates.
-     *
-     * @return \Generator<string, array{0: float|int|string, 1: float|int|string, 2: string}, null, void>
-     */
-    public static function provideInvalidCoordinates(): \Generator
-    {
-        yield 'West Longitude greater than 180' => ['181W', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181W".'];
-
-        yield 'String Longitude greater than 180' => ['181', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181".'];
-
-        yield 'Integer Longitude greater than 180' => [181, '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181".'];
-
-        yield 'Float Longitude greater than 180' => [181.1, '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181.1".'];
-
-        yield 'West Latitude greater than 90' => [0, '91N', 'Out of range latitude value, latitude must be between -90 and 90, got "91N".'];
-
-        yield 'String Latitude greater than 90' => [0, '91', 'Out of range latitude value, latitude must be between -90 and 90, got "91".'];
-
-        yield 'Integer Latitude greater than 90' => [0, 91, 'Out of range latitude value, latitude must be between -90 and 90, got "91".'];
-
-        yield 'Float Latitude greater than 90' => [0, 91.1, 'Out of range latitude value, latitude must be between -90 and 90, got "91.1".'];
-
-        yield 'Minutes greater than 60' => ['79:60:55.832W', '100N', 'Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".'];
-
-        yield 'Secondes greater than 60' => ['79:55:60.832W', '100N', 'Out of range second value, second must be between 0 and 59, got "79:55:60.832W".'];
-
-        yield 'Invalid coordinate value' => ['180W', '85N 60', 'Invalid coordinate value, got "85N 60".'];
-
-        yield 'Invalid array value' => ['180W 85N', '160W 85S', 'Invalid coordinate value, coordinate cannot be an array.'];
     }
 
     /**
@@ -190,6 +158,38 @@ class PointTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessage($expectedMessage);
         new Point($longitude, $latitude);
+    }
+
+    /**
+     * Provide invalid coordinates.
+     *
+     * @return \Generator<string, array{0: float|int|string, 1: float|int|string, 2: string}, null, void>
+     */
+    public static function provideInvalidCoordinates(): \Generator
+    {
+        yield 'West Longitude greater than 180' => ['181W', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181W".'];
+
+        yield 'String Longitude greater than 180' => ['181', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181".'];
+
+        yield 'Integer Longitude greater than 180' => [181, '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181".'];
+
+        yield 'Float Longitude greater than 180' => [181.1, '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181.1".'];
+
+        yield 'West Latitude greater than 90' => [0, '91N', 'Out of range latitude value, latitude must be between -90 and 90, got "91N".'];
+
+        yield 'String Latitude greater than 90' => [0, '91', 'Out of range latitude value, latitude must be between -90 and 90, got "91".'];
+
+        yield 'Integer Latitude greater than 90' => [0, 91, 'Out of range latitude value, latitude must be between -90 and 90, got "91".'];
+
+        yield 'Float Latitude greater than 90' => [0, 91.1, 'Out of range latitude value, latitude must be between -90 and 90, got "91.1".'];
+
+        yield 'Minutes greater than 60' => ['79:60:55.832W', '100N', 'Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".'];
+
+        yield 'Secondes greater than 60' => ['79:55:60.832W', '100N', 'Out of range second value, second must be between 0 and 59, got "79:55:60.832W".'];
+
+        yield 'Invalid coordinate value' => ['180W', '85N 60', 'Invalid coordinate value, got "85N 60".'];
+
+        yield 'Invalid array value' => ['180W 85N', '160W 85S', 'Invalid coordinate value, coordinate cannot be an array.'];
     }
 
     /**

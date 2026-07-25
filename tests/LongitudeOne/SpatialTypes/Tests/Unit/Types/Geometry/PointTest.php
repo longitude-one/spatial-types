@@ -2,10 +2,10 @@
 /**
  * This file is part of the spatial project.
  *
- * PHP 8.1 | 8.2 | 8.3
+ * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024
- * Copyright Longitude One 2024
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -47,26 +47,6 @@ class PointTest extends TestCase
     {
         parent::setUp();
         $this->point = new Point(1, 2);
-    }
-
-    /**
-     * @return \Generator<string, array{0: string, 1: string, 2: string}, null, void>
-     */
-    public static function provideInvalidCoordinates(): \Generator
-    {
-        yield 'Longitude greater than 180' => ['181W', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181W".'];
-
-        yield 'Latitude greater than 90' => ['180W', '100N', 'Out of range latitude value, latitude must be between -90 and 90, got "100N".'];
-
-        yield 'Minutes greater than 60' => ['79:60:55.832W', '100N', 'Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".'];
-
-        yield 'Secondes greater than 60' => ['79:55:60.832W', '100N', 'Out of range second value, second must be between 0 and 59, got "79:55:60.832W".'];
-
-        yield 'Invalid coordinate value' => ['180W', '85N 60', 'Invalid coordinate value, got "85N 60".'];
-
-        yield 'Invalid array value' => ['180W 85N', '160W 85S', 'Invalid coordinate value, coordinate cannot be an array.'];
-
-        yield 'Invalid value' => ['FOO', 'BAR', 'Invalid coordinate value, got "FOO".'];
     }
 
     /**
@@ -209,6 +189,26 @@ class PointTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessage($expectedMessage);
         new Point($longitude, $latitude);
+    }
+
+    /**
+     * @return \Generator<string, array{0: string, 1: string, 2: string}, null, void>
+     */
+    public static function provideInvalidCoordinates(): \Generator
+    {
+        yield 'Longitude greater than 180' => ['181W', '0N', 'Out of range longitude value, longitude must be between -180 and 180, got "181W".'];
+
+        yield 'Latitude greater than 90' => ['180W', '100N', 'Out of range latitude value, latitude must be between -90 and 90, got "100N".'];
+
+        yield 'Minutes greater than 60' => ['79:60:55.832W', '100N', 'Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".'];
+
+        yield 'Secondes greater than 60' => ['79:55:60.832W', '100N', 'Out of range second value, second must be between 0 and 59, got "79:55:60.832W".'];
+
+        yield 'Invalid coordinate value' => ['180W', '85N 60', 'Invalid coordinate value, got "85N 60".'];
+
+        yield 'Invalid array value' => ['180W 85N', '160W 85S', 'Invalid coordinate value, coordinate cannot be an array.'];
+
+        yield 'Invalid value' => ['FOO', 'BAR', 'Invalid coordinate value, got "FOO".'];
     }
 
     /**

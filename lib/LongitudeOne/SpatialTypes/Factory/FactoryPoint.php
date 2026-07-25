@@ -2,10 +2,10 @@
 /**
  * This file is part of the spatial project.
  *
- * PHP 8.1 | 8.2 | 8.3
+ * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024
- * Copyright Longitude One 2024
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -48,7 +48,7 @@ class FactoryPoint
      * @throws InvalidValueException     when one of the coordinates is invalid
      * @throws InvalidDimensionException as long as the third and fourth dimensions are not supported
      */
-    public static function fromCoordinates(float|int|string $x, float|int|string $y, null|float|int $z = null, null|\DateTimeInterface|float|int $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
+    public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, \DateTimeInterface|float|int|null $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
         if (DimensionEnum::X_Y === $dimension && !(empty($m) && empty($z))) {
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');

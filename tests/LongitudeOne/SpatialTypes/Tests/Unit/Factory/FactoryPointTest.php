@@ -2,10 +2,10 @@
 /**
  * This file is part of the spatial project.
  *
- * PHP 8.1 | 8.2 | 8.3
+ * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024
- * Copyright Longitude One 2024
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,44 +36,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FactoryPointTest extends TestCase
 {
-    /**
-     * Provide bad values to test the factory.
-     *
-     * @return \Generator<string, array{0: int[], 1: class-string<SpatialTypeExceptionInterface>, 2: string}, null, void>
-     */
-    public static function provideBadValues(): \Generator
-    {
-        yield 'Empty array' => [
-            [],
-            MissingValueException::class,
-            'The array must contain at least two coordinates to create a point.',
-        ];
-
-        yield 'One value' => [
-            [1],
-            MissingValueException::class,
-            'The array must contain at least two coordinates to create a point.',
-        ];
-
-        yield 'Three values' => [
-            [1, 2, 3],
-            InvalidDimensionException::class,
-            'The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?',
-        ];
-
-        yield 'Four values' => [
-            [1, 2, 3, 4],
-            InvalidDimensionException::class,
-            'The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?',
-        ];
-
-        yield 'Five values' => [
-            [1, 2, 3, 4, 5],
-            InvalidDimensionException::class,
-            'The array must contain at most four coordinates.',
-        ];
-    }
-
     /**
      * Test the factory with some good coordinates.
      */
@@ -173,6 +135,44 @@ class FactoryPointTest extends TestCase
         self::expectException($exceptedException);
         self::expectExceptionMessage($expectedMessage);
         FactoryPoint::fromIndexedArray($values);
+    }
+
+    /**
+     * Provide bad values to test the factory.
+     *
+     * @return \Generator<string, array{0: int[], 1: class-string<SpatialTypeExceptionInterface>, 2: string}, null, void>
+     */
+    public static function provideBadValues(): \Generator
+    {
+        yield 'Empty array' => [
+            [],
+            MissingValueException::class,
+            'The array must contain at least two coordinates to create a point.',
+        ];
+
+        yield 'One value' => [
+            [1],
+            MissingValueException::class,
+            'The array must contain at least two coordinates to create a point.',
+        ];
+
+        yield 'Three values' => [
+            [1, 2, 3],
+            InvalidDimensionException::class,
+            'The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?',
+        ];
+
+        yield 'Four values' => [
+            [1, 2, 3, 4],
+            InvalidDimensionException::class,
+            'The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?',
+        ];
+
+        yield 'Five values' => [
+            [1, 2, 3, 4, 5],
+            InvalidDimensionException::class,
+            'The array must contain at most four coordinates.',
+        ];
     }
 
     /**

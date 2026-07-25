@@ -2,10 +2,10 @@
 /**
  * This file is part of the spatial project.
  *
- * PHP 8.1 | 8.2 | 8.3
+ * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024
- * Copyright Longitude One 2024
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -126,7 +126,7 @@ class MultiPointTest extends TestCase
 
         self::expectException(OutOfBoundsException::class);
         self::expectExceptionMessage('The current collection of points is empty.');
-        (new MultiPoint([]))->getPoint(0);
+        new MultiPoint([])->getPoint(0);
     }
 
     /**
