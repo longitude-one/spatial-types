@@ -1,4 +1,4 @@
-name: Tests with 8.2 and 8.3 PHP versions
+name: Tests with 8.4 PHP and next versions
 on:
     workflow_run:
         workflows: ["Full tests with oldest PHP version"]
