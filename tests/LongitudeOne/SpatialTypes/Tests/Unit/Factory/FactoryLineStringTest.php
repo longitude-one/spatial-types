@@ -21,7 +21,6 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
 use PHPUnit\Framework\TestCase;
@@ -45,7 +44,6 @@ class FactoryLineStringTest extends TestCase
 
         $lineString = FactoryLineString::fromArrayOfPoints($points, 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y);
 
-        static::assertInstanceOf(LineStringInterface::class, $lineString);
         static::assertCount(2, $lineString->getPoints());
         static::assertSame(4326, $lineString->getSrid());
         static::assertSame(FamilyEnum::GEOGRAPHY, $lineString->getFamily());
@@ -90,7 +88,6 @@ class FactoryLineStringTest extends TestCase
 
         $lineString = FactoryLineString::fromIndexedArray($indexedArray, 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y);
 
-        static::assertInstanceOf(LineStringInterface::class, $lineString);
         static::assertCount(2, $lineString->getPoints());
         static::assertSame(4326, $lineString->getSrid());
         static::assertSame(FamilyEnum::GEOGRAPHY, $lineString->getFamily());
@@ -111,7 +108,6 @@ class FactoryLineStringTest extends TestCase
 
         $lineString = FactoryLineString::fromIndexedArray($points, 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
 
-        static::assertInstanceOf(LineStringInterface::class, $lineString);
         static::assertCount(2, $lineString->getPoints());
         static::assertSame(4326, $lineString->getSrid());
         static::assertSame(FamilyEnum::GEOMETRY, $lineString->getFamily());

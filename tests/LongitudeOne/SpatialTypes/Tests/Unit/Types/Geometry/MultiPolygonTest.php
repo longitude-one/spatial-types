@@ -47,7 +47,7 @@ class MultiPolygonTest extends TestCase
         $multiPolygon = new MultiPolygon([], 4326);
         static::assertTrue($multiPolygon->isEmpty());
         static::expectException(InvalidFamilyException::class);
-        static::expectExceptionMessage('The polygon family is not compatible with the family of the current multipolygon.');
+        static::expectExceptionMessageIsOrContains('The polygon family is not compatible with the family of the current multipolygon.');
         $multiPolygon->addPolygon($polygon);
     }
 
@@ -101,7 +101,7 @@ class MultiPolygonTest extends TestCase
         static::assertSame([[[[1, 2], [2, 4], [3, 6], [1, 2]]], [[[3, 4], [7, 7], [2, 11], [3, 4]]]], $multiPolygon->toArray());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessage('The polygon SRID is not compatible with the SRID of the current multipolygon.');
+        self::expectExceptionMessageIsOrContains('The polygon SRID is not compatible with the SRID of the current multipolygon.');
         $multiPolygon->addPolygon(new Polygon([new LineString([[0, 0], [1, 1], [1, 0], [0, 0]])], 4327));
     }
 
@@ -120,7 +120,7 @@ class MultiPolygonTest extends TestCase
         static::assertSame([], $multiPolygon->getPolygons());
 
         static::expectException(OutOfBoundsException::class);
-        static::expectExceptionMessage('The current collection of polygons is empty.');
+        static::expectExceptionMessageIsOrContains('The current collection of polygons is empty.');
         $multiPolygon->getPolygon(0);
     }
 

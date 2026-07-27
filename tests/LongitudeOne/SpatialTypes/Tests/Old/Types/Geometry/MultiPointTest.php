@@ -39,7 +39,7 @@ class MultiPointTest extends TestCase
     public function testBadMultiPointConstructor(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Argument shall contain an array of PointInterface or an array of coordinates.');
+        $this->expectExceptionMessageIsOrContains('Argument shall contain an array of PointInterface or an array of coordinates.');
 
         new MultiPoint([1, 2, 3, 4]);
     }

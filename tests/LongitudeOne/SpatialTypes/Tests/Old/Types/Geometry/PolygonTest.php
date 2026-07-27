@@ -66,7 +66,7 @@ class PolygonTest extends TestCase
     public function testOpenPolygonRing(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('The line string is not a ring.');
+        $this->expectExceptionMessageIsOrContains('The line string is not a ring.');
 
         $rings = [
             new LineString([

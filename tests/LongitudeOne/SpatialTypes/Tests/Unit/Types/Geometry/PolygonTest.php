@@ -45,12 +45,12 @@ class PolygonTest extends TestCase
      */
     public function testAddGeographicLineStringInGeometricPolygon(): void
     {
-        $ring = static::createMock(GeographicLineString::class);
+        $ring = static::createStub(GeographicLineString::class);
         $ring->method('isRing')->willReturn(true);
         $ring->method('getFamily')->willReturn(FamilyEnum::GEOGRAPHY);
         $polygon = new Polygon([], 4326);
         static::expectException(InvalidFamilyException::class);
-        static::expectExceptionMessage('The ring family is not compatible with the family of the current polygon.');
+        static::expectExceptionMessageIsOrContains('The ring family is not compatible with the family of the current polygon.');
         $polygon->addRing($ring);
     }
 
@@ -62,7 +62,7 @@ class PolygonTest extends TestCase
         $multiLineString = new Polygon([]);
         $lineString = new LineString([new Point(1, 2), new Point(2, 4), new Point(3, 6)]);
         static::expectException(InvalidValueException::class);
-        static::expectExceptionMessage('The line string is not a ring.');
+        static::expectExceptionMessageIsOrContains('The line string is not a ring.');
         $multiLineString->addRing($lineString);
     }
 
@@ -120,7 +120,7 @@ class PolygonTest extends TestCase
         static::assertEquals([[[1, 2], [2, 4], [3, 6], [1, 2]], [[3, 4], [7, 7], [2, 11], [3, 4]]], $polygon->toArray());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
+        self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
         $polygon->addRing(new LineString([[0, 0], [1, 1], [1, 0], [0, 0]], 4327));
     }
 
@@ -138,7 +138,7 @@ class PolygonTest extends TestCase
         static::assertEquals([], $polygon->getRings());
 
         static::expectException(OutOfBoundsException::class);
-        static::expectExceptionMessage('The current collection of rings is empty.');
+        static::expectExceptionMessageIsOrContains('The current collection of rings is empty.');
         $polygon->getRing(0);
     }
 

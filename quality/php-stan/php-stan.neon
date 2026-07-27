@@ -9,5 +9,3 @@ parameters:
         - ../../quality
         - ../../lib
         - ../../tests
-    excludePaths:
-        - ../../tests/LongitudeOne/SpatialTypes/Tests/OrmMockTestCase.php

@@ -43,7 +43,7 @@ class LineStringTest extends TestCase
     {
         $lineString = new LineString([], 4326);
         static::expectException(InvalidFamilyException::class);
-        static::expectExceptionMessage('The ');
+        static::expectExceptionMessageIsOrContains('The ');
         $lineString->addPoint(new GeographicPoint('40W', '40S', 4326));
     }
 
@@ -58,7 +58,7 @@ class LineStringTest extends TestCase
         static::assertCount(2, $lineString->getPoints());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
+        self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
         $lineString->addPoint(new Point(1, 2, 4327));
     }
 
@@ -69,7 +69,7 @@ class LineStringTest extends TestCase
     {
         $lineString = new LineString([], 4326);
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('Argument shall contain an array of PointInterface or an array of coordinates.');
+        self::expectExceptionMessageIsOrContains('Argument shall contain an array of PointInterface or an array of coordinates.');
         $lineString->addPoints(['foo', 'bar']);
     }
 
@@ -155,8 +155,8 @@ class LineStringTest extends TestCase
         static::assertSame(3, $lineString->getPoint(-3)->getX());
 
         self::expectException(OutOfBoundsException::class);
-        self::expectExceptionMessage('The current collection of points is empty.');
-        new LineString([])->getPoint(0);
+        self::expectExceptionMessageIsOrContains('The current collection of points is empty.');
+        (new LineString([]))->getPoint(0);
     }
 
     /**

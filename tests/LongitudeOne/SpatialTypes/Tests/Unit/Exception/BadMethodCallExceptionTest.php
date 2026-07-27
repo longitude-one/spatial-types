@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Exception;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
-use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,16 +33,6 @@ class BadMethodCallExceptionTest extends TestCase
     public function testCreate(): void
     {
         $exception = BadMethodCallException::create('Foo::getM', DimensionEnum::X_Y_Z);
-        static::assertInstanceOf(BadMethodCallException::class, $exception);
         static::assertSame('The method "Foo::getM" cannot be called with a spatial object with dimensions "XYZ".', $exception->getMessage());
-    }
-
-    /**
-     * Let's check that the BadMethodCallException class is an instance of SpatialTypeExceptionInterface.
-     */
-    public function testInstance(): void
-    {
-        $exception = new BadMethodCallException();
-        static::assertInstanceOf(SpatialTypeExceptionInterface::class, $exception);
     }
 }

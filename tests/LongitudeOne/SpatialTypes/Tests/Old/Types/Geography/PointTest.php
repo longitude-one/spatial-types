@@ -39,7 +39,7 @@ class PointTest extends TestCase
     public function testBadNumericGreaterThanLongitude(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Out of range longitude value, longitude must be between -180 and 180, got "180.134".');
+        $this->expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "180.134".');
 
         new Point(180.134, 54);
     }
@@ -52,7 +52,7 @@ class PointTest extends TestCase
     public function testBadNumericLessThanLatitude(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Out of range latitude value, latitude must be between -90 and 90, got "-90.00001".');
+        $this->expectExceptionMessageIsOrContains('Out of range latitude value, latitude must be between -90 and 90, got "-90.00001".');
 
         new Point(55, -90.00001);
     }
@@ -65,7 +65,7 @@ class PointTest extends TestCase
     public function testBadNumericLessThanLongitude(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Out of range longitude value, longitude must be between -180 and 180, got "-230".');
+        $this->expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "-230".');
 
         new Point(-230, 54);
     }
@@ -165,7 +165,7 @@ class PointTest extends TestCase
     public function testOutOfRangeLatitudeConstructor(float|int|string $latitude): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
         new Point(0, $latitude);
     }
 
@@ -180,7 +180,7 @@ class PointTest extends TestCase
     public function testOutOfRangeLongitudeConstructor(float|int|string $longitude): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
         new Point($longitude, 0);
     }
 
@@ -196,7 +196,7 @@ class PointTest extends TestCase
     {
         $point = new Point(0, 0);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
         $point->setLatitude($latitude);
     }
 
@@ -212,7 +212,7 @@ class PointTest extends TestCase
     {
         $point = new Point(0, 0);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
         $point->setLongitude($longitude);
     }
 
@@ -228,7 +228,7 @@ class PointTest extends TestCase
     {
         $point = new Point(0, 0);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
         $point->setX($longitude);
     }
 
@@ -254,7 +254,7 @@ class PointTest extends TestCase
     {
         $point = new Point(0, 0);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
         $point->setY($latitude);
     }
 

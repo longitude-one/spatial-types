@@ -24,7 +24,6 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
 use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use PHPUnit\Framework\TestCase;
 
@@ -47,7 +46,6 @@ class FactoryPolygonTest extends TestCase
 
         $polygon = FactoryPolygon::fromArrayOfLineStrings($lineStrings, 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
 
-        static::assertInstanceOf(PolygonInterface::class, $polygon);
         static::assertCount(2, $polygon->getRings());
     }
 
@@ -73,7 +71,7 @@ class FactoryPolygonTest extends TestCase
     public function testFromArrayOfLineStringsInvalidValue(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('The array must contain only objects implementing LineStringInterface.');
+        $this->expectExceptionMessageIsOrContains('The array must contain only objects implementing LineStringInterface.');
 
         $lineStrings = [
             [[0, 0], [1, 1], [2, 2], [0, 0]],
@@ -97,7 +95,6 @@ class FactoryPolygonTest extends TestCase
 
         $polygon = FactoryPolygon::fromIndexedArray($indexedArray, 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
 
-        static::assertInstanceOf(PolygonInterface::class, $polygon);
         static::assertCount(3, $polygon->getRings());
     }
 

@@ -64,7 +64,7 @@ class FactoryPointTest extends TestCase
     public function testFromCoordinatesWithBadDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessage('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
+        self::expectExceptionMessageIsOrContains('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         FactoryPoint::fromCoordinates(1, 2, 3, 4);
     }
 
@@ -96,7 +96,7 @@ class FactoryPointTest extends TestCase
     public function testFromIndexedArrayInvalidCoordinate(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('Invalid coordinate value, got "invalid".');
+        self::expectExceptionMessageIsOrContains('Invalid coordinate value, got "invalid".');
         FactoryPoint::fromIndexedArray(['invalid', 2]);
     }
 
@@ -106,7 +106,7 @@ class FactoryPointTest extends TestCase
     public function testFromIndexedArrayMissingFirstCoordinate(): void
     {
         self::expectException(MissingValueException::class);
-        self::expectExceptionMessage('The first coordinate of array is missing.');
+        self::expectExceptionMessageIsOrContains('The first coordinate of array is missing.');
         FactoryPoint::fromIndexedArray([null, 2]);
     }
 
@@ -116,7 +116,7 @@ class FactoryPointTest extends TestCase
     public function testFromIndexedArrayMissingSecondCoordinate(): void
     {
         self::expectException(MissingValueException::class);
-        self::expectExceptionMessage('The second coordinate of array is missing.');
+        self::expectExceptionMessageIsOrContains('The second coordinate of array is missing.');
         FactoryPoint::fromIndexedArray([1, null]);
     }
 
@@ -133,7 +133,7 @@ class FactoryPointTest extends TestCase
     public function testFromIndexedArrayWithBadValues(array $values, string $exceptedException, string $expectedMessage): void
     {
         self::expectException($exceptedException);
-        self::expectExceptionMessage($expectedMessage);
+        self::expectExceptionMessageIsOrContains($expectedMessage);
         FactoryPoint::fromIndexedArray($values);
     }
 

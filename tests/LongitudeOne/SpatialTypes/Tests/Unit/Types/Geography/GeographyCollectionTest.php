@@ -43,7 +43,7 @@ class GeographyCollectionTest extends TestCase
     {
         $geographyCollection = new GeographyCollection();
         static::expectException(InvalidValueException::class);
-        static::expectExceptionMessage('An instance of LongitudeOne\SpatialTypes\Types\Geography\GeographyCollection cannot contain another GeometryCollection nor GeographyCollection.');
+        static::expectExceptionMessageIsOrContains('An instance of LongitudeOne\SpatialTypes\Types\Geography\GeographyCollection cannot contain another GeometryCollection nor GeographyCollection.');
         $geographyCollection->addElement(new GeographyCollection());
     }
 
@@ -54,8 +54,8 @@ class GeographyCollectionTest extends TestCase
     {
         $geographyCollection = new GeographyCollection();
         static::expectException(InvalidDimensionException::class);
-        static::expectExceptionMessage('Collection cannot contain elements with different dimensions.');
-        $mock = $this->createMock(PolygonInterface::class);
+        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different dimensions.');
+        $mock = static::createStub(PolygonInterface::class);
         $mock->method('getFamily')->willReturn(FamilyEnum::GEOGRAPHY);
         $mock->method('hasM')->willReturn(false);
         $mock->method('hasZ')->willReturn(true);
@@ -70,7 +70,7 @@ class GeographyCollectionTest extends TestCase
     {
         $geographyCollection = new GeographyCollection();
         static::expectException(InvalidFamilyException::class);
-        static::expectExceptionMessage('Collection cannot contain elements with different families.');
+        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different families.');
         $geographyCollection->addElement(new GeometricPolygon([]));
     }
 
@@ -89,7 +89,7 @@ class GeographyCollectionTest extends TestCase
         $polygon = new GeographicPolygon([], 4326);
         $geographyCollection->addElement($polygon);
         static::expectException(InvalidSridException::class);
-        static::expectExceptionMessage('Collection cannot contain elements with different SRIDs.');
+        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different SRIDs.');
 
         $polygon = new GeographicPolygon([], 4327);
         $geographyCollection->addElement($polygon);

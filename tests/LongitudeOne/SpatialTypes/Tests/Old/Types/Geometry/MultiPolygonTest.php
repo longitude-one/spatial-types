@@ -46,7 +46,7 @@ class MultiPolygonTest extends TestCase
         $multiPolygon = new MultiPolygon([$polygon]);
 
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('The array must contain only objects implementing LineStringInterface or array of PointInterface or "array of array of coordinates".');
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing LineStringInterface or array of PointInterface or "array of array of coordinates".');
         $multiPolygon->addPolygon(['foo']);
     }
 

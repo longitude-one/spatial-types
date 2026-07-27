@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @coversDefaultClass
+ * @coversDefaultClass \LongitudeOne\SpatialTypes\Types\Geometry\LineString
  */
 class LineStringTest extends TestCase
 {

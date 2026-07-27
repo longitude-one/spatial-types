@@ -142,7 +142,7 @@ class PointTest extends TestCase
     {
         $point = new GeometricPoint(0, 0);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
         $point->setLatitude($latitude);
     }
 
@@ -168,7 +168,7 @@ class PointTest extends TestCase
     {
         $point = new GeometricPoint(0, 0);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
+        $this->expectExceptionMessageIsOrContains(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
         $point->setLongitude($longitude);
     }
 
@@ -214,7 +214,7 @@ class PointTest extends TestCase
         $point = new GeometricPoint(10, 10);
 
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
+        self::expectExceptionMessageIsOrContains(sprintf('Out of range latitude value, latitude must be between -90 and 90, got "%s".', $latitude));
 
         $point->setLatitude($latitude);
     }
@@ -242,7 +242,7 @@ class PointTest extends TestCase
         $point = new GeometricPoint(10, 14);
 
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
+        self::expectExceptionMessageIsOrContains(sprintf('Out of range longitude value, longitude must be between -180 and 180, got "%s".', $longitude));
 
         $point->setLongitude($longitude);
     }

@@ -24,3 +24,9 @@ In this repository we use PHP_CodeSniffer (phpcs), PHP CS Fixer, PHP Mess Detect
 * **PHP CS Fixer** automatically reformats source code to the configured style rules while preserving behavior; 
 * **PHP Mess Detector** detects potential bugs, dead or unused code, and maintainability issues such as high cyclomatic complexity; 
 * **PHPStan** performs advanced static analysis with type inference to surface type-related errors, incorrect API usage, and contract violations before runtime.
+
+## How to regenerate PHP-Stan baseline
+
+```bash
+docker compose exec si-php8 quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M --generate-baseline quality/php-stan/phpstan-baseline.neon
+```

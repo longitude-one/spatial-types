@@ -42,7 +42,7 @@ class PolygonTest extends TestCase
     public function testConstructorWithCartesianCoordinates(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('Out of range latitude value, latitude must be between -90 and 90, got "186".');
+        self::expectExceptionMessageIsOrContains('Out of range latitude value, latitude must be between -90 and 90, got "186".');
         new Polygon([[[1, 2], [3, 4], [93, 186], [1, 2]]]);
     }
 
@@ -54,7 +54,7 @@ class PolygonTest extends TestCase
     public function testConstructorWithGeodesicPoints(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('g');
+        self::expectExceptionMessageIsOrContains('g');
         new Polygon([[['240W', '340S'], ['45W', '45N'], ['45W', '90N'], ['240W', '340S']]]);
     }
 

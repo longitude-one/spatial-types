@@ -46,7 +46,7 @@ class MultiLineStringTest extends TestCase
         $lineString = new GeographicLineString([], 4326);
         $multiLineString = new MultiLineString([], 4326);
         static::expectException(InvalidFamilyException::class);
-        static::expectExceptionMessage('The line string family is not compatible with the family of the current multilinestring.');
+        static::expectExceptionMessageIsOrContains('The line string family is not compatible with the family of the current multilinestring.');
         $multiLineString->addLineString($lineString);
     }
 
@@ -108,7 +108,7 @@ class MultiLineStringTest extends TestCase
         static::assertEquals([[[1, 2], [2, 4], [3, 6], [1, 2]], [[3, 4], [7, 7], [2, 11], [3, 4]]], $multiLineString->toArray());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
+        self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
         $multiLineString->addLineString(new LineString([[0, 0], [1, 1], [1, 0], [0, 0]], 4327));
     }
 
@@ -126,7 +126,7 @@ class MultiLineStringTest extends TestCase
         static::assertEquals([], $multiLineString->getLineStrings());
 
         static::expectException(OutOfBoundsException::class);
-        static::expectExceptionMessage('The current collection of lineStrings is empty.');
+        static::expectExceptionMessageIsOrContains('The current collection of lineStrings is empty.');
         $multiLineString->getLineString(0);
     }
 

@@ -106,7 +106,7 @@ class PointTest extends TestCase
     public function testGetM(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessage('The method "LongitudeOne\SpatialTypes\Types\Geometry\Point::getM" cannot be called with a spatial object with dimensions "XY".');
+        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Geometry\Point::getM" cannot be called with a spatial object with dimensions "XY".');
         $this->point->getM();
     }
 
@@ -140,7 +140,7 @@ class PointTest extends TestCase
     public function testGetZ(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessage('The method "LongitudeOne\SpatialTypes\Types\Geometry\Point::getZ" cannot be called with a spatial object with dimensions "XY".');
+        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Geometry\Point::getZ" cannot be called with a spatial object with dimensions "XY".');
         $this->point->getZ();
     }
 
@@ -187,7 +187,7 @@ class PointTest extends TestCase
         new Point('181', '91');
 
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage($expectedMessage);
+        self::expectExceptionMessageIsOrContains($expectedMessage);
         new Point($longitude, $latitude);
     }
 

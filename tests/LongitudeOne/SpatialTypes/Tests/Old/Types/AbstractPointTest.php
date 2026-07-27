@@ -202,7 +202,7 @@ class AbstractPointTest extends TestCase
     public function testRangeExceptionAreCaughtWithConstructor(string $abstractPoint, string $firstCoordinate, string $secondCoordinate, string $expectedMessage): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessageIsOrContains($expectedMessage);
 
         new $abstractPoint($firstCoordinate, $secondCoordinate);
     }
@@ -220,7 +220,7 @@ class AbstractPointTest extends TestCase
     public function testRangeExceptionAreCaughtWithNonExpectedSetters(string $abstractPoint, string $firstCoordinate, string $secondCoordinate, string $expectedMessage): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessageIsOrContains($expectedMessage);
 
         $point = new $abstractPoint(0, 0);
         $point->setX($firstCoordinate);
@@ -240,7 +240,7 @@ class AbstractPointTest extends TestCase
     public function testRangeExceptionAreCaughtWithSetters(string $abstractPoint, string $firstCoordinate, string $secondCoordinate, string $expectedMessage): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage($expectedMessage);
+        $this->expectExceptionMessageIsOrContains($expectedMessage);
 
         $point = new $abstractPoint(0, 0);
         $point->setLongitude($firstCoordinate);
@@ -376,7 +376,7 @@ class AbstractPointTest extends TestCase
         $point = new $abstractPoint(10, 10);
 
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('Invalid coordinate value, coordinate cannot be an array.');
+        self::expectExceptionMessageIsOrContains('Invalid coordinate value, coordinate cannot be an array.');
         static::assertTrue(method_exists($point, $method), sprintf('Method "%s":"%s" does not exist.', $abstractPoint, $method));
         $point->{$method}('10 20');
     }

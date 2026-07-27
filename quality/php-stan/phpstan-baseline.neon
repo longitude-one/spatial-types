@@ -1,46 +1,109 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$points of class LongitudeOne\\\\SpatialTypes\\\\Types\\\\Geometry\\\\MultiPoint constructor expects array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\{1, 2, 3, 4\\} given\\.$#"
+			message: '#^Offset 0 on array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
+
+		-
+			message: '#^Offset 1 on array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
+
+		-
+			message: '#^Parameter \#1 \$points of class LongitudeOne\\SpatialTypes\\Types\\Geometry\\MultiPoint constructor expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{1, 2, 3, 4\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPointTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$polygon of method LongitudeOne\\\\SpatialTypes\\\\Types\\\\AbstractMultiPolygon\\:\\:addPolygon\\(\\) expects array\\<array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\LineStringInterface\\>\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PolygonInterface, array\\{'foo'\\} given\\.$#"
+			message: '#^Parameter \#1 \$polygon of method LongitudeOne\\SpatialTypes\\Types\\AbstractMultiPolygon\:\:addPolygon\(\) expects array\<array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>\|LongitudeOne\\SpatialTypes\\Interfaces\\LineStringInterface\>\|LongitudeOne\\SpatialTypes\\Interfaces\\PolygonInterface, array\{''foo''\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPolygonTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$points of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryLineString\\:\\:fromArrayOfPoints\\(\\) expects array\\<LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\<int, string\\> given\\.$#"
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidDimensionException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidDimensionExceptionTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidFamilyException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidFamilyExceptionTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidSridException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidSridExceptionTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidValueException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidValueExceptionTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\MissingValueException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/MissingValueExceptionTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\OutOfBoundsException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/OutOfBoundsExceptionTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\RangeException will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/RangeExceptionTest.php
+
+		-
+			message: '#^Parameter \#1 \$points of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryLineString\:\:fromArrayOfPoints\(\) expects array\<LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\<int, string\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryLineStringTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$point of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryPoint\\:\\:fromIndexedArray\\(\\) expects array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}, array\\<int\\> given\\.$#"
+			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}, array\<int\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$point of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryPoint\\:\\:fromIndexedArray\\(\\) expects array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}, array\\{1, null\\} given\\.$#"
+			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}, array\{1, null\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$point of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryPoint\\:\\:fromIndexedArray\\(\\) expects array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}, array\\{null, 2\\} given\\.$#"
+			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}, array\{null, 2\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$lineStrings of static method LongitudeOne\\\\SpatialTypes\\\\Factory\\\\FactoryPolygon\\:\\:fromArrayOfLineStrings\\(\\) expects array\\<LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\LineStringInterface\\>, array\\<int, array\\<int, array\\<int, int\\>\\>\\> given\\.$#"
+			message: '#^Parameter \#1 \$lineStrings of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPolygon\:\:fromArrayOfLineStrings\(\) expects array\<LongitudeOne\\SpatialTypes\\Interfaces\\LineStringInterface\>, array\<int, array\<int, list\<int\>\>\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPolygonTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$points of method LongitudeOne\\\\SpatialTypes\\\\Types\\\\AbstractLineString\\:\\:addPoints\\(\\) expects array\\<array\\{0\\: float\\|int\\|string, 1\\: float\\|int\\|string, 2\\?\\: float\\|int\\|null, 3\\?\\: DateTimeInterface\\|float\\|int\\|null\\}\\|LongitudeOne\\\\SpatialTypes\\\\Interfaces\\\\PointInterface\\>, array\\{'foo', 'bar'\\} given\\.$#"
+			message: '#^Parameter \#1 \$points of method LongitudeOne\\SpatialTypes\\Types\\AbstractLineString\:\:addPoints\(\) expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{''foo'', ''bar''\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Types/Geometry/LineStringTest.php

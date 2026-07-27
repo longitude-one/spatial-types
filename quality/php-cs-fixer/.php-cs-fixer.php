@@ -1,12 +1,15 @@
 <?php
 
 /**
- * This file is part of the BB-One Project
+ * This file is part of the spatial project.
  *
- * PHP 8.2 | Symfony 6.3.*
+ * PHP 8.4 | 8.5
  *
- * Copyright LongitudeOne - Alexandre Tranchant
- * Copyright 2023
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  */
 
@@ -29,6 +32,7 @@ $header = str_replace("%year%", __copyright($firstYear), $header);
 $finder = PhpCsFixer\Finder::create()
     ->in([
         __DIR__ . '/../../lib/',
+        __DIR__ . '/../../quality/php-cs-fixer/',
         __DIR__ . '/../../tests/',
     ]);
 
@@ -52,6 +56,9 @@ return $config->setRules([
     'is_null' => true, // Remove when @PHPCsFixerRisky is added
     'mb_str_functions' => true, //Set to false if we only use multibyte string functions for ClassName
     'modernize_types_casting' => true, // Remove when @PHPCsFixerRisky is added
+    'new_expression_parentheses' => [
+        'use_parentheses' => true,
+    ],
     'no_unneeded_final_method' => true, // Remove when @PHPCsFixerRisky is added
     'ordered_interfaces' => [
         'direction' => 'ascend',

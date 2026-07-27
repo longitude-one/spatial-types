@@ -41,7 +41,7 @@ class MultiPolygonTest extends TestCase
     public function testConstructorWithCartesianCoordinates(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('Out of range latitude value, latitude must be between -90 and 90, got "186".');
+        self::expectExceptionMessageIsOrContains('Out of range latitude value, latitude must be between -90 and 90, got "186".');
         new MultiPolygon([[[[1, 2], [3, 4], [93, 186], [1, 2]]]]);
     }
 
@@ -53,7 +53,7 @@ class MultiPolygonTest extends TestCase
     public function testConstructorWithGeodesicPoints(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessage('Out of range longitude value, longitude must be between -180 and 180, got "240W".');
+        self::expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "240W".');
         new MultiPolygon([[[['240W', '340S'], ['45W', '45N'], ['45W', '90N'], ['240W', '340S']]]]);
     }
 

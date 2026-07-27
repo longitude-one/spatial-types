@@ -92,7 +92,7 @@ class LineStringTest extends TestCase
     public function testOutOfRangeConstructor(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Out of range longitude value, longitude must be between -180 and 180, got "181".');
+        $this->expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "181".');
         new LineString([[181, 0]]);
     }
 }

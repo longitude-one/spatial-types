@@ -44,7 +44,7 @@ class MultiPointTest extends TestCase
         static::assertCount(2, $multiPoint->getPoints());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessage('The point SRID is not compatible with the SRID of this current spatial collection.');
+        self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
         $multiPoint->addPoint(new Point(1, 2, 4327));
     }
 
@@ -125,8 +125,8 @@ class MultiPointTest extends TestCase
         static::assertSame(3, $multiPoint->getPoint(-3)->getX());
 
         self::expectException(OutOfBoundsException::class);
-        self::expectExceptionMessage('The current collection of points is empty.');
-        new MultiPoint([])->getPoint(0);
+        self::expectExceptionMessageIsOrContains('The current collection of points is empty.');
+        (new MultiPoint([]))->getPoint(0);
     }
 
     /**
