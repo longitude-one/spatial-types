@@ -22,13 +22,10 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Factory\Internal\SpatialFamilyFactoryResolver;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
-use LongitudeOne\SpatialTypes\Types\Geography\Polygon as GeographicPolygon;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
-use LongitudeOne\SpatialTypes\Types\Geometry\Polygon as GeometricPolygon;
 
 /**
  * This factory creates spatial types from indexed arrays.
@@ -47,6 +44,10 @@ class FromIndexedArrayFactory
      */
     public static function createLineString(array $indexedArray, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {
+        if (DimensionEnum::X_Y !== $dimension) {
+            throw new InvalidDimensionException('Only the two-dimensions points are yet supported.');
+        }
+
         $points = [];
 
         foreach ($indexedArray as $element) {
@@ -60,10 +61,10 @@ class FromIndexedArrayFactory
                 continue;
             }
 
-            $points[] = static::createPoint($element, $srid, $family, $dimension);
+            $points[] = static::createPoint($element, $srid, $family);
         }
 
-        return FromPointsFactory::createLineString($points, $srid, $family, $dimension);
+        return SpatialFamilyFactoryResolver::resolve($family)->createLineString($points, $srid);
     }
 
     /**
@@ -99,10 +100,7 @@ class FromIndexedArrayFactory
         $x = $coordinates[0];
         $y = $coordinates[1];
 
-        return match ($family) {
-            FamilyEnum::GEOGRAPHY => new GeographicPoint($x, $y, $srid),
-            FamilyEnum::GEOMETRY => new GeometricPoint($x, $y, $srid),
-        };
+        return SpatialFamilyFactoryResolver::resolve($family)->createPoint($x, $y, $srid);
     }
 
     /**
@@ -136,9 +134,6 @@ class FromIndexedArrayFactory
             $lineStrings[] = static::createLineString($element, $srid, $family, $dimension);
         }
 
-        return match ($family) {
-            FamilyEnum::GEOGRAPHY => new GeographicPolygon($lineStrings, $srid),
-            FamilyEnum::GEOMETRY => new GeometricPolygon($lineStrings, $srid),
-        };
+        return SpatialFamilyFactoryResolver::resolve($family)->createPolygon($lineStrings, $srid);
     }
 }
