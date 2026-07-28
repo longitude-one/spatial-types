@@ -16,10 +16,12 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point;
@@ -71,6 +73,21 @@ class LineStringTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('Argument shall contain an array of PointInterface or an array of coordinates.');
         $lineString->addPoints(['foo', 'bar']);
+    }
+
+    /**
+     * Test that a point with a different dimension cannot be added to a line string.
+     */
+    public function testAddPointWithInvalidDimension(): void
+    {
+        $point = static::createStub(PointInterface::class);
+        $point->method('hasM')->willReturn(true);
+        $point->method('hasZ')->willReturn(false);
+
+        self::expectException(InvalidDimensionException::class);
+        self::expectExceptionMessageIsOrContains('The point dimension is not compatible with the dimension of the current spatial collection.');
+
+        (new LineString([]))->addPoint($point);
     }
 
     /**

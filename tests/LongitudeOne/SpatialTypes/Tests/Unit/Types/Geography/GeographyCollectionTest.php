@@ -109,6 +109,14 @@ class GeographyCollectionTest extends TestCase
     }
 
     /**
+     * Test the type getter.
+     */
+    public function testGetType(): void
+    {
+        static::assertSame('Collection', (new GeographyCollection())->getType());
+    }
+
+    /**
      * Test the hasElement method.
      */
     public function testHasElement(): void

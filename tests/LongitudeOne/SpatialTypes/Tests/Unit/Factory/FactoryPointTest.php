@@ -69,6 +69,17 @@ class FactoryPointTest extends TestCase
     }
 
     /**
+     * Test that unsupported dimensions with a date measure report the measure type.
+     */
+    public function testFromCoordinatesWithUnsupportedDimensionAndDateMeasure(): void
+    {
+        self::expectException(InvalidDimensionException::class);
+        self::expectExceptionMessageIsOrContains('Only the two-dimensions points are yet supported. Point(1 2 3 DateTimeImmutable) cannot be created.');
+
+        FactoryPoint::fromCoordinates(1, 2, 3, new \DateTimeImmutable(), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+    }
+
+    /**
      * Test the factory with some good coordinates in an array.
      */
     public function testFromIndexedArray(): void
@@ -111,6 +122,28 @@ class FactoryPointTest extends TestCase
     }
 
     /**
+     * Test that a required fourth coordinate is checked before creating an unsupported point dimension.
+     */
+    public function testFromIndexedArrayMissingFourthCoordinate(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessageIsOrContains('The fourth coordinate of array is missing.');
+
+        FactoryPoint::fromIndexedArray([1, 2, 3], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+    }
+
+    /**
+     * Test that a required third coordinate is checked before creating an unsupported point dimension.
+     */
+    public function testFromIndexedArrayMissingMomentCoordinate(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessageIsOrContains('The third coordinate of array is missing.');
+
+        FactoryPoint::fromIndexedArray([1, 2], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+    }
+
+    /**
      * Test the factory with some bad values in an array.
      */
     public function testFromIndexedArrayMissingSecondCoordinate(): void
@@ -118,6 +151,17 @@ class FactoryPointTest extends TestCase
         self::expectException(MissingValueException::class);
         self::expectExceptionMessageIsOrContains('The second coordinate of array is missing.');
         FactoryPoint::fromIndexedArray([1, null]);
+    }
+
+    /**
+     * Test that a required third coordinate is checked before creating an unsupported point dimension.
+     */
+    public function testFromIndexedArrayMissingThirdCoordinate(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessageIsOrContains('The third coordinate of array is missing.');
+
+        FactoryPoint::fromIndexedArray([1, 2], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 
     // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint

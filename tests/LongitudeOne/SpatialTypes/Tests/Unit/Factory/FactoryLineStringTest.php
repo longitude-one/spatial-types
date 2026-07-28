@@ -97,6 +97,18 @@ class FactoryLineStringTest extends TestCase
     }
 
     /**
+     * Test that an indexed array rejects values that are neither points nor coordinate arrays.
+     */
+    public function testFromIndexedArrayInvalidValue(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing PointInterface or array of coordinates.');
+
+        // @phpstan-ignore-next-line
+        FactoryLineString::fromIndexedArray(['invalid']);
+    }
+
+    /**
      * Test the creation of a line string from an indexed array of points.
      */
     public function testFromIndexedArrayWithPoints(): void

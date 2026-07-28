@@ -22,7 +22,6 @@ use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Factory\FactoryPoint;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 
@@ -66,7 +65,7 @@ trait PointTrait
             throw new InvalidSridException('The point SRID is not compatible with the SRID of this current spatial collection.');
         }
 
-        if ($this->getFamily() !== $point->getFamily()) {            
+        if ($this->getFamily() !== $point->getFamily()) {
             throw new InvalidFamilyException('The point family is not compatible with the family of the current spatial collection.');
         }
 

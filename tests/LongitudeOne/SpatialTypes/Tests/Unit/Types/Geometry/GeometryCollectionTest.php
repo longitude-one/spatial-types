@@ -109,6 +109,14 @@ class GeometryCollectionTest extends TestCase
     }
 
     /**
+     * Test the type getter.
+     */
+    public function testGetType(): void
+    {
+        static::assertSame('Collection', (new GeometryCollection())->getType());
+    }
+
+    /**
      * Test the hasElement method.
      */
     public function testHasElement(): void
@@ -145,6 +153,17 @@ class GeometryCollectionTest extends TestCase
         static::assertTrue($geometryCollection->hasElement($polygon));
         $geometryCollection->removeElement($polygon);
         static::assertFalse($geometryCollection->hasElement($polygon));
+    }
+
+    /**
+     * Test that removing an element absent from the collection throws an exception.
+     */
+    public function testRemoveUnknownElement(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The spatial object is not in the collection.');
+
+        (new GeometryCollection())->removeElement(new GeometricPolygon([]));
     }
 
     /**

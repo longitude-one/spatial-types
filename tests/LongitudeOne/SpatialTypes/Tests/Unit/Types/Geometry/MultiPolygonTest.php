@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
+use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\Polygon as GeographicPolygon;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\MultiPolygon;
@@ -49,6 +52,22 @@ class MultiPolygonTest extends TestCase
         static::expectException(InvalidFamilyException::class);
         static::expectExceptionMessageIsOrContains('The polygon family is not compatible with the family of the current multipolygon.');
         $multiPolygon->addPolygon($polygon);
+    }
+
+    /**
+     * Test that a polygon with a different dimension cannot be added.
+     */
+    public function testAddPolygonWithInvalidDimension(): void
+    {
+        $polygon = static::createStub(PolygonInterface::class);
+        $polygon->method('getFamily')->willReturn(FamilyEnum::GEOMETRY);
+        $polygon->method('getSrid')->willReturn(null);
+        $polygon->method('hasSameDimension')->willReturn(false);
+
+        self::expectException(InvalidDimensionException::class);
+        self::expectExceptionMessageIsOrContains('The polygon is not compatible with the dimension of the current multipolygon.');
+
+        (new MultiPolygon([]))->addPolygon($polygon);
     }
 
     /**

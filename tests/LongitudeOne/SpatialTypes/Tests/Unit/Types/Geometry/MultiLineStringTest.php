@@ -18,8 +18,10 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Types\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Geometry\MultiLineString;
@@ -48,6 +50,20 @@ class MultiLineStringTest extends TestCase
         static::expectException(InvalidFamilyException::class);
         static::expectExceptionMessageIsOrContains('The line string family is not compatible with the family of the current multilinestring.');
         $multiLineString->addLineString($lineString);
+    }
+
+    /**
+     * Test that a line string with a different dimension cannot be added.
+     */
+    public function testAddLineStringWithInvalidDimension(): void
+    {
+        $lineString = static::createStub(LineStringInterface::class);
+        $lineString->method('hasSameDimension')->willReturn(false);
+
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The line string dimension is not compatible with the dimension of the current linestring collection.');
+
+        (new MultiLineString([]))->addLineString($lineString);
     }
 
     /**

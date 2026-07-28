@@ -55,6 +55,18 @@ class PolygonTest extends TestCase
     }
 
     /**
+     * Test that the rings collection only accepts line strings and coordinate arrays.
+     */
+    public function testAddRingsRejectsInvalidValue(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing LineStringInterface or array of coordinates.');
+
+        // @phpstan-ignore-next-line
+        (new Polygon([]))->addRings(['invalid']);
+    }
+
+    /**
      * Test the addRing with a non-closed LineString.
      */
     public function testAddRingWithNonClosedLineString(): void

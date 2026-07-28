@@ -32,6 +32,21 @@ use PHPUnit\Framework\TestCase;
  */
 class FromPointsFactoryTest extends TestCase
 {
+    /**
+     * Verifies that an empty point list creates an empty line string with the default geometry family.
+     */
+    public function testCreateEmptyLineString(): void
+    {
+        $lineString = FromPointsFactory::createLineString([]);
+
+        static::assertCount(0, $lineString->getPoints());
+        static::assertSame(FamilyEnum::GEOMETRY, $lineString->getFamily());
+        static::assertTrue($lineString->isEmpty());
+    }
+
+    /**
+     * Verifies that a list of geographic points is converted into a line string with the expected SRID and family.
+     */
     public function testCreateLineString(): void
     {
         $lineString = FromPointsFactory::createLineString([
@@ -45,28 +60,26 @@ class FromPointsFactoryTest extends TestCase
         static::assertFalse($lineString->isEmpty());
     }
 
-    public function testCreateEmptyLineString(): void
+    /**
+     * Verifies that an invalid point entry raises an invalid value exception.
+     */
+    public function testCreateLineStringRejectsInvalidPoint(): void
     {
-        $lineString = FromPointsFactory::createLineString([]);
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The array must only contain objects implementing PointInterface.');
 
-        static::assertCount(0, $lineString->getPoints());
-        static::assertSame(FamilyEnum::GEOMETRY, $lineString->getFamily());
-        static::assertTrue($lineString->isEmpty());
+        // @phpstan-ignore-next-line
+        FromPointsFactory::createLineString(['not a point']);
     }
 
+    /**
+     * Verifies that an unsupported dimension raises an invalid dimension exception.
+     */
     public function testCreateLineStringRejectsUnsupportedDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('Only the two-dimensions points are yet supported.');
 
         FromPointsFactory::createLineString([new GeometricPoint(1, 2)], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
-    }
-
-    public function testCreateLineStringRejectsInvalidPoint(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The array must only contain objects implementing PointInterface.');
-
-        FromPointsFactory::createLineString(['not a point']);
     }
 }

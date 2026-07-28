@@ -104,11 +104,11 @@ class FactoryPoint
             throw new MissingValueException('The second coordinate of array is missing.');
         }
 
-        if (in_array($dimension, [DimensionEnum::X_Y_Z, DimensionEnum::X_Y_Z_M], true) && !isset($point[2])) {
+        if (in_array($dimension, [DimensionEnum::X_Y_Z, DimensionEnum::X_Y_M], true) && !isset($point[2])) {
             throw new MissingValueException('The third coordinate of array is missing.');
         }
 
-        if (in_array($dimension, [DimensionEnum::X_Y_M, DimensionEnum::X_Y_Z_M], true) && !isset($point[3])) {
+        if (DimensionEnum::X_Y_Z_M === $dimension && !isset($point[3])) {
             throw new MissingValueException('The fourth coordinate of array is missing.');
         }
 

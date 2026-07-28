@@ -196,13 +196,13 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
 
             $parsedCoordinate = $parser->parse();
         } catch (GeoParserRangeException $e) {
-            $message = match ($e->getCode()) {
+            $messages = [
                 GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $coordinate),
                 GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $coordinate),
                 GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, $coordinate),
                 GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, $coordinate),
-                default => $e->getMessage(),
-            };
+            ];
+            $message = $messages[$e->getCode()] ?? $e->getMessage();
 
             throw new InvalidValueException($message, $e->getCode(), $e);
         } catch (UnexpectedValueException $e) {
