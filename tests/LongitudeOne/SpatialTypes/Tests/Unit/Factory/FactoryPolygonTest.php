@@ -50,9 +50,7 @@ class FactoryPolygonTest extends TestCase
     }
 
     /**
-     * Test fromArrayOfLineStrings method with invalid a X_Y_Z dimension.
-     *
-     * TODO Add a "if" statement to check if the dimension is X_Y_Z and throw an InvalidDimensionException.
+     * Test fromArrayOfLineStrings method with an invalid X_Y_Z dimension.
      */
     public function testFromArrayOfLineStringsInvalidDimension(): void
     {

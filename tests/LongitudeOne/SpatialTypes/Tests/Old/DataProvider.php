@@ -16,9 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Old;
 
+/**
+ * Provides reusable data sets for legacy spatial type tests.
+ */
 class DataProvider
 {
     /**
+     * Provides latitude values that fall outside the valid geographic range.
+     *
      * @return \Generator<string, array{0: float|int|string}, null, void>
      */
     public static function outOfRangeLatitudeProvider(): \Generator
@@ -39,6 +44,8 @@ class DataProvider
     }
 
     /**
+     * Provides longitude values that fall outside the valid geographic range.
+     *
      * @return \Generator<string, array{0: float|int|string}, null, void>
      */
     public static function outOfRangeLongitudeProvider(): \Generator
@@ -61,6 +68,8 @@ class DataProvider
     }
 
     /**
+     * Provides valid geodesic coordinate inputs for test coverage.
+     *
      * @return \Generator<string, array{0: float|int|string, 1: float|int|string, 2: float|int, 3: float|int}, null, void>
      */
     public static function validGeodesicCoordinateProvider(): \Generator

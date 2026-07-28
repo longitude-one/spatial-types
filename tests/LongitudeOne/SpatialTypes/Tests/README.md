@@ -1,6 +1,6 @@
 ## Tests
 
-The `Old` directory contains the tests of the doctrine-spatial extension to be avoid breaking compatibility.
+The `Old` directory contains the tests of the doctrine-spatial extension to avoid breaking compatibility.
 The `Unit` directory contains the unit tests of the spatial types extension.
 
 ### Running the tests

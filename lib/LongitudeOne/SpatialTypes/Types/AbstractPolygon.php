@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
+use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -65,7 +65,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     public function addRing(array|LineStringInterface $ring): static
     {
         if (is_array($ring)) {
-            $ring = FactoryLineString::fromIndexedArray($ring, $this->getSrid(), $this->getFamily(), $this->getDimension());
+            $ring = FromIndexedArrayFactory::createLineString($ring, $this->getSrid(), $this->getFamily(), $this->getDimension());
         }
 
         if (!$ring->isRing()) {
