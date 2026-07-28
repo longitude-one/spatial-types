@@ -233,10 +233,19 @@ class FactoryPointTest extends TestCase
         static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame(TypeEnum::POINT->value, $point->getType());
 
-        $point = FactoryPoint::fromIndexedArray([1, 2, null, 4], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_M);
+        $point = FactoryPoint::fromIndexedArray([1, 2, 4], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_M);
         static::assertSame(1, $point->getX());
         static::assertSame(2, $point->getY());
         static::assertSame(4, $point->getM());
+        static::assertFalse($point->hasZ());
+        static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame(TypeEnum::POINT->value, $point->getType());
+
+        $point = FactoryPoint::fromIndexedArray([1, 2, 3, 4], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z_M);
+        static::assertSame(1, $point->getX());
+        static::assertSame(2, $point->getY());
+        static::assertSame(3, $point->getM());
+        static::assertSame(4, $point->getZ());
         static::assertFalse($point->hasZ());
         static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame(TypeEnum::POINT->value, $point->getType());

@@ -14,9 +14,12 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory\Internal;
+namespace LongitudeOne\SpatialTypes\Resolver;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeographicSpatialFamilyFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeometricSpatialFamilyFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\SpatialFamilyFactoryInterface;
 
 /**
  * Resolves the factory that creates objects for a spatial family.
