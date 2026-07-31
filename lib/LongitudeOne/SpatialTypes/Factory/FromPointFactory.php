@@ -31,7 +31,7 @@ use LongitudeOne\SpatialTypes\Types\Geometry\LineString as GeometryLineString;
  *
  * Points shall be instance of PointInterface.
  */
-class FromPointsFactory
+class FromPointFactory
 {
     /**
      * Create a linestring from an array of points.

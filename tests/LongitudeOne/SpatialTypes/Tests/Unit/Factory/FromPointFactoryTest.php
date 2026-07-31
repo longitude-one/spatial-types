@@ -20,7 +20,7 @@ use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Factory\FromPointsFactory;
+use LongitudeOne\SpatialTypes\Factory\FromPointFactory;
 use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
 use PHPUnit\Framework\TestCase;
@@ -28,16 +28,16 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\FromPointsFactory
+ * @covers \LongitudeOne\SpatialTypes\Factory\FromPointFactory
  */
-class FromPointsFactoryTest extends TestCase
+class FromPointFactoryTest extends TestCase
 {
     /**
      * Verifies that an empty point list creates an empty line string with the default geometry family.
      */
     public function testCreateEmptyLineString(): void
     {
-        $lineString = FromPointsFactory::createLineString([]);
+        $lineString = FromPointFactory::createLineString([]);
 
         static::assertCount(0, $lineString->getPoints());
         static::assertSame(FamilyEnum::GEOMETRY, $lineString->getFamily());
@@ -49,7 +49,7 @@ class FromPointsFactoryTest extends TestCase
      */
     public function testCreateLineString(): void
     {
-        $lineString = FromPointsFactory::createLineString([
+        $lineString = FromPointFactory::createLineString([
             new GeographicPoint(1, 2),
             new GeographicPoint(3, 4),
         ], 4326, FamilyEnum::GEOGRAPHY);
@@ -69,7 +69,7 @@ class FromPointsFactoryTest extends TestCase
         self::expectExceptionMessageIsOrContains('The array must only contain objects implementing PointInterface.');
 
         // @phpstan-ignore-next-line
-        FromPointsFactory::createLineString(['not a point']);
+        FromPointFactory::createLineString(['not a point']);
     }
 
     /**
@@ -80,6 +80,6 @@ class FromPointsFactoryTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('Only the two-dimensions points are yet supported.');
 
-        FromPointsFactory::createLineString([new GeometricPoint(1, 2)], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        FromPointFactory::createLineString([new GeometricPoint(1, 2)], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 }
