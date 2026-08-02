@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geography;
 
-use LongitudeOne\SpatialTypes\Types\Geography\MultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint;
 use PHPUnit\Framework\TestCase;
 
 /**

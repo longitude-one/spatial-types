@@ -19,9 +19,9 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\LineString;
-use LongitudeOne\SpatialTypes\Types\Geography\Point;
-use LongitudeOne\SpatialTypes\Types\Geography\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon;
 
 /**
  * Creates geographic spatial types.

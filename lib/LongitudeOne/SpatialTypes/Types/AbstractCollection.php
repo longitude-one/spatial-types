@@ -22,8 +22,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\GeographyCollection;
-use LongitudeOne\SpatialTypes\Types\Geometry\GeometryCollection;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollection;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 
 /**
  * Abstract Collection class.

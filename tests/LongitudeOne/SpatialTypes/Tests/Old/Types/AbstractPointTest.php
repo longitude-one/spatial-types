@@ -20,8 +20,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Tests\Old\DataProvider as LoDataProvider;
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\PointHelperTrait;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
-use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

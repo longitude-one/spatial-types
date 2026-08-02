@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Geometry\MultiLineString;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Old\Helper;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographyPoint;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometryPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographyPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint;
 
 /**
  * PointHelperTrait Trait.

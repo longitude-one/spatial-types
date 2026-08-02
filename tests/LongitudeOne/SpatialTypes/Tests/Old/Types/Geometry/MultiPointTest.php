@@ -18,8 +18,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Geometry\MultiPoint;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use PHPUnit\Framework\TestCase;
 
 /**

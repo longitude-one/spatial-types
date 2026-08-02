@@ -24,7 +24,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
 use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
-use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use PHPUnit\Framework\TestCase;
 
 /**

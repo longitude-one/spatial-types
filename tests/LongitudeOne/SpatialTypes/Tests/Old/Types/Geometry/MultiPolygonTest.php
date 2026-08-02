@@ -17,10 +17,10 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Geometry\MultiPolygon;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point;
-use LongitudeOne\SpatialTypes\Types\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
 use PHPUnit\Framework\TestCase;
 
 /**

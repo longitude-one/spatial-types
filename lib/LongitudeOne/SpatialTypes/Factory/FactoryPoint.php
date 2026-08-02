@@ -22,8 +22,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\Point as GeographicPoint;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point as GeometricPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint;
 
 /**
  * Factory Point class.

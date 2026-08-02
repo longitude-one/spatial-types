@@ -18,8 +18,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geometry;
 
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\LineStringHelperTrait;
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\PointHelperTrait;
-use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @coversDefaultClass \LongitudeOne\SpatialTypes\Types\Geometry\LineString
+ * @coversDefaultClass \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString
  */
 class LineStringTest extends TestCase
 {

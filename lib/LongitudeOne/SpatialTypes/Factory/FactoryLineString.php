@@ -23,8 +23,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\LineString as GeographyLineString;
-use LongitudeOne\SpatialTypes\Types\Geometry\LineString as GeometryLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as GeographyLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString as GeometryLineString;
 
 /**
  * Factory LineString class.

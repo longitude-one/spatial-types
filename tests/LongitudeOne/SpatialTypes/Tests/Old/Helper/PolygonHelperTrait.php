@@ -18,9 +18,9 @@ namespace LongitudeOne\SpatialTypes\Tests\Old\Helper;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Types\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Geometry\Point;
-use LongitudeOne\SpatialTypes\Types\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
 
 /**
  * PolygonHelperTrait Trait.

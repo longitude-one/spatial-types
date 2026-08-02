@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geography;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Tests\Old\DataProvider as LoDataProvider;
-use LongitudeOne\SpatialTypes\Types\Geography\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

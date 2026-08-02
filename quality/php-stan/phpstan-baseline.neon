@@ -13,7 +13,7 @@ parameters:
 			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
 
 		-
-			message: '#^Parameter \#1 \$points of class LongitudeOne\\SpatialTypes\\Types\\Geometry\\MultiPoint constructor expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{1, 2, 3, 4\} given\.$#'
+			message: '#^Parameter \#1 \$points of class LongitudeOne\\SpatialTypes\\Types\\Dimension2\\Geometry\\MultiPoint constructor expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{1, 2, 3, 4\} given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPointTest.php
@@ -106,4 +106,4 @@ parameters:
 			message: '#^Parameter \#1 \$points of method LongitudeOne\\SpatialTypes\\Types\\AbstractLineString\:\:addPoints\(\) expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: DateTimeInterface\|float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{''foo'', ''bar''\} given\.$#'
 			identifier: argument.type
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Types/Geometry/LineStringTest.php
+			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Types/Dimension2/Geometry/LineStringTest.php

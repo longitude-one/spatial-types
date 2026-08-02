@@ -24,8 +24,8 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Geography\Polygon as GeographyPolygon;
-use LongitudeOne\SpatialTypes\Types\Geometry\Polygon as GeometryPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographyPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon as GeometryPolygon;
 
 /**
  * Factory Polygon class.
