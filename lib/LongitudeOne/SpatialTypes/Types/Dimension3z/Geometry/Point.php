@@ -25,7 +25,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 /**
- * GEOMETRIC POINT object for POINT spatial types.
+ * Three-dimensional geometric point.
  */
 class Point extends AbstractPoint implements PointInterface
 {
@@ -37,14 +37,14 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * New point constructor.
      *
-     * First coordinate is X then Y, abscissa then ordinate, longitude then latitude.
-     * Third coordinate is Z the elevation (altitude)
+     * The first coordinate is X (abscissa); the second is Y (ordinate).
+     * The third coordinate is Z (elevation or altitude).
      *
      * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
      * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
      *
-     * @param float|int|string $x    X (abscissa) coordinate can be a string and will be parsed by the geo-parser
-     * @param float|int|string $y    Y (ordinate) coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int|string $x    X (abscissa) coordinate; strings are parsed by the geo-parser
+     * @param float|int|string $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
      * @param float|int        $z    Z (elevation) coordinate
      * @param null|int         $srid SRID
      *
@@ -108,12 +108,8 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
-     * Convert point into an array of coordinates Latitude, longitude, Z.
-     * SRID is NOT exported.
-     *
-     * Latitude, longitude, elevation.
-     *
-     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
+     * Convert this point to an array containing X, Y, and Z coordinates.
+     * The SRID is not exported.
      *
      * @return array{0 : float|int, 1 : float|int, 2 : float|int}
      */

@@ -29,7 +29,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests of geometric line string.
+ * Unit tests for the two-dimensional geometric multi-line string.
  *
  * @internal
  *

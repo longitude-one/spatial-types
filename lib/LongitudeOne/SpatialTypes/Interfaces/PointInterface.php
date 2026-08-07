@@ -19,9 +19,10 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 /**
  * Point interface.
  *
- * The Point type is a subtype of Geometry. The Point type is instantiable. A Point value
- * is a 0-dimensional geometry and represents a single location. A Point has an x coordinate value, a
- * y coordinate value, an optional z coordinate value, and an optional m coordinate value.
+ * The Point type corresponds to the instantiable ST_Point subtype of ST_Geometry
+ * defined by ISO/IEC 13249-3. A point is a zero-dimensional geometry that
+ * represents a single location. It has X and Y coordinates and may have Z
+ * (elevation) and M (measure) coordinates.
  */
 interface PointInterface extends SpatialInterface
 {

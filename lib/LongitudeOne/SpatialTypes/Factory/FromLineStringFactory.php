@@ -26,21 +26,21 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
- * This factory creates spatial types from indexed array of LineStrings.
+ * This factory creates spatial types from indexed arrays of line strings.
  *
- * LineStrings shall be instance of LineStringInterface.
+ * Each line string must implement LineStringInterface.
  */
 class FromLineStringFactory
 {
     /**
-     * Create a PolygonInterface from an array of LineStringInterface.
+     * Create a polygon from an array of line strings.
      *
      * @param LineStringInterface[] $lineStrings   array of LineStrings
      * @param ?int                  $srid          SRID
      * @param FamilyEnum            $family        family
      * @param DimensionEnum         $dimensionEnum dimension
      *
-     * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the linestring
+     * @throws SpatialTypeExceptionInterface when the polygon cannot be created
      */
     public static function createPolygon(array $lineStrings, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): PolygonInterface
     {

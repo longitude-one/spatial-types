@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractCollection;
 class GeographyCollection extends AbstractCollection implements CollectionInterface
 {
     /**
-     * init Family.
+     * Return the geography family.
      */
     public function getFamily(): FamilyEnum
     {

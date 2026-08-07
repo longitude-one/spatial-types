@@ -31,7 +31,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests of geometric line string.
+ * Unit tests for the three-dimensional geometric multi-polygon.
  *
  * @internal
  *

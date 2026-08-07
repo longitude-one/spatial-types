@@ -25,7 +25,7 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection;
 class GeometryCollection extends AbstractCollection implements CollectionInterface
 {
     /**
-     * init Family.
+     * Return the geometry family.
      */
     public function getFamily(): FamilyEnum
     {
@@ -33,7 +33,7 @@ class GeometryCollection extends AbstractCollection implements CollectionInterfa
     }
 
     /**
-     * initType.
+     * Return the geometry collection type.
      */
     public function getType(): string
     {
@@ -41,7 +41,7 @@ class GeometryCollection extends AbstractCollection implements CollectionInterfa
     }
 
     /**
-     * initDimension.
+     * Return the three-dimensional coordinate layout.
      */
     protected function getDimension(): DimensionEnum
     {

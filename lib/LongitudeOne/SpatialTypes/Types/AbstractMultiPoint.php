@@ -27,7 +27,7 @@ use LongitudeOne\SpatialTypes\Trait\PointTrait;
 /**
  * Abstract MultiPoint class.
  *
- * @internal This class is internal. It is used to create geometry or geography multi point of spatial objects.
+ * @internal This class provides common behaviour for geometry and geography multi-points.
  */
 abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPointInterface
 {

@@ -17,12 +17,14 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 /**
- * MultiPolygon interface.
+ * Multi-polygon interface.
  *
- * MultiPolygon type is a subtype of MultiSurface. The MultiPolygon type is instantiable.
- * The elements of a MultiPolygon value are restricted to Polygon values.
+ * The MultiPolygon type corresponds to the instantiable ST_MultiPolygon subtype
+ * of ST_MultiSurface defined by ISO/IEC 13249-3. Its elements are restricted to
+ * Polygon values.
  *
- * Nota: This library does not implement MultiSurface as this type is not instantiable, according to the ISO-13249-3 standard.
+ * ST_MultiSurface is not instantiable, so this library does not expose a
+ * corresponding interface.
  */
 interface MultiPolygonInterface extends CollectionInterface
 {
@@ -34,7 +36,7 @@ interface MultiPolygonInterface extends CollectionInterface
     public function getElements(): array;
 
     /**
-     * Return each polygon composing the multi-polygon.
+     * Return the polygons that compose the multi-polygon.
      *
      * @return PolygonInterface[]
      */

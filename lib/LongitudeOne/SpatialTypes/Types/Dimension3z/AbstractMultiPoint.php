@@ -47,7 +47,7 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
     }
 
     /**
-     * Summary of getType.
+     * Return the multi-point type.
      *
      * @return 'MultiPoint'
      */

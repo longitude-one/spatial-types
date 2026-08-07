@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 /**
- * Collection interface.
+ * Spatial collection interface.
  *
- * Some spatial objects are a collection of other spatial objects.
- *
- * This interface defines the methods that must be implemented by a collection to retrieve its elements.
+ * Defines the common operations for spatial types composed of other spatial
+ * objects. Concrete collection types may restrict the type, dimension, family,
+ * or spatial reference system of their elements.
  */
 interface CollectionInterface extends SpatialInterface
 {

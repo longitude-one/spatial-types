@@ -33,14 +33,14 @@ use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 class FromIndexedArrayFactory
 {
     /**
-     * Create a linestring from an indexed array.
+     * Create a line string from an indexed array.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface)[] $indexedArray indexed array
      * @param ?int                                                                                                                            $srid         SRID
      * @param FamilyEnum                                                                                                                      $family       family
      * @param DimensionEnum                                                                                                                   $dimension    dimension
      *
-     * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point or the linestring
+     * @throws SpatialTypeExceptionInterface when the point or line string cannot be created
      */
     public static function createLineString(array $indexedArray, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {

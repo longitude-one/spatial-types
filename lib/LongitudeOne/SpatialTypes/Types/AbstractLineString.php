@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Trait\PointTrait;
 /**
  * Abstract LineString class.
  *
- * @internal This class is internal. It is used to create geometry or geography line string of spatial objects.
+ * @internal This class provides common behaviour for geometry and geography line strings.
  */
 abstract class AbstractLineString extends AbstractSpatialType implements LineStringInterface
 {

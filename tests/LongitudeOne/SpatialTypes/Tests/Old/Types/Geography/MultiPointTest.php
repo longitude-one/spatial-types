@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 class MultiPointTest extends TestCase
 {
     /**
-     * Test an empty LineString.
+     * Test an empty MultiPoint.
      */
     public function testGetType(): void
     {

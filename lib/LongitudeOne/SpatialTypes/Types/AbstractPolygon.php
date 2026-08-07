@@ -30,9 +30,9 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
 
 /**
- * Abstract Polygon class.
+ * Abstract polygon class.
  *
- * @internal This class is internal. It is used to create geometry or geography polygon of spatial objects.
+ * @internal This class provides common behaviour for geometry and geography polygons.
  */
 abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInterface
 {
@@ -100,7 +100,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
-     * Get the elements of this polygon.
+     * Return the rings in this polygon.
      *
      * @return LineStringInterface[]
      */
@@ -110,7 +110,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
-     * Get the ring of the polygon.
+     * Return a ring from this polygon.
      *
      * @param int $index Index of the ring
      */
@@ -142,7 +142,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
-     * Return an array representation of the polygon.
+     * Return an array representation of this polygon.
      *
      * @return (\DateTimeInterface|float|int)[][][]
      */

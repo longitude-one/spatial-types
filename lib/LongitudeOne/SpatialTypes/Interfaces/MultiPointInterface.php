@@ -17,10 +17,13 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 /**
- * The MultiPoint type is a subtype of GeometryCollection. The MultiPoint type is instantiable. A
- * MultiPoint value is a 0-dimensional geometry. The elements of aMultiPoint value are restricted
- * to Point values. The ST_Point values are not connected or ordered. A MultiPoint value is
- * simple if and only if no two Point values in the ST_MultiPoint value are equal.
+ * Multi-point interface.
+ *
+ * The MultiPoint type corresponds to the instantiable ST_MultiPoint subtype of
+ * ST_GeomCollection defined by ISO/IEC 13249-3. It is a zero-dimensional
+ * geometry whose elements are Point values. The points are neither connected
+ * nor ordered. A multi-point is simple if and only if no two of its points are
+ * equal.
  */
 interface MultiPointInterface extends CollectionInterface
 {
@@ -32,7 +35,7 @@ interface MultiPointInterface extends CollectionInterface
     public function getElements(): array;
 
     /**
-     * Return points composing the line string.
+     * Return the points that compose the multi-point.
      *
      * @return PointInterface[]
      */

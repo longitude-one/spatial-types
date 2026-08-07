@@ -25,20 +25,20 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 /**
- * GEOMETRIC POINT object for POINT spatial types.
+ * Geometric point.
  */
 class Point extends AbstractPoint implements PointInterface
 {
     /**
      * New point constructor.
      *
-     * First coordinate is X then Y, abscisse then ordinate, longitude then latitude.
+     * The first coordinate is X (abscissa); the second is Y (ordinate).
      *
      * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
      * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
      *
-     * @param float|int|string $x    X (abscisse) coordinate can be a string and will be parsed by the geo-parser
-     * @param float|int|string $y    Y (ordinate) coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int|string $x    X (abscissa) coordinate; strings are parsed by the geo-parser
+     * @param float|int|string $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
      * @param null|int         $srid SRID
      *
      * @throws InvalidValueException when point is invalid
@@ -89,11 +89,8 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
-     * Convert point into an array X, Y.
-     * Latitude, longitude.
-     * SRID is NOT exported.
-     *
-     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
+     * Convert this point to an array containing X and Y coordinates.
+     * The SRID is not exported.
      *
      * @return array{0 : float|int, 1 : float|int}
      */

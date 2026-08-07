@@ -30,19 +30,18 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Polygon as GeographyPo
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as GeometryPolygon3Dz;
 
 /**
- * Factory Polygon class.
+ * Polygon factory.
  *
- * This class helps
- * to create a polygon from an array of lineStrings or a bi-dimensional array of Points or an indexed array.
+ * Creates polygons from line strings, points, or nested coordinate arrays.
  *
  * @internal This class is internal. You can use it, but be aware that there is no backward compatibility pledge.
  */
 class FactoryPolygon
 {
     /**
-     * Create a polygon from an array of lineStrings.
+     * Create a polygon from an array of line strings.
      *
-     * @param LineStringInterface[] $lineStrings   array of lineStrings
+     * @param LineStringInterface[] $lineStrings   Line strings that form the polygon rings
      * @param ?int                  $srid          SRID
      * @param FamilyEnum            $family        family
      * @param DimensionEnum         $dimensionEnum dimension
@@ -83,7 +82,7 @@ class FactoryPolygon
      * @param FamilyEnum                                                                                                                                                $family       family
      * @param DimensionEnum                                                                                                                                             $dimension    dimension
      *
-     * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the lineString or the polygon
+     * @throws SpatialTypeExceptionInterface when the line string or polygon cannot be created
      */
     public static function fromIndexedArray(array $indexedArray, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PolygonInterface
     {

@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Polygon;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests of geometric line string.
+ * Unit tests for the three-dimensional geographic polygon.
  *
  * @internal
  *

@@ -16,17 +16,24 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+/**
+ * Polygon interface.
+ *
+ * The Polygon type corresponds to the instantiable ST_Polygon subtype of
+ * ST_CurvePolygon defined by ISO/IEC 13249-3. Its boundary is composed of
+ * linear rings.
+ */
 interface PolygonInterface extends SpatialInterface
 {
     /**
-     * Return a ring of the polygon.
+     * Return a ring from the polygon.
      *
      * @param int $index Index of the ring
      */
     public function getRing(int $index): LineStringInterface;
 
     /**
-     * Return each ring composing the polygon.
+     * Return the rings that compose the polygon.
      *
      * @return LineStringInterface[]
      */

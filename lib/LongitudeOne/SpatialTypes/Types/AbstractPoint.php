@@ -29,7 +29,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
  * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
  * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
  *
- * @internal This class is internal. It is used to create geometry or geography point of spatial objects.
+ * @internal This class provides common behaviour for geometry and geography points.
  */
 abstract class AbstractPoint extends AbstractSpatialType implements PointInterface
 {
@@ -273,7 +273,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      * Convert point into an array of coordinates.
      * SRID is NOT exported.
      *
-     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
+     * The array contains coordinate values only; it does not contain SpatialInterface instances.
      */
     abstract public function toArray(): array;
 }

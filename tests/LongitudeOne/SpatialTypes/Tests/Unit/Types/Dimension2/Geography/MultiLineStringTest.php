@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiLineString;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests of geometric line string.
+ * Unit tests for the two-dimensional geographic multi-line string.
  *
  * @internal
  *

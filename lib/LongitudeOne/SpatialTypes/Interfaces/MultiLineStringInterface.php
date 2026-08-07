@@ -17,7 +17,11 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 /**
- * MultiLineString interface.
+ * Multi-line string interface.
+ *
+ * The MultiLineString type corresponds to the instantiable ST_MultiLineString
+ * subtype of ST_MultiCurve defined by ISO/IEC 13249-3. Its elements are
+ * restricted to LineString values.
  */
 interface MultiLineStringInterface extends CollectionInterface
 {
@@ -29,7 +33,7 @@ interface MultiLineStringInterface extends CollectionInterface
     public function getElements(): array;
 
     /**
-     * Return an array of LineStrings composing the polygon.
+     * Return the line strings that compose the multi-line string.
      *
      * @return LineStringInterface[]
      */

@@ -22,7 +22,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests of geometric line string.
+ * Unit tests for the three-dimensional geographic line string.
  *
  * @internal
  *

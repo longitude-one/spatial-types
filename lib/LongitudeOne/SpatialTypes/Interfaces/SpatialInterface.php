@@ -19,11 +19,12 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 
 /**
- * All geometric and geographic spatial objects implements this interface.
+ * Base spatial type interface.
  *
- * This interface is used to get the family of the object (Geography or Geometry),
- * the type of the object (Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection),
- * the SpatialTypes Reference Identifier (SRID) and the dimension of the object (2D, 3D, 4D).
+ * The Geometry family follows the ST_Geometry hierarchy described by ISO/IEC
+ * 13249-3. This library also exposes a Geography family. Both families provide
+ * the type, spatial reference identifier (SRID), and coordinate-dimension
+ * information required by the concrete spatial types.
  */
 interface SpatialInterface extends \JsonSerializable
 {
@@ -33,51 +34,51 @@ interface SpatialInterface extends \JsonSerializable
     public function getFamily(): FamilyEnum;
 
     /**
-     * Return the SpatialTypes Reference Identifier (SRID) of this object.
+     * Return the spatial reference identifier (SRID) of this object.
      */
     public function getSrid(): ?int;
 
     /**
      * Return the type of this spatial object.
      *
-     * This method is used by the spatial type to get the type of the object.
+     * This method is used internally to identify the object's type.
      */
     public function getType(): string;
 
     /**
-     * Is this a spatial object with a time dimension? (M: moment, time dimension).
+     * Does this spatial object have an M (measure) dimension?
      */
     public function hasM(): bool;
 
     /**
-     * Is this a spatial object with a Z dimension? (Z: elevation, third spatial dimension).
+     * Determine whether this object and another object have the same coordinate dimension.
      *
      * @param SpatialInterface $spatial the spatial instance to compare
      */
     public function hasSameDimension(SpatialInterface $spatial): bool;
 
     /**
-     * Is this a spatial object with a Z dimension? (Z: elevation, third spatial dimension).
+     * Does this spatial object have a Z (elevation) dimension?
      */
     public function hasZ(): bool;
 
     /**
-     * Set the SpatialTypes Reference Identifier (SRID) of this object.
+     * Set this object's spatial reference identifier (SRID).
      *
      * @param ?int $srid the SpatialTypes Reference Identifier (SRID)
      */
     public function setSrid(?int $srid): static;
 
     /**
-     * Convert any spatial object to its array representation.
+     * Convert this spatial object to its array representation.
      *
-     * Array contains only multidimensional arrays of floats|integers.
+     * The array contains only nested arrays of floats and integers.
      *
-     * Be careful, some data are lost in the array.
-     * As example, the export of a linestring with two points is exactly the same that a multipoint with these same points.
-     * Another example, SRID isn't exported.
+     * Some information is lost in this representation. For example, a line string
+     * containing two points has the same representation as a multi-point containing
+     * those points, and the SRID is not exported.
      *
-     * If you want to export all data, you should have a look at the longitude-one/spatial-writer library.
+     * Use the longitude-one/spatial-writer library to export all data.
      *
      * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]
      */

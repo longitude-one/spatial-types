@@ -30,9 +30,9 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 
 /**
- * Abstract MultiPolygon class.
+ * Abstract multi-polygon class.
  *
- * @internal This class is internal. It is used to create geometry or geography multi polygon of spatial objects.
+ * @internal This class provides common behaviour for geometry and geography multi-polygons.
  */
 abstract class AbstractMultiPolygon extends AbstractSpatialType implements MultiPolygonInterface
 {
@@ -42,7 +42,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     private array $polygons = [];
 
     /**
-     * AbstractPolygon constructor.
+     * AbstractMultiPolygon constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
      * @param null|int                                                                                                                                                                       $srid     Spatial Reference Identifier
@@ -59,7 +59,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
-     * Get the line strings of the spatial collection.
+     * Add a polygon to this multi-polygon.
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface $polygon polygon
      *
@@ -105,7 +105,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
-     * Get the elements of this polygon.
+     * Return the polygons in this multi-polygon.
      *
      * @return PolygonInterface[]
      */
@@ -115,7 +115,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
-     * Get the ring of the polygon.
+     * Return a polygon from this multi-polygon.
      *
      * @param int $index Index of the ring
      *
@@ -157,7 +157,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
-     * Return an array representation of the polygon.
+     * Return an array representation of this multi-polygon.
      *
      * @return (\DateTimeInterface|float|int)[][][][]
      */

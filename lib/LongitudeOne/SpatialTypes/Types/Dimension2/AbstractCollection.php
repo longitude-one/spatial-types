@@ -24,7 +24,7 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection as ParentCollection;
 abstract class AbstractCollection extends ParentCollection implements CollectionInterface
 {
     /**
-     * initType.
+     * Return the geometry collection type.
      */
     public function getType(): string
     {
@@ -32,7 +32,7 @@ abstract class AbstractCollection extends ParentCollection implements Collection
     }
 
     /**
-     * initDimension.
+     * Return the two-dimensional coordinate layout.
      */
     protected function getDimension(): DimensionEnum
     {
