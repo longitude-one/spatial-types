@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
@@ -56,7 +57,7 @@ class LineStringTest extends TestCase
     {
         $lineString = new LineString([], 4326);
         $lineString->addPoint(new Point(1, 2));
-        $lineString->addPoint([3, 4]);
+        $lineString->addPoint([3, 4], DimensionEnum::X_Y);
         static::assertCount(2, $lineString->getPoints());
 
         self::expectException(InvalidSridException::class);

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Trait;
 
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
@@ -43,16 +44,22 @@ trait PointTrait
 
     /**
      * Add a point to the spatial point collection.
+     * FIXME REMOVE the second parameter it can be determined by $this->getDimension().
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface $point point to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface $point     point to add
+     * @param DimensionEnum                                                                                                               $dimension The dimension of the point to create
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the current dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the current SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when a coordinate of the point is missing
      */
-    public function addPoint(array|PointInterface $point): static
+    public function addPoint(array|PointInterface $point, ?DimensionEnum $dimension = null): static
     {
+        if (null === $dimension) {
+            $dimension = $this->getDimension();
+        }
+
         if (is_array($point)) {
             $point = FromIndexedArrayFactory::createPoint($point, $this->getSrid(), $this->getFamily(), $this->getDimension());
         }
@@ -77,21 +84,22 @@ trait PointTrait
     /**
      * Add points to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|PointInterface[] $points points to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|PointInterface[] $points    points to add
+     * @param ?DimensionEnum                                                                                                                  $dimension When providing an array of coordinates, this parameter is necessary
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the dimension of the current instance
      * @throws InvalidSridException      when the point SRID is not compatible with the SRID of the current instance
      * @throws InvalidValueException     when the array is not an array of points
      * @throws MissingValueException     when a coordinate of a point is missing
      */
-    public function addPoints(array $points): static
+    public function addPoints(array $points, ?DimensionEnum $dimension = null): static
     {
         foreach ($points as $point) {
             if (!is_array($point) && !$point instanceof PointInterface) {
                 throw new InvalidValueException('Argument shall contain an array of PointInterface or an array of coordinates.');
             }
 
-            $this->addPoint($point);
+            $this->addPoint($point, $dimension);
         }
 
         return $this;

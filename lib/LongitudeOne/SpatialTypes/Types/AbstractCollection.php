@@ -22,7 +22,6 @@ use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 
 /**
@@ -54,7 +53,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     public function addElement(SpatialInterface $spatial): static
     {
-        if ($spatial instanceof GeometryCollection || $spatial instanceof GeographyCollection) {
+        if ($spatial instanceof CollectionInterface) {
             throw new InvalidValueException(sprintf('An instance of %s cannot contain another GeometryCollection nor GeographyCollection.', static::class));
         }
 

@@ -44,8 +44,8 @@ class FromIndexedArrayFactory
      */
     public static function createLineString(array $indexedArray, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {
-        if (DimensionEnum::X_Y !== $dimension) {
-            throw new InvalidDimensionException('Only the two-dimensions points are yet supported.');
+        if (DimensionEnum::X_Y !== $dimension && DimensionEnum::X_Y_Z !== $dimension) {
+            throw new InvalidDimensionException('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
         }
 
         $points = [];
@@ -61,10 +61,10 @@ class FromIndexedArrayFactory
                 continue;
             }
 
-            $points[] = static::createPoint($element, $srid, $family);
+            $points[] = static::createPoint($element, $srid, $family, $dimension);
         }
 
-        return SpatialFamilyFactoryResolver::resolve($family)->createLineString($points, $srid);
+        return SpatialFamilyFactoryResolver::resolve($family)->createLineString($points, $srid, $dimension);
     }
 
     /**
@@ -79,28 +79,80 @@ class FromIndexedArrayFactory
      */
     public static function createPoint(array $coordinates, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): PointInterface
     {
-        if (DimensionEnum::X_Y !== $dimensionEnum) {
-            throw new InvalidDimensionException('Only the two-dimensions points are yet supported.');
+        if (DimensionEnum::X_Y === $dimensionEnum) {
+            return static::createPoint2D($coordinates, $srid, $family);
         }
 
+        if (DimensionEnum::X_Y_Z === $dimensionEnum) {
+            return static::createPoint3Dz($coordinates, $srid, $family);
+        }
+
+        throw new InvalidDimensionException('Only the two-dimensions points and elevation point (3dZ) are yet supported.');
+    }
+
+    /**
+     * Create a two-dimensional point from an array of coordinates.
+     *
+     * @param array{0: float|int|string, 1: float|int|string} $coordinates array of coordinates
+     * @param ?int                                            $srid        SRID
+     * @param FamilyEnum                                      $family      family
+     *
+     * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
+     */
+    public static function createPoint2D(array $coordinates, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY): PointInterface
+    {
         if (2 !== count($coordinates)) {
             throw new InvalidDimensionException('To create a two-dimensional point, your array shall contains exactly two elements.');
         }
 
-        // @phpstan-ignore-next-line
         if (!isset($coordinates[0])) {
-            throw new MissingValueException('When using FromIndexedArrayFactory, the first coordinate must be stored at array index 0. Index 0 is missing.');
+            throw new MissingValueException('The first coordinate must be stored at array index 0. Index 0 is missing.');
         }
 
-        // @phpstan-ignore-next-line
         if (!isset($coordinates[1])) {
-            throw new MissingValueException('When using FromIndexedArrayFactory, the second coordinate must be stored at array index 1. Index 1 is missing.');
+            throw new MissingValueException('The second coordinate must be stored at array index 1. Index 1 is missing.');
         }
 
         $x = $coordinates[0];
         $y = $coordinates[1];
 
-        return SpatialFamilyFactoryResolver::resolve($family)->createPoint($x, $y, $srid);
+        return SpatialFamilyFactoryResolver::resolve($family)->createPoint($x, $y, null, null, $srid, DimensionEnum::X_Y);
+    }
+
+    /**
+     * Create a point from an array of coordinates.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int} $coordinates array of coordinates
+     * @param ?int                                                                 $srid        SRID
+     * @param FamilyEnum                                                           $family      family
+     *
+     * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
+     */
+    public static function createPoint3Dz(array $coordinates, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY): PointInterface
+    {
+        if (3 !== count($coordinates)) {
+            throw new InvalidDimensionException('To create a three-dimensional elevation point, your array shall contains exactly three elements.');
+        }
+
+        // @phpstan-ignore-next-line
+        if (!isset($coordinates[0])) {
+            throw new MissingValueException('The first coordinate must be stored at array index 0. Index 0 is missing.');
+        }
+
+        // @phpstan-ignore-next-line
+        if (!isset($coordinates[1])) {
+            throw new MissingValueException('The second coordinate must be stored at array index 1. Index 1 is missing.');
+        }
+
+        if (!isset($coordinates[2])) {
+            throw new MissingValueException('The third coordinate must be stored at array index 2. Index 2 is missing.');
+        }
+
+        $x = $coordinates[0];
+        $y = $coordinates[1];
+        $z = $coordinates[2];
+
+        return SpatialFamilyFactoryResolver::resolve($family)->createPoint($x, $y, $z, null, $srid, DimensionEnum::X_Y_Z);
     }
 
     /**

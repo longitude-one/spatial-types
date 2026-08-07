@@ -113,6 +113,20 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
+     * Convert point into an array X, Y.
+     * Latitude, longitude.
+     * SRID is NOT exported.
+     *
+     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
+     *
+     * @return array{0 : float|int, 1 : float|int}
+     */
+    public function toArray(): array
+    {
+        return [$this->x, $this->y];
+    }
+
+    /**
      * Initialize the dimension.
      *
      * @return DimensionEnum::X_Y

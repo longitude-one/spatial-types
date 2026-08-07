@@ -170,19 +170,6 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     }
 
     /**
-     * Convert point into an array X, Y.
-     * Latitude, longitude.
-     *
-     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
-     *
-     * @return array{0 : float|int, 1 : float|int}
-     */
-    public function toArray(): array
-    {
-        return [$this->x, $this->y];
-    }
-
-    /**
      * Use the longitude-one/geo-parser to parse a coordinate.
      *
      * @param string $coordinate the coordinate to parse
@@ -281,4 +268,12 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
 
         return $coordinate;
     }
+
+    /**
+     * Convert point into an array of coordinates.
+     * SRID is NOT exported.
+     *
+     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
+     */
+    abstract public function toArray(): array;
 }

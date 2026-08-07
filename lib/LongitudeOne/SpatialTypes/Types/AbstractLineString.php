@@ -16,10 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Trait\PointTrait;
@@ -32,24 +28,6 @@ use LongitudeOne\SpatialTypes\Trait\PointTrait;
 abstract class AbstractLineString extends AbstractSpatialType implements LineStringInterface
 {
     use PointTrait;
-
-    /**
-     * AbstractLineString constructor.
-     *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface)[] $points points of the line string
-     * @param null|int                                                                                                                        $srid   Spatial Reference Identifier
-     *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the line string dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the line string SRID
-     * @throws InvalidValueException     when coordinates of the point are invalid
-     * @throws MissingValueException     when the point is missing
-     */
-    public function __construct(array $points, ?int $srid = null)
-    {
-        $this->setSrid($srid);
-
-        $this->addPoints($points);
-    }
 
     /**
      * Get the elements of this line string.

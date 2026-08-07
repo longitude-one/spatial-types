@@ -16,11 +16,9 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geography;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractMultiLineString;
 
 class MultiLineString extends AbstractMultiLineString implements MultiLineStringInterface
 {
@@ -30,21 +28,5 @@ class MultiLineString extends AbstractMultiLineString implements MultiLineString
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOGRAPHY;
-    }
-
-    /**
-     * Initialize the type of the object.
-     */
-    public function getType(): string
-    {
-        return TypeEnum::MULTILINESTRING->value;
-    }
-
-    /**
-     * Initialize the dimension of the object.
-     */
-    protected function getDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
     }
 }

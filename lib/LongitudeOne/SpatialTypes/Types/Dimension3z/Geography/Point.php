@@ -1,0 +1,160 @@
+<?php
+/**
+ * This file is part of the spatial project.
+ *
+ * PHP 8.4 | 8.5
+ *
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
+declare(strict_types=1);
+
+namespace LongitudeOne\SpatialTypes\Types\Dimension3z\Geography;
+
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Types\AbstractPoint;
+
+/**
+ * Geographic POINT object for POINT spatial types.
+ */
+class Point extends AbstractPoint implements PointInterface
+{
+    /**
+     * The z coordinate. (Altitude, elevation).
+     */
+    protected float|int $z;
+
+    /**
+     * New point constructor.
+     *
+     * First coordinate is longitude then latitude, X then Y, abscisse then ordinate.
+     *
+     * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
+     * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
+     *
+     * @param float|int|string $x    X coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int|string $y    Y coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int        $z    Z coordinate (altitude, elevation)
+     * @param null|int         $srid SRID
+     *
+     * @throws InvalidValueException when point is invalid
+     */
+    public function __construct(float|int|string $x, float|int|string $y, float|int $z, ?int $srid = null)
+    {
+        $this->setLongitude($x);
+        $this->setLatitude($y);
+        $this->setZ($z);
+        $this->srid = $srid;
+    }
+
+    /**
+     * Initialize the family.
+     *
+     * @return FamilyEnum::GEOGRAPHY
+     */
+    public function getFamily(): FamilyEnum
+    {
+        return FamilyEnum::GEOGRAPHY;
+    }
+
+    /**
+     * Return the M coordinate of this point.
+     *
+     * @throws BadMethodCallException because the point has no M coordinate
+     */
+    public function getM(): float|int
+    {
+        throw BadMethodCallException::create(__METHOD__, $this->getDimension());
+    }
+
+    /**
+     * Initialize the type.
+     */
+    public function getType(): string
+    {
+        return TypeEnum::POINT->value;
+    }
+
+    /**
+     * Get the Z coordinate (elevation).
+     *
+     * @throws BadMethodCallException because the point has no Z coordinate
+     */
+    public function getZ(): float|int
+    {
+        return $this->z;
+    }
+
+    /**
+     * Set the X coordinate. In Geography, the X coordinate is the longitude, this method is an alias of setLongitude.
+     *
+     * @param float|int|string $x X coordinate
+     *
+     * @throws InvalidValueException when x is not valid
+     */
+    public function setX(float|int|string $x): static
+    {
+        return $this->setLongitude($x);
+    }
+
+    /**
+     * Set the Y coordinate. In Geography, the Y coordinate is the latitude, this method is an alias of setLatitude.
+     *
+     * @param float|int|string $y Y coordinate
+     *
+     * @throws InvalidValueException when y is not valid
+     */
+    public function setY(float|int|string $y): static
+    {
+        return $this->setLatitude($y);
+    }
+
+    /**
+     * Set the Z coordinate. In geography, the Z coordinate is the elevation.
+     *
+     * @param float|int $z Z coordinate
+     *
+     * @throws InvalidValueException when y is not valid
+     */
+    public function setZ(float|int $z): static
+    {
+        $this->z = $z;
+
+        return $this;
+    }
+
+    /**
+     * Convert point into an array of coordinates X, Y, Z.
+     * SRID is NOT exported.
+     *
+     * Latitude, longitude, elevation.
+     *
+     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
+     *
+     * @return array{0 : float|int, 1 : float|int, 2 : float|int}
+     */
+    public function toArray(): array
+    {
+        return [$this->x, $this->y, $this->z];
+    }
+
+    /**
+     * Initialize the dimension.
+     *
+     * @return DimensionEnum::X_Y_Z
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y_Z;
+    }
+}

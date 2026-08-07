@@ -18,13 +18,13 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
 use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as Polygon3Dz;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,20 +50,6 @@ class FactoryPolygonTest extends TestCase
     }
 
     /**
-     * Test fromArrayOfLineStrings method with an invalid X_Y_Z dimension.
-     */
-    public function testFromArrayOfLineStringsInvalidDimension(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-
-        $lineStrings = [
-            new LineString([[0, 0], [1, 1], [2, 2], [0, 0]], 4326),
-        ];
-
-        FactoryPolygon::fromArrayOfLineStrings($lineStrings, 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
-    }
-
-    /**
      * Test fromArrayOfLineStrings method with invalid value.
      */
     public function testFromArrayOfLineStringsInvalidValue(): void
@@ -76,6 +62,21 @@ class FactoryPolygonTest extends TestCase
         ];
 
         FactoryPolygon::fromArrayOfLineStrings($lineStrings, 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
+    }
+
+    /**
+     * Test fromArrayOfLineStrings method with valid three-dimensional elevation LineStrings.
+     */
+    public function testFromArrayOfLineStringsWithThreeDimensions(): void
+    {
+        $lineStrings = [
+            FactoryLineString::fromIndexedArray([[0, 0, 1], [1, 1, 2], [2, 2, 3], [0, 0, 1]], 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z),
+        ];
+
+        $polygon = FactoryPolygon::fromArrayOfLineStrings($lineStrings, 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+
+        static::assertInstanceOf(Polygon3Dz::class, $polygon);
+        static::assertCount(1, $polygon->getRings());
     }
 
     /**

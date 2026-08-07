@@ -44,12 +44,7 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $points, ?int $srid = null)
-    {
-        $this->setSrid($srid);
-
-        $this->addPoints($points);
-    }
+    abstract public function __construct(array $points, ?int $srid = null);
 
     /**
      * Get the elements (the points) of this multipoint.

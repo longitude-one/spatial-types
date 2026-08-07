@@ -22,8 +22,10 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint2D;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as GeographicPoint3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as GeometricPoint3Dz;
 
 /**
  * Factory Point class.
@@ -34,6 +36,8 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint;
  */
 class FactoryPoint
 {
+    use RequiredCoordinateTrait;
+
     /**
      * Create a point from coordinates.
      *
@@ -54,20 +58,19 @@ class FactoryPoint
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         }
 
-        if (DimensionEnum::X_Y === $dimension) {
-            if (FamilyEnum::GEOGRAPHY === $family) {
-                return new GeographicPoint($x, $y, $srid);
-            }
-
-            return new GeometricPoint($x, $y, $srid);
-        }
-
-        // TODO Remove these lines and update the code to support the third and fourth dimensions.
-        if ($m instanceof \DateTimeInterface) {
-            $m = $m::class;
-        }
-
-        throw new InvalidDimensionException(sprintf('Only the two-dimensions points are yet supported. Point(%s %s %s %s) cannot be created.', $x, $y, $z, $m));
+        return match ([$family, $dimension]) {
+            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y] => new GeographicPoint2D($x, $y, $srid),
+            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y] => new GeometricPoint2D($x, $y, $srid),
+            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z] => new GeographicPoint3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
+            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z] => new GeometricPoint3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
+            default => throw new InvalidDimensionException(sprintf(
+                'Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported. Point(%s %s %s %s) cannot be created.',
+                $x,
+                $y,
+                $z,
+                $m instanceof \DateTimeInterface ? $m::class : $m
+            )),
+        };
     }
 
     /**

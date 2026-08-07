@@ -26,15 +26,6 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 interface PointInterface extends SpatialInterface
 {
     /**
-     * Point constructor.
-     *
-     * @param float|int|string $x    X coordinate
-     * @param float|int|string $y    Y coordinate
-     * @param null|int         $srid SRID
-     */
-    public function __construct(float|int|string $x, float|int|string $y, ?int $srid = null);
-
-    /**
      * Is this point equal to another point?
      *
      * @param PointInterface $point The point to compare

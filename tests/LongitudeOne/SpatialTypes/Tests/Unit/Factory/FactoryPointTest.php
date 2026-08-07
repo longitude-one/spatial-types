@@ -69,14 +69,51 @@ class FactoryPointTest extends TestCase
     }
 
     /**
+     * Test that a three-dimensional elevation point requires an elevation.
+     */
+    public function testFromCoordinatesWithMissingElevation(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessageIsOrContains('The third coordinate is missing.');
+
+        FactoryPoint::fromCoordinates(1, 2, null, null, null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+    }
+
+    /**
+     * Test that a point with a moment but no elevation reaches the unsupported dimension error.
+     *
+     * @param DimensionEnum $dimension the dimension to test
+     */
+    #[DataProvider('provideDimensionsWithMomentWithoutElevation')]
+    public function testFromCoordinatesWithMomentWithoutElevation(DimensionEnum $dimension): void
+    {
+        self::expectException(InvalidDimensionException::class);
+        self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
+
+        FactoryPoint::fromCoordinates(1, 2, null, 3, null, FamilyEnum::GEOMETRY, $dimension);
+    }
+
+    /**
+     * Provide dimensions with a moment but no elevation.
+     *
+     * @return \Generator<string, array{0: DimensionEnum}, null, void>
+     */
+    public static function provideDimensionsWithMomentWithoutElevation(): \Generator
+    {
+        yield 'Moment point' => [DimensionEnum::X_Y_M];
+
+        yield 'Elevation and moment point' => [DimensionEnum::X_Y_Z_M];
+    }
+
+    /**
      * Test that unsupported dimensions with a date measure report the measure type.
      */
     public function testFromCoordinatesWithUnsupportedDimensionAndDateMeasure(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions points are yet supported. Point(1 2 3 DateTimeImmutable) cannot be created.');
+        self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported. Point(1 2 3 DateTimeImmutable) cannot be created.');
 
-        FactoryPoint::fromCoordinates(1, 2, 3, new \DateTimeImmutable(), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        FactoryPoint::fromCoordinates(1, 2, 3, new \DateTimeImmutable(), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
     }
 
     /**

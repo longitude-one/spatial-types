@@ -46,7 +46,7 @@ class FromPointFactory
     public static function createLineString(array $points, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): LineStringInterface
     {
         if (DimensionEnum::X_Y !== $dimensionEnum) {
-            throw new InvalidDimensionException('Only the two-dimensions points are yet supported.');
+            throw new InvalidDimensionException('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
         }
 
         foreach ($points as $point) {

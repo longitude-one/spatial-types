@@ -16,11 +16,9 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geometry;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractLineString;
 
 class LineString extends AbstractLineString implements LineStringInterface
 {
@@ -30,21 +28,5 @@ class LineString extends AbstractLineString implements LineStringInterface
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
-    }
-
-    /**
-     * Define the type.
-     */
-    public function getType(): string
-    {
-        return TypeEnum::LINESTRING->value;
-    }
-
-    /**
-     * Define the dimension.
-     */
-    protected function getDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y;
     }
 }

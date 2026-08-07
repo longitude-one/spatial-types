@@ -16,12 +16,17 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Factory\RequiredCoordinateTrait;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString as LineString2D;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as Point2D;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as LineString3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as Point3Dz;
 
 /**
  * Creates geometric spatial types.
@@ -30,38 +35,52 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
  */
 final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterface
 {
+    use RequiredCoordinateTrait;
+
     /**
      * Creates a geographic line string instance.
      *
-     * @param PointInterface[] $points the points that compose the line string
-     * @param null|int         $srid   the spatial reference identifier
+     * @param PointInterface[] $points    the points that compose the line string
+     * @param null|int         $srid      the spatial reference identifier
+     * @param DimensionEnum    $dimension the dimension of the line string
      *
      * @return LineStringInterface the created geographic line string
      */
-    public function createLineString(array $points, ?int $srid = null): LineStringInterface
+    public function createLineString(array $points, ?int $srid, DimensionEnum $dimension): LineStringInterface
     {
-        return new LineString($points, $srid);
+        return match ($dimension) {
+            DimensionEnum::X_Y => new LineString2D($points, $srid),
+            DimensionEnum::X_Y_Z => new LineString3Dz($points, $srid),
+            default => throw new InvalidDimensionException('Only two-dimension line-strings and three-dimension elevation line-strings are yet supported'),
+        };
     }
 
     /**
-     * Creates a geographic point instance.
+     * Creates a geometric point instance of the specified dimension.
      *
-     * @param float|int|string $x    the X coordinate of the point
-     * @param float|int|string $y    the Y coordinate of the point
-     * @param null|int         $srid the spatial reference identifier
+     * @param float|int|string                  $x         the X coordinate of the point, the longitude
+     * @param float|int|string                  $y         the Y coordinate of the point, the latitude
+     * @param null|float|int                    $z         the Z coordinate of the point, the elevation
+     * @param null|\DateTimeInterface|float|int $m         the M coordinate of the point, the moment
+     * @param null|int                          $srid      the spatial reference identifier
+     * @param DimensionEnum                     $dimension the dimension of the point to create
      *
-     * @return PointInterface the created geographic point
+     * @return PointInterface the created geometric point
      */
-    public function createPoint(float|int|string $x, float|int|string $y, ?int $srid = null): PointInterface
+    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, \DateTimeInterface|float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface
     {
-        return new Point($x, $y, $srid);
+        return match ($dimension) {
+            DimensionEnum::X_Y => new Point2D($x, $y, $srid),
+            DimensionEnum::X_Y_Z => new Point3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
+            default => throw new InvalidDimensionException('Only two-dimension point and three-dimension elevation point are yet supported'),
+        };
     }
 
     /**
      * Creates a geographic polygon instance.
      *
-     * @param LineString[] $rings the rings that compose the polygon
-     * @param null|int     $srid  the spatial reference identifier
+     * @param LineString2D[] $rings the rings that compose the polygon
+     * @param null|int       $srid  the spatial reference identifier
      *
      * @return PolygonInterface the created geographic polygon
      */

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -30,19 +31,23 @@ interface SpatialFamilyFactoryInterface
     /**
      * Create a line string from points.
      *
-     * @param PointInterface[] $points points
-     * @param ?int             $srid   SRID
+     * @param PointInterface[] $points    points
+     * @param ?int             $srid      SRID
+     * @param DimensionEnum    $dimension dimension
      */
-    public function createLineString(array $points, ?int $srid = null): LineStringInterface;
+    public function createLineString(array $points, ?int $srid, DimensionEnum $dimension): LineStringInterface;
 
     /**
-     * Create a two-dimensional point.
+     * Create a point of the specified dimension.
      *
-     * @param float|int|string $x    X coordinate or longitude
-     * @param float|int|string $y    Y coordinate or latitude
-     * @param ?int             $srid SRID
+     * @param float|int|string                  $x         the X coordinate of the point, the longitude
+     * @param float|int|string                  $y         the Y coordinate of the point, the latitude
+     * @param null|float|int                    $z         the Z coordinate of the point, the elevation
+     * @param null|\DateTimeInterface|float|int $m         the M coordinate of the point, the moment
+     * @param null|int                          $srid      the spatial reference identifier
+     * @param DimensionEnum                     $dimension the dimension of the point
      */
-    public function createPoint(float|int|string $x, float|int|string $y, ?int $srid = null): PointInterface;
+    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, \DateTimeInterface|float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface;
 
     /**
      * Create a polygon from closed line strings.

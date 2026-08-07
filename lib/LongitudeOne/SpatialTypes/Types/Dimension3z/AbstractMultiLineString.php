@@ -1,0 +1,41 @@
+<?php
+/**
+ * This file is part of the spatial project.
+ *
+ * PHP 8.4 | 8.5
+ *
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
+declare(strict_types=1);
+
+namespace LongitudeOne\SpatialTypes\Types\Dimension3z;
+
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
+use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString as ParentMultiLineString;
+
+abstract class AbstractMultiLineString extends ParentMultiLineString implements MultiLineStringInterface
+{
+    /**
+     * Initialize the type of the object.
+     */
+    public function getType(): string
+    {
+        return TypeEnum::MULTILINESTRING->value;
+    }
+
+    /**
+     * Initialize the dimension of the object.
+     */
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y_Z;
+    }
+}
