@@ -77,10 +77,10 @@ class FactoryPolygon
     /**
      * Create a polygon from an indexed array.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][] $indexedArray indexed array
-     * @param ?int                                                                                                                                                      $srid         SRID
-     * @param FamilyEnum                                                                                                                                                $family       family
-     * @param DimensionEnum                                                                                                                                             $dimension    dimension
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $indexedArray indexed array
+     * @param ?int                                                                                                                                   $srid         SRID
+     * @param FamilyEnum                                                                                                                             $family       family
+     * @param DimensionEnum                                                                                                                          $dimension    dimension
      *
      * @throws SpatialTypeExceptionInterface when the line string or polygon cannot be created
      */

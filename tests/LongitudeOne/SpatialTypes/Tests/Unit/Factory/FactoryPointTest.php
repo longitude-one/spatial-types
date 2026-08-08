@@ -80,12 +80,12 @@ class FactoryPointTest extends TestCase
     }
 
     /**
-     * Test that a point with a moment but no elevation reaches the unsupported dimension error.
+     * Test that a point with a measure but no elevation reaches the unsupported dimension error.
      *
      * @param DimensionEnum $dimension the dimension to test
      */
-    #[DataProvider('provideDimensionsWithMomentWithoutElevation')]
-    public function testFromCoordinatesWithMomentWithoutElevation(DimensionEnum $dimension): void
+    #[DataProvider('provideDimensionsWithMeasureWithoutElevation')]
+    public function testFromCoordinatesWithMeasureWithoutElevation(DimensionEnum $dimension): void
     {
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
@@ -94,28 +94,30 @@ class FactoryPointTest extends TestCase
     }
 
     /**
-     * Provide dimensions with a moment but no elevation.
+     * Provide dimensions with a measure but no elevation.
      *
      * @return \Generator<string, array{0: DimensionEnum}, null, void>
      */
-    public static function provideDimensionsWithMomentWithoutElevation(): \Generator
+    public static function provideDimensionsWithMeasureWithoutElevation(): \Generator
     {
-        yield 'Moment point' => [DimensionEnum::X_Y_M];
+        yield 'Measure point' => [DimensionEnum::X_Y_M];
 
-        yield 'Elevation and moment point' => [DimensionEnum::X_Y_Z_M];
+        yield 'Elevation and measure point' => [DimensionEnum::X_Y_Z_M];
     }
 
     /**
-     * Test that unsupported dimensions with a date measure report the measure type.
+     * Test that a measure must be numeric.
      */
-    public function testFromCoordinatesWithUnsupportedDimensionAndDateMeasure(): void
+    public function testFromCoordinatesRejectsNonNumericMeasure(): void
     {
-        self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported. Point(1 2 3 DateTimeImmutable) cannot be created.');
+        self::expectException(\TypeError::class);
 
-        FactoryPoint::fromCoordinates(1, 2, 3, new \DateTimeImmutable(), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        FactoryPoint::fromCoordinates(1, 2, 3, json_decode('{}'), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
     }
 
+    /**
+     * Test that a measure must be numeric.
+     */
     /**
      * Test the factory with some good coordinates in an array.
      */
@@ -172,7 +174,7 @@ class FactoryPointTest extends TestCase
     /**
      * Test that a required third coordinate is checked before creating an unsupported point dimension.
      */
-    public function testFromIndexedArrayMissingMomentCoordinate(): void
+    public function testFromIndexedArrayMissingMeasureCoordinate(): void
     {
         self::expectException(MissingValueException::class);
         self::expectExceptionMessageIsOrContains('The third coordinate of array is missing.');

@@ -41,8 +41,8 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * AbstractPolygon constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
-     * @param null|int                                                                                                                                                $srid  Spatial Reference Identifier
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
+     * @param null|int                                                                                                                             $srid  Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
@@ -58,7 +58,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * Get the line strings of the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the ring
      */
@@ -82,7 +82,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * Add a ring to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when one of the linestring is not a ring
      */
@@ -144,7 +144,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * Return an array representation of this polygon.
      *
-     * @return (\DateTimeInterface|float|int)[][][]
+     * @return (float|int)[][][]
      */
     public function toArray(): array
     {

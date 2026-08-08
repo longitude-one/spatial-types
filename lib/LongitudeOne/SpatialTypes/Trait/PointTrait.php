@@ -46,8 +46,8 @@ trait PointTrait
      * Add a point to the spatial point collection.
      * FIXME REMOVE the second parameter it can be determined by $this->getDimension().
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface $point     point to add
-     * @param DimensionEnum                                                                                                               $dimension The dimension of the point to create
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point     point to add
+     * @param DimensionEnum                                                                                            $dimension The dimension of the point to create
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the current dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the current SRID
@@ -84,8 +84,8 @@ trait PointTrait
     /**
      * Add points to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|PointInterface[] $points    points to add
-     * @param ?DimensionEnum                                                                                                                  $dimension When providing an array of coordinates, this parameter is necessary
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|PointInterface[] $points    points to add
+     * @param ?DimensionEnum                                                                                               $dimension When providing an array of coordinates, this parameter is necessary
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the dimension of the current instance
      * @throws InvalidSridException      when the point SRID is not compatible with the SRID of the current instance
@@ -166,7 +166,7 @@ trait PointTrait
     /**
      * Return an array representation of the multipoint.
      *
-     * @return (\DateTimeInterface|float|int)[][]
+     * @return (float|int)[][]
      */
     public function toArray(): array
     {

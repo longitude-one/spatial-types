@@ -46,7 +46,7 @@ interface PointInterface extends SpatialInterface
     /**
      * Get the M coordinate.
      */
-    public function getM(): \DateTimeInterface|float|int;
+    public function getM(): float|int;
 
     /**
      * Get the X coordinate.

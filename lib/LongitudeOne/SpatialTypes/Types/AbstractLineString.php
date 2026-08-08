@@ -68,7 +68,7 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     /**
      * Return an array representation of the line string.
      *
-     * @return (\DateTimeInterface|float|int)[][]
+     * @return (float|int)[][]
      */
     public function toArray(): array
     {

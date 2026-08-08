@@ -28,7 +28,7 @@ trait RequiredCoordinateTrait
     /**
      * Return a required coordinate.
      *
-     * @template T of \DateTimeInterface|float|int
+     * @template T of float|int
      *
      * @param null|T $coordinate coordinate
      * @param string $ordinal    coordinate ordinal
@@ -37,7 +37,7 @@ trait RequiredCoordinateTrait
      *
      * @throws MissingValueException when the coordinate is missing
      */
-    private static function requiredCoordinate(\DateTimeInterface|float|int|null $coordinate, string $ordinal): \DateTimeInterface|float|int
+    private static function requiredCoordinate(float|int|null $coordinate, string $ordinal): float|int
     {
         if (null === $coordinate) {
             throw new MissingValueException(sprintf('The %s coordinate is missing.', $ordinal));

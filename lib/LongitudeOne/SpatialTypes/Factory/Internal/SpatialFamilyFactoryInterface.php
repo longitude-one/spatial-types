@@ -40,14 +40,14 @@ interface SpatialFamilyFactoryInterface
     /**
      * Create a point of the specified dimension.
      *
-     * @param float|int|string                  $x         the X coordinate of the point, the longitude
-     * @param float|int|string                  $y         the Y coordinate of the point, the latitude
-     * @param null|float|int                    $z         the Z coordinate of the point, the elevation
-     * @param null|\DateTimeInterface|float|int $m         the M coordinate of the point, the moment
-     * @param null|int                          $srid      the spatial reference identifier
-     * @param DimensionEnum                     $dimension the dimension of the point
+     * @param float|int|string $x         the X coordinate of the point, the longitude
+     * @param float|int|string $y         the Y coordinate of the point, the latitude
+     * @param null|float|int   $z         the Z coordinate of the point, the elevation
+     * @param null|float|int   $m         the M coordinate of the point
+     * @param null|int         $srid      the spatial reference identifier
+     * @param DimensionEnum    $dimension the dimension of the point
      */
-    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, \DateTimeInterface|float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface;
+    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface;
 
     /**
      * Create a polygon from closed line strings.

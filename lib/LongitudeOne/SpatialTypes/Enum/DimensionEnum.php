@@ -25,7 +25,7 @@ enum DimensionEnum: string
 {
     // 2 dimensions
     case X_Y = 'XY';
-    // 2 spatial dimensions and 1 time dimension
+    // 2 spatial dimensions and 1 measure dimension
     case X_Y_M = 'XYM';
     // 3 spatial dimensions
     case X_Y_Z = 'XYZ';

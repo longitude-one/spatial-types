@@ -40,8 +40,8 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     /**
      * AbstractMultiLineString constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
-     * @param null|int                                                                                                                                                $srid        Spatial Reference Identifier
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
+     * @param null|int                                                                                                                             $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multiLineStlineString SRID
@@ -57,7 +57,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     /**
      * Add a line string to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
      *
      * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
      */
@@ -73,7 +73,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     /**
      * Add line strings to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition
      */
@@ -133,7 +133,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     /**
      * Return an array representation of the multiLineString.
      *
-     * @return (\DateTimeInterface|float|int)[][][]
+     * @return (float|int)[][][]
      */
     public function toArray(): array
     {

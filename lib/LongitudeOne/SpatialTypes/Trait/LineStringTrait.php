@@ -41,7 +41,7 @@ trait LineStringTrait
     /**
      * Add a line string to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
      *
      * @throws InvalidValueException  when the line string dimension is not compatible with the current dimension
      * @throws InvalidFamilyException when the line string family is not compatible with the current family
@@ -72,7 +72,7 @@ trait LineStringTrait
     /**
      * Add line strings to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition
      */

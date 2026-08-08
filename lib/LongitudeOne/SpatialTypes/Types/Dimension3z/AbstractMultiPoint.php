@@ -31,8 +31,8 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
     /**
      * AbstractMultiPoint constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}|PointInterface)[] $points points of the multipoint
-     * @param null|int                                                                                                                        $srid   Spatial Reference Identifier
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $points points of the multipoint
+     * @param null|int                                                                                                     $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multipoint dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multipoint SRID

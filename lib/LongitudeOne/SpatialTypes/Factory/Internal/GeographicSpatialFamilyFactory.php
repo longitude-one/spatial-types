@@ -58,16 +58,16 @@ final class GeographicSpatialFamilyFactory implements SpatialFamilyFactoryInterf
     /**
      * Creates a geographic point instance of specified dimension.
      *
-     * @param float|int|string             $x         the X coordinate of the point, the longitude
-     * @param float|int|string             $y         the Y coordinate of the point, the latitude
-     * @param float|int                    $z         the Z coordinate of the point, the elevation
-     * @param \DateTimeInterface|float|int $m         the M coordinate of the point, the moment
-     * @param null|int                     $srid      the spatial reference identifier
-     * @param DimensionEnum                $dimension the dimension of the point
+     * @param float|int|string $x         the X coordinate of the point, the longitude
+     * @param float|int|string $y         the Y coordinate of the point, the latitude
+     * @param float|int        $z         the Z coordinate of the point, the elevation
+     * @param float|int        $m         the M coordinate of the point
+     * @param null|int         $srid      the spatial reference identifier
+     * @param DimensionEnum    $dimension the dimension of the point
      *
      * @return PointInterface the created geographic point
      */
-    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, \DateTimeInterface|float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface
+    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new Point2D($x, $y, $srid),

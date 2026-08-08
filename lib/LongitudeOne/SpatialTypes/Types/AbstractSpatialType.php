@@ -70,7 +70,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Define elements for the JSON serialization.
      *
-     * @return array{type: string, coordinates: (\DateTimeInterface|float|int)[]|(\DateTimeInterface|float|int)[][]|(\DateTimeInterface|float|int)[][][]|(\DateTimeInterface|float|int)[][][][]|SpatialInterface[], srid: ?int}
+     * @return array{type: string, coordinates: (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[], srid: ?int}
      */
     public function jsonSerialize(): array
     {
@@ -113,7 +113,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Convert any spatial object to its array representation.
      *
-     * @return (\DateTimeInterface|float|int)[]|(\DateTimeInterface|float|int)[][]|(\DateTimeInterface|float|int)[][][]|(\DateTimeInterface|float|int)[][][][]|SpatialInterface[]
+     * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[]
      */
     abstract public function toArray(): array;
 }

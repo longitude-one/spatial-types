@@ -41,18 +41,18 @@ class FactoryPoint
     /**
      * Create a point from coordinates.
      *
-     * @param float|int|string                  $x         The x or longitude of the point
-     * @param float|int|string                  $y         The y or latitude of the point
-     * @param null|float|int                    $z         The elevation of the point
-     * @param null|\DateTimeInterface|float|int $m         The measure of the point
-     * @param null|int                          $srid      The Spatial Reference Identifier
-     * @param FamilyEnum                        $family    The family of the point
-     * @param DimensionEnum                     $dimension The dimension of the point
+     * @param float|int|string $x         The x or longitude of the point
+     * @param float|int|string $y         The y or latitude of the point
+     * @param null|float|int   $z         The elevation of the point
+     * @param null|float|int   $m         The measure of the point
+     * @param null|int         $srid      The Spatial Reference Identifier
+     * @param FamilyEnum       $family    The family of the point
+     * @param DimensionEnum    $dimension The dimension of the point
      *
      * @throws InvalidValueException     when one of the coordinates is invalid
      * @throws InvalidDimensionException as long as the third and fourth dimensions are not supported
      */
-    public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, \DateTimeInterface|float|int|null $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
+    public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, float|int|null $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
         if (DimensionEnum::X_Y === $dimension && !(empty($m) && empty($z))) {
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
@@ -68,7 +68,7 @@ class FactoryPoint
                 $x,
                 $y,
                 $z,
-                $m instanceof \DateTimeInterface ? $m::class : $m
+                $m
             )),
         };
     }
@@ -76,10 +76,10 @@ class FactoryPoint
     /**
      * Create a point from an array.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int} $point     The point as an array
-     * @param null|int                                                                                                     $srid      The Spatial Reference Identifier
-     * @param FamilyEnum                                                                                                   $family    The family of the point
-     * @param DimensionEnum                                                                                                $dimension The dimension of the point
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $point     The point as an array
+     * @param null|int                                                                                  $srid      The Spatial Reference Identifier
+     * @param FamilyEnum                                                                                $family    The family of the point
+     * @param DimensionEnum                                                                             $dimension The dimension of the point
      *
      * @throws MissingValueException     when one of the coordinates is missing
      * @throws InvalidValueException     when one of the coordinates is invalid

@@ -44,8 +44,8 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * AbstractMultiPolygon constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
-     * @param null|int                                                                                                                                                                       $srid     Spatial Reference Identifier
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
+     * @param null|int                                                                                                                                                    $srid     Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
@@ -61,7 +61,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Add a polygon to this multi-polygon.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface $polygon polygon
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface $polygon polygon
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygon
      */
@@ -91,7 +91,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Add polygons to the multipolygon instance.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygons
      */
@@ -159,7 +159,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Return an array representation of this multi-polygon.
      *
-     * @return (\DateTimeInterface|float|int)[][][][]
+     * @return (float|int)[][][][]
      */
     public function toArray(): array
     {
