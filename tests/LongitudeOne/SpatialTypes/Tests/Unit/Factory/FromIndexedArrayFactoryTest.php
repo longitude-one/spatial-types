@@ -73,14 +73,15 @@ class FromIndexedArrayFactoryTest extends TestCase
     }
 
     /**
-     * Verifies that an unsupported dimension raises an invalid dimension exception.
+     * Verifies that a measure line string is created from indexed coordinates.
      */
-    public function testCreateLineStringRejectsUnsupportedDimension(): void
+    public function testCreateXymLineString(): void
     {
-        self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only two-dimension point and three-dimension elevation point are yet supported');
+        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
 
-        FromIndexedArrayFactory::createLineString([[0, 0, 0]], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        static::assertTrue($lineString->hasM());
+        static::assertFalse($lineString->hasZ());
+        static::assertSame([[0, 0, 0]], $lineString->toArray());
     }
 
     /**
@@ -154,7 +155,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePointRejectsUnsupportedDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only two-dimension point and three-dimension elevation point are yet supported');
+        self::expectExceptionMessageIsOrContains('Only two-dimension points, three-dimension measure points, and three-dimension elevation points are yet supported');
 
         FromIndexedArrayFactory::createPoint([1, 2, 3, 4], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
     }

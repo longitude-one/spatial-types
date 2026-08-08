@@ -106,28 +106,26 @@ class FactoryPointTest extends TestCase
     }
 
     /**
-     * Test that a point with a measure but no elevation reaches the unsupported dimension error.
+     * Test that an unsupported elevation and measure point reaches the unsupported dimension error.
      *
      * @param DimensionEnum $dimension the dimension to test
      */
-    #[DataProvider('provideDimensionsWithMeasureWithoutElevation')]
-    public function testFromCoordinatesWithMeasureWithoutElevation(DimensionEnum $dimension): void
+    #[DataProvider('provideUnsupportedDimensions')]
+    public function testFromCoordinatesWithUnsupportedDimension(DimensionEnum $dimension): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only two-dimension point and three-dimension elevation point are yet supported');
+        self::expectExceptionMessageIsOrContains('Only two-dimension points, three-dimension measure points, and three-dimension elevation points are yet supported');
 
         FactoryPoint::fromCoordinates(1, 2, null, 3, null, FamilyEnum::GEOMETRY, $dimension);
     }
 
     /**
-     * Provide dimensions with a measure but no elevation.
+     * Provide unsupported dimensions.
      *
      * @return \Generator<string, array{0: DimensionEnum}, null, void>
      */
-    public static function provideDimensionsWithMeasureWithoutElevation(): \Generator
+    public static function provideUnsupportedDimensions(): \Generator
     {
-        yield 'Measure point' => [DimensionEnum::X_Y_M];
-
         yield 'Elevation and measure point' => [DimensionEnum::X_Y_Z_M];
     }
 

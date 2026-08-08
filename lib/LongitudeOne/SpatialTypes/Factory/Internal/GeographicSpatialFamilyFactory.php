@@ -26,6 +26,9 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as LineString2D;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as Point2D;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineString as LineString3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as Point3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Polygon as Polygon3Dm;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\LineString as LineString3Dz;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as Point3Dz;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Polygon as Polygon3Dz;
@@ -54,8 +57,9 @@ final class GeographicSpatialFamilyFactory implements SpatialFamilyFactoryInterf
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new LineString2D($points, $srid),
+            DimensionEnum::X_Y_M => new LineString3Dm($points, $srid),
             DimensionEnum::X_Y_Z => new LineString3Dz($points, $srid),
-            default => throw new InvalidDimensionException('Only two-dimension line-strings and three-dimension elevation line-strings are yet supported'),
+            default => throw new InvalidDimensionException('Only two-dimension line-strings, three-dimension measure line-strings, and three-dimension elevation line-strings are yet supported'),
         };
     }
 
@@ -72,14 +76,15 @@ final class GeographicSpatialFamilyFactory implements SpatialFamilyFactoryInterf
      * @return PointInterface the created geographic point
      *
      * @throws InvalidDimensionException when the dimension is not supported
-     * @throws MissingValueException     when a required Z coordinate is missing
+     * @throws MissingValueException     when a required Z or M coordinate is missing
      */
     public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new Point2D($x, $y, $srid),
+            DimensionEnum::X_Y_M => new Point3Dm($x, $y, self::requiredCoordinate($m, 'third'), $srid),
             DimensionEnum::X_Y_Z => new Point3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
-            default => throw new InvalidDimensionException('Only two-dimension point and three-dimension elevation point are yet supported'),
+            default => throw new InvalidDimensionException('Only two-dimension points, three-dimension measure points, and three-dimension elevation points are yet supported'),
         };
     }
 
@@ -98,8 +103,9 @@ final class GeographicSpatialFamilyFactory implements SpatialFamilyFactoryInterf
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new Polygon($rings, $srid),
+            DimensionEnum::X_Y_M => new Polygon3Dm($rings, $srid),
             DimensionEnum::X_Y_Z => new Polygon3Dz($rings, $srid),
-            default => throw new InvalidDimensionException('Only two-dimension polygons and three-dimension elevation polygons are yet supported'),
+            default => throw new InvalidDimensionException('Only two-dimension polygons, three-dimension measure polygons, and three-dimension elevation polygons are yet supported'),
         };
     }
 }
