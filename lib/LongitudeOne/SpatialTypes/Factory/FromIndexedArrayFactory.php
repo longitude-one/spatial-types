@@ -93,9 +93,9 @@ class FromIndexedArrayFactory
     /**
      * Create a two-dimensional point from an array of coordinates.
      *
-     * @param array{0: float|int|string, 1: float|int|string} $coordinates array of coordinates
-     * @param ?int                                            $srid        SRID
-     * @param FamilyEnum                                      $family      family
+     * @param array{0 ?: null|float|int|string, 1 ?: null|float|int|string} $coordinates array of coordinates
+     * @param ?int                                                          $srid        SRID
+     * @param FamilyEnum                                                    $family      family
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
      */
@@ -105,11 +105,11 @@ class FromIndexedArrayFactory
             throw new InvalidDimensionException('To create a two-dimensional point, your array shall contains exactly two elements.');
         }
 
-        if (!isset($coordinates[0])) {
+        if (!array_key_exists(0, $coordinates) || null === $coordinates[0]) {
             throw new MissingValueException('The first coordinate must be stored at array index 0. Index 0 is missing.');
         }
 
-        if (!isset($coordinates[1])) {
+        if (!array_key_exists(1, $coordinates) || null === $coordinates[1]) {
             throw new MissingValueException('The second coordinate must be stored at array index 1. Index 1 is missing.');
         }
 
@@ -122,9 +122,9 @@ class FromIndexedArrayFactory
     /**
      * Create a point from an array of coordinates.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int} $coordinates array of coordinates
-     * @param ?int                                                                 $srid        SRID
-     * @param FamilyEnum                                                           $family      family
+     * @param array{0 ?: null|float|int|string, 1 ?: null|float|int|string, 2 ?: null|float|int} $coordinates array of coordinates
+     * @param ?int                                                                               $srid        SRID
+     * @param FamilyEnum                                                                         $family      family
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
      */
@@ -134,17 +134,15 @@ class FromIndexedArrayFactory
             throw new InvalidDimensionException('To create a three-dimensional elevation point, your array shall contains exactly three elements.');
         }
 
-        // @phpstan-ignore-next-line
-        if (!isset($coordinates[0])) {
+        if (!array_key_exists(0, $coordinates) || null === $coordinates[0]) {
             throw new MissingValueException('The first coordinate must be stored at array index 0. Index 0 is missing.');
         }
 
-        // @phpstan-ignore-next-line
-        if (!isset($coordinates[1])) {
+        if (!array_key_exists(1, $coordinates) || null === $coordinates[1]) {
             throw new MissingValueException('The second coordinate must be stored at array index 1. Index 1 is missing.');
         }
 
-        if (!isset($coordinates[2])) {
+        if (!array_key_exists(2, $coordinates) || null === $coordinates[2]) {
             throw new MissingValueException('The third coordinate must be stored at array index 2. Index 2 is missing.');
         }
 

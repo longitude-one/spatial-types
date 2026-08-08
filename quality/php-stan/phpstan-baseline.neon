@@ -1,18 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Offset 0 on array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\} in isset\(\) always exists and is not nullable\.$#'
-			identifier: isset.offset
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
-
-		-
-			message: '#^Offset 1 on array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\} in isset\(\) always exists and is not nullable\.$#'
-			identifier: isset.offset
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/FactoryPoint.php
-
-		-
 			message: '#^Parameter \#1 \$points of class LongitudeOne\\SpatialTypes\\Types\\Dimension2\\Geometry\\MultiPoint constructor expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{1, 2, 3, 4\} given\.$#'
 			identifier: argument.type
 			count: 1
@@ -86,12 +74,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}, array\{null, 2\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
-
-		-
-			message: '#^Parameter \#4 \$m of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromCoordinates\(\) expects float\|int\|null, stdClass given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php

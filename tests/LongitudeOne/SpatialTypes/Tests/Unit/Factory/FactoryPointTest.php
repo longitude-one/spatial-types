@@ -59,6 +59,43 @@ class FactoryPointTest extends TestCase
     }
 
     /**
+     * Test that a measure must be numeric.
+     */
+    public function testFromCoordinatesRejectsNonNumericMeasure(): void
+    {
+        self::expectException(\TypeError::class);
+
+        $method = new \ReflectionMethod(FactoryPoint::class, 'fromCoordinates');
+        $method->invoke(null, 1, 2, 3, json_decode('{}'), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+    }
+
+    /**
+     * Test that zero-valued extra coordinates are not silently ignored.
+     *
+     * @param null|float|int $z The Z coordinate to test
+     * @param null|float|int $m The M coordinate to test
+     */
+    #[DataProvider('provideZeroValuedExtraCoordinates')]
+    public function testFromCoordinatesRejectsZeroValuedExtraCoordinates(float|int|null $z, float|int|null $m): void
+    {
+        self::expectException(InvalidDimensionException::class);
+
+        FactoryPoint::fromCoordinates(1, 2, $z, $m);
+    }
+
+    /**
+     * Provide zero-valued extra coordinates.
+     *
+     * @return \Generator<string, array{0: null|float|int, 1: null|float|int}, null, void>
+     */
+    public static function provideZeroValuedExtraCoordinates(): \Generator
+    {
+        yield 'Zero Z' => [0, null];
+
+        yield 'Zero M' => [null, 0];
+    }
+
+    /**
      * Test the factory with some bad dimension.
      */
     public function testFromCoordinatesWithBadDimension(): void
@@ -66,17 +103,6 @@ class FactoryPointTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         FactoryPoint::fromCoordinates(1, 2, 3, 4);
-    }
-
-    /**
-     * Test that a three-dimensional elevation point requires an elevation.
-     */
-    public function testFromCoordinatesWithMissingElevation(): void
-    {
-        self::expectException(MissingValueException::class);
-        self::expectExceptionMessageIsOrContains('The third coordinate is missing.');
-
-        FactoryPoint::fromCoordinates(1, 2, null, null, null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 
     /**
@@ -106,18 +132,16 @@ class FactoryPointTest extends TestCase
     }
 
     /**
-     * Test that a measure must be numeric.
+     * Test that a three-dimensional elevation point requires an elevation.
      */
-    public function testFromCoordinatesRejectsNonNumericMeasure(): void
+    public function testFromCoordinatesWithMissingElevation(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessageIsOrContains('The third coordinate is missing.');
 
-        FactoryPoint::fromCoordinates(1, 2, 3, json_decode('{}'), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        FactoryPoint::fromCoordinates(1, 2, null, null, null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 
-    /**
-     * Test that a measure must be numeric.
-     */
     /**
      * Test the factory with some good coordinates in an array.
      */
@@ -131,7 +155,7 @@ class FactoryPointTest extends TestCase
         static::assertSame(FamilyEnum::GEOMETRY, $point->getFamily());
         static::assertSame(TypeEnum::POINT, $point->getType());
 
-        $point = FactoryPoint::fromIndexedArray([42.1, 42.2, null, null], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y);
+        $point = FactoryPoint::fromIndexedArray([42.1, 42.2], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y);
         static::assertSame(42.1, $point->getX());
         static::assertSame(42.2, $point->getY());
         static::assertFalse($point->hasM());
@@ -230,31 +254,31 @@ class FactoryPointTest extends TestCase
         yield 'Empty array' => [
             [],
             MissingValueException::class,
-            'The array must contain at least two coordinates to create a point.',
+            'The first coordinate of array is missing.',
         ];
 
         yield 'One value' => [
             [1],
             MissingValueException::class,
-            'The array must contain at least two coordinates to create a point.',
+            'The second coordinate of array is missing.',
         ];
 
         yield 'Three values' => [
             [1, 2, 3],
             InvalidDimensionException::class,
-            'The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?',
+            'The array must contain exactly 2 coordinates to create a XY point.',
         ];
 
         yield 'Four values' => [
             [1, 2, 3, 4],
             InvalidDimensionException::class,
-            'The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?',
+            'The array must contain exactly 2 coordinates to create a XY point.',
         ];
 
         yield 'Five values' => [
             [1, 2, 3, 4, 5],
             InvalidDimensionException::class,
-            'The array must contain at most four coordinates.',
+            'The array must contain exactly 2 coordinates to create a XY point.',
         ];
     }
 

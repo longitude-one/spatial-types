@@ -54,7 +54,7 @@ class FactoryPoint
      */
     public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, float|int|null $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
-        if (DimensionEnum::X_Y === $dimension && !(empty($m) && empty($z))) {
+        if ((!$dimension->hasZ() && null !== $z) || (!$dimension->hasM() && null !== $m)) {
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         }
 
@@ -91,35 +91,44 @@ class FactoryPoint
         FamilyEnum $family = FamilyEnum::GEOMETRY,
         DimensionEnum $dimension = DimensionEnum::X_Y
     ): PointInterface {
-        if (count($point) < 2) {
-            throw new MissingValueException('The array must contain at least two coordinates to create a point.');
+        $coordinateCount = $dimension->coordinateCount();
+        if (count($point) > $coordinateCount) {
+            throw new InvalidDimensionException(sprintf('The array must contain exactly %d coordinates to create a %s point.', $coordinateCount, $dimension->value));
         }
 
-        if (count($point) > 4) {
-            throw new InvalidDimensionException('The array must contain at most four coordinates.');
-        }
-
-        if (!isset($point[0])) {
-            throw new MissingValueException('The first coordinate of array is missing.');
-        }
-
-        if (!isset($point[1])) {
-            throw new MissingValueException('The second coordinate of array is missing.');
-        }
-
-        if (in_array($dimension, [DimensionEnum::X_Y_Z, DimensionEnum::X_Y_M], true) && !isset($point[2])) {
-            throw new MissingValueException('The third coordinate of array is missing.');
-        }
-
-        if (DimensionEnum::X_Y_Z_M === $dimension && !isset($point[3])) {
-            throw new MissingValueException('The fourth coordinate of array is missing.');
+        foreach (range(0, $coordinateCount - 1) as $index) {
+            if (!array_key_exists($index, $point) || null === $point[$index]) {
+                throw new MissingValueException(sprintf('The %s coordinate of array is missing.', match ($index) {
+                    0 => 'first',
+                    1 => 'second',
+                    2 => 'third',
+                    3 => 'fourth',
+                    default => 'unknown',
+                }));
+            }
         }
 
         $x = $point[0];
         $y = $point[1];
-        $z = $point[2] ?? null;
-        $m = $point[3] ?? null;
+        $zIndex = $dimension->zIndex();
+        $mIndex = $dimension->mIndex();
+        $z = null === $zIndex ? null : self::numericCoordinate($point[$zIndex], 'Z');
+        $m = null === $mIndex ? null : self::numericCoordinate($point[$mIndex], 'M');
 
         return self::fromCoordinates($x, $y, $z, $m, $srid, $family, $dimension);
+    }
+
+    /**
+     * Ensure a coordinate is numeric.
+     *
+     * @throws InvalidValueException when the coordinate is not numeric
+     */
+    private static function numericCoordinate(mixed $coordinate, string $name): float|int
+    {
+        if (!is_float($coordinate) && !is_int($coordinate)) {
+            throw new InvalidValueException(sprintf('The %s coordinate must be a number.', $name));
+        }
+
+        return $coordinate;
     }
 }
