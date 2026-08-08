@@ -49,9 +49,9 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     /**
      * Define the type.
      */
-    public function getType(): string
+    public function getType(): TypeEnum
     {
-        return TypeEnum::LINESTRING->value;
+        return TypeEnum::LINESTRING;
     }
 
     /**

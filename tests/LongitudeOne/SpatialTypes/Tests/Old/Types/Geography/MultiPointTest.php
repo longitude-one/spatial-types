@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geography;
 
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint;
 use PHPUnit\Framework\TestCase;
 
@@ -34,6 +35,6 @@ class MultiPointTest extends TestCase
     public function testGetType(): void
     {
         $multipoint = new MultiPoint([]);
-        static::assertEquals('MultiPoint', $multipoint->getType());
+        static::assertSame(TypeEnum::MULTIPOINT, $multipoint->getType());
     }
 }

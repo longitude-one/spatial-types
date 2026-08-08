@@ -115,7 +115,7 @@ class PointTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(TypeEnum::POINT->value, $this->point->getType());
+        static::assertSame(TypeEnum::POINT, $this->point->getType());
     }
 
     /**

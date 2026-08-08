@@ -26,9 +26,9 @@ abstract class AbstractCollection extends ParentCollection implements Collection
     /**
      * Return the geometry collection type.
      */
-    public function getType(): string
+    public function getType(): TypeEnum
     {
-        return TypeEnum::COLLECTION->value;
+        return TypeEnum::COLLECTION;
     }
 
     /**

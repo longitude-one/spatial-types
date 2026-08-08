@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension3z\Geography;
 
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
@@ -108,7 +109,7 @@ class GeographyCollectionTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame('Collection', (new GeographyCollection())->getType());
+        static::assertSame(TypeEnum::COLLECTION, (new GeographyCollection())->getType());
     }
 
     /**

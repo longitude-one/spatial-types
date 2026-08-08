@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 
 /**
  * Base spatial type interface.
@@ -43,7 +44,7 @@ interface SpatialInterface extends \JsonSerializable
      *
      * This method is used internally to identify the object's type.
      */
-    public function getType(): string;
+    public function getType(): TypeEnum;
 
     /**
      * Does this spatial object have an M (measure) dimension?

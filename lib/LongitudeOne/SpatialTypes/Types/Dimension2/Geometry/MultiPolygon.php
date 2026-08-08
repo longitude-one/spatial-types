@@ -35,9 +35,9 @@ class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
     /**
      * Initialize the type of the object.
      */
-    public function getType(): string
+    public function getType(): TypeEnum
     {
-        return TypeEnum::MULTIPOLYGON->value;
+        return TypeEnum::MULTIPOLYGON;
     }
 
     /**

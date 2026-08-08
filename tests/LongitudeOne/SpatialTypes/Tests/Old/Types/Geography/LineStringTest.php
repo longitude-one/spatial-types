@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geography;
 
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString;
 use PHPUnit\Framework\TestCase;
 
@@ -34,6 +35,6 @@ class LineStringTest extends TestCase
     public function testGetType(): void
     {
         $lineString = new LineString([]);
-        static::assertEquals('LineString', $lineString->getType());
+        static::assertSame(TypeEnum::LINESTRING, $lineString->getType());
     }
 }

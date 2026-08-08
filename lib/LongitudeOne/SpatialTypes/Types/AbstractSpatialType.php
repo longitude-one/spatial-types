@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /**
@@ -74,7 +75,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     public function jsonSerialize(): array
     {
         return [
-            'type' => $this->getType(),
+            'type' => $this->getType()->value,
             'coordinates' => $this->toArray(),
             'srid' => $this->getSrid(),
         ];
@@ -107,7 +108,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Type getter.
      */
-    abstract public function getType(): string;
+    abstract public function getType(): TypeEnum;
 
     /**
      * Convert any spatial object to its array representation.

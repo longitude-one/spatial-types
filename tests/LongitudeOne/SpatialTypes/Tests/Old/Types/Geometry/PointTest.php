@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Old\Types\Geometry;
 
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Tests\Old\DataProvider as LoDataProvider;
 use LongitudeOne\SpatialTypes\Tests\Old\Helper\PointHelperTrait;
@@ -43,7 +44,7 @@ class PointTest extends TestCase
     {
         $geometricPoint = new GeometricPoint(0, 0);
 
-        static::assertEquals('Point', $geometricPoint->getType());
+        static::assertSame(TypeEnum::POINT, $geometricPoint->getType());
     }
 
     /**

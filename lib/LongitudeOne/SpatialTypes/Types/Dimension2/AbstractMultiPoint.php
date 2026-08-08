@@ -49,9 +49,9 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
     /**
      * Define the type.
      */
-    public function getType(): string
+    public function getType(): TypeEnum
     {
-        return TypeEnum::MULTIPOINT->value;
+        return TypeEnum::MULTIPOINT;
     }
 
     /**

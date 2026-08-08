@@ -80,9 +80,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Initialize the type.
      */
-    public function getType(): string
+    public function getType(): TypeEnum
     {
-        return TypeEnum::POINT->value;
+        return TypeEnum::POINT;
     }
 
     /**

@@ -35,9 +35,9 @@ class GeographyCollection extends AbstractCollection implements CollectionInterf
     /**
      * Return the geometry collection type.
      */
-    public function getType(): string
+    public function getType(): TypeEnum
     {
-        return TypeEnum::COLLECTION->value;
+        return TypeEnum::COLLECTION;
     }
 
     /**

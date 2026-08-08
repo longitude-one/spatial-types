@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon;
@@ -96,7 +97,7 @@ class PolygonTest extends TestCase
     public function testGetType(): void
     {
         $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('Polygon', $polygon->getType());
+        static::assertSame(TypeEnum::POLYGON, $polygon->getType());
     }
 
     /**

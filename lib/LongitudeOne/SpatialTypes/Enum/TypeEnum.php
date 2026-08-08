@@ -57,4 +57,41 @@ enum TypeEnum: string
      * Polygon type is used to create GEOMETRY and GEOGRAPHY Polygons.
      */
     case POLYGON = 'Polygon';
+
+    /**
+     * Return the homogeneous component type, if the spatial type has one.
+     */
+    public function componentType(): ?self
+    {
+        return match ($this) {
+            self::LINESTRING, self::MULTIPOINT => self::POINT,
+            self::POLYGON, self::MULTILINESTRING => self::LINESTRING,
+            self::MULTIPOLYGON => self::POLYGON,
+            self::COLLECTION, self::POINT => null,
+        };
+    }
+
+    /**
+     * Is this a multi-geometry type?
+     */
+    public function isMulti(): bool
+    {
+        return match ($this) {
+            self::MULTILINESTRING, self::MULTIPOINT, self::MULTIPOLYGON => true,
+            default => false,
+        };
+    }
+
+    /**
+     * Return the topological dimension, or null for a heterogeneous collection.
+     */
+    public function topologicalDimension(): ?int
+    {
+        return match ($this) {
+            self::POINT, self::MULTIPOINT => 0,
+            self::LINESTRING, self::MULTILINESTRING => 1,
+            self::POLYGON, self::MULTIPOLYGON => 2,
+            self::COLLECTION => null,
+        };
+    }
 }
