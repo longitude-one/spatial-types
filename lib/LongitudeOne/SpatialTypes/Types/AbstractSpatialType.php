@@ -45,10 +45,7 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     public function hasM(): bool
     {
-        return match ($this->getDimension()) {
-            DimensionEnum::X_Y_M, DimensionEnum::X_Y_Z_M => true,
-            default => false,
-        };
+        return $this->getDimension()->hasM();
     }
 
     /**
@@ -66,10 +63,7 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     public function hasZ(): bool
     {
-        return match ($this->getDimension()) {
-            DimensionEnum::X_Y_Z, DimensionEnum::X_Y_Z_M => true,
-            default => false,
-        };
+        return $this->getDimension()->hasZ();
     }
 
     /**
