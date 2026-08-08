@@ -150,6 +150,10 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     public function setX(float|int|string $x): static
     {
+        if ($this->getFamily()->usesGeodeticCoordinates()) {
+            return $this->setLongitude($x);
+        }
+
         $this->x = $this->setCartesianCoordinate($x);
 
         return $this;
@@ -164,6 +168,10 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     public function setY(float|int|string $y): static
     {
+        if ($this->getFamily()->usesGeodeticCoordinates()) {
+            return $this->setLatitude($y);
+        }
+
         $this->y = $this->setCartesianCoordinate($y);
 
         return $this;

@@ -31,4 +31,12 @@ enum FamilyEnum: string
 {
     case GEOGRAPHY = 'Geography';
     case GEOMETRY = 'Geometry';
+
+    /**
+     * Does this family use longitude and latitude coordinates with geographic ranges?
+     */
+    public function usesGeodeticCoordinates(): bool
+    {
+        return self::GEOGRAPHY === $this;
+    }
 }
