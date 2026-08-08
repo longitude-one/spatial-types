@@ -27,7 +27,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 /**
  * Abstract collection class.
  *
- * @internal This class provides common behaviour for geometry and geography collections.
+ * @internal this class provides common behaviour for geometry and geography collections
  */
 abstract class AbstractCollection extends AbstractSpatialType implements CollectionInterface
 {

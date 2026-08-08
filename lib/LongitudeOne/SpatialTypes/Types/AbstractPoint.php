@@ -29,7 +29,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
  * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
  * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
  *
- * @internal This class provides common behaviour for geometry and geography points.
+ * @internal this class provides common behaviour for geometry and geography points
  */
 abstract class AbstractPoint extends AbstractSpatialType implements PointInterface
 {

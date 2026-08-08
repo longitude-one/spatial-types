@@ -32,7 +32,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 /**
  * Abstract multi-polygon class.
  *
- * @internal This class provides common behaviour for geometry and geography multi-polygons.
+ * @internal this class provides common behaviour for geometry and geography multi-polygons
  */
 abstract class AbstractMultiPolygon extends AbstractSpatialType implements MultiPolygonInterface
 {

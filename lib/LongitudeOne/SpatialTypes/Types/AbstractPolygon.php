@@ -32,7 +32,7 @@ use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
 /**
  * Abstract polygon class.
  *
- * @internal This class provides common behaviour for geometry and geography polygons.
+ * @internal this class provides common behaviour for geometry and geography polygons
  */
 abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInterface
 {

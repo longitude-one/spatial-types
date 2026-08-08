@@ -31,7 +31,7 @@ use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
 /**
  * Abstract MultiLineString class.
  *
- * @internal This class provides common behaviour for geometry and geography multi-line strings.
+ * @internal this class provides common behaviour for geometry and geography multi-line strings
  */
 abstract class AbstractMultiLineString extends AbstractSpatialType implements MultiLineStringInterface
 {

@@ -55,8 +55,11 @@ class DimensionEnumTest extends TestCase
     public static function provideDimensions(): \Generator
     {
         yield 'XY' => [DimensionEnum::X_Y, 2, false, false, null, null];
+
         yield 'XYM' => [DimensionEnum::X_Y_M, 3, true, false, 2, null];
+
         yield 'XYZ' => [DimensionEnum::X_Y_Z, 3, false, true, null, 2];
+
         yield 'XYZM' => [DimensionEnum::X_Y_Z_M, 4, true, true, 3, 2];
     }
 }
