@@ -22,10 +22,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint2D;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as GeographicPoint3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as GeometricPoint3Dz;
+use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Factory Point class.
@@ -36,8 +33,6 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as GeometricPoint
  */
 class FactoryPoint
 {
-    use RequiredCoordinateTrait;
-
     /**
      * Create a point from coordinates.
      *
@@ -49,8 +44,11 @@ class FactoryPoint
      * @param FamilyEnum       $family    The family of the point
      * @param DimensionEnum    $dimension The dimension of the point
      *
+     * @return PointInterface The point matching the requested family and dimension
+     *
+     * @throws InvalidDimensionException when a supplied coordinate is absent from the requested dimension
      * @throws InvalidValueException     when one of the coordinates is invalid
-     * @throws InvalidDimensionException as long as the third and fourth dimensions are not supported
+     * @throws MissingValueException     when the requested Z coordinate is missing
      */
     public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, float|int|null $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
@@ -58,19 +56,7 @@ class FactoryPoint
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         }
 
-        return match ([$family, $dimension]) {
-            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y] => new GeographicPoint2D($x, $y, $srid),
-            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y] => new GeometricPoint2D($x, $y, $srid),
-            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z] => new GeographicPoint3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
-            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z] => new GeometricPoint3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
-            default => throw new InvalidDimensionException(sprintf(
-                'Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported. Point(%s %s %s %s) cannot be created.',
-                $x,
-                $y,
-                $z,
-                $m
-            )),
-        };
+        return SpatialFamilyFactoryResolver::resolve($family)->createPoint($x, $y, $z, $m, $srid, $dimension);
     }
 
     /**
@@ -81,9 +67,11 @@ class FactoryPoint
      * @param FamilyEnum                                                                                $family    The family of the point
      * @param DimensionEnum                                                                             $dimension The dimension of the point
      *
-     * @throws MissingValueException     when one of the coordinates is missing
-     * @throws InvalidValueException     when one of the coordinates is invalid
-     * @throws InvalidDimensionException as long as the third and fourth dimensions are not supported
+     * @return PointInterface The point matching the requested family and dimension
+     *
+     * @throws InvalidDimensionException when the array contains too many coordinates or the dimension is unsupported
+     * @throws InvalidValueException     when a Z or M coordinate is not numeric
+     * @throws MissingValueException     when a coordinate required by the dimension is missing
      */
     public static function fromIndexedArray(
         array $point,
@@ -119,7 +107,12 @@ class FactoryPoint
     }
 
     /**
-     * Ensure a coordinate is numeric.
+     * Ensure a Z or M coordinate is numeric.
+     *
+     * @param mixed  $coordinate The coordinate to validate
+     * @param string $name       The coordinate name used in the error message
+     *
+     * @return float|int The validated coordinate
      *
      * @throws InvalidValueException when the coordinate is not numeric
      */

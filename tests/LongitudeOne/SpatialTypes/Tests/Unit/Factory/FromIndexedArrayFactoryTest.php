@@ -78,9 +78,9 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreateLineStringRejectsUnsupportedDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
+        self::expectExceptionMessageIsOrContains('Only two-dimension point and three-dimension elevation point are yet supported');
 
-        FromIndexedArrayFactory::createLineString([[0, 0]], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        FromIndexedArrayFactory::createLineString([[0, 0, 0]], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
     }
 
     /**
@@ -102,7 +102,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePoint2dRejectsAnArrayWithAnInvalidDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('To create a two-dimensional point, your array shall contains exactly two elements.');
+        self::expectExceptionMessageIsOrContains('The array must contain exactly 2 coordinates to create a XY point.');
 
         FromIndexedArrayFactory::createPoint([1, 2, 3], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
     }
@@ -124,7 +124,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePointRejectsAnArrayNonIndexed(): void
     {
         self::expectException(MissingValueException::class);
-        self::expectExceptionMessageIsOrContains('The first coordinate must be stored at array index 0. Index 0 is missing.');
+        self::expectExceptionMessageIsOrContains('The first coordinate of array is missing.');
 
         // @phpstan-ignore-next-line
         FromIndexedArrayFactory::createPoint([
@@ -139,7 +139,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePointRejectsAnotherArrayNonIndexed(): void
     {
         self::expectException(MissingValueException::class);
-        self::expectExceptionMessageIsOrContains('The second coordinate must be stored at array index 1. Index 1 is missing.');
+        self::expectExceptionMessageIsOrContains('The second coordinate of array is missing.');
 
         // @phpstan-ignore-next-line
         FromIndexedArrayFactory::createPoint([
@@ -154,7 +154,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePointRejectsUnsupportedDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions points and elevation point (3dZ) are yet supported.');
+        self::expectExceptionMessageIsOrContains('Only two-dimension point and three-dimension elevation point are yet supported');
 
         FromIndexedArrayFactory::createPoint([1, 2, 3, 4], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
     }
@@ -204,20 +204,20 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePolygonRejectsInvalidElement(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing LineStringInterface or array of coordinates.');
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing LineStringInterface or array of PointInterface or "array of array of coordinates".');
 
         // @phpstan-ignore-next-line
         FromIndexedArrayFactory::createPolygon(['not a line string']);
     }
 
     /**
-     * Verifies that an unsupported polygon dimension raises an invalid dimension exception.
+     * Verifies that a three-dimensional elevation polygon can be created.
      */
-    public function testCreatePolygonRejectsUnsupportedDimension(): void
+    public function testCreatePolygonWithElevationDimension(): void
     {
-        self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions polygons are yet supported.');
+        $polygon = FromIndexedArrayFactory::createPolygon([], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
 
-        FromIndexedArrayFactory::createPolygon([], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        static::assertTrue($polygon->hasZ());
+        static::assertFalse($polygon->hasM());
     }
 }

@@ -114,7 +114,7 @@ class FactoryPointTest extends TestCase
     public function testFromCoordinatesWithMeasureWithoutElevation(DimensionEnum $dimension): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
+        self::expectExceptionMessageIsOrContains('Only two-dimension point and three-dimension elevation point are yet supported');
 
         FactoryPoint::fromCoordinates(1, 2, null, 3, null, FamilyEnum::GEOMETRY, $dimension);
     }

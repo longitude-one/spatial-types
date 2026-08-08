@@ -66,7 +66,7 @@ class FromPointFactoryTest extends TestCase
     public function testCreateLineStringRejectsInvalidPoint(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The array must only contain objects implementing PointInterface.');
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing PointInterface.');
 
         // @phpstan-ignore-next-line
         FromPointFactory::createLineString(['not a point']);
@@ -78,7 +78,7 @@ class FromPointFactoryTest extends TestCase
     public function testCreateLineStringRejectsUnsupportedDimension(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
+        self::expectExceptionMessageIsOrContains('The point dimension is not compatible with the dimension of the current spatial collection.');
 
         FromPointFactory::createLineString([new GeometricPoint(1, 2)], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }

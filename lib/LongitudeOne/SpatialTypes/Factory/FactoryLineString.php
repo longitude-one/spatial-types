@@ -18,15 +18,11 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as GeographyLineString2D;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString as GeometryLineString2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\LineString as GeographyLineString3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as GeometryLineString3Dz;
+use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Factory LineString class.
@@ -49,28 +45,13 @@ class FactoryLineString
      */
     public static function fromArrayOfPoints(array $points, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): LineStringInterface
     {
-        if (DimensionEnum::X_Y !== $dimensionEnum && DimensionEnum::X_Y_Z !== $dimensionEnum) {
-            throw new InvalidDimensionException('Only the two-dimensions points and the three-dimensions elevation points are yet supported.');
-        }
-
         foreach ($points as $point) {
             if (!$point instanceof PointInterface) {
                 throw new InvalidValueException('The array must contain only objects implementing PointInterface.');
             }
         }
 
-        $lineString = match ([$family, $dimensionEnum]) {
-            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y] => new GeographyLineString2D([], $srid),
-            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y] => new GeometryLineString2D([], $srid),
-            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z] => new GeographyLineString3Dz([], $srid),
-            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z] => new GeometryLineString3Dz([], $srid),
-        };
-
-        foreach ($points as $point) {
-            $lineString->addPoint($point);
-        }
-
-        return $lineString;
+        return SpatialFamilyFactoryResolver::resolve($family)->createLineString($points, $srid, $dimensionEnum);
     }
 
     /**

@@ -18,16 +18,12 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographyPolygon2D;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon as GeometryPolygon2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Polygon as GeographyPolygon3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as GeometryPolygon3Dz;
+use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Polygon factory.
@@ -50,28 +46,13 @@ class FactoryPolygon
      */
     public static function fromArrayOfLineStrings(array $lineStrings, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): PolygonInterface
     {
-        if (DimensionEnum::X_Y !== $dimensionEnum && DimensionEnum::X_Y_Z !== $dimensionEnum) {
-            throw new InvalidDimensionException('Only the two-dimensions line-strings and the three-dimensions elevation line-strings are yet supported.');
-        }
-
         foreach ($lineStrings as $lineString) {
             if (!$lineString instanceof LineStringInterface) {
                 throw new InvalidValueException('The array must contain only objects implementing LineStringInterface.');
             }
         }
 
-        $polygon = match ([$family, $dimensionEnum]) {
-            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y] => new GeographyPolygon2D([], $srid),
-            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y] => new GeometryPolygon2D([], $srid),
-            [FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z] => new GeographyPolygon3Dz([], $srid),
-            [FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z] => new GeometryPolygon3Dz([], $srid),
-        };
-
-        foreach ($lineStrings as $lineString) {
-            $polygon->addRing($lineString);
-        }
-
-        return $polygon;
+        return SpatialFamilyFactoryResolver::resolve($family)->createPolygon($lineStrings, $srid, $dimensionEnum);
     }
 
     /**

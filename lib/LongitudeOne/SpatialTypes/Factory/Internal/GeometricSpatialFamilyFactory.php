@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Factory\RequiredCoordinateTrait;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -27,6 +28,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as Point2D;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as LineString3Dz;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as Point3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as Polygon3Dz;
 
 /**
  * Creates geometric spatial types.
@@ -38,13 +40,15 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
     use RequiredCoordinateTrait;
 
     /**
-     * Creates a geographic line string instance.
+     * Creates a geometric line string instance.
      *
      * @param PointInterface[] $points    the points that compose the line string
      * @param null|int         $srid      the spatial reference identifier
      * @param DimensionEnum    $dimension the dimension of the line string
      *
-     * @return LineStringInterface the created geographic line string
+     * @return LineStringInterface the created geometric line string
+     *
+     * @throws InvalidDimensionException when the dimension is not supported
      */
     public function createLineString(array $points, ?int $srid, DimensionEnum $dimension): LineStringInterface
     {
@@ -66,6 +70,9 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
      * @param DimensionEnum    $dimension the dimension of the point to create
      *
      * @return PointInterface the created geometric point
+     *
+     * @throws InvalidDimensionException when the dimension is not supported
+     * @throws MissingValueException     when a required Z coordinate is missing
      */
     public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface
     {
@@ -77,15 +84,22 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
     }
 
     /**
-     * Creates a geographic polygon instance.
+     * Creates a geometric polygon instance.
      *
-     * @param LineString2D[] $rings the rings that compose the polygon
-     * @param null|int       $srid  the spatial reference identifier
+     * @param LineStringInterface[] $rings     the rings that compose the polygon
+     * @param null|int              $srid      the spatial reference identifier
+     * @param DimensionEnum         $dimension the dimension of the polygon
      *
-     * @return PolygonInterface the created geographic polygon
+     * @return PolygonInterface the created geometric polygon
+     *
+     * @throws InvalidDimensionException when the dimension is not supported
      */
-    public function createPolygon(array $rings, ?int $srid = null): PolygonInterface
+    public function createPolygon(array $rings, ?int $srid, DimensionEnum $dimension): PolygonInterface
     {
-        return new Polygon($rings, $srid);
+        return match ($dimension) {
+            DimensionEnum::X_Y => new Polygon($rings, $srid),
+            DimensionEnum::X_Y_Z => new Polygon3Dz($rings, $srid),
+            default => throw new InvalidDimensionException('Only two-dimension polygons and three-dimension elevation polygons are yet supported'),
+        };
     }
 }

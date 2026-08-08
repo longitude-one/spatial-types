@@ -34,6 +34,8 @@ interface SpatialFamilyFactoryInterface
      * @param PointInterface[] $points    points
      * @param ?int             $srid      SRID
      * @param DimensionEnum    $dimension dimension
+     *
+     * @return LineStringInterface The line string matching the requested dimension
      */
     public function createLineString(array $points, ?int $srid, DimensionEnum $dimension): LineStringInterface;
 
@@ -46,14 +48,19 @@ interface SpatialFamilyFactoryInterface
      * @param null|float|int   $m         the M coordinate of the point
      * @param null|int         $srid      the spatial reference identifier
      * @param DimensionEnum    $dimension the dimension of the point
+     *
+     * @return PointInterface The point matching the requested dimension
      */
     public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface;
 
     /**
      * Create a polygon from closed line strings.
      *
-     * @param LineStringInterface[] $rings rings
-     * @param ?int                  $srid  SRID
+     * @param LineStringInterface[] $rings     rings
+     * @param ?int                  $srid      SRID
+     * @param DimensionEnum         $dimension dimension
+     *
+     * @return PolygonInterface The polygon matching the requested dimension
      */
-    public function createPolygon(array $rings, ?int $srid = null): PolygonInterface;
+    public function createPolygon(array $rings, ?int $srid, DimensionEnum $dimension): PolygonInterface;
 }

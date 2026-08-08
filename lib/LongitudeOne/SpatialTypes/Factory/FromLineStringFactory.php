@@ -18,12 +18,9 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * This factory creates spatial types from indexed arrays of line strings.
@@ -44,16 +41,6 @@ class FromLineStringFactory
      */
     public static function createPolygon(array $lineStrings, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): PolygonInterface
     {
-        if (DimensionEnum::X_Y !== $dimensionEnum) {
-            throw new InvalidDimensionException('Only the two-dimensions LineStrings are yet supported.');
-        }
-
-        foreach ($lineStrings as $lineString) {
-            if (!$lineString instanceof LineStringInterface) {
-                throw new InvalidValueException('The array must only contain objects implementing LineStringInterface.');
-            }
-        }
-
-        return SpatialFamilyFactoryResolver::resolve($family)->createPolygon($lineStrings, $srid);
+        return FactoryPolygon::fromArrayOfLineStrings($lineStrings, $srid, $family, $dimensionEnum);
     }
 }
