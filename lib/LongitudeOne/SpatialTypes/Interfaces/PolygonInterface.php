@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
  * Polygon interface.
  *
@@ -45,4 +47,17 @@ interface PolygonInterface extends SpatialInterface
      * @return (float|int)[][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new polygon with one replacement point in a ring.
+     *
+     * The returned polygon preserves this instance's family, dimension, and
+     * Spatial Reference Identifier (SRID). A replacement of the first or last
+     * point of a ring is applied to both endpoints to preserve ring closure.
+     *
+     * @param int         $ringIndex   index of the ring to replace; negative indexes count from the end
+     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates replacement point coordinates
+     */
+    public function withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static;
 }

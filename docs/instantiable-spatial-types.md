@@ -257,6 +257,13 @@ sets their ordinates and SRID, and no public mutator exists.
 replacement coordinates of the same dimension; `withSrid(int $srid): static`
 returns one with the same coordinates and a new SRID.
 
+`LineString::withPoint(int $pointIndex, Coordinates $coordinates): static`
+returns a deep copy with one replacement point. For polygons,
+`Polygon::withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static`
+uses a ring index followed by a point index. Replacing either endpoint of a
+ring updates both endpoints to preserve its closure. Both methods retain the
+family, dimension, and SRID of the receiving aggregate.
+
 The aggregate spatial types are **mutable**. They return `$this` from fluent
 mutators, so they must not be treated as immutable value objects:
 

@@ -16,9 +16,11 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
+use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Trait\PointTrait;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract LineString class.
@@ -81,6 +83,32 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     }
 
     /**
+     * Return a deep copy of this line string with one replacement point.
+     *
+     * The original line string and all its points remain unchanged. The
+     * replacement coordinates are validated by the selected point, which keeps
+     * the line string's family, dimension, and Spatial Reference Identifier
+     * (SRID) unchanged.
+     *
+     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates replacement point coordinates
+     *
+     * @throws OutOfBoundsException when the line string has no points
+     */
+    public function withPoint(int $pointIndex, Coordinates $coordinates): static
+    {
+        $pointIndex = $this->normalizePointIndex($pointIndex);
+        $lineString = clone $this;
+        $lineString->points = array_map(
+            static fn (PointInterface $point): PointInterface => $point->withCoordinates($point->getCoordinates()),
+            $this->points
+        );
+        $lineString->points[$pointIndex] = $lineString->points[$pointIndex]->withCoordinates($coordinates);
+
+        return $lineString;
+    }
+
+    /**
      * Return a copy of this line string with the given Spatial Reference Identifier (SRID).
      *
      * Every point is copied with the requested SRID so the returned line string
@@ -98,5 +126,24 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
         );
 
         return $lineString;
+    }
+
+    /**
+     * Normalize a point index according to the line-string accessor convention.
+     *
+     * @param int $pointIndex point index to normalize
+     *
+     * @throws OutOfBoundsException when the line string has no points
+     */
+    private function normalizePointIndex(int $pointIndex): int
+    {
+        $pointCount = count($this->points);
+        if (0 === $pointCount) {
+            throw new OutOfBoundsException('The current collection of points is empty.');
+        }
+
+        $pointIndex %= $pointCount;
+
+        return $pointIndex < 0 ? $pointCount + $pointIndex : $pointIndex;
     }
 }

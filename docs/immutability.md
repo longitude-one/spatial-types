@@ -23,6 +23,26 @@ $parisInLambert93 = $paris->withSrid(2154);
 The original `$paris` remains unchanged. This is particularly useful when a
 point is part of an aggregate.
 
+`LineString` and `Polygon` provide an equally immutable point-replacement
+operation. `withPoint()` returns a deep copy: the source aggregate, its rings,
+and its points remain unchanged.
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString;
+
+$line = new LineString([[1, 2, 10], [3, 4, 20]], 2154);
+$movedLine = $line->withPoint(1, Coordinates::xym(5, 6, 30));
+```
+
+For a polygon, the ring index comes before the point index. A replacement of
+the first or final point of a ring is mirrored to the other endpoint, which
+preserves its closure.
+
+```php
+$movedExterior = $polygon->withPoint(0, 0, Coordinates::xym(5, 6, 30));
+$movedHole = $polygon->withPoint(1, -1, Coordinates::xym(7, 8, 40));
+```
+
 ## Why coordinates are immutable
 
 Consider a point used by a line string, where that line string is then used by
@@ -76,12 +96,17 @@ longitude/latitude validation when creating the replacement point.
 
 ## Scope and aggregate types
 
-This coordinate-replacement API applies to `Point`. Aggregate types such as
-`LineString`, `Polygon`, and `MultiLineString` still expose public membership
-mutators (`addPoint()`, `addRing()`, and similar methods), and are therefore
-mutable. Their child points nevertheless remain safe to share because their
-coordinates cannot be altered after construction. Calling `withSrid()` on an
-aggregate creates a deep copy whose descendants all receive the requested SRID.
+The coordinate-replacement API applies to `Point`, `LineString`, and `Polygon`.
+`LineString::withPoint()` selects a point; `Polygon::withPoint()` selects a
+ring then a point. Both use the immutable `Value\Coordinates` value, so a
+replacement must match the receiver's coordinate dimension.
+
+Aggregate types such as `LineString`, `Polygon`, and `MultiLineString` still
+expose public membership mutators (`addPoint()`, `addRing()`, and similar
+methods), and are therefore mutable. Their child points nevertheless remain
+safe to share because their coordinates cannot be altered after construction.
+Calling `withSrid()` on an aggregate creates a deep copy whose descendants all
+receive the requested SRID.
 
 See [Instantiable spatial types](instantiable-spatial-types.md#mutability-contract)
 for the complete current mutability contract.

@@ -29,6 +29,7 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract polygon class.
@@ -158,6 +159,38 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
+     * Return a deep copy of this polygon with one replacement point in a ring.
+     *
+     * The original polygon and its rings remain unchanged. Replacing either
+     * endpoint of a ring also replaces the opposite endpoint so that the ring
+     * remains closed.
+     *
+     * @param int         $ringIndex   index of the ring to replace; negative indexes count from the end
+     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates replacement point coordinates
+     *
+     * @throws OutOfBoundsException when the polygon has no rings
+     */
+    public function withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static
+    {
+        $ringIndex = $this->normalizeRingIndex($ringIndex);
+        $polygon = clone $this;
+        $polygon->lineStrings = [];
+
+        foreach ($this->lineStrings as $index => $ring) {
+            if ($index === $ringIndex) {
+                $polygon->lineStrings[] = $this->replaceRingPoint($ring, $pointIndex, $coordinates);
+
+                continue;
+            }
+
+            $polygon->lineStrings[] = $ring->withSrid($ring->getSrid());
+        }
+
+        return $polygon;
+    }
+
+    /**
      * Return a copy of this polygon with the given Spatial Reference Identifier (SRID).
      *
      * Every ring, and therefore every point in every ring, is copied with the
@@ -174,5 +207,52 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
         );
 
         return $polygon;
+    }
+
+    /**
+     * Normalize a ring index according to the polygon accessor convention.
+     *
+     * @param int $ringIndex ring index to normalize
+     *
+     * @throws OutOfBoundsException when the polygon has no rings
+     */
+    private function normalizeRingIndex(int $ringIndex): int
+    {
+        $ringCount = count($this->lineStrings);
+        if (0 === $ringCount) {
+            throw new OutOfBoundsException('The current collection of lineStrings is empty.');
+        }
+
+        $ringIndex %= $ringCount;
+
+        return $ringIndex < 0 ? $ringCount + $ringIndex : $ringIndex;
+    }
+
+    /**
+     * Replace a point in a copied ring while preserving its closure.
+     *
+     * @param LineStringInterface $ring        ring to copy and update
+     * @param int                 $pointIndex  index of the point to replace
+     * @param Coordinates         $coordinates replacement point coordinates
+     */
+    private function replaceRingPoint(LineStringInterface $ring, int $pointIndex, Coordinates $coordinates): LineStringInterface
+    {
+        $pointCount = count($ring->getPoints());
+        $normalizedPointIndex = $pointIndex % $pointCount;
+        if ($normalizedPointIndex < 0) {
+            $normalizedPointIndex += $pointCount;
+        }
+
+        $replacement = $ring->withPoint($normalizedPointIndex, $coordinates);
+        $lastPointIndex = $pointCount - 1;
+        if (0 === $normalizedPointIndex && 0 !== $lastPointIndex) {
+            return $replacement->withPoint($lastPointIndex, $coordinates);
+        }
+
+        if ($lastPointIndex === $normalizedPointIndex && 0 !== $lastPointIndex) {
+            return $replacement->withPoint(0, $coordinates);
+        }
+
+        return $replacement;
     }
 }
