@@ -82,18 +82,6 @@ abstract class AbstractSpatialType implements SpatialInterface
     }
 
     /**
-     * SRID setter.
-     *
-     * @param int $srid the new SRID
-     */
-    public function setSrid(int $srid): static
-    {
-        $this->srid = $srid;
-
-        return $this;
-    }
-
-    /**
      * Dimension getter.
      */
     abstract protected function getDimension(): DimensionEnum;

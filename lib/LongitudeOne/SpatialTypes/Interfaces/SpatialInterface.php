@@ -70,13 +70,6 @@ interface SpatialInterface extends \JsonSerializable
     public function hasZ(): bool;
 
     /**
-     * Set this object's spatial reference identifier (SRID).
-     *
-     * @param int $srid the SpatialTypes Reference Identifier (SRID)
-     */
-    public function setSrid(int $srid): static;
-
-    /**
      * Convert this spatial object to its array representation.
      *
      * The array contains only nested arrays of floats and integers.

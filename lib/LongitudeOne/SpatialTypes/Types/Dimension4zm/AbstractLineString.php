@@ -29,7 +29,7 @@ abstract class AbstractLineString extends ParentLineString implements LineString
      */
     public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
-        $this->setSrid($srid);
+        $this->srid = $srid;
         $this->addPoints($points);
     }
 

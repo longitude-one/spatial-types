@@ -43,7 +43,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     public function __construct(int $srid = SpatialInterface::DEFAULT_SRID)
     {
-        $this->setSrid($srid);
+        $this->srid = $srid;
     }
 
     /**

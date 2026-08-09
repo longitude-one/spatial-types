@@ -41,7 +41,7 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
      */
     public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
-        $this->setSrid($srid);
+        $this->srid = $srid;
 
         $this->addPoints($points, DimensionEnum::X_Y);
     }
