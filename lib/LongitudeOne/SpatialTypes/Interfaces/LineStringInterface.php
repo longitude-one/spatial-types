@@ -75,14 +75,4 @@ interface LineStringInterface extends SpatialInterface
      * @return (float|int)[][]
      */
     public function toArray(): array;
-
-    /**
-     * Return a new line string with the given Spatial Reference Identifier (SRID).
-     *
-     * The coordinates, family, and dimension are preserved. Every point in the
-     * returned line string receives the same SRID to preserve its consistency.
-     *
-     * @param int $srid Spatial Reference Identifier
-     */
-    public function withSrid(int $srid): static;
 }

@@ -171,4 +171,23 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
             $polygons
         );
     }
+
+    /**
+     * Return a copy of this multi-polygon with the given Spatial Reference Identifier (SRID).
+     *
+     * Every polygon, ring, and point is copied with the requested SRID to
+     * preserve the aggregate's internal SRID consistency.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $multiPolygon = parent::withSrid($srid);
+        $multiPolygon->polygons = array_map(
+            static fn (PolygonInterface $polygon): PolygonInterface => $polygon->withSrid($srid),
+            $this->polygons
+        );
+
+        return $multiPolygon;
+    }
 }

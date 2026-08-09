@@ -83,4 +83,14 @@ interface SpatialInterface extends \JsonSerializable
      * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new spatial object with the given Spatial Reference Identifier (SRID).
+     *
+     * Coordinates, family, and dimension are preserved. For aggregate spatial
+     * objects, every contained spatial object receives the requested SRID.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static;
 }

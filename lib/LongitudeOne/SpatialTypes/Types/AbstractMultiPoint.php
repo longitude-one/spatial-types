@@ -55,4 +55,23 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
     {
         return $this->getPoints();
     }
+
+    /**
+     * Return a copy of this multipoint with the given Spatial Reference Identifier (SRID).
+     *
+     * Every point is copied with the requested SRID to preserve the aggregate's
+     * internal SRID consistency.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $multiPoint = parent::withSrid($srid);
+        $multiPoint->points = array_map(
+            static fn (PointInterface $point): PointInterface => $point->withSrid($srid),
+            $this->points
+        );
+
+        return $multiPoint;
+    }
 }

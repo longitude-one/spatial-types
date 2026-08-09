@@ -69,13 +69,4 @@ interface PointInterface extends SpatialInterface
      * @return (float|int)[]
      */
     public function toArray(): array;
-
-    /**
-     * Return a new point with the given Spatial Reference Identifier (SRID).
-     *
-     * The coordinates, family, and dimension are preserved.
-     *
-     * @param int $srid Spatial Reference Identifier
-     */
-    public function withSrid(int $srid): static;
 }

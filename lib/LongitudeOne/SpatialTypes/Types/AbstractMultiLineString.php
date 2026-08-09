@@ -144,4 +144,23 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
             $lineStrings
         );
     }
+
+    /**
+     * Return a copy of this multi-line string with the given Spatial Reference Identifier (SRID).
+     *
+     * Every line string, and therefore every contained point, is copied with the
+     * requested SRID to preserve the aggregate's internal SRID consistency.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $multiLineString = parent::withSrid($srid);
+        $multiLineString->lineStrings = array_map(
+            static fn (LineStringInterface $lineString): LineStringInterface => $lineString->withSrid($srid),
+            $this->lineStrings
+        );
+
+        return $multiLineString;
+    }
 }

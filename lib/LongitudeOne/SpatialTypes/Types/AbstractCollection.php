@@ -136,4 +136,23 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
 
         return $collection;
     }
+
+    /**
+     * Return a copy of this collection with the given Spatial Reference Identifier (SRID).
+     *
+     * Every contained spatial object is copied with the requested SRID, including
+     * all of its nested elements, to preserve the collection's consistency.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $collection = parent::withSrid($srid);
+        $collection->elements = array_map(
+            static fn (SpatialInterface $element): SpatialInterface => $element->withSrid($srid),
+            $this->elements
+        );
+
+        return $collection;
+    }
 }

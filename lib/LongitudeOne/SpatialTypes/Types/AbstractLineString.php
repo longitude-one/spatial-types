@@ -91,12 +91,11 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
      */
     public function withSrid(int $srid): static
     {
-        $lineString = clone $this;
+        $lineString = parent::withSrid($srid);
         $lineString->points = array_map(
             static fn (PointInterface $point): PointInterface => $point->withSrid($srid),
             $this->points
         );
-        $lineString->srid = $srid;
 
         return $lineString;
     }

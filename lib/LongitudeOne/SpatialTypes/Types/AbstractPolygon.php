@@ -156,4 +156,23 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
             $rings
         );
     }
+
+    /**
+     * Return a copy of this polygon with the given Spatial Reference Identifier (SRID).
+     *
+     * Every ring, and therefore every point in every ring, is copied with the
+     * requested SRID to preserve the polygon's internal SRID consistency.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $polygon = parent::withSrid($srid);
+        $polygon->lineStrings = array_map(
+            static fn (LineStringInterface $ring): LineStringInterface => $ring->withSrid($srid),
+            $this->lineStrings
+        );
+
+        return $polygon;
+    }
 }

@@ -102,19 +102,6 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     }
 
     /**
-     * Return a copy of this point with the given Spatial Reference Identifier (SRID).
-     *
-     * @param int $srid Spatial Reference Identifier
-     */
-    public function withSrid(int $srid): static
-    {
-        $point = clone $this;
-        $point->srid = $srid;
-
-        return $point;
-    }
-
-    /**
      * Use the longitude-one/geo-parser to parse a coordinate.
      *
      * @param string $coordinate the coordinate to parse

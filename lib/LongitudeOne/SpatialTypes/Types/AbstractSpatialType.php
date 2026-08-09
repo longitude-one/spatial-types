@@ -82,6 +82,22 @@ abstract class AbstractSpatialType implements SpatialInterface
     }
 
     /**
+     * Return a copy of this spatial object with the given Spatial Reference Identifier (SRID).
+     *
+     * Aggregate spatial types override this method to copy their contained
+     * elements with the same SRID.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $spatial = clone $this;
+        $spatial->srid = $srid;
+
+        return $spatial;
+    }
+
+    /**
      * Dimension getter.
      */
     abstract protected function getDimension(): DimensionEnum;
