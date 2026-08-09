@@ -138,17 +138,6 @@ class FromIndexedArrayFactoryTest extends TestCase
     }
 
     /**
-     * Verifies that an unsupported point dimension raises an invalid dimension exception.
-     */
-    public function testCreatePointRejectsUnsupportedDimension(): void
-    {
-        self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only two-dimension points, three-dimension measure points, and three-dimension elevation points are yet supported');
-
-        FromIndexedArrayFactory::createPoint([1, 2, 3, 4], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
-    }
-
-    /**
      * Verifies that closed coordinate arrays are converted into a polygon.
      */
     public function testCreatePolygonFromCoordinates(): void
@@ -220,5 +209,17 @@ class FromIndexedArrayFactoryTest extends TestCase
         static::assertTrue($lineString->hasM());
         static::assertFalse($lineString->hasZ());
         static::assertSame([[0, 0, 0]], $lineString->toArray());
+    }
+
+    /**
+     * Verifies that XYZM coordinates are converted into a point.
+     */
+    public function testCreateXyzmPoint(): void
+    {
+        $point = FromIndexedArrayFactory::createPoint([1, 2, 3, 4], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+
+        static::assertSame([1, 2, 3, 4], $point->toArray());
+        static::assertTrue($point->hasM());
+        static::assertTrue($point->hasZ());
     }
 }

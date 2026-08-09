@@ -117,30 +117,6 @@ class FactoryPointTest extends TestCase
     }
 
     /**
-     * Test that an unsupported elevation and measure point reaches the unsupported dimension error.
-     *
-     * @param DimensionEnum $dimension the dimension to test
-     */
-    #[DataProvider('provideUnsupportedDimensions')]
-    public function testFromCoordinatesWithUnsupportedDimension(DimensionEnum $dimension): void
-    {
-        self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessageIsOrContains('Only two-dimension points, three-dimension measure points, and three-dimension elevation points are yet supported');
-
-        FactoryPoint::fromCoordinates(1, 2, null, 3, null, FamilyEnum::GEOMETRY, $dimension);
-    }
-
-    /**
-     * Provide unsupported dimensions.
-     *
-     * @return \Generator<string, array{0: DimensionEnum}, null, void>
-     */
-    public static function provideUnsupportedDimensions(): \Generator
-    {
-        yield 'Elevation and measure point' => [DimensionEnum::X_Y_Z_M];
-    }
-
-    /**
      * Test the factory with some good coordinates in an array.
      */
     public function testFromIndexedArray(): void
@@ -285,7 +261,6 @@ class FactoryPointTest extends TestCase
      */
     public function testFromIndexedArrayWithDifferentDimensions(): void
     {
-        static::markTestSkipped('The third dimensions have not been created yet.');
         $point = FactoryPoint::fromIndexedArray([1, 2, 3], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z);
         static::assertSame(1, $point->getX());
         static::assertSame(2, $point->getY());
@@ -299,15 +274,17 @@ class FactoryPointTest extends TestCase
         static::assertSame(2, $point->getY());
         static::assertSame(4, $point->getM());
         static::assertFalse($point->hasZ());
+        static::assertTrue($point->hasM());
         static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame(TypeEnum::POINT, $point->getType());
 
         $point = FactoryPoint::fromIndexedArray([1, 2, 3, 4], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z_M);
         static::assertSame(1, $point->getX());
         static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(4, $point->getZ());
-        static::assertFalse($point->hasZ());
+        static::assertSame(3, $point->getZ());
+        static::assertSame(4, $point->getM());
+        static::assertTrue($point->hasZ());
+        static::assertTrue($point->hasM());
         static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame(TypeEnum::POINT, $point->getType());
     }

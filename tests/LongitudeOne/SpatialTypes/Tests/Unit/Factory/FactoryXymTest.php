@@ -24,6 +24,8 @@ use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometricPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Polygon as GeometricPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineString as GeographicXyzmLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point as GeometricXyzmPoint;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -69,5 +71,18 @@ class FactoryXymTest extends TestCase
         static::assertInstanceOf(GeometricPolygon::class, $polygon);
         static::assertSame([[[0, 0, 1], [1, 1, 2], [0, 0, 1]]], $polygon->toArray());
         static::assertSame(2154, $polygon->getSrid());
+    }
+
+    public function testCreatesXyzmSpatialTypes(): void
+    {
+        $point = FactoryPoint::fromCoordinates(1, 2, 3, 4, 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        $lineString = FactoryLineString::fromIndexedArray([[1, 2, 3, 4], [5, 6, 7, 8]], 4326, FamilyEnum::GEOGRAPHY, DimensionEnum::X_Y_Z_M);
+        $polygon = FactoryPolygon::fromIndexedArray([[[0, 0, 1, 2], [1, 1, 2, 3], [0, 0, 1, 2]]], 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+
+        static::assertInstanceOf(GeometricXyzmPoint::class, $point);
+        static::assertSame([1, 2, 3, 4], $point->toArray());
+        static::assertInstanceOf(GeographicXyzmLineString::class, $lineString);
+        static::assertSame([[1, 2, 3, 4], [5, 6, 7, 8]], $lineString->toArray());
+        static::assertSame([[[0, 0, 1, 2], [1, 1, 2, 3], [0, 0, 1, 2]]], $polygon->toArray());
     }
 }

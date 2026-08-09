@@ -32,6 +32,9 @@ use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Polygon as Polygon3Dm;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as LineString3Dz;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as Point3Dz;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as Polygon3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineString as LineString4Dzm;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point as Point4Dzm;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Polygon as Polygon4Dzm;
 
 /**
  * Creates geometric spatial types.
@@ -59,7 +62,7 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
             DimensionEnum::X_Y => new LineString2D($points, $srid),
             DimensionEnum::X_Y_M => new LineString3Dm($points, $srid),
             DimensionEnum::X_Y_Z => new LineString3Dz($points, $srid),
-            default => throw new InvalidDimensionException('Only two-dimension line-strings, three-dimension measure line-strings, and three-dimension elevation line-strings are yet supported'),
+            DimensionEnum::X_Y_Z_M => new LineString4Dzm($points, $srid),
         };
     }
 
@@ -84,7 +87,7 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
             DimensionEnum::X_Y => new Point2D($x, $y, $srid),
             DimensionEnum::X_Y_M => new Point3Dm($x, $y, self::requiredCoordinate($m, 'third'), $srid),
             DimensionEnum::X_Y_Z => new Point3Dz($x, $y, self::requiredCoordinate($z, 'third'), $srid),
-            default => throw new InvalidDimensionException('Only two-dimension points, three-dimension measure points, and three-dimension elevation points are yet supported'),
+            DimensionEnum::X_Y_Z_M => new Point4Dzm($x, $y, self::requiredCoordinate($z, 'third'), self::requiredCoordinate($m, 'fourth'), $srid),
         };
     }
 
@@ -105,7 +108,7 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
             DimensionEnum::X_Y => new Polygon($rings, $srid),
             DimensionEnum::X_Y_M => new Polygon3Dm($rings, $srid),
             DimensionEnum::X_Y_Z => new Polygon3Dz($rings, $srid),
-            default => throw new InvalidDimensionException('Only two-dimension polygons, three-dimension measure polygons, and three-dimension elevation polygons are yet supported'),
+            DimensionEnum::X_Y_Z_M => new Polygon4Dzm($rings, $srid),
         };
     }
 }

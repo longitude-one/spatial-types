@@ -79,12 +79,6 @@ parameters:
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
 
 		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
-
-		-
 			message: '#^Parameter \#1 \$lineStrings of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPolygon\:\:fromArrayOfLineStrings\(\) expects array\<LongitudeOne\\SpatialTypes\\Interfaces\\LineStringInterface\>, array\<int, array\<int, list\<int\>\>\> given\.$#'
 			identifier: argument.type
 			count: 1
