@@ -45,8 +45,8 @@ class Point extends AbstractPoint implements PointInterface
      */
     public function __construct(float|int|string $x, float|int|string $y, int $srid = self::DEFAULT_SRID)
     {
-        $this->setX($x);
-        $this->setY($y);
+        $this->initializeX($x);
+        $this->initializeY($y);
         $this->srid = $srid;
     }
 

@@ -66,12 +66,11 @@ class PointTest extends TestCase
         static::assertTrue($this->point->equalsTo($point));
         static::assertTrue($point->equalsTo($this->point));
 
-        $point->setX(3);
+        $point = new Point(3, 2, 4326);
         static::assertFalse($this->point->equalsTo($point));
         static::assertFalse($point->equalsTo($this->point));
 
-        $point->setX(1);
-        $point->setY(3);
+        $point = new Point(1, 3, 4326);
         static::assertFalse($this->point->equalsTo($point));
         static::assertFalse($point->equalsTo($this->point));
     }

@@ -193,21 +193,19 @@ class PointTest extends TestCase
     }
 
     /**
-     * Test the X setter.
+     * Test longitude construction.
      */
-    public function testSetX(): void
+    public function testConstructsLongitude(): void
     {
-        static::assertSame($this->point, $this->point->setX('1.1W'));
-        static::assertSame(-1.1, $this->point->getX());
+        static::assertSame(-1.1, (new Point('1.1W', 45.1))->getX());
     }
 
     /**
-     * Test the Y getter.
+     * Test latitude construction.
      */
-    public function testSetY(): void
+    public function testConstructsLatitude(): void
     {
-        static::assertSame($this->point, $this->point->setY('45.1N'));
-        static::assertSame(45.1, $this->point->getY());
+        static::assertSame(45.1, (new Point(-1.1, '45.1N'))->getY());
     }
 
     /**

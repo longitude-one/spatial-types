@@ -108,7 +108,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      *
      * @throws InvalidValueException when latitude is not valid
      */
-    public function setLatitude(float|int|string $latitude): static
+    protected function initializeLatitude(float|int|string $latitude): static
     {
         try {
             $geodesicCoordinate = $this->setGeodesicCoordinate($latitude, -90, 90);
@@ -128,7 +128,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      *
      * @throws InvalidValueException when longitude is not valid
      */
-    public function setLongitude(float|int|string $longitude): static
+    protected function initializeLongitude(float|int|string $longitude): static
     {
         try {
             $geodesicCoordinate = $this->setGeodesicCoordinate($longitude, -180, 180);
@@ -148,10 +148,10 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      *
      * @throws InvalidValueException when x is not valid
      */
-    public function setX(float|int|string $x): static
+    protected function initializeX(float|int|string $x): static
     {
         if ($this->getFamily()->usesGeodeticCoordinates()) {
-            return $this->setLongitude($x);
+            return $this->initializeLongitude($x);
         }
 
         $this->x = $this->setCartesianCoordinate($x);
@@ -166,10 +166,10 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      *
      * @throws InvalidValueException when Y is invalid, not in valid range
      */
-    public function setY(float|int|string $y): static
+    protected function initializeY(float|int|string $y): static
     {
         if ($this->getFamily()->usesGeodeticCoordinates()) {
-            return $this->setLatitude($y);
+            return $this->initializeLatitude($y);
         }
 
         $this->y = $this->setCartesianCoordinate($y);

@@ -51,9 +51,9 @@ class Point extends AbstractPoint implements PointInterface
      */
     public function __construct(float|int|string $x, float|int|string $y, float|int $z, int $srid = self::DEFAULT_SRID)
     {
-        $this->setLongitude($x);
-        $this->setLatitude($y);
-        $this->setZ($z);
+        $this->initializeLongitude($x);
+        $this->initializeLatitude($y);
+        $this->initializeZ($z);
         $this->srid = $srid;
     }
 
@@ -102,7 +102,7 @@ class Point extends AbstractPoint implements PointInterface
      *
      * @throws InvalidValueException when y is not valid
      */
-    public function setZ(float|int $z): static
+    protected function initializeZ(float|int $z): static
     {
         $this->z = $z;
 

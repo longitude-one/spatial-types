@@ -10,7 +10,8 @@
   displayDetailsOnPhpunitNotices="true">
   <testsuites>
     <testsuite name="spatial-types">
-      <directory>tests/LongitudeOne/SpatialTypes</directory>
+      <directory>tests/LongitudeOne/SpatialTypes/Tests/Functional</directory>
+      <directory>tests/LongitudeOne/SpatialTypes/Tests/Unit</directory>
     </testsuite>
   </testsuites>
   <source>
