@@ -22,6 +22,7 @@
   <coverage>
     <report>
       <clover outputFile=".phpunit-cache/coverage.xml"/>
+      <html outputDirectory=".phpunit-cache/coverage-html"/>
       <text outputFile=".phpunit-cache/coverage-results.txt" showOnlySummary="true"/>
     </report>
   </coverage>
