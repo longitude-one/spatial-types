@@ -18,9 +18,9 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
-use LongitudeOne\SpatialTypes\Factory\FactoryPoint;
-use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\LineStringFactoryAdapter as FactoryLineString;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\PointFactoryAdapter as FactoryPoint;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\PolygonFactoryAdapter as FactoryPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometricPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Polygon as GeometricPolygon;

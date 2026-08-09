@@ -20,7 +20,7 @@ use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\LineStringFactoryAdapter as FactoryLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\FactoryLineString
+ * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactory
  */
 class FactoryLineStringTest extends TestCase
 {

@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\FactoryPoint;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\PointFactoryAdapter as FactoryPoint;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\FactoryPoint
+ * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactory
  */
 class FactoryPointTest extends TestCase
 {

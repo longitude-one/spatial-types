@@ -21,8 +21,8 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
-use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\LineStringFactoryAdapter as FactoryLineString;
+use LongitudeOne\SpatialTypes\Tests\Unit\Factory\Support\PolygonFactoryAdapter as FactoryPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as Polygon3Dz;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\FactoryPolygon
+ * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactory
  */
 class FactoryPolygonTest extends TestCase
 {
