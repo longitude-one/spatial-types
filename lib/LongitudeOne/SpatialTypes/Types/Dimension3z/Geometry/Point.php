@@ -96,18 +96,6 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
-     * Set the Z coordinate (elevation).
-     *
-     * @param float|int $z Z (elevation) coordinate
-     */
-    protected function initializeZ(float|int $z): static
-    {
-        $this->z = $z;
-
-        return $this;
-    }
-
-    /**
      * Convert this point to an array containing X, Y, and Z coordinates.
      * The SRID is not exported.
      *
@@ -126,5 +114,17 @@ class Point extends AbstractPoint implements PointInterface
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z;
+    }
+
+    /**
+     * Set the Z coordinate (elevation).
+     *
+     * @param float|int $z Z (elevation) coordinate
+     */
+    protected function initializeZ(float|int $z): static
+    {
+        $this->z = $z;
+
+        return $this;
     }
 }

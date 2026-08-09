@@ -96,20 +96,6 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
-     * Set the Z coordinate. In geography, the Z coordinate is the elevation.
-     *
-     * @param float|int $z Z coordinate
-     *
-     * @throws InvalidValueException when y is not valid
-     */
-    protected function initializeZ(float|int $z): static
-    {
-        $this->z = $z;
-
-        return $this;
-    }
-
-    /**
      * Convert this point to an array containing longitude (X), latitude (Y), and Z.
      * The SRID is not exported.
      *
@@ -128,5 +114,19 @@ class Point extends AbstractPoint implements PointInterface
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z;
+    }
+
+    /**
+     * Set the Z coordinate. In geography, the Z coordinate is the elevation.
+     *
+     * @param float|int $z Z coordinate
+     *
+     * @throws InvalidValueException when y is not valid
+     */
+    protected function initializeZ(float|int $z): static
+    {
+        $this->z = $z;
+
+        return $this;
     }
 }

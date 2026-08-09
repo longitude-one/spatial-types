@@ -83,18 +83,6 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
-     * Set the M coordinate.
-     *
-     * @param float|int $m M coordinate
-     */
-    protected function initializeM(float|int $m): static
-    {
-        $this->m = $m;
-
-        return $this;
-    }
-
-    /**
      * @return array{0: float|int, 1: float|int, 2: float|int}
      */
     public function toArray(): array
@@ -108,5 +96,17 @@ class Point extends AbstractPoint implements PointInterface
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_M;
+    }
+
+    /**
+     * Set the M coordinate.
+     *
+     * @param float|int $m M coordinate
+     */
+    protected function initializeM(float|int $m): static
+    {
+        $this->m = $m;
+
+        return $this;
     }
 }

@@ -102,6 +102,40 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     }
 
     /**
+     * Use the longitude-one/geo-parser to parse a coordinate.
+     *
+     * @param string $coordinate the coordinate to parse
+     *
+     * @throws InvalidValueException when coordinate is invalid
+     */
+    protected function geoParse(string $coordinate): float|int
+    {
+        try {
+            $parser = new Parser($coordinate);
+
+            $parsedCoordinate = $parser->parse();
+        } catch (GeoParserRangeException $e) {
+            $messages = [
+                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $coordinate),
+                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $coordinate),
+                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, $coordinate),
+                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, $coordinate),
+            ];
+            $message = $messages[$e->getCode()] ?? $e->getMessage();
+
+            throw new InvalidValueException($message, $e->getCode(), $e);
+        } catch (UnexpectedValueException $e) {
+            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', $coordinate), $e->getCode(), $e);
+        }
+
+        if (is_array($parsedCoordinate)) {
+            throw new InvalidValueException('Invalid coordinate value, coordinate cannot be an array.');
+        }
+
+        return $parsedCoordinate;
+    }
+
+    /**
      * Latitude fluent setter.
      *
      * @param float|int|string $latitude the new latitude of point
@@ -175,40 +209,6 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         $this->y = $this->setCartesianCoordinate($y);
 
         return $this;
-    }
-
-    /**
-     * Use the longitude-one/geo-parser to parse a coordinate.
-     *
-     * @param string $coordinate the coordinate to parse
-     *
-     * @throws InvalidValueException when coordinate is invalid
-     */
-    protected function geoParse(string $coordinate): float|int
-    {
-        try {
-            $parser = new Parser($coordinate);
-
-            $parsedCoordinate = $parser->parse();
-        } catch (GeoParserRangeException $e) {
-            $messages = [
-                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $coordinate),
-                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $coordinate),
-                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, $coordinate),
-                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, $coordinate),
-            ];
-            $message = $messages[$e->getCode()] ?? $e->getMessage();
-
-            throw new InvalidValueException($message, $e->getCode(), $e);
-        } catch (UnexpectedValueException $e) {
-            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', $coordinate), $e->getCode(), $e);
-        }
-
-        if (is_array($parsedCoordinate)) {
-            throw new InvalidValueException('Invalid coordinate value, coordinate cannot be an array.');
-        }
-
-        return $parsedCoordinate;
     }
 
     /**

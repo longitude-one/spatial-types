@@ -56,6 +56,16 @@ class Point extends AbstractPoint implements PointInterface
         return $this->z;
     }
 
+    public function toArray(): array
+    {
+        return [$this->x, $this->y, $this->z, $this->m];
+    }
+
+    protected function getDimension(): DimensionEnum
+    {
+        return DimensionEnum::X_Y_Z_M;
+    }
+
     protected function initializeM(float|int $m): static
     {
         $this->m = $m;
@@ -68,15 +78,5 @@ class Point extends AbstractPoint implements PointInterface
         $this->z = $z;
 
         return $this;
-    }
-
-    public function toArray(): array
-    {
-        return [$this->x, $this->y, $this->z, $this->m];
-    }
-
-    protected function getDimension(): DimensionEnum
-    {
-        return DimensionEnum::X_Y_Z_M;
     }
 }

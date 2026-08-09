@@ -50,6 +50,22 @@ class PointTest extends TestCase
     }
 
     /**
+     * Test latitude construction.
+     */
+    public function testConstructsLatitude(): void
+    {
+        static::assertSame(45.1, (new Point(-1.1, '45.1N', 42.195))->getY());
+    }
+
+    /**
+     * Test longitude construction.
+     */
+    public function testConstructsLongitude(): void
+    {
+        static::assertSame(-1.1, (new Point('1.1W', 45.1, 42.195))->getX());
+    }
+
+    /**
      * Test the family getter.
      */
     public function testGetFamily(): void
@@ -190,22 +206,6 @@ class PointTest extends TestCase
         yield 'Invalid coordinate value' => ['180W', '85N 60', -0.2, 'Invalid coordinate value, got "85N 60".'];
 
         yield 'Invalid array value' => ['180W 85N', '160W 85S', 0, 'Invalid coordinate value, coordinate cannot be an array.'];
-    }
-
-    /**
-     * Test longitude construction.
-     */
-    public function testConstructsLongitude(): void
-    {
-        static::assertSame(-1.1, (new Point('1.1W', 45.1, 42.195))->getX());
-    }
-
-    /**
-     * Test latitude construction.
-     */
-    public function testConstructsLatitude(): void
-    {
-        static::assertSame(45.1, (new Point(-1.1, '45.1N', 42.195))->getY());
     }
 
     /**
