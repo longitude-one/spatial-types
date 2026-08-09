@@ -16,17 +16,16 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographicPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon as GeometricPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as GeographicPoint3D;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -56,12 +55,7 @@ class GeographyCollectionTest extends TestCase
         $geographyCollection = new GeographyCollection();
         static::expectException(InvalidDimensionException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different dimensions.');
-        $mock = static::createStub(PolygonInterface::class);
-        $mock->method('getFamily')->willReturn(FamilyEnum::GEOGRAPHY);
-        $mock->method('hasM')->willReturn(false);
-        $mock->method('hasZ')->willReturn(true);
-
-        $geographyCollection->addElement($mock);
+        $geographyCollection->addElement(new GeographicPoint3D(0, 1, 2));
     }
 
     /**

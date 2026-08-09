@@ -16,18 +16,17 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographicPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as Polygon3D;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -59,10 +58,7 @@ class MultiPolygonTest extends TestCase
      */
     public function testAddPolygonWithInvalidDimension(): void
     {
-        $polygon = static::createStub(PolygonInterface::class);
-        $polygon->method('getFamily')->willReturn(FamilyEnum::GEOMETRY);
-        $polygon->method('getSrid')->willReturn(0);
-        $polygon->method('hasSameDimension')->willReturn(false);
+        $polygon = new Polygon3D([]);
 
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The polygon is not compatible with the dimension of the current multipolygon.');

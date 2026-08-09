@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
@@ -45,9 +44,7 @@ class PolygonTest extends TestCase
      */
     public function testAddGeographicLineStringInGeometricPolygon(): void
     {
-        $ring = static::createStub(GeographicLineString::class);
-        $ring->method('isRing')->willReturn(true);
-        $ring->method('getFamily')->willReturn(FamilyEnum::GEOGRAPHY);
+        $ring = new GeographicLineString([[0, 0], [1, 0], [0, 0]]);
         $polygon = new Polygon([], 4326);
         static::expectException(InvalidFamilyException::class);
         static::expectExceptionMessageIsOrContains('The ring family is not compatible with the family of the current polygon.');

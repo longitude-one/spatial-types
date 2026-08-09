@@ -21,10 +21,10 @@ use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as Point3M;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -80,9 +80,7 @@ class LineStringTest extends TestCase
      */
     public function testAddPointWithInvalidDimension(): void
     {
-        $point = static::createStub(PointInterface::class);
-        $point->method('hasM')->willReturn(true);
-        $point->method('hasZ')->willReturn(false);
+        $point = new Point3M(1, 2, 3);
 
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The point dimension is not compatible with the dimension of the current spatial collection.');

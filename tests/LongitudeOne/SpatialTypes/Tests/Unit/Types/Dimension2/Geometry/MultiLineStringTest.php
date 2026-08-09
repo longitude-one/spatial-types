@@ -21,11 +21,11 @@ use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as LineString3D;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -57,8 +57,7 @@ class MultiLineStringTest extends TestCase
      */
     public function testAddLineStringWithInvalidDimension(): void
     {
-        $lineString = static::createStub(LineStringInterface::class);
-        $lineString->method('hasSameDimension')->willReturn(false);
+        $lineString = new LineString3D([]);
 
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('The line string dimension is not compatible with the dimension of the current linestring collection.');
