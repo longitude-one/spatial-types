@@ -48,8 +48,9 @@ mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-typ
 
 Spatial values are intended to be safe to share. In particular, `Point` is an
 immutable value: its coordinates and SRID are set at construction time and are
-never changed through the public API. To represent another location or another
-SRID, create another point instead of mutating the existing one.
+never changed through the public API. To represent another location, create a
+new point. To associate the same coordinates with another SRID, use
+`$point->withSrid($srid)`, which returns a new point.
 
 This prevents a point shared by a `LineString` and, through that line, a
 `MultiLineString` from silently changing both objects. See

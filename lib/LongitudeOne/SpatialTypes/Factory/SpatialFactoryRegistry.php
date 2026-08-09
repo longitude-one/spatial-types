@@ -53,6 +53,8 @@ final readonly class SpatialFactoryRegistry
 
     /**
      * Return the line string constructor for a family.
+     *
+     * @param FamilyEnum $family spatial family whose constructor is requested
      */
     public function lineStringFactory(FamilyEnum $family): LineStringFactoryInterface
     {
@@ -61,6 +63,8 @@ final readonly class SpatialFactoryRegistry
 
     /**
      * Return the point constructor for a family.
+     *
+     * @param FamilyEnum $family spatial family whose constructor is requested
      */
     public function pointFactory(FamilyEnum $family): PointFactoryInterface
     {
@@ -69,6 +73,8 @@ final readonly class SpatialFactoryRegistry
 
     /**
      * Return the polygon constructor for a family.
+     *
+     * @param FamilyEnum $family spatial family whose constructor is requested
      */
     public function polygonFactory(FamilyEnum $family): PolygonFactoryInterface
     {
@@ -77,6 +83,8 @@ final readonly class SpatialFactoryRegistry
 
     /**
      * Return constructors registered for a family.
+     *
+     * @param FamilyEnum $family spatial family whose constructors are requested
      *
      * @throws InvalidValueException when no constructor is registered for the family
      */

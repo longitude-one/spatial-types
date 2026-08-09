@@ -43,36 +43,6 @@ parameters:
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/RangeExceptionTest.php
 
 		-
-			message: '#^Parameter \#1 \$points of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryLineString\:\:fromArrayOfPoints\(\) expects array\<LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\<int, string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryLineStringTest.php
-
-		-
-			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}, array\<int\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
-
-		-
-			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}, array\{1, null\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
-
-		-
-			message: '#^Parameter \#1 \$point of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPoint\:\:fromIndexedArray\(\) expects array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}, array\{null, 2\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPointTest.php
-
-		-
-			message: '#^Parameter \#1 \$lineStrings of static method LongitudeOne\\SpatialTypes\\Factory\\FactoryPolygon\:\:fromArrayOfLineStrings\(\) expects array\<LongitudeOne\\SpatialTypes\\Interfaces\\LineStringInterface\>, array\<int, array\<int, list\<int\>\>\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Factory/FactoryPolygonTest.php
-
-		-
 			message: '#^Parameter \#1 \$points of method LongitudeOne\\SpatialTypes\\Types\\AbstractLineString\:\:addPoints\(\) expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{''foo'', ''bar''\} given\.$#'
 			identifier: argument.type
 			count: 1

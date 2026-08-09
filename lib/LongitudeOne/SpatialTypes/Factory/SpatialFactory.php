@@ -46,7 +46,8 @@ final class SpatialFactory
     /**
      * Create a line string from typed points.
      *
-     * @param PointInterface[] $points points
+     * @param PointInterface[] $points  points composing the line string
+     * @param SpatialContext   $context family, dimension, and SRID to apply
      *
      * @throws InvalidValueException when an element is not a point
      */
@@ -64,7 +65,8 @@ final class SpatialFactory
     /**
      * Create a line string from an indexed array.
      *
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points points
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points  points
+     * @param SpatialContext                                                                                                  $context family, dimension, and SRID to apply
      */
     public function createLineStringFromIndexedArray(array $points, SpatialContext $context): LineStringInterface
     {
@@ -73,6 +75,9 @@ final class SpatialFactory
 
     /**
      * Create a point from typed coordinates.
+     *
+     * @param Coordinates    $coordinates normalized X, Y, Z, and M values
+     * @param SpatialContext $context     family, dimension, and SRID to apply
      *
      * @throws InvalidDimensionException when a coordinate is not supported by the requested dimension
      */
@@ -89,6 +94,7 @@ final class SpatialFactory
      * Create a point from an indexed array.
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates coordinates
+     * @param SpatialContext                                                                            $context     family, dimension, and SRID to apply
      */
     public function createPointFromIndexedArray(array $coordinates, SpatialContext $context): PointInterface
     {
@@ -99,6 +105,7 @@ final class SpatialFactory
      * Create a polygon from typed line strings.
      *
      * @param LineStringInterface[] $lineStrings line strings that form polygon rings
+     * @param SpatialContext        $context     family, dimension, and SRID to apply
      *
      * @throws InvalidValueException when an element is not a line string
      */
@@ -116,7 +123,8 @@ final class SpatialFactory
     /**
      * Create a polygon from an indexed array.
      *
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings rings
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings   rings
+     * @param SpatialContext                                                                                                                             $context family, dimension, and SRID to apply
      */
     public function createPolygonFromIndexedArray(array $rings, SpatialContext $context): PolygonInterface
     {

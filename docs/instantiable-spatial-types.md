@@ -233,7 +233,8 @@ topology validation is performed by these predicates.
 ## Mutability contract
 
 `Point` objects are effectively immutable through the public API: construction
-sets their ordinates and SRID, and no public mutator exists.
+sets their ordinates and SRID, and no public mutator exists. `withSrid(int
+$srid): static` returns a new point with the same ordinates and a new SRID.
 
 The aggregate spatial types are **mutable**. They return `$this` from fluent
 mutators, so they must not be treated as immutable value objects:

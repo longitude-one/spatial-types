@@ -7,13 +7,15 @@ as immutable makes that reuse safe and makes a value's location explicit.
 
 `Point` is immutable through the public API. Its coordinates and SRID are set
 by its constructor and it has no public setter. A point with a different
-coordinate or SRID is a distinct value and must be constructed as such.
+coordinate is a distinct value and must be constructed as such. `withSrid()`
+creates a distinct point with the same coordinates and a different SRID.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 
 $paris = new Point(2.3522, 48.8566, 4326);
 $movedParis = new Point(2.3600, $paris->getY(), $paris->getSrid());
+$parisInLambert93 = $paris->withSrid(2154);
 ```
 
 The original `$paris` remains unchanged. This is particularly useful when a
@@ -48,10 +50,10 @@ another location creates another point and explicitly builds the spatial value
 that should contain it. This preserves validation of geography coordinate
 ranges, coordinate dimensions, family, and SRID compatibility.
 
-Changing an SRID follows the same value-object rule: it produces another
-spatial value. Merely assigning a new SRID does not transform its coordinates;
-a coordinate transformation must first calculate new ordinates, then construct
-a value with those ordinates and the target SRID.
+Changing an SRID follows the same value-object rule: `withSrid()` produces
+another spatial value. It does not transform coordinates; a coordinate
+transformation must first calculate new ordinates, then construct a value with
+those ordinates and the target SRID.
 
 ## Scope and aggregate types
 
