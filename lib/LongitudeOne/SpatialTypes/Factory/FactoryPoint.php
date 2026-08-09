@@ -21,6 +21,7 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
+use LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
@@ -57,10 +58,7 @@ class FactoryPoint
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         }
 
-        return SpatialFamilyFactoryResolver::resolvePointFactory($family)->create(
-            new Coordinates($x, $y, $z, $m),
-            new SpatialContext($srid, $family, $dimension)
-        );
+        return self::create(new Coordinates($x, $y, $z, $m), new SpatialContext($srid, $family, $dimension));
     }
 
     /**
@@ -83,49 +81,19 @@ class FactoryPoint
         FamilyEnum $family = FamilyEnum::GEOMETRY,
         DimensionEnum $dimension = DimensionEnum::X_Y
     ): PointInterface {
-        $coordinateCount = $dimension->coordinateCount();
-        if (count($point) > $coordinateCount) {
-            throw new InvalidDimensionException(sprintf('The array must contain exactly %d coordinates to create a %s point.', $coordinateCount, $dimension->value));
-        }
+        $context = new SpatialContext($srid, $family, $dimension);
 
-        foreach (range(0, $coordinateCount - 1) as $index) {
-            if (!array_key_exists($index, $point) || null === $point[$index]) {
-                throw new MissingValueException(sprintf('The %s coordinate of array is missing.', match ($index) {
-                    0 => 'first',
-                    1 => 'second',
-                    2 => 'third',
-                    3 => 'fourth',
-                    default => 'unknown',
-                }));
-            }
-        }
-
-        $x = $point[0];
-        $y = $point[1];
-        $zIndex = $dimension->zIndex();
-        $mIndex = $dimension->mIndex();
-        $z = null === $zIndex ? null : self::numericCoordinate($point[$zIndex], 'Z');
-        $m = null === $mIndex ? null : self::numericCoordinate($point[$mIndex], 'M');
-
-        return self::fromCoordinates($x, $y, $z, $m, $srid, $family, $dimension);
+        return self::create((new CoordinatesHydrator())->hydrate($point, $context), $context);
     }
 
     /**
-     * Ensure a Z or M coordinate is numeric.
+     * Create a point from typed coordinates.
      *
-     * @param mixed  $coordinate The coordinate to validate
-     * @param string $name       The coordinate name used in the error message
-     *
-     * @return float|int The validated coordinate
-     *
-     * @throws InvalidValueException when the coordinate is not numeric
+     * @param Coordinates    $coordinates coordinates
+     * @param SpatialContext $context     spatial context
      */
-    private static function numericCoordinate(mixed $coordinate, string $name): float|int
+    private static function create(Coordinates $coordinates, SpatialContext $context): PointInterface
     {
-        if (!is_float($coordinate) && !is_int($coordinate)) {
-            throw new InvalidValueException(sprintf('The %s coordinate must be a number.', $name));
-        }
-
-        return $coordinate;
+        return SpatialFamilyFactoryResolver::resolvePointFactory($context->family)->create($coordinates, $context);
     }
 }

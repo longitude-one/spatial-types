@@ -20,6 +20,7 @@ use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
@@ -70,21 +71,8 @@ class FactoryLineString
      */
     public static function fromIndexedArray(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {
-        $points = [];
-        foreach ($indexedArray as $point) {
-            if (!is_array($point) && !$point instanceof PointInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing PointInterface or array of coordinates.');
-            }
+        $context = new SpatialContext($srid, $family, $dimension);
 
-            if ($point instanceof PointInterface) {
-                $points[] = $point;
-
-                continue;
-            }
-
-            $points[] = FactoryPoint::fromIndexedArray($point, $srid, $family, $dimension);
-        }
-
-        return self::fromArrayOfPoints($points, $srid, $family, $dimension);
+        return self::fromArrayOfPoints((new SpatialArrayHydrator())->hydrateLineString($indexedArray, $context), $srid, $family, $dimension);
     }
 }

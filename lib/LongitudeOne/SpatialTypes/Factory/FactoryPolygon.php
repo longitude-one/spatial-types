@@ -20,6 +20,7 @@ use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -71,21 +72,8 @@ class FactoryPolygon
      */
     public static function fromIndexedArray(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PolygonInterface
     {
-        $lineStrings = [];
-        foreach ($indexedArray as $lineString) {
-            if (!is_array($lineString) && !$lineString instanceof LineStringInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing LineStringInterface or array of PointInterface or "array of array of coordinates".');
-            }
+        $context = new SpatialContext($srid, $family, $dimension);
 
-            if ($lineString instanceof LineStringInterface) {
-                $lineStrings[] = $lineString;
-
-                continue;
-            }
-
-            $lineStrings[] = FactoryLineString::fromIndexedArray($lineString, $srid, $family, $dimension);
-        }
-
-        return self::fromArrayOfLineStrings($lineStrings, $srid, $family, $dimension);
+        return self::fromArrayOfLineStrings((new SpatialArrayHydrator())->hydratePolygon($indexedArray, $context), $srid, $family, $dimension);
     }
 }
