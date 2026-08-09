@@ -43,7 +43,7 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     {
         $this->srid = $srid;
 
-        $this->addPoints($points, DimensionEnum::X_Y);
+        $this->addPoints($points);
     }
 
     /**

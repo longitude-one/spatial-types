@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPoint;
@@ -41,7 +40,7 @@ class MultiPointTest extends TestCase
     {
         $multiPoint = new MultiPoint([], 4326);
         $multiPoint->addPoint(new Point(1, 2));
-        $multiPoint->addPoint([3, 4], DimensionEnum::X_Y);
+        $multiPoint->addPoint([3, 4]);
         static::assertCount(2, $multiPoint->getPoints());
 
         self::expectException(InvalidSridException::class);
