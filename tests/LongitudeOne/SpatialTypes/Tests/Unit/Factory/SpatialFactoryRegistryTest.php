@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryRegistryFactory;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeographicLineStringFactory;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPointFactory;
@@ -29,6 +30,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
+ * @covers \LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory
  * @covers \LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryRegistryFactory
  * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry
  */
@@ -40,6 +42,14 @@ class SpatialFactoryRegistryTest extends TestCase
     public function testDefaultRegistryIsBuiltOnce(): void
     {
         static::assertSame(DefaultSpatialFactoryRegistryFactory::create(), DefaultSpatialFactoryRegistryFactory::create());
+    }
+
+    /**
+     * Test the default spatial factory is built once.
+     */
+    public function testDefaultSpatialFactoryIsBuiltOnce(): void
+    {
+        static::assertSame(DefaultSpatialFactoryFactory::create(), DefaultSpatialFactoryFactory::create());
     }
 
     /**

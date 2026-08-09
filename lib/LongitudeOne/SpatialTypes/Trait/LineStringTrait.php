@@ -20,7 +20,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\FactoryLineString;
+use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 
@@ -49,7 +50,7 @@ trait LineStringTrait
     private function traitAddLineString(array|LineStringInterface $lineString): static
     {
         if (is_array($lineString)) {
-            $lineString = FactoryLineString::fromIndexedArray($lineString, $this->getSrid(), $this->getFamily(), $this->getDimension());
+            $lineString = DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($lineString, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
         }
 
         if (!$lineString->hasSameDimension($this)) {

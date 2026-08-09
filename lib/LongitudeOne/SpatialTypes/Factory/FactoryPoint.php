@@ -21,16 +21,15 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
-use LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /**
  * Factory Point class.
  *
- * @internal This class is internal. It is used to create a point from an array of coordinates.
+ * @internal
  *
- * Developer can use it, but be aware that there is no backward compatibility pledge.
+ * @deprecated use SpatialFactory injected with a SpatialFactoryRegistry instead
  */
 class FactoryPoint
 {
@@ -53,11 +52,7 @@ class FactoryPoint
      */
     public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, float|int|null $m = null, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
-        if ((!$dimension->hasZ() && null !== $z) || (!$dimension->hasM() && null !== $m)) {
-            throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
-        }
-
-        return self::create(new Coordinates($x, $y, $z, $m), new SpatialContext($srid, $family, $dimension));
+        return DefaultSpatialFactoryFactory::create()->createPoint(new Coordinates($x, $y, $z, $m), new SpatialContext($srid, $family, $dimension));
     }
 
     /**
@@ -80,19 +75,6 @@ class FactoryPoint
         FamilyEnum $family = FamilyEnum::GEOMETRY,
         DimensionEnum $dimension = DimensionEnum::X_Y
     ): PointInterface {
-        $context = new SpatialContext($srid, $family, $dimension);
-
-        return self::create((new CoordinatesHydrator())->hydrate($point, $context), $context);
-    }
-
-    /**
-     * Create a point from typed coordinates.
-     *
-     * @param Coordinates    $coordinates coordinates
-     * @param SpatialContext $context     spatial context
-     */
-    private static function create(Coordinates $coordinates, SpatialContext $context): PointInterface
-    {
-        return DefaultSpatialFactoryRegistryFactory::create()->pointFactory($context->family)->create($coordinates, $context);
+        return DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray($point, new SpatialContext($srid, $family, $dimension));
     }
 }

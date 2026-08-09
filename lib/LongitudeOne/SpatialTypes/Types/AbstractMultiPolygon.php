@@ -23,7 +23,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\FactoryPolygon;
+use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -68,7 +69,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     public function addPolygon(array|PolygonInterface $polygon): static
     {
         if (is_array($polygon)) {
-            $polygon = FactoryPolygon::fromIndexedArray($polygon, $this->getSrid(), $this->getFamily(), $this->getDimension());
+            $polygon = DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($polygon, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
         }
 
         if (!empty($polygon->getSrid()) && !empty($this->getSrid()) && $polygon->getSrid() !== $this->getSrid()) {

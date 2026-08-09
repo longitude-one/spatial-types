@@ -22,7 +22,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
+use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 
 /**
@@ -54,7 +55,7 @@ trait PointTrait
     public function addPoint(array|PointInterface $point): static
     {
         if (is_array($point)) {
-            $point = FromIndexedArrayFactory::createPoint($point, $this->getSrid(), $this->getFamily(), $this->getDimension());
+            $point = DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray($point, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
         }
 
         if (!$this->hasSameDimension($point)) {

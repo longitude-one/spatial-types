@@ -41,7 +41,7 @@ class FromIndexedArrayFactory
      */
     public static function createLineString(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {
-        return FactoryLineString::fromIndexedArray($indexedArray, $srid, $family, $dimension);
+        return DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($indexedArray, new SpatialContext($srid, $family, $dimension));
     }
 
     /**
@@ -56,7 +56,7 @@ class FromIndexedArrayFactory
      */
     public static function createPoint(array $coordinates, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): PointInterface
     {
-        return FactoryPoint::fromIndexedArray($coordinates, $srid, $family, $dimensionEnum);
+        return DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray($coordinates, new SpatialContext($srid, $family, $dimensionEnum));
     }
 
     /**
@@ -71,6 +71,6 @@ class FromIndexedArrayFactory
      */
     public static function createPolygon(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PolygonInterface
     {
-        return FactoryPolygon::fromIndexedArray($indexedArray, $srid, $family, $dimension);
+        return DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($indexedArray, new SpatialContext($srid, $family, $dimension));
     }
 }

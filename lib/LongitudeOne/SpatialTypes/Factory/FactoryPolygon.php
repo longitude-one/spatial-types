@@ -18,9 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -31,7 +29,9 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
  *
  * Creates polygons from line strings, points, or nested coordinate arrays.
  *
- * @internal This class is internal. You can use it, but be aware that there is no backward compatibility pledge.
+ * @internal
+ *
+ * @deprecated use SpatialFactory injected with a SpatialFactoryRegistry instead
  */
 class FactoryPolygon
 {
@@ -47,16 +47,7 @@ class FactoryPolygon
      */
     public static function fromArrayOfLineStrings(array $lineStrings, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): PolygonInterface
     {
-        foreach ($lineStrings as $lineString) {
-            if (!$lineString instanceof LineStringInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing LineStringInterface.');
-            }
-        }
-
-        return DefaultSpatialFactoryRegistryFactory::create()->polygonFactory($family)->create(
-            $lineStrings,
-            new SpatialContext($srid, $family, $dimensionEnum)
-        );
+        return DefaultSpatialFactoryFactory::create()->createPolygon($lineStrings, new SpatialContext($srid, $family, $dimensionEnum));
     }
 
     /**
@@ -71,8 +62,6 @@ class FactoryPolygon
      */
     public static function fromIndexedArray(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PolygonInterface
     {
-        $context = new SpatialContext($srid, $family, $dimension);
-
-        return self::fromArrayOfLineStrings((new SpatialArrayHydrator(DefaultSpatialFactoryRegistryFactory::create()))->hydratePolygon($indexedArray, $context), $srid, $family, $dimension);
+        return DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($indexedArray, new SpatialContext($srid, $family, $dimension));
     }
 }

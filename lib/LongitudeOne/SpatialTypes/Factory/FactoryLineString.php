@@ -18,9 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
@@ -28,9 +26,9 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 /**
  * Factory LineString class.
  *
- * @internal This class is internal. It is used to create a linestring from an array of points or an indexed array.
+ * @internal
  *
- * Developer can use it, but be aware that there is no backward compatibility pledge.
+ * @deprecated use SpatialFactory injected with a SpatialFactoryRegistry instead
  */
 class FactoryLineString
 {
@@ -46,16 +44,7 @@ class FactoryLineString
      */
     public static function fromArrayOfPoints(array $points, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): LineStringInterface
     {
-        foreach ($points as $point) {
-            if (!$point instanceof PointInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing PointInterface.');
-            }
-        }
-
-        return DefaultSpatialFactoryRegistryFactory::create()->lineStringFactory($family)->create(
-            $points,
-            new SpatialContext($srid, $family, $dimensionEnum)
-        );
+        return DefaultSpatialFactoryFactory::create()->createLineString($points, new SpatialContext($srid, $family, $dimensionEnum));
     }
 
     /**
@@ -70,8 +59,6 @@ class FactoryLineString
      */
     public static function fromIndexedArray(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {
-        $context = new SpatialContext($srid, $family, $dimension);
-
-        return self::fromArrayOfPoints((new SpatialArrayHydrator(DefaultSpatialFactoryRegistryFactory::create()))->hydrateLineString($indexedArray, $context), $srid, $family, $dimension);
+        return DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($indexedArray, new SpatialContext($srid, $family, $dimension));
     }
 }
