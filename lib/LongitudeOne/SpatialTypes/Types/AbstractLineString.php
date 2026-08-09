@@ -79,4 +79,25 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
             $points
         );
     }
+
+    /**
+     * Return a copy of this line string with the given Spatial Reference Identifier (SRID).
+     *
+     * Every point is copied with the requested SRID so the returned line string
+     * remains internally consistent, including when the original contains points
+     * with the default SRID.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        $lineString = clone $this;
+        $lineString->points = array_map(
+            static fn (PointInterface $point): PointInterface => $point->withSrid($srid),
+            $this->points
+        );
+        $lineString->srid = $srid;
+
+        return $lineString;
+    }
 }
