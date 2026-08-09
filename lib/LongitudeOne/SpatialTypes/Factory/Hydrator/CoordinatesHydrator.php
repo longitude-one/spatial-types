@@ -24,6 +24,8 @@ use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 
 /**
  * Hydrates point coordinates from an indexed array.
+ *
+ * @internal this hydrator supports the internal factory pipeline
  */
 final class CoordinatesHydrator
 {

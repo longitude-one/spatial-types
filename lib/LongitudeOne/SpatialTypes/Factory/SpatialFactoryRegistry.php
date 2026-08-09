@@ -24,6 +24,8 @@ use LongitudeOne\SpatialTypes\Factory\Internal\PolygonFactoryInterface;
 
 /**
  * Registry of constructors associated with spatial families.
+ *
+ * @internal this registry supports the internal factory pipeline
  */
 final readonly class SpatialFactoryRegistry
 {

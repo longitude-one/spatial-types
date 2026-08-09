@@ -25,7 +25,9 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /**
- * This factory creates spatial types from indexed arrays.
+ * Creates spatial types from indexed arrays.
+ *
+ * @internal use concrete spatial-type constructors in application code
  */
 class FromIndexedArrayFactory
 {

@@ -18,6 +18,8 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 /**
  * Immutable coordinates used to create a point.
+ *
+ * @internal this data-transfer object supports the internal factory pipeline
  */
 final readonly class Coordinates
 {

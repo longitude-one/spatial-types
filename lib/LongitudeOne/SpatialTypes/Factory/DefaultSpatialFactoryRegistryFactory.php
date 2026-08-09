@@ -25,7 +25,9 @@ use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPointFactory;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPolygonFactory;
 
 /**
- * Creates the default registry used by the static compatibility facades.
+ * Creates the default registry used by the internal factory pipeline.
+ *
+ * @internal this registry builder is an implementation detail
  */
 final class DefaultSpatialFactoryRegistryFactory
 {

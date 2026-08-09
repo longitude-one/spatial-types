@@ -20,7 +20,9 @@ use LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
 
 /**
- * Creates the default spatial factory used by compatibility facades.
+ * Creates the default spatial factory used by internal aggregate hydration.
+ *
+ * @internal this factory builder is an implementation detail
  */
 final class DefaultSpatialFactoryFactory
 {

@@ -23,6 +23,8 @@ use LongitudeOne\SpatialTypes\Factory\Internal\PolygonFactoryInterface;
 
 /**
  * Set of constructors for one spatial family.
+ *
+ * @internal this configuration object supports the internal factory pipeline
  */
 final readonly class FamilyFactories
 {

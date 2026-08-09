@@ -41,6 +41,9 @@ $lineString = new LineString([
 $lineString->getSrid(); // 4326
 ```
 
+For the complete catalogue of concrete types, constructors, accessors, and
+mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-types.md).
+
 ## SRID
 
 Every spatial object always has an integer SRID. `SpatialInterface::DEFAULT_SRID`

@@ -22,6 +22,8 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /**
  * Immutable context used to create a spatial type.
+ *
+ * @internal this context supports the internal factory pipeline
  */
 final readonly class SpatialContext
 {

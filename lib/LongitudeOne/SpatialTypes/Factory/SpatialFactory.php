@@ -26,6 +26,8 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 
 /**
  * Creates spatial types using injected constructors and hydrators.
+ *
+ * @internal this factory supports aggregate constructors that accept arrays
  */
 final class SpatialFactory
 {

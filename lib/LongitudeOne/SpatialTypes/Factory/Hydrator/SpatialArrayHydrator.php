@@ -24,6 +24,8 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 
 /**
  * Hydrates spatial components from nested indexed arrays.
+ *
+ * @internal this hydrator supports the internal factory pipeline
  */
 final class SpatialArrayHydrator
 {
