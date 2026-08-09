@@ -44,6 +44,18 @@ $lineString->getSrid(); // 4326
 For the complete catalogue of concrete types, constructors, accessors, and
 mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-types.md).
 
+## Immutability
+
+Spatial values are intended to be safe to share. In particular, `Point` is an
+immutable value: its coordinates and SRID are set at construction time and are
+never changed through the public API. To represent another location or another
+SRID, create another point instead of mutating the existing one.
+
+This prevents a point shared by a `LineString` and, through that line, a
+`MultiLineString` from silently changing both objects. See
+[Immutability](docs/immutability.md) for the rationale, an example, and the
+current scope of this contract.
+
 ## SRID
 
 Every spatial object always has an integer SRID. `SpatialInterface::DEFAULT_SRID`
