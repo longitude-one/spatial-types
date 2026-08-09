@@ -10,9 +10,43 @@ The library follows the spatial-object model established by the
 [OGC Simple Features Access standard](https://www.ogc.org/standards/sfa/) and
 the `ST_Geometry` hierarchy of SQL/MM Spatial (ISO/IEC 13249-3). In practice,
 that model supplies the instantiable `Point`, `LineString`, `Polygon`,
-`MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types. Abstract
-concepts such as `ST_Curve`, `ST_MultiCurve`, and `ST_MultiSurface` are not
-represented by instantiable PHP classes.
+`MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types.
+
+### ISO/IEC 13249-3 geometry-type coverage
+
+The following matrix covers the SQL/MM geometry hierarchy used by this
+library. It distinguishes the standard's instantiable types from the concrete
+types exposed by the library. SQL/MM's curve-capable types are listed even
+though the library deliberately implements only the linear subset. The SQL/MM
+type declarations are reproduced in the informative SQL/MM comparison in the
+[OGC Simple Features Access specification](https://docs.ogc.org/is/06-104r4/06-104r4/pdf).
+
+| ISO/IEC 13249-3 type | Instantiable in SQL/MM | Library representation | Coverage note |
+| --- | --- | --- | --- |
+| `ST_Geometry` | No | — | Abstract root type; `SpatialInterface` is the common PHP contract. |
+| `ST_Point` | Yes | `Point` | Implemented for every family and coordinate layout. |
+| `ST_Curve` | No | — | Abstract one-dimensional base type. |
+| `ST_LineString` | Yes | `LineString` | Implemented for every family and coordinate layout. |
+| `ST_CircularString` | Yes | — | Circular-arc curves are not implemented. |
+| `ST_CompoundCurve` | Yes | — | Compositions of linear and circular curves are not implemented. |
+| `ST_Surface` | No | — | Abstract two-dimensional base type. |
+| `ST_CurvePolygon` | Yes | — | Curve-bounded polygons are not implemented. |
+| `ST_Polygon` | Yes | `Polygon` | Implemented with `LineString` rings only. |
+| `ST_GeomCollection` | Yes | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous, non-nested collection. |
+| `ST_MultiPoint` | Yes | `MultiPoint` | Implemented. |
+| `ST_MultiCurve` | Yes | — | Not implemented; it could contain any `ST_Curve` subtype. |
+| `ST_MultiLineString` | Yes | `MultiLineString` | Implemented. |
+| `ST_MultiSurface` | Yes | — | Not implemented; it could contain any `ST_Surface` subtype. |
+| `ST_MultiPolygon` | Yes | `MultiPolygon` | Implemented. |
+
+`ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
+than a subtype of `ST_Geometry`; it is outside this value-type hierarchy. This
+library stores its identifier as an integer SRID and does not model spatial
+reference-system definitions. `ST_PolyhedralSurface` is not part of the SQL/MM
+base hierarchy covered by this matrix and is not implemented.
+
+The `Geography` family is a library-level counterpart to the `Geometry` family;
+it is not a separate `ST_Geography` branch in the SQL/MM hierarchy.
 
 The library distinguishes two coordinate families:
 

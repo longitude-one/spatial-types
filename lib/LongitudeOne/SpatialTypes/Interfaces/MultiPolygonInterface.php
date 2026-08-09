@@ -22,9 +22,6 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
  * The MultiPolygon type corresponds to the instantiable ST_MultiPolygon subtype
  * of ST_MultiSurface defined by ISO/IEC 13249-3. Its elements are restricted to
  * Polygon values.
- *
- * ST_MultiSurface is not instantiable, so this library does not expose a
- * corresponding interface.
  */
 interface MultiPolygonInterface extends CollectionInterface
 {
