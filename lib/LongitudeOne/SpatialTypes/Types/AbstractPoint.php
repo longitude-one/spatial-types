@@ -19,9 +19,12 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\Geo\String\Exception\RangeException as GeoParserRangeException;
 use LongitudeOne\Geo\String\Exception\UnexpectedValueException;
 use LongitudeOne\Geo\String\Parser;
+use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\RangeException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract point object for POINT spatial types.
@@ -70,6 +73,20 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     }
 
     /**
+     * Return the normalized coordinates of this point.
+     */
+    public function getCoordinates(): Coordinates
+    {
+        return new Coordinates(
+            $this->getDimension(),
+            $this->x,
+            $this->y,
+            $this->hasZ() ? $this->getZ() : null,
+            $this->hasM() ? $this->getM() : null
+        );
+    }
+
+    /**
      * Latitude getter.
      */
     public function getLatitude(): float|int
@@ -99,6 +116,37 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     public function getY(): float|int
     {
         return $this->y;
+    }
+
+    /**
+     * Return a copy of this point with the supplied normalized coordinates.
+     *
+     * The coordinate dimension must match the concrete point type. The point's
+     * family and Spatial Reference Identifier (SRID) are preserved.
+     *
+     * @param Coordinates $coordinates replacement coordinates
+     *
+     * @throws InvalidDimensionException when the coordinate dimension differs from this point's dimension
+     */
+    public function withCoordinates(Coordinates $coordinates): static
+    {
+        if ($this->getDimension() !== $coordinates->dimension) {
+            throw new InvalidDimensionException(sprintf('The %s coordinates are incompatible with the %s point dimension.', $coordinates->dimension->value, $this->getDimension()->value));
+        }
+
+        $point = clone $this;
+        $point->initializeX($coordinates->x);
+        $point->initializeY($coordinates->y);
+
+        if ($coordinates->dimension->hasZ()) {
+            $point->initializeZ($coordinates->getZ());
+        }
+
+        if ($coordinates->dimension->hasM()) {
+            $point->initializeM($coordinates->getM());
+        }
+
+        return $point;
     }
 
     /**
@@ -176,6 +224,18 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     }
 
     /**
+     * Set the M coordinate on a point that supports a measure ordinate.
+     *
+     * @param float|int $m M coordinate or measure
+     *
+     * @throws BadMethodCallException when the point has no M ordinate
+     */
+    protected function initializeM(float|int $m): static
+    {
+        throw new BadMethodCallException(sprintf('The M ordinate "%s" cannot be assigned to a point with the %s dimension.', $m, $this->getDimension()->value));
+    }
+
+    /**
      * X setter. (Latitude setter).
      *
      * @param float|int|string $x the new X
@@ -209,6 +269,18 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         $this->y = $this->setCartesianCoordinate($y);
 
         return $this;
+    }
+
+    /**
+     * Set the Z coordinate on a point that supports an elevation ordinate.
+     *
+     * @param float|int $z Z coordinate or elevation
+     *
+     * @throws BadMethodCallException when the point has no Z ordinate
+     */
+    protected function initializeZ(float|int $z): static
+    {
+        throw new BadMethodCallException(sprintf('The Z ordinate "%s" cannot be assigned to a point with the %s dimension.', $z, $this->getDimension()->value));
     }
 
     /**

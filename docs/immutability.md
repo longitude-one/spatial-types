@@ -6,15 +6,17 @@ as immutable makes that reuse safe and makes a value's location explicit.
 ## Current contract
 
 `Point` is immutable through the public API. Its coordinates and SRID are set
-by its constructor and it has no public setter. A point with a different
-coordinate is a distinct value and must be constructed as such. `withSrid()`
-creates a distinct point with the same coordinates and a different SRID.
+by its constructor and it has no public setter. `getCoordinates()` returns an
+immutable `Value\Coordinates` value. `withCoordinates()` creates a distinct
+point with replacement coordinates, while `withSrid()` creates a distinct point
+with the same coordinates and a different SRID.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 $paris = new Point(2.3522, 48.8566, 4326);
-$movedParis = new Point(2.3600, $paris->getY(), $paris->getSrid());
+$movedParis = $paris->withCoordinates(Coordinates::xy(2.3600, 48.8566));
 $parisInLambert93 = $paris->withSrid(2154);
 ```
 
@@ -55,13 +57,31 @@ another spatial value. It does not transform coordinates; a coordinate
 transformation must first calculate new ordinates, then construct a value with
 those ordinates and the target SRID.
 
+## Coordinates value object
+
+`Value\Coordinates` is a public, immutable value object for a normalized point
+tuple. It accepts numbers only: parsing coordinate strings remains a constructor
+and factory concern because it depends on the point family. The value carries
+its dimension, so it cannot represent an `XY` point with a Z or M ordinate.
+
+```php
+$coordinates = Coordinates::xyzm(2.3522, 48.8566, 35, 12);
+$higherCoordinates = $coordinates->withZ(42);
+$higherParis = $point->withCoordinates($higherCoordinates);
+```
+
+`withCoordinates()` requires the same dimension as the receiving point. It
+preserves its concrete class, family, and SRID, and still applies geography
+longitude/latitude validation when creating the replacement point.
+
 ## Scope and aggregate types
 
-This guarantee currently applies to `Point`. Aggregate types such as
+This coordinate-replacement API applies to `Point`. Aggregate types such as
 `LineString`, `Polygon`, and `MultiLineString` still expose public membership
 mutators (`addPoint()`, `addRing()`, and similar methods), and are therefore
 mutable. Their child points nevertheless remain safe to share because their
-coordinates cannot be altered after construction.
+coordinates cannot be altered after construction. Calling `withSrid()` on an
+aggregate creates a deep copy whose descendants all receive the requested SRID.
 
 See [Instantiable spatial types](instantiable-spatial-types.md#mutability-contract)
 for the complete current mutability contract.

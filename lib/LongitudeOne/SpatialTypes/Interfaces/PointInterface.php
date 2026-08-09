@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
  * Point interface.
  *
@@ -32,6 +34,11 @@ interface PointInterface extends SpatialInterface
      * @param PointInterface $point The point to compare
      */
     public function equalsTo(PointInterface $point): bool;
+
+    /**
+     * Return the normalized coordinates of this point.
+     */
+    public function getCoordinates(): Coordinates;
 
     /**
      * Get the latitude.
@@ -69,4 +76,14 @@ interface PointInterface extends SpatialInterface
      * @return (float|int)[]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new point with the supplied normalized coordinates.
+     *
+     * The coordinates must use the same dimension as this point. The point's
+     * family and Spatial Reference Identifier (SRID) are preserved.
+     *
+     * @param Coordinates $coordinates replacement coordinates
+     */
+    public function withCoordinates(Coordinates $coordinates): static;
 }

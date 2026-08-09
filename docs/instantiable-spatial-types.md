@@ -123,6 +123,25 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
 $point = new Point(2.3522, 48.8566, 35, 4326); // longitude, latitude, elevation
 ```
 
+### Immutable point coordinates
+
+`LongitudeOne\SpatialTypes\Value\Coordinates` is a public immutable value
+object for normalized numeric point coordinates. Its named constructors encode
+the coordinate dimension: `Coordinates::xy()`, `Coordinates::xym()`,
+`Coordinates::xyz()`, and `Coordinates::xyzm()`.
+
+`PointInterface::getCoordinates()` returns this value object.
+`PointInterface::withCoordinates(Coordinates $coordinates)` returns a new point
+of the same concrete class and SRID. The supplied coordinates must have the
+same dimension as the point; geographic points additionally validate longitude
+and latitude ranges.
+
+```php
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
+$higherPoint = $point->withCoordinates(Coordinates::xyz(2.3522, 48.8566, 42));
+```
+
 ### Point-based types
 
 ```php
@@ -233,8 +252,10 @@ topology validation is performed by these predicates.
 ## Mutability contract
 
 `Point` objects are effectively immutable through the public API: construction
-sets their ordinates and SRID, and no public mutator exists. `withSrid(int
-$srid): static` returns a new point with the same ordinates and a new SRID.
+sets their ordinates and SRID, and no public mutator exists.
+`withCoordinates(Coordinates $coordinates): static` returns a point with
+replacement coordinates of the same dimension; `withSrid(int $srid): static`
+returns one with the same coordinates and a new SRID.
 
 The aggregate spatial types are **mutable**. They return `$this` from fluent
 mutators, so they must not be treated as immutable value objects:
@@ -246,6 +267,10 @@ mutators, so they must not be treated as immutable value objects:
 | `MultiLineString` | `addLineString()`, `addLineStrings()` |
 | `MultiPolygon` | `addPolygon()`, `addPolygons()` |
 | `GeometryCollection`, `GeographyCollection` | `addElement()`, `removeElement()` |
+
+All spatial types implement `withSrid(int $srid): static`. For aggregates, it
+returns a deep copy whose contained values receive the requested SRID, so the
+result remains internally SRID-consistent.
 
 The constructors use these same validation paths. Aggregated values must be
 compatible with the receiving type's family, dimension, and SRID rules; invalid
