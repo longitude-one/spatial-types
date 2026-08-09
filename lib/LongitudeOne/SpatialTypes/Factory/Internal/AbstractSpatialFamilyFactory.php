@@ -14,16 +14,16 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory;
+namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 
 /**
- * Ensures a coordinate required by a spatial dimension is present.
+ * Creates geographic spatial types.
  *
  * @internal
  */
-trait RequiredCoordinateTrait
+abstract class AbstractSpatialFamilyFactory implements SpatialFamilyFactoryInterface
 {
     /**
      * Return a required coordinate.
@@ -37,7 +37,7 @@ trait RequiredCoordinateTrait
      *
      * @throws MissingValueException when the coordinate is missing
      */
-    private static function requiredCoordinate(float|int|null $coordinate, string $ordinal): float|int
+    protected static function requiredCoordinate(float|int|null $coordinate, string $ordinal): float|int
     {
         if (null === $coordinate) {
             throw new MissingValueException(sprintf('The %s coordinate is missing.', $ordinal));

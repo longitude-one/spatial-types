@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
-use LongitudeOne\SpatialTypes\Factory\RequiredCoordinateTrait;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -41,10 +40,8 @@ use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Polygon as Polygon4Dz
  *
  * @internal
  */
-final class GeographicSpatialFamilyFactory implements SpatialFamilyFactoryInterface
+final class GeographicSpatialFamilyFactory extends AbstractSpatialFamilyFactory implements SpatialFamilyFactoryInterface
 {
-    use RequiredCoordinateTrait;
-
     /**
      * Creates a geographic line string instance.
      *
