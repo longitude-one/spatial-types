@@ -30,18 +30,6 @@ use PHPUnit\Framework\TestCase;
 class SpatialContextTest extends TestCase
 {
     /**
-     * Test the default spatial context.
-     */
-    public function testDefaultValues(): void
-    {
-        $context = new SpatialContext();
-
-        static::assertSame(SpatialInterface::DEFAULT_SRID, $context->srid);
-        static::assertSame(FamilyEnum::GEOMETRY, $context->family);
-        static::assertSame(DimensionEnum::X_Y, $context->dimension);
-    }
-
-    /**
      * Test a customized spatial context.
      */
     public function testCustomValues(): void
@@ -51,5 +39,17 @@ class SpatialContextTest extends TestCase
         static::assertSame(4326, $context->srid);
         static::assertSame(FamilyEnum::GEOGRAPHY, $context->family);
         static::assertSame(DimensionEnum::X_Y_Z_M, $context->dimension);
+    }
+
+    /**
+     * Test the default spatial context.
+     */
+    public function testDefaultValues(): void
+    {
+        $context = new SpatialContext();
+
+        static::assertSame(SpatialInterface::DEFAULT_SRID, $context->srid);
+        static::assertSame(FamilyEnum::GEOMETRY, $context->family);
+        static::assertSame(DimensionEnum::X_Y, $context->dimension);
     }
 }

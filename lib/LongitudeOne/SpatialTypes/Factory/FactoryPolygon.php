@@ -53,7 +53,10 @@ class FactoryPolygon
             }
         }
 
-        return SpatialFamilyFactoryResolver::resolve($family)->createPolygon($lineStrings, $srid, $dimensionEnum);
+        return SpatialFamilyFactoryResolver::resolvePolygonFactory($family)->create(
+            $lineStrings,
+            new SpatialContext($srid, $family, $dimensionEnum)
+        );
     }
 
     /**

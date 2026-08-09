@@ -17,29 +17,65 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Resolver;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeographicSpatialFamilyFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeometricSpatialFamilyFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\SpatialFamilyFactoryInterface;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeographicLineStringFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPointFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPolygonFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeometricLineStringFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPointFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPolygonFactory;
+use LongitudeOne\SpatialTypes\Factory\Internal\LineStringFactoryInterface;
+use LongitudeOne\SpatialTypes\Factory\Internal\PointFactoryInterface;
+use LongitudeOne\SpatialTypes\Factory\Internal\PolygonFactoryInterface;
 
 /**
- * Resolves the factory that creates objects for a spatial family.
+ * Resolves specialized factories for a spatial family.
  *
  * @internal
  */
 final class SpatialFamilyFactoryResolver
 {
     /**
-     * Resolves the factory associated with a given spatial family.
+     * Resolve a line string factory associated with a spatial family.
      *
      * @param FamilyEnum $family the spatial family to resolve
      *
-     * @return SpatialFamilyFactoryInterface the factory that creates objects for the requested family
+     * @return LineStringFactoryInterface the factory for the requested family
      */
-    public static function resolve(FamilyEnum $family): SpatialFamilyFactoryInterface
+    public static function resolveLineStringFactory(FamilyEnum $family): LineStringFactoryInterface
     {
         return match ($family) {
-            FamilyEnum::GEOGRAPHY => new GeographicSpatialFamilyFactory(),
-            FamilyEnum::GEOMETRY => new GeometricSpatialFamilyFactory(),
+            FamilyEnum::GEOGRAPHY => new GeographicLineStringFactory(),
+            FamilyEnum::GEOMETRY => new GeometricLineStringFactory(),
+        };
+    }
+
+    /**
+     * Resolve a point factory associated with a spatial family.
+     *
+     * @param FamilyEnum $family the spatial family to resolve
+     *
+     * @return PointFactoryInterface the factory for the requested family
+     */
+    public static function resolvePointFactory(FamilyEnum $family): PointFactoryInterface
+    {
+        return match ($family) {
+            FamilyEnum::GEOGRAPHY => new GeographicPointFactory(),
+            FamilyEnum::GEOMETRY => new GeometricPointFactory(),
+        };
+    }
+
+    /**
+     * Resolve a polygon factory associated with a spatial family.
+     *
+     * @param FamilyEnum $family the spatial family to resolve
+     *
+     * @return PolygonFactoryInterface the factory for the requested family
+     */
+    public static function resolvePolygonFactory(FamilyEnum $family): PolygonFactoryInterface
+    {
+        return match ($family) {
+            FamilyEnum::GEOGRAPHY => new GeographicPolygonFactory(),
+            FamilyEnum::GEOMETRY => new GeometricPolygonFactory(),
         };
     }
 }

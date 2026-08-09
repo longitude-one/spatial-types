@@ -52,7 +52,10 @@ class FactoryLineString
             }
         }
 
-        return SpatialFamilyFactoryResolver::resolve($family)->createLineString($points, $srid, $dimensionEnum);
+        return SpatialFamilyFactoryResolver::resolveLineStringFactory($family)->create(
+            $points,
+            new SpatialContext($srid, $family, $dimensionEnum)
+        );
     }
 
     /**

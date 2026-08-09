@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Trait LongitudeOne\\SpatialTypes\\Factory\\RequiredCoordinateTrait is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: ../../lib/LongitudeOne/SpatialTypes/Factory/RequiredCoordinateTrait.php
-
-		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidDimensionException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1

@@ -19,11 +19,11 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 
 /**
- * Creates geographic spatial types.
+ * Shares required-coordinate validation between point factories.
  *
  * @internal
  */
-abstract class AbstractSpatialFamilyFactory implements SpatialFamilyFactoryInterface
+abstract class AbstractPointFactory implements PointFactoryInterface
 {
     /**
      * Return a required coordinate.

@@ -57,7 +57,10 @@ class FactoryPoint
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
         }
 
-        return SpatialFamilyFactoryResolver::resolve($family)->createPoint($x, $y, $z, $m, $srid, $dimension);
+        return SpatialFamilyFactoryResolver::resolvePointFactory($family)->create(
+            new Coordinates($x, $y, $z, $m),
+            new SpatialContext($srid, $family, $dimension)
+        );
     }
 
     /**
