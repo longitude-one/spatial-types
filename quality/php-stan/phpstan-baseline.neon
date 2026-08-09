@@ -1,16 +1,10 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Parameter \#1 \$points of class LongitudeOne\\SpatialTypes\\Types\\Dimension2\\Geometry\\MultiPoint constructor expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{1, 2, 3, 4\} given\.$#'
-			identifier: argument.type
+			message: '#^Trait LongitudeOne\\SpatialTypes\\Factory\\RequiredCoordinateTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPointTest.php
-
-		-
-			message: '#^Parameter \#1 \$polygon of method LongitudeOne\\SpatialTypes\\Types\\AbstractMultiPolygon\:\:addPolygon\(\) expects array\<array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>\|LongitudeOne\\SpatialTypes\\Interfaces\\LineStringInterface\>\|LongitudeOne\\SpatialTypes\\Interfaces\\PolygonInterface, array\{''foo''\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Old/Types/Geometry/MultiPolygonTest.php
+			path: ../../lib/LongitudeOne/SpatialTypes/Factory/RequiredCoordinateTrait.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidDimensionException will always evaluate to true\.$#'
