@@ -37,7 +37,8 @@ final class SpatialArrayHydrator
     /**
      * Hydrate the points of a line string.
      *
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points points
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points  points
+     * @param SpatialContext                                                                                                  $context family, dimension, and SRID expected for every point
      *
      * @return PointInterface[]
      *
@@ -69,7 +70,8 @@ final class SpatialArrayHydrator
     /**
      * Hydrate the rings of a polygon.
      *
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings rings
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings   rings
+     * @param SpatialContext                                                                                                                             $context family, dimension, and SRID expected for every ring
      *
      * @return LineStringInterface[]
      *

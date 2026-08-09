@@ -22,6 +22,9 @@ use LongitudeOne\SpatialTypes\Types\Dimension4zm\AbstractMultiLineString;
 
 class MultiLineString extends AbstractMultiLineString implements MultiLineStringInterface
 {
+    /**
+     * Return the geography family.
+     */
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOGRAPHY;

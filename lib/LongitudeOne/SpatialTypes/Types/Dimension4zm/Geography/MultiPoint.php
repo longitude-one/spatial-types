@@ -22,6 +22,9 @@ use LongitudeOne\SpatialTypes\Types\Dimension4zm\AbstractMultiPoint;
 
 class MultiPoint extends AbstractMultiPoint implements MultiPointInterface
 {
+    /**
+     * Return the geography family.
+     */
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOGRAPHY;

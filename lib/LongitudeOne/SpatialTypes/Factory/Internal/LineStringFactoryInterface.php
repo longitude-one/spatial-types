@@ -30,7 +30,8 @@ interface LineStringFactoryInterface
     /**
      * Create a line string.
      *
-     * @param PointInterface[] $points points
+     * @param PointInterface[] $points  points composing the line string
+     * @param SpatialContext   $context family, dimension, and SRID to apply
      */
     public function create(array $points, SpatialContext $context): LineStringInterface;
 }

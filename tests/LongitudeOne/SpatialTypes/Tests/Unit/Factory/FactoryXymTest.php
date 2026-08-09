@@ -73,6 +73,9 @@ class FactoryXymTest extends TestCase
         static::assertSame(2154, $polygon->getSrid());
     }
 
+    /**
+     * Verify that the factory creates XYZM spatial types from four coordinates.
+     */
     public function testCreatesXyzmSpatialTypes(): void
     {
         $point = FactoryPoint::fromCoordinates(1, 2, 3, 4, 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);

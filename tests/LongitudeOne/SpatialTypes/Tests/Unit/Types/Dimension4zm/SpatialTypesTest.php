@@ -40,6 +40,9 @@ use PHPUnit\Framework\TestCase;
  */
 class SpatialTypesTest extends TestCase
 {
+    /**
+     * Verify that geographic XYZM types expose their expected family, type, dimension, and coordinates.
+     */
     public function testGeographicXyzmTypes(): void
     {
         $first = new GeographicPoint('1W', '2N', 3, 4);
@@ -60,6 +63,9 @@ class SpatialTypesTest extends TestCase
         static::assertSame([$polygon], $collection->getElements());
     }
 
+    /**
+     * Verify that geometric XYZM types expose their expected family, type, dimension, and coordinates.
+     */
     public function testGeometricXyzmTypes(): void
     {
         $first = new GeometricPoint(1, 2, 3, 4);

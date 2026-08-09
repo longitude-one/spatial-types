@@ -34,6 +34,9 @@ final class GeographicPointFactory extends AbstractPointFactory
 {
     /**
      * Create a geographic point.
+     *
+     * @param Coordinates    $coordinates normalized longitude, latitude, Z, and M values
+     * @param SpatialContext $context     family, dimension, and SRID to apply
      */
     public function create(Coordinates $coordinates, SpatialContext $context): PointInterface
     {

@@ -24,16 +24,25 @@ use LongitudeOne\SpatialTypes\Types\AbstractPolygon;
 
 class Polygon extends AbstractPolygon implements PolygonInterface
 {
+    /**
+     * Return the geography family.
+     */
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOGRAPHY;
     }
 
+    /**
+     * Return the polygon type.
+     */
     public function getType(): TypeEnum
     {
         return TypeEnum::POLYGON;
     }
 
+    /**
+     * Return the four-dimensional XYZM coordinate layout.
+     */
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z_M;

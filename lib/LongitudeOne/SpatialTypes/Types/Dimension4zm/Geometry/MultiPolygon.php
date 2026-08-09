@@ -24,16 +24,25 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon;
 
 class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
 {
+    /**
+     * Return the geometry family.
+     */
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
     }
 
+    /**
+     * Return the multipolygon type.
+     */
     public function getType(): TypeEnum
     {
         return TypeEnum::MULTIPOLYGON;
     }
 
+    /**
+     * Return the four-dimensional XYZM coordinate layout.
+     */
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z_M;

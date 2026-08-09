@@ -19,6 +19,7 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as LineString2D;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineString as LineString3Dm;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\LineString as LineString3Dz;
@@ -33,6 +34,9 @@ final class GeographicLineStringFactory implements LineStringFactoryInterface
 {
     /**
      * Create a geographic line string.
+     *
+     * @param PointInterface[] $points  points composing the line string
+     * @param SpatialContext   $context family, dimension, and SRID to apply
      */
     public function create(array $points, SpatialContext $context): LineStringInterface
     {

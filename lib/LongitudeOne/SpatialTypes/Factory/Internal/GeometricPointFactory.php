@@ -34,6 +34,9 @@ final class GeometricPointFactory extends AbstractPointFactory
 {
     /**
      * Create a geometric point.
+     *
+     * @param Coordinates    $coordinates normalized X, Y, Z, and M values
+     * @param SpatialContext $context     family, dimension, and SRID to apply
      */
     public function create(Coordinates $coordinates, SpatialContext $context): PointInterface
     {

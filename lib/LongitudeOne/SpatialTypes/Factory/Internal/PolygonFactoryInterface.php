@@ -30,7 +30,8 @@ interface PolygonFactoryInterface
     /**
      * Create a polygon.
      *
-     * @param LineStringInterface[] $rings rings
+     * @param LineStringInterface[] $rings   exterior ring followed by optional interior rings
+     * @param SpatialContext        $context family, dimension, and SRID to apply
      */
     public function create(array $rings, SpatialContext $context): PolygonInterface;
 }

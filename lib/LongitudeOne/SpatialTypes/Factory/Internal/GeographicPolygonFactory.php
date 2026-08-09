@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as Polygon2D;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Polygon as Polygon3Dm;
@@ -33,6 +34,9 @@ final class GeographicPolygonFactory implements PolygonFactoryInterface
 {
     /**
      * Create a geographic polygon.
+     *
+     * @param LineStringInterface[] $rings   exterior ring followed by optional interior rings
+     * @param SpatialContext        $context family, dimension, and SRID to apply
      */
     public function create(array $rings, SpatialContext $context): PolygonInterface
     {

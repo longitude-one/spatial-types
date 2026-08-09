@@ -25,7 +25,8 @@ use LongitudeOne\SpatialTypes\Types\AbstractLineString as ParentLineString;
 abstract class AbstractLineString extends ParentLineString implements LineStringInterface
 {
     /**
-     * @param (array{0: float|int|string, 1: float|int|string, 2: float|int, 3: float|int}|PointInterface)[] $points
+     * @param (array{0: float|int|string, 1: float|int|string, 2: float|int, 3: float|int}|PointInterface)[] $points points of the line string
+     * @param int                                                                                            $srid   Spatial Reference Identifier
      */
     public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
@@ -33,11 +34,17 @@ abstract class AbstractLineString extends ParentLineString implements LineString
         $this->addPoints($points);
     }
 
+    /**
+     * Define the line string type.
+     */
     public function getType(): TypeEnum
     {
         return TypeEnum::LINESTRING;
     }
 
+    /**
+     * Define the four-dimensional XYZM coordinate layout.
+     */
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z_M;

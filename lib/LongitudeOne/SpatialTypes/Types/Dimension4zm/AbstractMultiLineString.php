@@ -23,11 +23,17 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString as ParentMultiLineSt
 
 abstract class AbstractMultiLineString extends ParentMultiLineString implements MultiLineStringInterface
 {
+    /**
+     * Define the multi-line string type.
+     */
     public function getType(): TypeEnum
     {
         return TypeEnum::MULTILINESTRING;
     }
 
+    /**
+     * Define the four-dimensional XYZM coordinate layout.
+     */
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z_M;

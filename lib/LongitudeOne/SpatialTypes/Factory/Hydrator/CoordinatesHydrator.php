@@ -31,6 +31,7 @@ final class CoordinatesHydrator
      * Hydrate coordinates from an indexed array.
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates coordinates
+     * @param SpatialContext                                                                            $context     expected dimension and target SRID
      *
      * @throws InvalidDimensionException when the array contains too many coordinates
      * @throws InvalidValueException     when a Z or M coordinate is not numeric

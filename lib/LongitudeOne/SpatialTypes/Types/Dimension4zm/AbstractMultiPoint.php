@@ -18,22 +18,44 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiPoint as ParentMultiPoint;
 
 abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPointInterface
 {
+    /**
+     * Create a multipoint from XYZM coordinate arrays or point instances.
+     *
+     * @param (array{0: float|int|string, 1: float|int|string, 2: float|int, 3: float|int}|PointInterface)[] $points points of the multipoint
+     * @param int                                                                                            $srid   Spatial Reference Identifier
+     *
+     * @throws InvalidDimensionException when a point has an incompatible dimension
+     * @throws InvalidSridException      when a point has an incompatible SRID
+     * @throws InvalidValueException     when point coordinates are invalid
+     * @throws MissingValueException     when a point is missing
+     */
     public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
         $this->srid = $srid;
         $this->addPoints($points);
     }
 
+    /**
+     * Define the multipoint type.
+     */
     public function getType(): TypeEnum
     {
         return TypeEnum::MULTIPOINT;
     }
 
+    /**
+     * Define the four-dimensional XYZM coordinate layout.
+     */
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z_M;

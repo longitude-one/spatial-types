@@ -22,6 +22,9 @@ use LongitudeOne\SpatialTypes\Types\Dimension4zm\AbstractLineString;
 
 class LineString extends AbstractLineString implements LineStringInterface
 {
+    /**
+     * Return the geography family.
+     */
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOGRAPHY;

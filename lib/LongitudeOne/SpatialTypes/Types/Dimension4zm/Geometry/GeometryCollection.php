@@ -24,16 +24,25 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection;
 
 class GeometryCollection extends AbstractCollection implements CollectionInterface
 {
+    /**
+     * Return the geometry family.
+     */
     public function getFamily(): FamilyEnum
     {
         return FamilyEnum::GEOMETRY;
     }
 
+    /**
+     * Return the geometry collection type.
+     */
     public function getType(): TypeEnum
     {
         return TypeEnum::COLLECTION;
     }
 
+    /**
+     * Return the four-dimensional XYZM coordinate layout.
+     */
     protected function getDimension(): DimensionEnum
     {
         return DimensionEnum::X_Y_Z_M;
