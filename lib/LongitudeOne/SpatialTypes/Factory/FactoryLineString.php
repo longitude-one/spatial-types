@@ -24,7 +24,6 @@ use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
-use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Factory LineString class.
@@ -53,7 +52,7 @@ class FactoryLineString
             }
         }
 
-        return SpatialFamilyFactoryResolver::resolveLineStringFactory($family)->create(
+        return DefaultSpatialFactoryRegistryFactory::create()->lineStringFactory($family)->create(
             $points,
             new SpatialContext($srid, $family, $dimensionEnum)
         );
@@ -73,6 +72,6 @@ class FactoryLineString
     {
         $context = new SpatialContext($srid, $family, $dimension);
 
-        return self::fromArrayOfPoints((new SpatialArrayHydrator())->hydrateLineString($indexedArray, $context), $srid, $family, $dimension);
+        return self::fromArrayOfPoints((new SpatialArrayHydrator(DefaultSpatialFactoryRegistryFactory::create()))->hydrateLineString($indexedArray, $context), $srid, $family, $dimension);
     }
 }

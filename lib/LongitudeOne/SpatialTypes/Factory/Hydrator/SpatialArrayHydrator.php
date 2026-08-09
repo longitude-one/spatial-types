@@ -18,9 +18,9 @@ namespace LongitudeOne\SpatialTypes\Factory\Hydrator;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Hydrates spatial components from nested indexed arrays.
@@ -28,10 +28,13 @@ use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 final class SpatialArrayHydrator
 {
     /**
-     * @param CoordinatesHydrator $coordinatesHydrator hydrator for individual points
+     * @param SpatialFactoryRegistry $factoryRegistry     registry of constructors
+     * @param CoordinatesHydrator    $coordinatesHydrator hydrator for individual points
      */
-    public function __construct(private CoordinatesHydrator $coordinatesHydrator = new CoordinatesHydrator())
-    {
+    public function __construct(
+        private SpatialFactoryRegistry $factoryRegistry,
+        private CoordinatesHydrator $coordinatesHydrator = new CoordinatesHydrator()
+    ) {
     }
 
     /**
@@ -58,7 +61,7 @@ final class SpatialArrayHydrator
                 continue;
             }
 
-            $hydratedPoints[] = SpatialFamilyFactoryResolver::resolvePointFactory($context->family)->create(
+            $hydratedPoints[] = $this->factoryRegistry->pointFactory($context->family)->create(
                 $this->coordinatesHydrator->hydrate($point, $context),
                 $context
             );
@@ -91,7 +94,7 @@ final class SpatialArrayHydrator
                 continue;
             }
 
-            $lineStrings[] = SpatialFamilyFactoryResolver::resolveLineStringFactory($context->family)->create(
+            $lineStrings[] = $this->factoryRegistry->lineStringFactory($context->family)->create(
                 $this->hydrateLineString($ring, $context),
                 $context
             );

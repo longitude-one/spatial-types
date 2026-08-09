@@ -24,7 +24,6 @@ use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
-use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Factory Point class.
@@ -94,6 +93,6 @@ class FactoryPoint
      */
     private static function create(Coordinates $coordinates, SpatialContext $context): PointInterface
     {
-        return SpatialFamilyFactoryResolver::resolvePointFactory($context->family)->create($coordinates, $context);
+        return DefaultSpatialFactoryRegistryFactory::create()->pointFactory($context->family)->create($coordinates, $context);
     }
 }

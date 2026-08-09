@@ -25,7 +25,6 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
-use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
  * Polygon factory.
@@ -54,7 +53,7 @@ class FactoryPolygon
             }
         }
 
-        return SpatialFamilyFactoryResolver::resolvePolygonFactory($family)->create(
+        return DefaultSpatialFactoryRegistryFactory::create()->polygonFactory($family)->create(
             $lineStrings,
             new SpatialContext($srid, $family, $dimensionEnum)
         );
@@ -74,6 +73,6 @@ class FactoryPolygon
     {
         $context = new SpatialContext($srid, $family, $dimension);
 
-        return self::fromArrayOfLineStrings((new SpatialArrayHydrator())->hydratePolygon($indexedArray, $context), $srid, $family, $dimension);
+        return self::fromArrayOfLineStrings((new SpatialArrayHydrator(DefaultSpatialFactoryRegistryFactory::create()))->hydratePolygon($indexedArray, $context), $srid, $family, $dimension);
     }
 }
