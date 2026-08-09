@@ -24,7 +24,6 @@ use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineString as Geograph
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString as GeometricLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometricPoint;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -65,39 +64,32 @@ class XymContractTest extends TestCase
     }
 
     /**
-     * Verify that XYM objects reject points with an incompatible dimension, family, or SRID.
-     *
-     * @param class-string<\Throwable> $exception the expected exception
-     * @param \Closure(): mixed        $operation operation that must fail
+     * Verify that an XYM line string rejects a point with an incompatible dimension.
      */
-    #[DataProvider('provideIncompatiblePointOperations')]
-    public function testRejectsIncompatiblePoints(string $exception, \Closure $operation): void
+    public function testRejectsPointWithIncompatibleDimension(): void
     {
-        self::expectException($exception);
+        self::expectException(InvalidDimensionException::class);
 
-        $operation();
+        new GeometricLineString([new Point2D(1, 2)]);
     }
 
     /**
-     * Provide incompatible point combinations for XYM line strings.
-     *
-     * @return \Generator<string, array{0: class-string<\Throwable>, 1: \Closure(): mixed}, null, void>
+     * Verify that an XYM line string rejects a point with an incompatible family.
      */
-    public static function provideIncompatiblePointOperations(): \Generator
+    public function testRejectsPointWithIncompatibleFamily(): void
     {
-        yield 'dimension' => [
-            InvalidDimensionException::class,
-            static fn (): GeometricLineString => new GeometricLineString([new Point2D(1, 2)]),
-        ];
+        self::expectException(InvalidFamilyException::class);
 
-        yield 'family' => [
-            InvalidFamilyException::class,
-            static fn (): GeometricLineString => new GeometricLineString([new GeographicPoint(1, 2, 3)]),
-        ];
+        new GeometricLineString([new GeographicPoint(1, 2, 3)]);
+    }
 
-        yield 'SRID' => [
-            InvalidSridException::class,
-            static fn (): GeographicLineString => new GeographicLineString([new GeographicPoint(1, 2, 3, 2154)], 4326),
-        ];
+    /**
+     * Verify that an XYM line string rejects a point with an incompatible SRID.
+     */
+    public function testRejectsPointWithIncompatibleSrid(): void
+    {
+        self::expectException(InvalidSridException::class);
+
+        new GeographicLineString([new GeographicPoint(1, 2, 3, 2154)], 4326);
     }
 }

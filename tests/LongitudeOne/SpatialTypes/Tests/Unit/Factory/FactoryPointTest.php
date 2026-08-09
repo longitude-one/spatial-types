@@ -106,6 +106,17 @@ class FactoryPointTest extends TestCase
     }
 
     /**
+     * Test that a three-dimensional elevation point requires an elevation.
+     */
+    public function testFromCoordinatesWithMissingElevation(): void
+    {
+        self::expectException(MissingValueException::class);
+        self::expectExceptionMessageIsOrContains('The third coordinate is missing.');
+
+        FactoryPoint::fromCoordinates(1, 2, null, null, null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+    }
+
+    /**
      * Test that an unsupported elevation and measure point reaches the unsupported dimension error.
      *
      * @param DimensionEnum $dimension the dimension to test
@@ -127,17 +138,6 @@ class FactoryPointTest extends TestCase
     public static function provideUnsupportedDimensions(): \Generator
     {
         yield 'Elevation and measure point' => [DimensionEnum::X_Y_Z_M];
-    }
-
-    /**
-     * Test that a three-dimensional elevation point requires an elevation.
-     */
-    public function testFromCoordinatesWithMissingElevation(): void
-    {
-        self::expectException(MissingValueException::class);
-        self::expectExceptionMessageIsOrContains('The third coordinate is missing.');
-
-        FactoryPoint::fromCoordinates(1, 2, null, null, null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 
     /**

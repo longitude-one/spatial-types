@@ -73,18 +73,6 @@ class FromIndexedArrayFactoryTest extends TestCase
     }
 
     /**
-     * Verifies that a measure line string is created from indexed coordinates.
-     */
-    public function testCreateXymLineString(): void
-    {
-        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
-
-        static::assertTrue($lineString->hasM());
-        static::assertFalse($lineString->hasZ());
-        static::assertSame([[0, 0, 0]], $lineString->toArray());
-    }
-
-    /**
      * Verifies that a point is created from indexed coordinates with the expected SRID and family.
      */
     public function testCreatePoint(): void
@@ -220,5 +208,17 @@ class FromIndexedArrayFactoryTest extends TestCase
 
         static::assertTrue($polygon->hasZ());
         static::assertFalse($polygon->hasM());
+    }
+
+    /**
+     * Verifies that a measure line string is created from indexed coordinates.
+     */
+    public function testCreateXymLineString(): void
+    {
+        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+
+        static::assertTrue($lineString->hasM());
+        static::assertFalse($lineString->hasZ());
+        static::assertSame([[0, 0, 0]], $lineString->toArray());
     }
 }
