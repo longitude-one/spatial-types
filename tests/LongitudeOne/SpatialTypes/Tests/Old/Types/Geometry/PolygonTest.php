@@ -56,7 +56,7 @@ class PolygonTest extends TestCase
         static::assertEquals($expected, json_encode($polygon));
 
         $expected = '{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,10],[0,0]],[[5,5],[7,5],[7,7],[5,7],[5,5]]],"srid":4326}';
-        $polygon->setSrid(4326);
+        $polygon = new Polygon($polygon->getRings(), 4326);
         static::assertEquals($expected, json_encode($polygon));
     }
 

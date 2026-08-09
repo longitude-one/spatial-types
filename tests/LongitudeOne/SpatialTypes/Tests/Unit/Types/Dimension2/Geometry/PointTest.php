@@ -58,11 +58,11 @@ class PointTest extends TestCase
         static::assertTrue($this->point->equalsTo($point));
         static::assertTrue($point->equalsTo($this->point));
 
-        $point->setSrid(4326);
+        $point = new Point(1, 2, 4326);
         static::assertFalse($this->point->equalsTo($point));
         static::assertFalse($point->equalsTo($this->point));
 
-        $this->point->setSrid(4326);
+        $this->point = new Point(1, 2, 4326);
         static::assertTrue($this->point->equalsTo($point));
         static::assertTrue($point->equalsTo($this->point));
 
@@ -166,7 +166,7 @@ class PointTest extends TestCase
     public function testJsonSerialize(): void
     {
         static::assertSame('{"type":"Point","coordinates":[1,2],"srid":0}', json_encode($this->point));
-        $this->point->setSrid(4326);
+        $this->point = new Point(1, 2, 4326);
         static::assertSame('{"type":"Point","coordinates":[1,2],"srid":4326}', json_encode($this->point));
     }
 

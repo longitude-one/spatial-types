@@ -168,7 +168,7 @@ class AbstractPointTest extends TestCase
 
         static::assertEquals($expected, json_encode($point));
 
-        $point->setSrid(4326);
+        $point = new $abstractPoint(5, 5, 4326);
         $expected = '{"type":"Point","coordinates":[5,5],"srid":4326}';
         static::assertEquals($expected, json_encode($point));
     }
@@ -185,7 +185,7 @@ class AbstractPointTest extends TestCase
         $actual = $point->getSrid();
         static::assertSame(2154, $actual);
 
-        $point->setSrid(4326);
+        $point = new $abstractPoint(5, 5, 4326);
         $actual = $point->getSrid();
         static::assertSame(4326, $actual);
     }

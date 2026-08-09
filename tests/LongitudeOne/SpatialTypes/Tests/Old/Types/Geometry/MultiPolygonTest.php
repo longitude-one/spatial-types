@@ -95,7 +95,7 @@ class MultiPolygonTest extends TestCase
         static::assertSame($expected, json_encode($multiPolygon));
 
         $expected = '{"type":"MultiPolygon","coordinates":[[[[0,0],[10,0],[10,10],[0,10],[0,0]]],[[[5,5],[7,5],[7,7],[5,7],[5,5]]]],"srid":4326}';
-        $multiPolygon->setSrid(4326);
+        $multiPolygon = new MultiPolygon($multiPolygon->getPolygons(), 4326);
         static::assertSame($expected, json_encode($multiPolygon));
     }
 

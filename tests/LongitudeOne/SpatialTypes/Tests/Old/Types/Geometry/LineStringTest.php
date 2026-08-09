@@ -91,7 +91,7 @@ class LineStringTest extends TestCase
         static::assertEquals($expected, json_encode($lineString));
 
         $expected = '{"type":"LineString","coordinates":[[0,0],[1,0],[1,1],[0,1],[0,0]],"srid":4326}';
-        $lineString->setSrid(4326);
+        $lineString = new LineString($lineString->getPoints(), 4326);
         static::assertEquals($expected, json_encode($lineString));
     }
 

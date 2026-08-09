@@ -139,7 +139,7 @@ class PointTest extends TestCase
     public function testJsonSerialize(): void
     {
         static::assertSame('{"type":"Point","coordinates":[-1.1,45.1],"srid":0}', json_encode($this->point));
-        $this->point->setSrid(4326);
+        $this->point = new Point(-1.1, 45.1, 4326);
         static::assertSame('{"type":"Point","coordinates":[-1.1,45.1],"srid":4326}', json_encode($this->point));
     }
 

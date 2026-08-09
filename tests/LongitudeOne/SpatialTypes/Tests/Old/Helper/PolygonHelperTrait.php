@@ -220,9 +220,6 @@ trait PolygonHelperTrait
      */
     private function createPolygon(array $lineStrings, int $srid = 0): Polygon
     {
-        $polygon = new Polygon($lineStrings);
-        $polygon->setSrid($srid);
-
-        return $polygon;
+        return new Polygon($lineStrings, $srid);
     }
 }

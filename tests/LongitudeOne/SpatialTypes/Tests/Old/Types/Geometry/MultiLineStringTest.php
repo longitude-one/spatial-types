@@ -73,7 +73,7 @@ class MultiLineStringTest extends TestCase
 
         static::assertEquals($expected, json_encode($multiLineString));
         $expected = '{"type":"MultiLineString","coordinates":[[[0,0],[10,0],[10,10],[0,10],[0,0]],[[0,0],[10,0],[10,10],[0,10],[0,0]]],"srid":4326}';
-        $multiLineString->setSrid(4326);
+        $multiLineString = new MultiLineString($multiLineString->getLineStrings(), 4326);
         static::assertEquals($expected, json_encode($multiLineString));
     }
 
