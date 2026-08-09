@@ -33,14 +33,14 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
 {
     /**
      * @param (array{0: float|int|string, 1: float|int|string, 2: float|int}|PointInterface)[] $points points of the multipoint
-     * @param null|int                                                                         $srid   Spatial Reference Identifier
+     * @param int                                                                              $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a point dimension is incompatible
      * @throws InvalidSridException      when a point SRID is incompatible
      * @throws InvalidValueException     when point coordinates are invalid
      * @throws MissingValueException     when a point is missing
      */
-    public function __construct(array $points, ?int $srid = null)
+    public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
         $this->setSrid($srid);
         $this->addPoints($points, DimensionEnum::X_Y_M);

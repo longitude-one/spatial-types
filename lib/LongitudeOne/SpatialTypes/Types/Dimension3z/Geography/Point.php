@@ -45,11 +45,11 @@ class Point extends AbstractPoint implements PointInterface
      * @param float|int|string $x    X coordinate can be a string and will be parsed by the geo-parser
      * @param float|int|string $y    Y coordinate can be a string and will be parsed by the geo-parser
      * @param float|int        $z    Z coordinate (altitude, elevation)
-     * @param null|int         $srid SRID
+     * @param int              $srid SRID
      *
      * @throws InvalidValueException when point is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $z, ?int $srid = null)
+    public function __construct(float|int|string $x, float|int|string $y, float|int $z, int $srid = self::DEFAULT_SRID)
     {
         $this->setLongitude($x);
         $this->setLatitude($y);

@@ -29,14 +29,14 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 abstract class AbstractSpatialType implements SpatialInterface
 {
     /**
-     * @var null|int the SpatialTypes Reference Identifier (SRID)
+     * @var int the SpatialTypes Reference Identifier (SRID)
      */
-    protected ?int $srid = null;
+    protected int $srid = SpatialInterface::DEFAULT_SRID;
 
     /**
      * SRID getter.
      */
-    public function getSrid(): ?int
+    public function getSrid(): int
     {
         return $this->srid;
     }
@@ -84,9 +84,9 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * SRID setter.
      *
-     * @param null|int $srid the new SRID
+     * @param int $srid the new SRID
      */
-    public function setSrid(?int $srid): static
+    public function setSrid(int $srid): static
     {
         $this->srid = $srid;
 

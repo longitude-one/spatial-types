@@ -68,7 +68,9 @@ trait PointTrait
             throw new InvalidDimensionException('The point dimension is not compatible with the dimension of the current spatial collection.');
         }
 
-        if (!empty($point->getSrid()) && !empty($this->getSrid()) && $point->getSrid() !== $this->getSrid()) {
+        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
+        // SRID in aggregate compatibility checks.
+        if (self::DEFAULT_SRID !== $point->getSrid() && self::DEFAULT_SRID !== $this->getSrid() && $point->getSrid() !== $this->getSrid()) {
             throw new InvalidSridException('The point SRID is not compatible with the SRID of this current spatial collection.');
         }
 

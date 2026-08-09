@@ -185,6 +185,6 @@ class LineStringTest extends TestCase
         $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326)], 4326);
         static::assertSame('{"type":"LineString","coordinates":[[-40,-40],[-45,45]],"srid":4326}', json_encode($lineString));
         $lineString = new LineString([new Point(1, 2), new Point(3, 4)]);
-        static::assertSame('{"type":"LineString","coordinates":[[1,2],[3,4]],"srid":null}', json_encode($lineString));
+        static::assertSame('{"type":"LineString","coordinates":[[1,2],[3,4]],"srid":0}', json_encode($lineString));
     }
 }

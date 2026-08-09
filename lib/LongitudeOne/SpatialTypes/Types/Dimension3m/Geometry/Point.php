@@ -38,11 +38,11 @@ class Point extends AbstractPoint implements PointInterface
      * @param float|int|string $x    X coordinate
      * @param float|int|string $y    Y coordinate
      * @param float|int        $m    M coordinate
-     * @param null|int         $srid SRID
+     * @param int              $srid SRID
      *
      * @throws InvalidValueException when a coordinate is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $m, ?int $srid = null)
+    public function __construct(float|int|string $x, float|int|string $y, float|int $m, int $srid = self::DEFAULT_SRID)
     {
         $this->setX($x);
         $this->setY($y);

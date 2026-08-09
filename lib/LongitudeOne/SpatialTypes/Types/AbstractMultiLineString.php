@@ -41,14 +41,14 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      * AbstractMultiLineString constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
-     * @param null|int                                                                                                                             $srid        Spatial Reference Identifier
+     * @param int                                                                                                                                  $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multiLineStlineString SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $lineStrings, ?int $srid = null)
+    public function __construct(array $lineStrings, int $srid = self::DEFAULT_SRID)
     {
         $this->setSrid($srid);
         $this->addLineStrings($lineStrings);

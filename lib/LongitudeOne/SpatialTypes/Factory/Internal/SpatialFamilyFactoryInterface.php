@@ -32,12 +32,12 @@ interface SpatialFamilyFactoryInterface
      * Create a line string from points.
      *
      * @param PointInterface[] $points    points
-     * @param ?int             $srid      SRID
+     * @param int              $srid      SRID
      * @param DimensionEnum    $dimension dimension
      *
      * @return LineStringInterface The line string matching the requested dimension
      */
-    public function createLineString(array $points, ?int $srid, DimensionEnum $dimension): LineStringInterface;
+    public function createLineString(array $points, int $srid, DimensionEnum $dimension): LineStringInterface;
 
     /**
      * Create a point of the specified dimension.
@@ -46,21 +46,21 @@ interface SpatialFamilyFactoryInterface
      * @param float|int|string $y         the Y coordinate of the point, the latitude
      * @param null|float|int   $z         the Z coordinate of the point, the elevation
      * @param null|float|int   $m         the M coordinate of the point
-     * @param null|int         $srid      the spatial reference identifier
+     * @param int              $srid      the spatial reference identifier
      * @param DimensionEnum    $dimension the dimension of the point
      *
      * @return PointInterface The point matching the requested dimension
      */
-    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface;
+    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, int $srid, DimensionEnum $dimension): PointInterface;
 
     /**
      * Create a polygon from closed line strings.
      *
      * @param LineStringInterface[] $rings     rings
-     * @param ?int                  $srid      SRID
+     * @param int                   $srid      SRID
      * @param DimensionEnum         $dimension dimension
      *
      * @return PolygonInterface The polygon matching the requested dimension
      */
-    public function createPolygon(array $rings, ?int $srid, DimensionEnum $dimension): PolygonInterface;
+    public function createPolygon(array $rings, int $srid, DimensionEnum $dimension): PolygonInterface;
 }

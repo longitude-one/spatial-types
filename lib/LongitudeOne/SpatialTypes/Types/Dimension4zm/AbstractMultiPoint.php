@@ -23,7 +23,7 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPoint as ParentMultiPoint;
 
 abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPointInterface
 {
-    public function __construct(array $points, ?int $srid = null)
+    public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
         $this->setSrid($srid);
         $this->addPoints($points);

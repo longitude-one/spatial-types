@@ -138,6 +138,6 @@ class MultiPointTest extends TestCase
         $multiPoint = new MultiPoint([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326)], 4326);
         static::assertSame('{"type":"MultiPoint","coordinates":[[-40,-40],[-45,45]],"srid":4326}', json_encode($multiPoint));
         $multiPoint = new MultiPoint([new Point(1, 2), new Point(3, 4)]);
-        static::assertSame('{"type":"MultiPoint","coordinates":[[1,2],[3,4]],"srid":null}', json_encode($multiPoint));
+        static::assertSame('{"type":"MultiPoint","coordinates":[[1,2],[3,4]],"srid":0}', json_encode($multiPoint));
     }
 }

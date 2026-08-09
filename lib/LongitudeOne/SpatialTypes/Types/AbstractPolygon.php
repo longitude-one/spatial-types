@@ -42,14 +42,14 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      * AbstractPolygon constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
-     * @param null|int                                                                                                                             $srid  Spatial Reference Identifier
+     * @param int                                                                                                                                  $srid  Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $rings, ?int $srid = null)
+    public function __construct(array $rings, int $srid = self::DEFAULT_SRID)
     {
         $this->setSrid($srid);
         $this->addRings($rings);

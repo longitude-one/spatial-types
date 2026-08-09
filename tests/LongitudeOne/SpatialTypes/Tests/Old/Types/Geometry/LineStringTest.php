@@ -86,7 +86,7 @@ class LineStringTest extends TestCase
      */
     public function testJson(): void
     {
-        $expected = '{"type":"LineString","coordinates":[[0,0],[1,0],[1,1],[0,1],[0,0]],"srid":null}';
+        $expected = '{"type":"LineString","coordinates":[[0,0],[1,0],[1,1],[0,1],[0,0]],"srid":0}';
         $lineString = $this->createRingLineString();
         static::assertEquals($expected, json_encode($lineString));
 

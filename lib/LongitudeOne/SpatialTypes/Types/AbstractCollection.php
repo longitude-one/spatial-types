@@ -39,9 +39,9 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     /**
      * GeometryCollection constructor.
      *
-     * @param null|int $srid Spatial Reference Identifier
+     * @param int $srid Spatial Reference Identifier
      */
-    public function __construct(?int $srid = null)
+    public function __construct(int $srid = SpatialInterface::DEFAULT_SRID)
     {
         $this->setSrid($srid);
     }
@@ -65,7 +65,9 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
             throw new InvalidFamilyException('Collection cannot contain elements with different families.');
         }
 
-        if (!empty($spatial->getSrid()) && !empty($this->getSrid()) && $this->getSrid() !== $spatial->getSrid()) {
+        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
+        // SRID in aggregate compatibility checks.
+        if (self::DEFAULT_SRID !== $this->getSrid() && self::DEFAULT_SRID !== $spatial->getSrid() && $this->getSrid() !== $spatial->getSrid()) {
             throw new InvalidSridException('Collection cannot contain elements with different SRIDs.');
         }
 

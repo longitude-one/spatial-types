@@ -66,7 +66,7 @@ class FactoryPointTest extends TestCase
         self::expectException(\TypeError::class);
 
         $method = new \ReflectionMethod(FactoryPoint::class, 'fromCoordinates');
-        $method->invoke(null, 1, 2, 3, json_decode('{}'), null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        $method->invoke(null, 1, 2, 3, json_decode('{}'), 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
     }
 
     /**
@@ -113,7 +113,7 @@ class FactoryPointTest extends TestCase
         self::expectException(MissingValueException::class);
         self::expectExceptionMessageIsOrContains('The third coordinate is missing.');
 
-        FactoryPoint::fromCoordinates(1, 2, null, null, null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        FactoryPoint::fromCoordinates(1, 2, null, null, 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 
     /**
@@ -166,7 +166,7 @@ class FactoryPointTest extends TestCase
         self::expectException(MissingValueException::class);
         self::expectExceptionMessageIsOrContains('The fourth coordinate of array is missing.');
 
-        FactoryPoint::fromIndexedArray([1, 2, 3], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        FactoryPoint::fromIndexedArray([1, 2, 3], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
     }
 
     /**
@@ -177,7 +177,7 @@ class FactoryPointTest extends TestCase
         self::expectException(MissingValueException::class);
         self::expectExceptionMessageIsOrContains('The third coordinate of array is missing.');
 
-        FactoryPoint::fromIndexedArray([1, 2], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        FactoryPoint::fromIndexedArray([1, 2], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
     }
 
     /**
@@ -198,7 +198,7 @@ class FactoryPointTest extends TestCase
         self::expectException(MissingValueException::class);
         self::expectExceptionMessageIsOrContains('The third coordinate of array is missing.');
 
-        FactoryPoint::fromIndexedArray([1, 2], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        FactoryPoint::fromIndexedArray([1, 2], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 
     // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint

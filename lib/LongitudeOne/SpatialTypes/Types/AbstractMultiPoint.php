@@ -37,14 +37,14 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
      * AbstractMultiPoint constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $points points of the multipoint
-     * @param null|int                                                                                                     $srid   Spatial Reference Identifier
+     * @param int                                                                                                          $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multipoint dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multipoint SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    abstract public function __construct(array $points, ?int $srid = null);
+    abstract public function __construct(array $points, int $srid = self::DEFAULT_SRID);
 
     /**
      * Get the elements (the points) of this multipoint.

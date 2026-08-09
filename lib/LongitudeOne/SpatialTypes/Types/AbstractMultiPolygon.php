@@ -45,14 +45,14 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
      * AbstractMultiPolygon constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
-     * @param null|int                                                                                                                                                    $srid     Spatial Reference Identifier
+     * @param int                                                                                                                                                         $srid     Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $polygons, ?int $srid = null)
+    public function __construct(array $polygons, int $srid = self::DEFAULT_SRID)
     {
         $this->setSrid($srid);
         $this->addPolygons($polygons);

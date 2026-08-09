@@ -51,7 +51,7 @@ class PolygonTest extends TestCase
      */
     public function testJson(): void
     {
-        $expected = '{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,10],[0,0]],[[5,5],[7,5],[7,7],[5,7],[5,5]]],"srid":null}';
+        $expected = '{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,10],[0,0]],[[5,5],[7,5],[7,7],[5,7],[5,5]]],"srid":0}';
         $polygon = $this->createHoleyPolygon();
         static::assertEquals($expected, json_encode($polygon));
 

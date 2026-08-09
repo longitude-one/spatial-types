@@ -22,6 +22,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
@@ -40,7 +41,7 @@ class FactoryPoint
      * @param float|int|string $y         The y or latitude of the point
      * @param null|float|int   $z         The elevation of the point
      * @param null|float|int   $m         The measure of the point
-     * @param null|int         $srid      The Spatial Reference Identifier
+     * @param int              $srid      The Spatial Reference Identifier
      * @param FamilyEnum       $family    The family of the point
      * @param DimensionEnum    $dimension The dimension of the point
      *
@@ -50,7 +51,7 @@ class FactoryPoint
      * @throws InvalidValueException     when one of the coordinates is invalid
      * @throws MissingValueException     when the requested Z coordinate is missing
      */
-    public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, float|int|null $m = null, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
+    public static function fromCoordinates(float|int|string $x, float|int|string $y, float|int|null $z = null, float|int|null $m = null, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): PointInterface
     {
         if ((!$dimension->hasZ() && null !== $z) || (!$dimension->hasM() && null !== $m)) {
             throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
@@ -63,7 +64,7 @@ class FactoryPoint
      * Create a point from an array.
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $point     The point as an array
-     * @param null|int                                                                                  $srid      The Spatial Reference Identifier
+     * @param int                                                                                       $srid      The Spatial Reference Identifier
      * @param FamilyEnum                                                                                $family    The family of the point
      * @param DimensionEnum                                                                             $dimension The dimension of the point
      *
@@ -75,7 +76,7 @@ class FactoryPoint
      */
     public static function fromIndexedArray(
         array $point,
-        ?int $srid = null,
+        int $srid = SpatialInterface::DEFAULT_SRID,
         FamilyEnum $family = FamilyEnum::GEOMETRY,
         DimensionEnum $dimension = DimensionEnum::X_Y
     ): PointInterface {

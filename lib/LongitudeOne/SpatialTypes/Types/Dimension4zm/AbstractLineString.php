@@ -27,7 +27,7 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     /**
      * @param (array{0: float|int|string, 1: float|int|string, 2: float|int, 3: float|int}|PointInterface)[] $points
      */
-    public function __construct(array $points, ?int $srid = null)
+    public function __construct(array $points, int $srid = self::DEFAULT_SRID)
     {
         $this->setSrid($srid);
         $this->addPoints($points);

@@ -107,7 +107,7 @@ class MultiPolygonTest extends TestCase
     public function testJsonSerialize(): void
     {
         $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE);
-        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":null}', json_encode($multiPolygon));
+        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":0}', json_encode($multiPolygon));
         $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE, 4326);
         static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":4326}', json_encode($multiPolygon));
     }

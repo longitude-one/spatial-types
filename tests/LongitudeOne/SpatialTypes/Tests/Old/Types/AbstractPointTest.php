@@ -163,7 +163,7 @@ class AbstractPointTest extends TestCase
     #[DataProvider('pointTypeProvider')]
     public function testJson(string $abstractPoint): void
     {
-        $expected = '{"type":"Point","coordinates":[5,5],"srid":null}';
+        $expected = '{"type":"Point","coordinates":[5,5],"srid":0}';
         $point = new $abstractPoint(5, 5);
 
         static::assertEquals($expected, json_encode($point));

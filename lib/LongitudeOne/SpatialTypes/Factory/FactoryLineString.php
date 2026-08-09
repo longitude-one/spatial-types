@@ -22,6 +22,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Resolver\SpatialFamilyFactoryResolver;
 
 /**
@@ -37,13 +38,13 @@ class FactoryLineString
      * Create a linestring from an array of points.
      *
      * @param PointInterface[] $points        array of points
-     * @param ?int             $srid          SRID
+     * @param int              $srid          SRID
      * @param FamilyEnum       $family        family
      * @param DimensionEnum    $dimensionEnum dimension
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the linestring
      */
-    public static function fromArrayOfPoints(array $points, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): LineStringInterface
+    public static function fromArrayOfPoints(array $points, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimensionEnum = DimensionEnum::X_Y): LineStringInterface
     {
         foreach ($points as $point) {
             if (!$point instanceof PointInterface) {
@@ -58,13 +59,13 @@ class FactoryLineString
      * Create a linestring from an indexed array.
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|PointInterface[] $indexedArray indexed array
-     * @param ?int                                                                                                         $srid         SRID
+     * @param int                                                                                                          $srid         SRID
      * @param FamilyEnum                                                                                                   $family       family
      * @param DimensionEnum                                                                                                $dimension    dimension
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point or the linestring
      */
-    public static function fromIndexedArray(array $indexedArray, ?int $srid = null, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
+    public static function fromIndexedArray(array $indexedArray, int $srid = SpatialInterface::DEFAULT_SRID, FamilyEnum $family = FamilyEnum::GEOMETRY, DimensionEnum $dimension = DimensionEnum::X_Y): LineStringInterface
     {
         $points = [];
         foreach ($indexedArray as $point) {

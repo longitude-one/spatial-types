@@ -49,14 +49,14 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
      * Creates a geometric line string instance.
      *
      * @param PointInterface[] $points    the points that compose the line string
-     * @param null|int         $srid      the spatial reference identifier
+     * @param int              $srid      the spatial reference identifier
      * @param DimensionEnum    $dimension the dimension of the line string
      *
      * @return LineStringInterface the created geometric line string
      *
      * @throws InvalidDimensionException when the dimension is not supported
      */
-    public function createLineString(array $points, ?int $srid, DimensionEnum $dimension): LineStringInterface
+    public function createLineString(array $points, int $srid, DimensionEnum $dimension): LineStringInterface
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new LineString2D($points, $srid),
@@ -73,7 +73,7 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
      * @param float|int|string $y         the Y coordinate of the point, the latitude
      * @param null|float|int   $z         the Z coordinate of the point, the elevation
      * @param null|float|int   $m         the M coordinate of the point
-     * @param null|int         $srid      the spatial reference identifier
+     * @param int              $srid      the spatial reference identifier
      * @param DimensionEnum    $dimension the dimension of the point to create
      *
      * @return PointInterface the created geometric point
@@ -81,7 +81,7 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
      * @throws InvalidDimensionException when the dimension is not supported
      * @throws MissingValueException     when a required Z or M coordinate is missing
      */
-    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, ?int $srid, DimensionEnum $dimension): PointInterface
+    public function createPoint(float|int|string $x, float|int|string $y, float|int|null $z, float|int|null $m, int $srid, DimensionEnum $dimension): PointInterface
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new Point2D($x, $y, $srid),
@@ -95,14 +95,14 @@ final class GeometricSpatialFamilyFactory implements SpatialFamilyFactoryInterfa
      * Creates a geometric polygon instance.
      *
      * @param LineStringInterface[] $rings     the rings that compose the polygon
-     * @param null|int              $srid      the spatial reference identifier
+     * @param int                   $srid      the spatial reference identifier
      * @param DimensionEnum         $dimension the dimension of the polygon
      *
      * @return PolygonInterface the created geometric polygon
      *
      * @throws InvalidDimensionException when the dimension is not supported
      */
-    public function createPolygon(array $rings, ?int $srid, DimensionEnum $dimension): PolygonInterface
+    public function createPolygon(array $rings, int $srid, DimensionEnum $dimension): PolygonInterface
     {
         return match ($dimension) {
             DimensionEnum::X_Y => new Polygon($rings, $srid),

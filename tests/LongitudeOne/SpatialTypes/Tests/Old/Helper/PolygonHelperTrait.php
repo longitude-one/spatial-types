@@ -126,7 +126,7 @@ trait PolygonHelperTrait
      */
     protected function createMassachusettsState(bool $forwardSrid = true): Polygon
     {
-        $srid = null;
+        $srid = 0;
 
         if ($forwardSrid) {
             $srid = 2249;
@@ -214,16 +214,14 @@ trait PolygonHelperTrait
      * Create a Polygon from an array of lLine-strings.
      *
      * @param LineStringInterface[] $lineStrings the array of line-strings
-     * @param null|int              $srid        Spatial Reference System Identifier
+     * @param int                   $srid        Spatial Reference System Identifier
      *
      * @throws InvalidValueException when geometries are not valid
      */
-    private function createPolygon(array $lineStrings, ?int $srid = null): Polygon
+    private function createPolygon(array $lineStrings, int $srid = 0): Polygon
     {
         $polygon = new Polygon($lineStrings);
-        if (null !== $srid) {
-            $polygon->setSrid($srid);
-        }
+        $polygon->setSrid($srid);
 
         return $polygon;
     }

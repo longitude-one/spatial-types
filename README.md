@@ -40,3 +40,15 @@ $lineString = new LineString([
 ], 4326);
 $lineString->getSrid(); // 4326
 ```
+
+## SRID
+
+Every spatial object always has an integer SRID. `SpatialInterface::DEFAULT_SRID`
+is `0`, the default assigned by this library whenever no SRID is supplied. This
+follows SQL/MM, which specifies SRID 0 for constructors without an SRID and
+leaves its semantics to the implementation.
+
+Here, SRID 0 means that the reference system is unspecified. It can therefore
+be combined with a non-zero SRID in a collection; two non-zero, distinct SRIDs
+remain incompatible. This preserves a concrete, serializable SRID while keeping
+the default useful for spatial values whose reference system is not known yet.

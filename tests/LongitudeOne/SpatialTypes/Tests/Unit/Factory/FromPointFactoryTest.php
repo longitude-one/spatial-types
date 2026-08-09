@@ -80,6 +80,6 @@ class FromPointFactoryTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The point dimension is not compatible with the dimension of the current spatial collection.');
 
-        FromPointFactory::createLineString([new GeometricPoint(1, 2)], null, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        FromPointFactory::createLineString([new GeometricPoint(1, 2)], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
     }
 }

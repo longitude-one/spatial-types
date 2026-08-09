@@ -52,7 +52,7 @@ class MultiLineStringTest extends TestCase
      */
     public function testJson(): void
     {
-        $expected = '{"type":"MultiLineString","coordinates":[[[0,0],[10,0],[10,10],[0,10],[0,0]],[[0,0],[10,0],[10,10],[0,10],[0,0]]],"srid":null}';
+        $expected = '{"type":"MultiLineString","coordinates":[[[0,0],[10,0],[10,10],[0,10],[0,0]],[[0,0],[10,0],[10,10],[0,10],[0,0]]],"srid":0}';
         $lineStrings = [
             [
                 [0, 0],

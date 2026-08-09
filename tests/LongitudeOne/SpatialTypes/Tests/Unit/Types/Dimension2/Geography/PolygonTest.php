@@ -106,7 +106,7 @@ class PolygonTest extends TestCase
     public function testJsonSerialize(): void
     {
         $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":null}', json_encode($polygon));
+        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":0}', json_encode($polygon));
         $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
         static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
     }
