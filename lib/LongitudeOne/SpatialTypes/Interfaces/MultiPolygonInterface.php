@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
  * Multi-polygon interface.
  *
@@ -45,4 +47,31 @@ interface MultiPolygonInterface extends CollectionInterface
      * @return (float|int)[][][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new multi-polygon with one replacement ring.
+     *
+     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     */
+    public function withLineString(int $polygonIndex, int $ringIndex, array $coordinates): static;
+
+    /**
+     * Return a new multi-polygon with one replacement point.
+     *
+     * @param int         $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int         $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param int         $pointIndex   index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates  replacement point coordinates
+     */
+    public function withPoint(int $polygonIndex, int $ringIndex, int $pointIndex, Coordinates $coordinates): static;
+
+    /**
+     * Return a new multi-polygon with one replacement polygon.
+     *
+     * @param int                                                                                                     $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
+     */
+    public function withPolygon(int $polygonIndex, array $coordinates): static;
 }

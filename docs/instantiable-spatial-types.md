@@ -273,6 +273,13 @@ one closed ring. `MultiLineString::withLineString(int $lineStringIndex, array
 $coordinates): static` replaces one line string. Both return deep copies and
 derive the expected XY, XYM, XYZ, or XYZM layout from the receiving aggregate.
 
+`MultiPolygon::withPoint(int $polygonIndex, int $ringIndex, int $pointIndex,
+Coordinates $coordinates): static` replaces one point.
+`MultiPolygon::withLineString(int $polygonIndex, int $ringIndex, array
+$coordinates): static` replaces one ring, and `MultiPolygon::withPolygon(int
+$polygonIndex, array $coordinates): static` replaces one polygon. All three
+methods return deep copies and preserve family, dimension, and SRID.
+
 The aggregate spatial types are **mutable**. They return `$this` from fluent
 mutators, so they must not be treated as immutable value objects:
 

@@ -25,13 +25,15 @@ use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPolygonInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract multi-polygon class.
+ *
+ * @phpstan-type IndexedCoordinates array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}
+ * @phpstan-type IndexedPolygon array<array<IndexedCoordinates>>
  *
  * @internal this class provides common behaviour for geometry and geography multi-polygons
  */
@@ -45,8 +47,8 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * AbstractMultiPolygon constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
-     * @param int                                                                                                                                                         $srid     Spatial Reference Identifier
+     * @param (IndexedPolygon|PolygonInterface)[] $polygons polygons
+     * @param int                                 $srid     Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
@@ -62,7 +64,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Add a polygon to this multi-polygon.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface $polygon polygon
+     * @param IndexedPolygon|PolygonInterface $polygon polygon
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygon
      */
@@ -92,7 +94,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Add polygons to the multipolygon instance.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][]|PolygonInterface)[] $polygons polygons
+     * @param (IndexedPolygon|PolygonInterface)[] $polygons polygons
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygons
      */
@@ -173,6 +175,66 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
+     * Return a deep copy of this multi-polygon with one replacement ring.
+     *
+     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     *
+     * @throws OutOfBoundsException when the multi-polygon has no polygons
+     */
+    public function withLineString(int $polygonIndex, int $ringIndex, array $coordinates): static
+    {
+        $polygonIndex = $this->normalizePolygonIndex($polygonIndex);
+
+        return $this->withReplacedPolygon(
+            $polygonIndex,
+            fn (PolygonInterface $polygon): PolygonInterface => $polygon->withLineString($ringIndex, $coordinates)
+        );
+    }
+
+    /**
+     * Return a deep copy of this multi-polygon with one replacement point.
+     *
+     * @param int         $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int         $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param int         $pointIndex   index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates  replacement point coordinates
+     *
+     * @throws OutOfBoundsException when the multi-polygon has no polygons
+     */
+    public function withPoint(int $polygonIndex, int $ringIndex, int $pointIndex, Coordinates $coordinates): static
+    {
+        $polygonIndex = $this->normalizePolygonIndex($polygonIndex);
+
+        return $this->withReplacedPolygon(
+            $polygonIndex,
+            fn (PolygonInterface $polygon): PolygonInterface => $polygon->withPoint($ringIndex, $pointIndex, $coordinates)
+        );
+    }
+
+    /**
+     * Return a deep copy of this multi-polygon with one replacement polygon.
+     *
+     * @param int                                                                                                     $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
+     *
+     * @throws OutOfBoundsException when the multi-polygon has no polygons
+     */
+    public function withPolygon(int $polygonIndex, array $coordinates): static
+    {
+        $polygonIndex = $this->normalizePolygonIndex($polygonIndex);
+        $multiPolygon = clone $this;
+        $multiPolygon->polygons = [];
+
+        foreach ($this->polygons as $index => $polygon) {
+            $multiPolygon->addPolygon($index === $polygonIndex ? $coordinates : $polygon->withSrid($polygon->getSrid()));
+        }
+
+        return $multiPolygon;
+    }
+
+    /**
      * Return a copy of this multi-polygon with the given Spatial Reference Identifier (SRID).
      *
      * Every polygon, ring, and point is copied with the requested SRID to
@@ -187,6 +249,45 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
             static fn (PolygonInterface $polygon): PolygonInterface => $polygon->withSrid($srid),
             $this->polygons
         );
+
+        return $multiPolygon;
+    }
+
+    /**
+     * Normalize a polygon index according to the multi-polygon accessor convention.
+     *
+     * @param int $polygonIndex polygon index to normalize
+     *
+     * @throws OutOfBoundsException when the multi-polygon has no polygons
+     */
+    private function normalizePolygonIndex(int $polygonIndex): int
+    {
+        $polygonCount = count($this->polygons);
+        if (0 === $polygonCount) {
+            throw new OutOfBoundsException('The current collection of polygons is empty.');
+        }
+
+        $polygonIndex %= $polygonCount;
+
+        return $polygonIndex < 0 ? $polygonCount + $polygonIndex : $polygonIndex;
+    }
+
+    /**
+     * Return a deep copy with one transformed polygon.
+     *
+     * @param int      $polygonIndex index of the polygon to transform
+     * @param \Closure $transform    transformation to apply
+     */
+    private function withReplacedPolygon(int $polygonIndex, \Closure $transform): static
+    {
+        $multiPolygon = clone $this;
+        $multiPolygon->polygons = [];
+
+        foreach ($this->polygons as $index => $polygon) {
+            $multiPolygon->polygons[] = $index === $polygonIndex
+                ? $transform($polygon)
+                : $polygon->withSrid($polygon->getSrid());
+        }
 
         return $multiPolygon;
     }

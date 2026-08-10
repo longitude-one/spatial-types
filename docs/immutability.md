@@ -57,6 +57,19 @@ $expandedPolygon = $polygon->withLineString(0, [
 $updatedMultiLine = $multiLine->withLineString(1, [[5, 6], [7, 8]]);
 ```
 
+`MultiPolygon` follows the same rule at every nesting level:
+`withPoint()` selects a polygon, ring, and point; `withLineString()` selects a
+polygon and ring; and `withPolygon()` selects a polygon. Every method returns a
+deep copy and preserves the family, dimension, and SRID.
+
+```php
+$movedMultiPolygon = $multiPolygon->withPoint(0, 0, 0, Coordinates::xy(-1, -1));
+$expandedMultiPolygon = $multiPolygon->withLineString(1, 0, [[19, -1], [31, -1], [19, 11], [19, -1]]);
+$replacedMultiPolygon = $multiPolygon->withPolygon(0, [
+    [[40, 0], [50, 0], [40, 10], [40, 0]],
+]);
+```
+
 ## Why coordinates are immutable
 
 Consider a point used by a line string, where that line string is then used by
@@ -119,6 +132,11 @@ coordinate dimension.
 `Polygon::withLineString()` selects a ring and requires coordinates forming a
 closed ring. `MultiLineString::withLineString()` selects one of its line
 strings. Both derive the expected coordinate layout from the receiver.
+
+`MultiPolygon::withPoint()` selects a polygon, ring, then point.
+`MultiPolygon::withLineString()` selects a polygon then ring, while
+`MultiPolygon::withPolygon()` replaces an entire polygon. Each operation
+creates a deep copy of every polygon in the collection.
 
 Aggregate types such as `LineString`, `Polygon`, and `MultiLineString` still
 expose public membership mutators (`addPoint()`, `addRing()`, and similar
