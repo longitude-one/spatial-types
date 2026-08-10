@@ -49,15 +49,6 @@ interface MultiPolygonInterface extends CollectionInterface
     public function toArray(): array;
 
     /**
-     * Return a new multi-polygon with one replacement ring.
-     *
-     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
-     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
-     */
-    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static;
-
-    /**
      * Return a new multi-polygon with one replacement point.
      *
      * @param int         $polygonIndex index of the polygon to replace; negative indexes count from the end
@@ -74,4 +65,13 @@ interface MultiPolygonInterface extends CollectionInterface
      * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
      */
     public function withPolygon(int $polygonIndex, array $coordinates): static;
+
+    /**
+     * Return a new multi-polygon with one replacement ring.
+     *
+     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     */
+    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static;
 }

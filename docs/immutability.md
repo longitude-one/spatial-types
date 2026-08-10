@@ -55,6 +55,7 @@ $expandedPolygon = $polygon->withRing(0, [
     [-1, -1], [11, -1], [-1, 11], [-1, -1],
 ]);
 $updatedMultiLine = $multiLine->withLineString(1, [[5, 6], [7, 8]]);
+$movedMultiLinePoint = $multiLine->withPoint(1, 0, Coordinates::xy(5, 6));
 ```
 
 `MultiPolygon` follows the same rule at every nesting level:
@@ -130,8 +131,9 @@ immutable `Value\Coordinates` value, so a replacement must match the receiver's
 coordinate dimension.
 
 `Polygon::withRing()` selects a ring and requires coordinates forming a
-closed ring. `MultiLineString::withLineString()` selects one of its line
-strings. Both derive the expected coordinate layout from the receiver.
+closed ring. `MultiLineString::withPoint()` selects a line string then a point,
+while `MultiLineString::withLineString()` selects one of its line strings.
+Both derive the expected coordinate layout from the receiver.
 
 `MultiPolygon::withPoint()` selects a polygon, ring, then point.
 `MultiPolygon::withRing()` selects a polygon then ring, while

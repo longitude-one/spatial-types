@@ -273,6 +273,10 @@ one closed ring. `MultiLineString::withLineString(int $lineStringIndex, array
 $coordinates): static` replaces one line string. Both return deep copies and
 derive the expected XY, XYM, XYZ, or XYZM layout from the receiving aggregate.
 
+`MultiLineString::withPoint(int $lineStringIndex, int $pointIndex, Coordinates
+$coordinates): static` replaces one point in one line string and returns a deep
+copy.
+
 `MultiPolygon::withPoint(int $polygonIndex, int $ringIndex, int $pointIndex,
 Coordinates $coordinates): static` replaces one point.
 `MultiPolygon::withRing(int $polygonIndex, int $ringIndex, array

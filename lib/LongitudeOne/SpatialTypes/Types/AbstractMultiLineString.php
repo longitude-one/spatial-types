@@ -27,6 +27,7 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract MultiLineString class.
@@ -166,6 +167,28 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
         foreach ($this->lineStrings as $index => $lineString) {
             $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : $lineString->withSrid($lineString->getSrid()));
         }
+
+        return $multiLineString;
+    }
+
+    /**
+     * Return a deep copy of this multi-line string with one replacement point.
+     *
+     * @param int         $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param int         $pointIndex      index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates     replacement point coordinates
+     *
+     * @throws OutOfBoundsException when the multi-line string has no line strings
+     */
+    public function withPoint(int $lineStringIndex, int $pointIndex, Coordinates $coordinates): static
+    {
+        $lineStringIndex = $this->normalizeLineStringIndex($lineStringIndex);
+        $multiLineString = clone $this;
+        $multiLineString->lineStrings = array_map(
+            static fn (LineStringInterface $lineString): LineStringInterface => $lineString->withSrid($lineString->getSrid()),
+            $this->lineStrings
+        );
+        $multiLineString->lineStrings[$lineStringIndex] = $multiLineString->lineStrings[$lineStringIndex]->withPoint($pointIndex, $coordinates);
 
         return $multiLineString;
     }

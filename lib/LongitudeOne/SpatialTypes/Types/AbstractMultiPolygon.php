@@ -175,25 +175,6 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
-     * Return a deep copy of this multi-polygon with one replacement ring.
-     *
-     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
-     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
-     *
-     * @throws OutOfBoundsException when the multi-polygon has no polygons
-     */
-    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static
-    {
-        $polygonIndex = $this->normalizePolygonIndex($polygonIndex);
-
-        return $this->withReplacedPolygon(
-            $polygonIndex,
-            fn (PolygonInterface $polygon): PolygonInterface => $polygon->withRing($ringIndex, $coordinates)
-        );
-    }
-
-    /**
      * Return a deep copy of this multi-polygon with one replacement point.
      *
      * @param int         $polygonIndex index of the polygon to replace; negative indexes count from the end
@@ -232,6 +213,25 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
         }
 
         return $multiPolygon;
+    }
+
+    /**
+     * Return a deep copy of this multi-polygon with one replacement ring.
+     *
+     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     *
+     * @throws OutOfBoundsException when the multi-polygon has no polygons
+     */
+    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static
+    {
+        $polygonIndex = $this->normalizePolygonIndex($polygonIndex);
+
+        return $this->withReplacedPolygon(
+            $polygonIndex,
+            fn (PolygonInterface $polygon): PolygonInterface => $polygon->withRing($ringIndex, $coordinates)
+        );
     }
 
     /**

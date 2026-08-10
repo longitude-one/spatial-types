@@ -159,31 +159,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
-     * Return a deep copy of this polygon with one replacement ring.
-     *
-     * The original polygon and all its rings remain unchanged. The replacement
-     * coordinates are created through the polygon's existing family, dimension,
-     * and Spatial Reference Identifier (SRID) context and must form a ring.
-     *
-     * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
-     *
-     * @throws OutOfBoundsException when the polygon has no rings
-     */
-    public function withRing(int $ringIndex, array $coordinates): static
-    {
-        $ringIndex = $this->normalizeRingIndex($ringIndex);
-        $polygon = clone $this;
-        $polygon->lineStrings = [];
-
-        foreach ($this->lineStrings as $index => $ring) {
-            $polygon->addRing($index === $ringIndex ? $coordinates : $ring->withSrid($ring->getSrid()));
-        }
-
-        return $polygon;
-    }
-
-    /**
      * Return a deep copy of this polygon with one replacement point in a ring.
      *
      * The original polygon and its rings remain unchanged. Replacing either
@@ -210,6 +185,31 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
             }
 
             $polygon->lineStrings[] = $ring->withSrid($ring->getSrid());
+        }
+
+        return $polygon;
+    }
+
+    /**
+     * Return a deep copy of this polygon with one replacement ring.
+     *
+     * The original polygon and all its rings remain unchanged. The replacement
+     * coordinates are created through the polygon's existing family, dimension,
+     * and Spatial Reference Identifier (SRID) context and must form a ring.
+     *
+     * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
+     *
+     * @throws OutOfBoundsException when the polygon has no rings
+     */
+    public function withRing(int $ringIndex, array $coordinates): static
+    {
+        $ringIndex = $this->normalizeRingIndex($ringIndex);
+        $polygon = clone $this;
+        $polygon->lineStrings = [];
+
+        foreach ($this->lineStrings as $index => $ring) {
+            $polygon->addRing($index === $ringIndex ? $coordinates : $ring->withSrid($ring->getSrid()));
         }
 
         return $polygon;
