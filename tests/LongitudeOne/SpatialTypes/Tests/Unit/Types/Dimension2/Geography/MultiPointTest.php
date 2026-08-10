@@ -43,7 +43,7 @@ class MultiPointTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertEquals([[1, 2], [3, 4]], $multiPoint->toArray());
 
-        $multiPoint->addPoint(new Point(1, 2));
+        $multiPoint = new MultiPoint([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
         static::assertCount(3, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isSimple());
         static::assertEquals([[1, 2], [3, 4], [1, 2]], $multiPoint->toArray());
@@ -60,7 +60,7 @@ class MultiPointTest extends TestCase
         static::assertTrue($multiPoint->isSimple());
         static::assertEquals([[-40, -40], [-45, 45]], $multiPoint->toArray());
 
-        $multiPoint->addPoint(new Point('40W', '40S', 4326));
+        $multiPoint = new MultiPoint([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326), new Point('40W', '40S', 4326)], 4326);
         static::assertCount(3, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isSimple());
         static::assertFalse($multiPoint->isEmpty());

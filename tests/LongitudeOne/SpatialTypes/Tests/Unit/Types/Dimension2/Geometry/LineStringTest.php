@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
@@ -39,53 +38,39 @@ use PHPUnit\Framework\TestCase;
 class LineStringTest extends TestCase
 {
     /**
-     * Test that an exception is thrown when we add a geographic point in a geometric linestring.
+     * Test that construction rejects a geographic point in a geometric line string.
      */
-    public function testAddGeographicPointInGeometricLineString(): void
+    public function testConstructorRejectsGeographicPoint(): void
     {
-        $lineString = new LineString([], 4326);
         static::expectException(InvalidFamilyException::class);
         static::expectExceptionMessageIsOrContains('The ');
-        $lineString->addPoint(new GeographicPoint('40W', '40S', 4326));
+        new LineString([new GeographicPoint('40W', '40S', 4326)], 4326);
     }
 
     /**
-     * Test the addPoint method.
+     * Test constructor SRID validation.
      */
-    public function testAddPoint(): void
+    public function testConstructorRejectsIncompatibleSrid(): void
     {
-        $lineString = new LineString([], 4326);
-        $lineString->addPoint(new Point(1, 2));
-        $lineString->addPoint([3, 4]);
+        $lineString = new LineString([new Point(1, 2), [3, 4]], 4326);
         static::assertCount(2, $lineString->getPoints());
 
         self::expectException(InvalidSridException::class);
         self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
-        $lineString->addPoint(new Point(1, 2, 4327));
-    }
-
-    /**
-     * Test the addPoint methods with invalid argument.
-     */
-    public function testAddPointsWithInvalidArgument(): void
-    {
-        $lineString = new LineString([], 4326);
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Argument shall contain an array of PointInterface or an array of coordinates.');
-        $lineString->addPoints(['foo', 'bar']);
+        new LineString([new Point(1, 2, 4327)], 4326);
     }
 
     /**
      * Test that a point with a different dimension cannot be added to a line string.
      */
-    public function testAddPointWithInvalidDimension(): void
+    public function testConstructorRejectsPointWithInvalidDimension(): void
     {
         $point = new Point3M(1, 2, 3);
 
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The point dimension is not compatible with the dimension of the current spatial collection.');
 
-        (new LineString([]))->addPoint($point);
+        new LineString([$point]);
     }
 
     /**
@@ -100,7 +85,7 @@ class LineStringTest extends TestCase
         static::assertTrue($lineString->isLine());
         static::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
 
-        $lineString->addPoint(new Point(1, 2));
+        $lineString = new LineString([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isClosed());
         static::assertTrue($lineString->isRing());
@@ -120,7 +105,7 @@ class LineStringTest extends TestCase
         static::assertTrue($lineString->isLine());
         static::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
 
-        $lineString->addPoint(new Point('40W', '40S', 4326));
+        $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326), new Point('40W', '40S', 4326)], 4326);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isLine());
         static::assertTrue($lineString->isClosed());

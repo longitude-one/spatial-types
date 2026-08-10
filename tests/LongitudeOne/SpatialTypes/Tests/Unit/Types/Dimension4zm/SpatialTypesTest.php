@@ -58,8 +58,7 @@ class SpatialTypesTest extends TestCase
         static::assertSame([$lineString], (new GeographicMultiLineString([$lineString]))->getElements());
         static::assertSame([$polygon], (new GeographicMultiPolygon([$polygon]))->getElements());
 
-        $collection = new GeographyCollection();
-        $collection->addElement($polygon);
+        $collection = new GeographyCollection(0, [$polygon]);
         static::assertSame([$polygon], $collection->getElements());
     }
 
@@ -83,8 +82,7 @@ class SpatialTypesTest extends TestCase
         static::assertSame([$lineString], (new GeometricMultiLineString([$lineString]))->getElements());
         static::assertSame([$polygon], (new GeometricMultiPolygon([$polygon]))->getElements());
 
-        $collection = new GeometryCollection();
-        $collection->addElement($polygon);
+        $collection = new GeometryCollection(0, [$polygon]);
         static::assertSame([$polygon], $collection->getElements());
     }
 }

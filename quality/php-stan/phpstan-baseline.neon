@@ -41,9 +41,3 @@ parameters:
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
 			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/RangeExceptionTest.php
-
-		-
-			message: '#^Parameter \#1 \$points of method LongitudeOne\\SpatialTypes\\Types\\AbstractLineString\:\:addPoints\(\) expects array\<array\{0\: float\|int\|string, 1\: float\|int\|string, 2\?\: float\|int\|null, 3\?\: float\|int\|null\}\|LongitudeOne\\SpatialTypes\\Interfaces\\PointInterface\>, array\{''foo'', ''bar''\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Types/Dimension2/Geometry/LineStringTest.php

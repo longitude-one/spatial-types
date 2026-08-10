@@ -34,18 +34,16 @@ use PHPUnit\Framework\TestCase;
 class MultiPointTest extends TestCase
 {
     /**
-     * Test the addPoint method.
+     * Test constructor SRID validation.
      */
-    public function testAddPoint(): void
+    public function testConstructorRejectsIncompatibleSrid(): void
     {
-        $multiPoint = new MultiPoint([], 4326);
-        $multiPoint->addPoint(new Point(1, 2));
-        $multiPoint->addPoint([3, 4]);
+        $multiPoint = new MultiPoint([new Point(1, 2), [3, 4]], 4326);
         static::assertCount(2, $multiPoint->getPoints());
 
         self::expectException(InvalidSridException::class);
         self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
-        $multiPoint->addPoint(new Point(1, 2, 4327));
+        new MultiPoint([new Point(1, 2, 4327)], 4326);
     }
 
     /**
@@ -59,7 +57,7 @@ class MultiPointTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertEquals([[1, 2], [3, 4]], $multiPoint->toArray());
 
-        $multiPoint->addPoint(new Point(1, 2));
+        $multiPoint = new MultiPoint([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
         static::assertCount(3, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isSimple());
         static::assertFalse($multiPoint->isEmpty());
@@ -77,7 +75,7 @@ class MultiPointTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertEquals([[-40, -40], [-45, 45]], $multiPoint->toArray());
 
-        $multiPoint->addPoint(new Point('40W', '40S', 4326));
+        $multiPoint = new MultiPoint([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326), new Point('40W', '40S', 4326)], 4326);
         static::assertCount(3, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isSimple());
         static::assertFalse($multiPoint->isEmpty());

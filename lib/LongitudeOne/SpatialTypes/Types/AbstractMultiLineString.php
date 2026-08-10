@@ -56,34 +56,6 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     }
 
     /**
-     * Add a line string to the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
-     *
-     * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
-     */
-    public function addLineString(array|LineStringInterface $lineString): static
-    {
-        try {
-            return $this->traitAddLineString($lineString);
-        } catch (InvalidFamilyException $e) {
-            throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * Add line strings to the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
-     *
-     * @throws SpatialTypeExceptionInterface when something is wrong during the addition
-     */
-    public function addLineStrings(array $lineStrings): static
-    {
-        return $this->traitAddLineStrings($lineStrings);
-    }
-
-    /**
      * Get the elements of this multiLineString.
      *
      * @return LineStringInterface[]
@@ -210,6 +182,34 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
         );
 
         return $multiLineString;
+    }
+
+    /**
+     * Add a line string to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
+     *
+     * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
+     */
+    protected function addLineString(array|LineStringInterface $lineString): static
+    {
+        try {
+            return $this->traitAddLineString($lineString);
+        } catch (InvalidFamilyException $e) {
+            throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Add line strings to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
+     *
+     * @throws SpatialTypeExceptionInterface when something is wrong during the addition
+     */
+    protected function addLineStrings(array $lineStrings): static
+    {
+        return $this->traitAddLineStrings($lineStrings);
     }
 
     /**

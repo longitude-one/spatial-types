@@ -44,7 +44,7 @@ class LineStringTest extends TestCase
         static::assertTrue($lineString->isLine());
         static::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
 
-        $lineString->addPoint(new Point(1, 2));
+        $lineString = new LineString([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isClosed());
         static::assertTrue($lineString->isRing());
@@ -64,7 +64,7 @@ class LineStringTest extends TestCase
         static::assertTrue($lineString->isLine());
         static::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
 
-        $lineString->addPoint(new Point('40W', '40S', 4326));
+        $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326), new Point('40W', '40S', 4326)], 4326);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isLine());
         static::assertTrue($lineString->isClosed());

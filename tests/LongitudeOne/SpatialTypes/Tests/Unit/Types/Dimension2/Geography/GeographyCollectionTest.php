@@ -41,10 +41,9 @@ class GeographyCollectionTest extends TestCase
      */
     public function testAddElementWithGeographyCollection(): void
     {
-        $geographyCollection = new GeographyCollection();
         static::expectException(InvalidValueException::class);
         static::expectExceptionMessageIsOrContains('An instance of LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollection cannot contain another GeometryCollection nor GeographyCollection.');
-        $geographyCollection->addElement(new GeographyCollection());
+        new GeographyCollection(0, [new GeographyCollection()]);
     }
 
     /**
@@ -52,10 +51,9 @@ class GeographyCollectionTest extends TestCase
      */
     public function testAddElementWithInvalidDimension(): void
     {
-        $geographyCollection = new GeographyCollection();
         static::expectException(InvalidDimensionException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different dimensions.');
-        $geographyCollection->addElement(new GeographicPoint3D(0, 1, 2));
+        new GeographyCollection(0, [new GeographicPoint3D(0, 1, 2)]);
     }
 
     /**
@@ -63,10 +61,9 @@ class GeographyCollectionTest extends TestCase
      */
     public function testAddElementWithInvalidFamily(): void
     {
-        $geographyCollection = new GeographyCollection();
         static::expectException(InvalidFamilyException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different families.');
-        $geographyCollection->addElement(new GeometricPolygon([]));
+        new GeographyCollection(0, [new GeometricPolygon([])]);
     }
 
     /**
@@ -74,32 +71,25 @@ class GeographyCollectionTest extends TestCase
      */
     public function testAddElementWithInvalidSrid(): void
     {
-        $geographyCollection = new GeographyCollection();
         $polygon = new GeographicPolygon([], 4326);
-        $geographyCollection->addElement($polygon);
         $polygon = new GeographicPolygon([], 4327);
-        $geographyCollection->addElement($polygon);
+        new GeographyCollection(0, [new GeographicPolygon([], 4326), $polygon]);
 
-        $geographyCollection = new GeographyCollection(4326);
         $polygon = new GeographicPolygon([], 4326);
-        $geographyCollection->addElement($polygon);
         static::expectException(InvalidSridException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different SRIDs.');
 
         $polygon = new GeographicPolygon([], 4327);
-        $geographyCollection->addElement($polygon);
+        new GeographyCollection(4326, [new GeographicPolygon([], 4326), $polygon]);
     }
 
     /**
      * Test the get Elements method.
      */
-    public function testGetElementsAndAddElement(): void
+    public function testGetElements(): void
     {
-        $geographyCollection = new GeographyCollection();
-        static::assertEmpty($geographyCollection->getElements());
-
         $polygon = new GeographicPolygon([]);
-        $geographyCollection->addElement($polygon);
+        $geographyCollection = new GeographyCollection(0, [$polygon]);
         static::assertSame([$polygon], $geographyCollection->getElements());
     }
 
@@ -116,10 +106,8 @@ class GeographyCollectionTest extends TestCase
      */
     public function testHasElement(): void
     {
-        $geographyCollection = new GeographyCollection();
         $polygon = new GeographicPolygon([]);
-        static::assertFalse($geographyCollection->hasElement($polygon));
-        $geographyCollection->addElement($polygon);
+        $geographyCollection = new GeographyCollection(0, [$polygon]);
         static::assertTrue($geographyCollection->hasElement($polygon));
     }
 
@@ -128,26 +116,10 @@ class GeographyCollectionTest extends TestCase
      */
     public function testIsEmpty(): void
     {
-        $geographyCollection = new GeographyCollection();
-        static::assertTrue($geographyCollection->isEmpty());
         $polygon = new GeographicPolygon([]);
-        $geographyCollection->addElement($polygon);
+        static::assertTrue((new GeographyCollection())->isEmpty());
+        $geographyCollection = new GeographyCollection(0, [$polygon]);
         static::assertFalse($geographyCollection->isEmpty());
-        $geographyCollection->removeElement($polygon);
-        static::assertTrue($geographyCollection->isEmpty());
-    }
-
-    /**
-     * Test the removeElement method.
-     */
-    public function testRemoveElement(): void
-    {
-        $geographyCollection = new GeographyCollection();
-        $polygon = new GeographicPolygon([]);
-        $geographyCollection->addElement($polygon);
-        static::assertTrue($geographyCollection->hasElement($polygon));
-        $geographyCollection->removeElement($polygon);
-        static::assertFalse($geographyCollection->hasElement($polygon));
     }
 
     /**
@@ -155,12 +127,9 @@ class GeographyCollectionTest extends TestCase
      */
     public function testToArray(): void
     {
-        $geographyCollection = new GeographyCollection();
-        static::assertSame([], $geographyCollection->toArray());
         $polygon = new GeographicPolygon([]);
-        $geographyCollection->addElement($polygon);
-        static::assertSame([[]], $geographyCollection->toArray());
-        $geographyCollection->addElement(new Point(1, 2, 4326));
+        static::assertSame([], (new GeographyCollection())->toArray());
+        $geographyCollection = new GeographyCollection(0, [$polygon, new Point(1, 2, 4326)]);
         static::assertSame([[], [1, 2]], $geographyCollection->toArray());
     }
 }

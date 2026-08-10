@@ -46,16 +46,15 @@ mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-typ
 
 ## Immutability
 
-Spatial values are intended to be safe to share. In particular, `Point` is an
-immutable value: its coordinates and SRID are set at construction time and are
-never changed through the public API. Use `withCoordinates()` with an immutable
-`Value\Coordinates` value to represent another location, or `withSrid()` to
-associate the same coordinates with another SRID. Both return new objects.
+Spatial values are immutable and safe to share: their coordinates, SRID, and
+aggregate membership are set at construction time and never changed through
+the public API. Use `withCoordinates()` with an immutable `Value\Coordinates`
+value to represent another location, or `withSrid()` to associate the same
+coordinates with another SRID. Both return new objects.
 
-This prevents a point shared by a `LineString` and, through that line, a
-`MultiLineString` from silently changing both objects. See
-[Immutability](docs/immutability.md) for the rationale, an example, and the
-current scope of this contract.
+This prevents a value shared by other aggregates from silently changing them.
+See [Immutability](docs/immutability.md) for the rationale, examples, and the
+complete contract.
 
 ## SRID
 

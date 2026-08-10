@@ -58,50 +58,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
-     * Get the line strings of the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
-     *
-     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the ring
-     */
-    public function addRing(array|LineStringInterface $ring): static
-    {
-        if (is_array($ring)) {
-            $ring = DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($ring, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
-        }
-
-        if (!$ring->isRing()) {
-            throw new InvalidValueException('The line string is not a ring.');
-        }
-
-        if ($ring->getFamily() !== $this->getFamily()) {
-            throw new InvalidFamilyException('The ring family is not compatible with the family of the current polygon.');
-        }
-
-        return $this->traitAddLineString($ring);
-    }
-
-    /**
-     * Add a ring to the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
-     *
-     * @throws SpatialTypeExceptionInterface when one of the linestring is not a ring
-     */
-    public function addRings(array $rings): static
-    {
-        foreach ($rings as $ring) {
-            if (!is_array($ring) && !$ring instanceof LineStringInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing LineStringInterface or array of coordinates.');
-            }
-
-            $this->addRing($ring);
-        }
-
-        return $this;
-    }
-
-    /**
      * Return the rings in this polygon.
      *
      * @return LineStringInterface[]
@@ -232,6 +188,50 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
         );
 
         return $polygon;
+    }
+
+    /**
+     * Get the line strings of the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
+     *
+     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the ring
+     */
+    protected function addRing(array|LineStringInterface $ring): static
+    {
+        if (is_array($ring)) {
+            $ring = DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($ring, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
+        }
+
+        if (!$ring->isRing()) {
+            throw new InvalidValueException('The line string is not a ring.');
+        }
+
+        if ($ring->getFamily() !== $this->getFamily()) {
+            throw new InvalidFamilyException('The ring family is not compatible with the family of the current polygon.');
+        }
+
+        return $this->traitAddLineString($ring);
+    }
+
+    /**
+     * Add a ring to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
+     *
+     * @throws SpatialTypeExceptionInterface when one of the linestring is not a ring
+     */
+    protected function addRings(array $rings): static
+    {
+        foreach ($rings as $ring) {
+            if (!is_array($ring) && !$ring instanceof LineStringInterface) {
+                throw new InvalidValueException('The array must contain only objects implementing LineStringInterface or array of coordinates.');
+            }
+
+            $this->addRing($ring);
+        }
+
+        return $this;
     }
 
     /**

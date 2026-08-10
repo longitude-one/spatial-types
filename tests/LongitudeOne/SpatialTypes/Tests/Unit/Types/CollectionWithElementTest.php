@@ -32,10 +32,9 @@ class CollectionWithElementTest extends TestCase
      */
     public function testWithElementReturnsAnIndependentCopy(): void
     {
-        $collection = new GeometryCollection(2154);
         $firstPoint = new Point(1, 2, 2154);
         $secondPoint = new Point(3, 4, 2154);
-        $collection->addElement($firstPoint)->addElement($secondPoint);
+        $collection = new GeometryCollection(2154, [$firstPoint, $secondPoint]);
 
         $replacement = $collection->withElement(-1, new Point(5, 6, 2154));
 

@@ -62,52 +62,6 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
-     * Add a polygon to this multi-polygon.
-     *
-     * @param IndexedPolygon|PolygonInterface $polygon polygon
-     *
-     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygon
-     */
-    public function addPolygon(array|PolygonInterface $polygon): static
-    {
-        if (is_array($polygon)) {
-            $polygon = DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($polygon, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
-        }
-
-        if (!empty($polygon->getSrid()) && !empty($this->getSrid()) && $polygon->getSrid() !== $this->getSrid()) {
-            throw new InvalidSridException('The polygon SRID is not compatible with the SRID of the current multipolygon.');
-        }
-
-        if ($polygon->getFamily() !== $this->getFamily()) {
-            throw new InvalidFamilyException('The polygon family is not compatible with the family of the current multipolygon.');
-        }
-
-        if (!$polygon->hasSameDimension($this)) {
-            throw new InvalidDimensionException('The polygon is not compatible with the dimension of the current multipolygon.');
-        }
-
-        $this->polygons[] = $polygon;
-
-        return $this;
-    }
-
-    /**
-     * Add polygons to the multipolygon instance.
-     *
-     * @param (IndexedPolygon|PolygonInterface)[] $polygons polygons
-     *
-     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygons
-     */
-    public function addPolygons(array $polygons): static
-    {
-        foreach ($polygons as $polygon) {
-            $this->addPolygon($polygon);
-        }
-
-        return $this;
-    }
-
-    /**
      * Return the polygons in this multi-polygon.
      *
      * @return PolygonInterface[]
@@ -251,6 +205,52 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
         );
 
         return $multiPolygon;
+    }
+
+    /**
+     * Add a polygon to this multi-polygon.
+     *
+     * @param IndexedPolygon|PolygonInterface $polygon polygon
+     *
+     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygon
+     */
+    protected function addPolygon(array|PolygonInterface $polygon): static
+    {
+        if (is_array($polygon)) {
+            $polygon = DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($polygon, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
+        }
+
+        if (!empty($polygon->getSrid()) && !empty($this->getSrid()) && $polygon->getSrid() !== $this->getSrid()) {
+            throw new InvalidSridException('The polygon SRID is not compatible with the SRID of the current multipolygon.');
+        }
+
+        if ($polygon->getFamily() !== $this->getFamily()) {
+            throw new InvalidFamilyException('The polygon family is not compatible with the family of the current multipolygon.');
+        }
+
+        if (!$polygon->hasSameDimension($this)) {
+            throw new InvalidDimensionException('The polygon is not compatible with the dimension of the current multipolygon.');
+        }
+
+        $this->polygons[] = $polygon;
+
+        return $this;
+    }
+
+    /**
+     * Add polygons to the multipolygon instance.
+     *
+     * @param (IndexedPolygon|PolygonInterface)[] $polygons polygons
+     *
+     * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the polygons
+     */
+    protected function addPolygons(array $polygons): static
+    {
+        foreach ($polygons as $polygon) {
+            $this->addPolygon($polygon);
+        }
+
+        return $this;
     }
 
     /**

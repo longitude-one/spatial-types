@@ -5,11 +5,12 @@ as immutable makes that reuse safe and makes a value's location explicit.
 
 ## Current contract
 
-`Point` is immutable through the public API. Its coordinates and SRID are set
-by its constructor and it has no public setter. `getCoordinates()` returns an
-immutable `Value\Coordinates` value. `withCoordinates()` creates a distinct
-point with replacement coordinates, while `withSrid()` creates a distinct point
-with the same coordinates and a different SRID.
+Every spatial type is immutable through the public API. Its coordinates, SRID,
+and aggregate membership are set by its constructor, and it has no public
+setter or membership mutator. `getCoordinates()` returns an immutable
+`Value\Coordinates` value. `withCoordinates()` creates a distinct point with
+replacement coordinates, while `withSrid()` creates a distinct point with the
+same coordinates and a different SRID.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
@@ -126,7 +127,7 @@ $higherParis = $point->withCoordinates($higherCoordinates);
 preserves its concrete class, family, and SRID, and still applies geography
 longitude/latitude validation when creating the replacement point.
 
-## Scope and aggregate types
+## Aggregate types
 
 The coordinate-replacement API applies to `Point`, `LineString`, `MultiPoint`,
 and `Polygon`. `LineString::withPoint()` and `MultiPoint::withPoint()` select
@@ -147,12 +148,10 @@ creates a deep copy of every polygon in the collection.
 `GeometryCollection::withElement()` and `GeographyCollection::withElement()`
 replace one element and deeply copy every unchanged element.
 
-Aggregate types such as `LineString`, `Polygon`, and `MultiLineString` still
-expose public membership mutators (`addPoint()`, `addRing()`, and similar
-methods), and are therefore mutable. Their child points nevertheless remain
-safe to share because their coordinates cannot be altered after construction.
-Calling `withSrid()` on an aggregate creates a deep copy whose descendants all
-receive the requested SRID.
+Aggregate membership is fixed at construction. Their plural getters return PHP
+arrays, so changing a returned array cannot change the aggregate; the objects
+inside it are also immutable. Calling `withSrid()` on an aggregate creates a
+deep copy whose descendants all receive the requested SRID.
 
 See [Instantiable spatial types](instantiable-spatial-types.md#mutability-contract)
 for the complete current mutability contract.

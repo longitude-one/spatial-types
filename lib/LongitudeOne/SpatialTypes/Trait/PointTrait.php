@@ -43,64 +43,6 @@ trait PointTrait
     private array $points = [];
 
     /**
-     * Add a point to the spatial point collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point point to add
-     *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the current dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the current SRID
-     * @throws InvalidValueException     when coordinates of the point are invalid
-     * @throws MissingValueException     when a coordinate of the point is missing
-     */
-    public function addPoint(array|PointInterface $point): static
-    {
-        if (is_array($point)) {
-            $point = DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray($point, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
-        }
-
-        if (!$this->hasSameDimension($point)) {
-            throw new InvalidDimensionException('The point dimension is not compatible with the dimension of the current spatial collection.');
-        }
-
-        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
-        // SRID in aggregate compatibility checks.
-        if (self::DEFAULT_SRID !== $point->getSrid() && self::DEFAULT_SRID !== $this->getSrid() && $point->getSrid() !== $this->getSrid()) {
-            throw new InvalidSridException('The point SRID is not compatible with the SRID of this current spatial collection.');
-        }
-
-        if ($this->getFamily() !== $point->getFamily()) {
-            throw new InvalidFamilyException('The point family is not compatible with the family of the current spatial collection.');
-        }
-
-        $this->points[] = $point;
-
-        return $this;
-    }
-
-    /**
-     * Add points to the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|PointInterface[] $points points to add
-     *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the dimension of the current instance
-     * @throws InvalidSridException      when the point SRID is not compatible with the SRID of the current instance
-     * @throws InvalidValueException     when the array is not an array of points
-     * @throws MissingValueException     when a coordinate of a point is missing
-     */
-    public function addPoints(array $points): static
-    {
-        foreach ($points as $point) {
-            if (!is_array($point) && !$point instanceof PointInterface) {
-                throw new InvalidValueException('Argument shall contain an array of PointInterface or an array of coordinates.');
-            }
-
-            $this->addPoint($point);
-        }
-
-        return $this;
-    }
-
-    /**
      * Get a point of this spatial collection of points.
      *
      * @param int $index index of the point. -1 is the last point. -2 is the penultimate point, etc.
@@ -171,6 +113,64 @@ trait PointTrait
             static fn (PointInterface $point) => $point->toArray(),
             $points
         );
+    }
+
+    /**
+     * Add a point to the spatial point collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point point to add
+     *
+     * @throws InvalidDimensionException when the point dimension is not compatible with the current dimension
+     * @throws InvalidSridException      when the point SRID is not compatible with the current SRID
+     * @throws InvalidValueException     when coordinates of the point are invalid
+     * @throws MissingValueException     when a coordinate of the point is missing
+     */
+    protected function addPoint(array|PointInterface $point): static
+    {
+        if (is_array($point)) {
+            $point = DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray($point, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
+        }
+
+        if (!$this->hasSameDimension($point)) {
+            throw new InvalidDimensionException('The point dimension is not compatible with the dimension of the current spatial collection.');
+        }
+
+        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
+        // SRID in aggregate compatibility checks.
+        if (self::DEFAULT_SRID !== $point->getSrid() && self::DEFAULT_SRID !== $this->getSrid() && $point->getSrid() !== $this->getSrid()) {
+            throw new InvalidSridException('The point SRID is not compatible with the SRID of this current spatial collection.');
+        }
+
+        if ($this->getFamily() !== $point->getFamily()) {
+            throw new InvalidFamilyException('The point family is not compatible with the family of the current spatial collection.');
+        }
+
+        $this->points[] = $point;
+
+        return $this;
+    }
+
+    /**
+     * Add points to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|PointInterface[] $points points to add
+     *
+     * @throws InvalidDimensionException when the point dimension is not compatible with the dimension of the current instance
+     * @throws InvalidSridException      when the point SRID is not compatible with the SRID of the current instance
+     * @throws InvalidValueException     when the array is not an array of points
+     * @throws MissingValueException     when a coordinate of a point is missing
+     */
+    protected function addPoints(array $points): static
+    {
+        foreach ($points as $point) {
+            if (!is_array($point) && !$point instanceof PointInterface) {
+                throw new InvalidValueException('Argument shall contain an array of PointInterface or an array of coordinates.');
+            }
+
+            $this->addPoint($point);
+        }
+
+        return $this;
     }
 
     /**

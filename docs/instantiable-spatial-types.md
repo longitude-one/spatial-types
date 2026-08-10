@@ -184,11 +184,11 @@ $polygon = new Polygon([
 ### Heterogeneous collections
 
 ```php
-new GeometryCollection(int $srid = 0);
-new GeographyCollection(int $srid = 0);
+new GeometryCollection(int $srid = 0, array $elements = []);
+new GeographyCollection(int $srid = 0, array $elements = []);
 ```
 
-Collections start empty; use `addElement()` to populate them. They accept any
+Collections accept their initial elements in their constructor. They accept any
 non-collection spatial type with the same family and coordinate dimension.
 Nested geometry/geography collections are rejected.
 
@@ -196,8 +196,7 @@ Nested geometry/geography collections are rejected.
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 
-$collection = new GeometryCollection(3857);
-$collection->addElement(new Point(0, 0, 3857));
+$collection = new GeometryCollection(3857, [new Point(0, 0, 3857)]);
 ```
 
 ## Observing spatial values
@@ -249,10 +248,10 @@ least two points. `isClosed()` requires a line and equal first/last points, and
 `isRing()` has the same implementation. No additional simplicity or polygon
 topology validation is performed by these predicates.
 
-## Mutability contract
+## Immutability contract
 
-`Point` objects are effectively immutable through the public API: construction
-sets their ordinates and SRID, and no public mutator exists.
+Every spatial type is immutable through the public API: construction sets its
+ordinates, SRID, and aggregate membership, and no public mutator exists.
 `withCoordinates(Coordinates $coordinates): static` returns a point with
 replacement coordinates of the same dimension; `withSrid(int $srid): static`
 returns one with the same coordinates and a new SRID.
@@ -289,17 +288,6 @@ $element): static` and `GeographyCollection::withElement(...)` replace one
 element. They validate the replacement against the receiver and deeply copy the
 unchanged elements.
 
-The aggregate spatial types are **mutable**. They return `$this` from fluent
-mutators, so they must not be treated as immutable value objects:
-
-| Type | Public mutators |
-| --- | --- |
-| `LineString`, `MultiPoint` | `addPoint()`, `addPoints()` |
-| `Polygon` | `addRing()`, `addRings()` |
-| `MultiLineString` | `addLineString()`, `addLineStrings()` |
-| `MultiPolygon` | `addPolygon()`, `addPolygons()` |
-| `GeometryCollection`, `GeographyCollection` | `addElement()`, `removeElement()` |
-
 All spatial types implement `withSrid(int $srid): static`. For aggregates, it
 returns a deep copy whose contained values receive the requested SRID, so the
 result remains internally SRID-consistent.
@@ -311,5 +299,5 @@ non-ring polygon boundary cause the corresponding spatial exception.
 
 `getPoints()`, `getRings()`, and the other plural getters return PHP arrays, so
 changing the returned array does not alter the aggregate's membership. Their
-contained objects are still object references; because aggregates are mutable,
-do not rely on deep immutability of a retrieved object graph.
+contained objects are immutable too, so the retrieved object graph is safe to
+share.

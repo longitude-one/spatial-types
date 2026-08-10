@@ -37,36 +37,33 @@ use PHPUnit\Framework\TestCase;
 class GeometryCollectionTest extends TestCase
 {
     /**
-     * Test that the addElement method throws an exception when developers try to add another GeometryCollection.
+     * Test that construction rejects another GeometryCollection.
      */
     public function testAddElementWithGeometryCollection(): void
     {
-        $geometryCollection = new GeometryCollection();
         static::expectException(InvalidValueException::class);
         static::expectExceptionMessageIsOrContains('An instance of LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection cannot contain another GeometryCollection nor GeographyCollection.');
-        $geometryCollection->addElement(new GeometryCollection());
+        new GeometryCollection(0, [new GeometryCollection()]);
     }
 
     /**
-     * Test that the addElement method throws an exception when developers try to add an element with different dimensions.
+     * Test that construction rejects an element with a different dimension.
      */
     public function testAddElementWithInvalidDimension(): void
     {
-        $geometryCollection = new GeometryCollection();
         static::expectException(InvalidDimensionException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different dimensions.');
-        $geometryCollection->addElement(new GeometricPoint3D(0, 1, 2));
+        new GeometryCollection(0, [new GeometricPoint3D(0, 1, 2)]);
     }
 
     /**
-     * Test that the addElement method throws an exception when developers try to add an element with different families.
+     * Test that construction rejects an element with a different family.
      */
     public function testAddElementWithInvalidFamily(): void
     {
-        $geometryCollection = new GeometryCollection();
         static::expectException(InvalidFamilyException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different families.');
-        $geometryCollection->addElement(new GeographicPolygon([]));
+        new GeometryCollection(0, [new GeographicPolygon([])]);
     }
 
     /**
@@ -74,32 +71,25 @@ class GeometryCollectionTest extends TestCase
      */
     public function testAddElementWithInvalidSrid(): void
     {
-        $geometryCollection = new GeometryCollection();
         $polygon = new GeometricPolygon([], 4326);
-        $geometryCollection->addElement($polygon);
         $polygon = new GeometricPolygon([], 4327);
-        $geometryCollection->addElement($polygon);
+        new GeometryCollection(0, [new GeometricPolygon([], 4326), $polygon]);
 
-        $geometryCollection = new GeometryCollection(4326);
         $polygon = new GeometricPolygon([], 4326);
-        $geometryCollection->addElement($polygon);
         static::expectException(InvalidSridException::class);
         static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different SRIDs.');
 
         $polygon = new GeometricPolygon([], 4327);
-        $geometryCollection->addElement($polygon);
+        new GeometryCollection(4326, [new GeometricPolygon([], 4326), $polygon]);
     }
 
     /**
      * Test the get Elements method.
      */
-    public function testGetElementsAndAddElement(): void
+    public function testGetElements(): void
     {
-        $geometryCollection = new GeometryCollection();
-        static::assertEmpty($geometryCollection->getElements());
-
         $polygon = new GeometricPolygon([]);
-        $geometryCollection->addElement($polygon);
+        $geometryCollection = new GeometryCollection(0, [$polygon]);
         static::assertSame([$polygon], $geometryCollection->getElements());
     }
 
@@ -116,10 +106,8 @@ class GeometryCollectionTest extends TestCase
      */
     public function testHasElement(): void
     {
-        $geometryCollection = new GeometryCollection();
         $polygon = new GeometricPolygon([]);
-        static::assertFalse($geometryCollection->hasElement($polygon));
-        $geometryCollection->addElement($polygon);
+        $geometryCollection = new GeometryCollection(0, [$polygon]);
         static::assertTrue($geometryCollection->hasElement($polygon));
     }
 
@@ -128,37 +116,10 @@ class GeometryCollectionTest extends TestCase
      */
     public function testIsEmpty(): void
     {
-        $geometryCollection = new GeometryCollection();
-        static::assertTrue($geometryCollection->isEmpty());
         $polygon = new GeometricPolygon([]);
-        $geometryCollection->addElement($polygon);
+        static::assertTrue((new GeometryCollection())->isEmpty());
+        $geometryCollection = new GeometryCollection(0, [$polygon]);
         static::assertFalse($geometryCollection->isEmpty());
-        $geometryCollection->removeElement($polygon);
-        static::assertTrue($geometryCollection->isEmpty());
-    }
-
-    /**
-     * Test the removeElement method.
-     */
-    public function testRemoveElement(): void
-    {
-        $geometryCollection = new GeometryCollection();
-        $polygon = new GeometricPolygon([]);
-        $geometryCollection->addElement($polygon);
-        static::assertTrue($geometryCollection->hasElement($polygon));
-        $geometryCollection->removeElement($polygon);
-        static::assertFalse($geometryCollection->hasElement($polygon));
-    }
-
-    /**
-     * Test that removing an element absent from the collection throws an exception.
-     */
-    public function testRemoveUnknownElement(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The spatial object is not in the collection.');
-
-        (new GeometryCollection())->removeElement(new GeometricPolygon([]));
     }
 
     /**
@@ -166,12 +127,9 @@ class GeometryCollectionTest extends TestCase
      */
     public function testToArray(): void
     {
-        $geometryCollection = new GeometryCollection();
-        static::assertSame([], $geometryCollection->toArray());
         $polygon = new GeometricPolygon([]);
-        $geometryCollection->addElement($polygon);
-        static::assertSame([[]], $geometryCollection->toArray());
-        $geometryCollection->addElement(new Point(1, 2, 4326));
+        static::assertSame([], (new GeometryCollection())->toArray());
+        $geometryCollection = new GeometryCollection(0, [$polygon, new Point(1, 2, 4326)]);
         static::assertSame([[], [1, 2]], $geometryCollection->toArray());
     }
 }

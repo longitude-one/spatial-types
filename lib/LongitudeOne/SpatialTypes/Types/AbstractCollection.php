@@ -40,41 +40,13 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     /**
      * GeometryCollection constructor.
      *
-     * @param int $srid Spatial Reference Identifier
+     * @param int                $srid     Spatial Reference Identifier
+     * @param SpatialInterface[] $elements initial elements of the collection
      */
-    public function __construct(int $srid = SpatialInterface::DEFAULT_SRID)
+    public function __construct(int $srid = SpatialInterface::DEFAULT_SRID, array $elements = [])
     {
         $this->srid = $srid;
-    }
-
-    /**
-     * Add a spatial object to the collection.
-     *
-     * @param SpatialInterface $spatial Spatial object to add to the collection
-     */
-    public function addElement(SpatialInterface $spatial): static
-    {
-        if ($spatial instanceof CollectionInterface) {
-            throw new InvalidValueException(sprintf('An instance of %s cannot contain another GeometryCollection nor GeographyCollection.', static::class));
-        }
-
-        if (!$this->hasSameDimension($spatial)) {
-            throw new InvalidDimensionException('Collection cannot contain elements with different dimensions.');
-        }
-
-        if ($this->getFamily() !== $spatial->getFamily()) {
-            throw new InvalidFamilyException('Collection cannot contain elements with different families.');
-        }
-
-        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
-        // SRID in aggregate compatibility checks.
-        if (self::DEFAULT_SRID !== $this->getSrid() && self::DEFAULT_SRID !== $spatial->getSrid() && $this->getSrid() !== $spatial->getSrid()) {
-            throw new InvalidSridException('Collection cannot contain elements with different SRIDs.');
-        }
-
-        $this->elements[] = $spatial;
-
-        return $this;
+        $this->addElements($elements);
     }
 
     /**
@@ -103,24 +75,6 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     public function isEmpty(): bool
     {
         return empty($this->getElements());
-    }
-
-    /**
-     * Remove a spatial object from the collection.
-     *
-     * @param SpatialInterface $spatial Spatial object to remove
-     */
-    public function removeElement(SpatialInterface $spatial): static
-    {
-        $key = array_search($spatial, $this->elements, true);
-        if (false !== $key) {
-            unset($this->elements[$key]);
-            $this->elements = array_values($this->elements);
-
-            return $this;
-        }
-
-        throw new InvalidValueException('The spatial object is not in the collection.');
     }
 
     /**
@@ -180,6 +134,54 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
         );
 
         return $collection;
+    }
+
+    /**
+     * Add a spatial object to the collection.
+     *
+     * @param SpatialInterface $spatial Spatial object to add to the collection
+     */
+    protected function addElement(SpatialInterface $spatial): static
+    {
+        if ($spatial instanceof CollectionInterface) {
+            throw new InvalidValueException(sprintf('An instance of %s cannot contain another GeometryCollection nor GeographyCollection.', static::class));
+        }
+
+        if (!$this->hasSameDimension($spatial)) {
+            throw new InvalidDimensionException('Collection cannot contain elements with different dimensions.');
+        }
+
+        if ($this->getFamily() !== $spatial->getFamily()) {
+            throw new InvalidFamilyException('Collection cannot contain elements with different families.');
+        }
+
+        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
+        // SRID in aggregate compatibility checks.
+        if (self::DEFAULT_SRID !== $this->getSrid() && self::DEFAULT_SRID !== $spatial->getSrid() && $this->getSrid() !== $spatial->getSrid()) {
+            throw new InvalidSridException('Collection cannot contain elements with different SRIDs.');
+        }
+
+        $this->elements[] = $spatial;
+
+        return $this;
+    }
+
+    /**
+     * Add spatial objects to the collection.
+     *
+     * @param SpatialInterface[] $elements spatial objects to add to the collection
+     */
+    protected function addElements(array $elements): static
+    {
+        foreach ($elements as $element) {
+            if (!$element instanceof SpatialInterface) {
+                throw new InvalidValueException('The array must contain only objects implementing SpatialInterface.');
+            }
+
+            $this->addElement($element);
+        }
+
+        return $this;
     }
 
     /**

@@ -136,8 +136,7 @@ class SpatialWithSridTest extends TestCase
 
         yield 'multi-polygon' => [new MultiPolygon([self::createPolygon()], 4326)];
 
-        $collection = new GeometryCollection(4326);
-        $collection->addElement(self::createPolygon());
+        $collection = new GeometryCollection(4326, [self::createPolygon()]);
 
         yield 'geometry collection' => [$collection];
     }
