@@ -45,4 +45,16 @@ interface MultiLineStringInterface extends CollectionInterface
      * @return (float|int)[][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new multi-line string with one replacement line string.
+     *
+     * The returned multi-line string preserves this instance's family,
+     * dimension, and Spatial Reference Identifier (SRID). Every replacement
+     * coordinate tuple must match this instance's coordinate layout.
+     *
+     * @param int                                                                                              $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     */
+    public function withLineString(int $lineStringIndex, array $coordinates): static;
 }

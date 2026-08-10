@@ -146,6 +146,31 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     }
 
     /**
+     * Return a deep copy of this multi-line string with one replacement line string.
+     *
+     * The original multi-line string and all its line strings remain unchanged.
+     * The replacement coordinates are created through the existing family,
+     * dimension, and Spatial Reference Identifier (SRID) context.
+     *
+     * @param int                                                                                              $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     *
+     * @throws OutOfBoundsException when the multi-line string has no line strings
+     */
+    public function withLineString(int $lineStringIndex, array $coordinates): static
+    {
+        $lineStringIndex = $this->normalizeLineStringIndex($lineStringIndex);
+        $multiLineString = clone $this;
+        $multiLineString->lineStrings = [];
+
+        foreach ($this->lineStrings as $index => $lineString) {
+            $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : $lineString->withSrid($lineString->getSrid()));
+        }
+
+        return $multiLineString;
+    }
+
+    /**
      * Return a copy of this multi-line string with the given Spatial Reference Identifier (SRID).
      *
      * Every line string, and therefore every contained point, is copied with the
@@ -162,5 +187,24 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
         );
 
         return $multiLineString;
+    }
+
+    /**
+     * Normalize a line-string index according to the collection accessor convention.
+     *
+     * @param int $lineStringIndex line-string index to normalize
+     *
+     * @throws OutOfBoundsException when the multi-line string has no line strings
+     */
+    private function normalizeLineStringIndex(int $lineStringIndex): int
+    {
+        $lineStringCount = count($this->lineStrings);
+        if (0 === $lineStringCount) {
+            throw new OutOfBoundsException('The current collection of lineStrings is empty.');
+        }
+
+        $lineStringIndex %= $lineStringCount;
+
+        return $lineStringIndex < 0 ? $lineStringCount + $lineStringIndex : $lineStringIndex;
     }
 }

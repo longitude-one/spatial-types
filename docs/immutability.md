@@ -43,6 +43,17 @@ $movedExterior = $polygon->withPoint(0, 0, Coordinates::xym(5, 6, 30));
 $movedHole = $polygon->withPoint(1, -1, Coordinates::xym(7, 8, 40));
 ```
 
+`Polygon::withLineString()` and `MultiLineString::withLineString()` replace a
+complete ring or line string from coordinate tuples. They also return deep
+copies and preserve the source aggregate's family, dimension, and SRID.
+
+```php
+$expandedPolygon = $polygon->withLineString(0, [
+    [-1, -1], [11, -1], [-1, 11], [-1, -1],
+]);
+$updatedMultiLine = $multiLine->withLineString(1, [[5, 6], [7, 8]]);
+```
+
 ## Why coordinates are immutable
 
 Consider a point used by a line string, where that line string is then used by
@@ -100,6 +111,10 @@ The coordinate-replacement API applies to `Point`, `LineString`, and `Polygon`.
 `LineString::withPoint()` selects a point; `Polygon::withPoint()` selects a
 ring then a point. Both use the immutable `Value\Coordinates` value, so a
 replacement must match the receiver's coordinate dimension.
+
+`Polygon::withLineString()` selects a ring and requires coordinates forming a
+closed ring. `MultiLineString::withLineString()` selects one of its line
+strings. Both derive the expected coordinate layout from the receiver.
 
 Aggregate types such as `LineString`, `Polygon`, and `MultiLineString` still
 expose public membership mutators (`addPoint()`, `addRing()`, and similar

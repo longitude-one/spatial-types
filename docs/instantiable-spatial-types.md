@@ -264,6 +264,11 @@ uses a ring index followed by a point index. Replacing either endpoint of a
 ring updates both endpoints to preserve its closure. Both methods retain the
 family, dimension, and SRID of the receiving aggregate.
 
+`Polygon::withLineString(int $ringIndex, array $coordinates): static` replaces
+one closed ring. `MultiLineString::withLineString(int $lineStringIndex, array
+$coordinates): static` replaces one line string. Both return deep copies and
+derive the expected XY, XYM, XYZ, or XYZM layout from the receiving aggregate.
+
 The aggregate spatial types are **mutable**. They return `$this` from fluent
 mutators, so they must not be treated as immutable value objects:
 
