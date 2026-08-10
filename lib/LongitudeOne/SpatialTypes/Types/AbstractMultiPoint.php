@@ -20,9 +20,11 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
+use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Trait\PointTrait;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract MultiPoint class.
@@ -57,6 +59,32 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
     }
 
     /**
+     * Return a deep copy of this multi-point with one replacement point.
+     *
+     * The original multi-point and all its points remain unchanged. The
+     * replacement coordinates are validated by the selected point, which keeps
+     * the multi-point's family, dimension, and Spatial Reference Identifier
+     * (SRID) unchanged.
+     *
+     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates replacement point coordinates
+     *
+     * @throws OutOfBoundsException when the multi-point has no points
+     */
+    public function withPoint(int $pointIndex, Coordinates $coordinates): static
+    {
+        $pointIndex = $this->normalizePointIndex($pointIndex);
+        $multiPoint = clone $this;
+        $multiPoint->points = array_map(
+            static fn (PointInterface $point): PointInterface => $point->withCoordinates($point->getCoordinates()),
+            $this->points
+        );
+        $multiPoint->points[$pointIndex] = $multiPoint->points[$pointIndex]->withCoordinates($coordinates);
+
+        return $multiPoint;
+    }
+
+    /**
      * Return a copy of this multipoint with the given Spatial Reference Identifier (SRID).
      *
      * Every point is copied with the requested SRID to preserve the aggregate's
@@ -73,5 +101,24 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
         );
 
         return $multiPoint;
+    }
+
+    /**
+     * Normalize a point index according to the multi-point accessor convention.
+     *
+     * @param int $pointIndex point index to normalize
+     *
+     * @throws OutOfBoundsException when the multi-point has no points
+     */
+    private function normalizePointIndex(int $pointIndex): int
+    {
+        $pointCount = count($this->points);
+        if (0 === $pointCount) {
+            throw new OutOfBoundsException('The current collection of points is empty.');
+        }
+
+        $pointIndex %= $pointCount;
+
+        return $pointIndex < 0 ? $pointCount + $pointIndex : $pointIndex;
     }
 }

@@ -264,6 +264,10 @@ uses a ring index followed by a point index. Replacing either endpoint of a
 ring updates both endpoints to preserve its closure. Both methods retain the
 family, dimension, and SRID of the receiving aggregate.
 
+`MultiPoint::withPoint(int $pointIndex, Coordinates $coordinates): static`
+returns a deep copy with one replacement point and preserves the receiving
+multi-point's family, dimension, and SRID.
+
 `Polygon::withLineString(int $ringIndex, array $coordinates): static` replaces
 one closed ring. `MultiLineString::withLineString(int $lineStringIndex, array
 $coordinates): static` replaces one line string. Both return deep copies and

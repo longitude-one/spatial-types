@@ -23,15 +23,18 @@ $parisInLambert93 = $paris->withSrid(2154);
 The original `$paris` remains unchanged. This is particularly useful when a
 point is part of an aggregate.
 
-`LineString` and `Polygon` provide an equally immutable point-replacement
-operation. `withPoint()` returns a deep copy: the source aggregate, its rings,
-and its points remain unchanged.
+`LineString`, `MultiPoint`, and `Polygon` provide an equally immutable
+point-replacement operation. `withPoint()` returns a deep copy: the source
+aggregate, its rings, and its points remain unchanged.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint;
 
 $line = new LineString([[1, 2, 10], [3, 4, 20]], 2154);
+$multiPoint = new MultiPoint([[1, 2, 10], [3, 4, 20]], 2154);
 $movedLine = $line->withPoint(1, Coordinates::xym(5, 6, 30));
+$movedMultiPoint = $multiPoint->withPoint(0, Coordinates::xym(5, 6, 30));
 ```
 
 For a polygon, the ring index comes before the point index. A replacement of
@@ -107,10 +110,11 @@ longitude/latitude validation when creating the replacement point.
 
 ## Scope and aggregate types
 
-The coordinate-replacement API applies to `Point`, `LineString`, and `Polygon`.
-`LineString::withPoint()` selects a point; `Polygon::withPoint()` selects a
-ring then a point. Both use the immutable `Value\Coordinates` value, so a
-replacement must match the receiver's coordinate dimension.
+The coordinate-replacement API applies to `Point`, `LineString`, `MultiPoint`,
+and `Polygon`. `LineString::withPoint()` and `MultiPoint::withPoint()` select
+a point; `Polygon::withPoint()` selects a ring then a point. All use the
+immutable `Value\Coordinates` value, so a replacement must match the receiver's
+coordinate dimension.
 
 `Polygon::withLineString()` selects a ring and requires coordinates forming a
 closed ring. `MultiLineString::withLineString()` selects one of its line

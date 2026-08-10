@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
  * Multi-point interface.
  *
@@ -53,4 +55,16 @@ interface MultiPointInterface extends CollectionInterface
      * @return (float|int)[][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new multi-point with one replacement point.
+     *
+     * The returned multi-point preserves this instance's family, dimension,
+     * and Spatial Reference Identifier (SRID). The coordinate dimension must
+     * match the point selected by the index.
+     *
+     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates replacement point coordinates
+     */
+    public function withPoint(int $pointIndex, Coordinates $coordinates): static;
 }
