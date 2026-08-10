@@ -268,14 +268,14 @@ family, dimension, and SRID of the receiving aggregate.
 returns a deep copy with one replacement point and preserves the receiving
 multi-point's family, dimension, and SRID.
 
-`Polygon::withLineString(int $ringIndex, array $coordinates): static` replaces
+`Polygon::withRing(int $ringIndex, array $coordinates): static` replaces
 one closed ring. `MultiLineString::withLineString(int $lineStringIndex, array
 $coordinates): static` replaces one line string. Both return deep copies and
 derive the expected XY, XYM, XYZ, or XYZM layout from the receiving aggregate.
 
 `MultiPolygon::withPoint(int $polygonIndex, int $ringIndex, int $pointIndex,
 Coordinates $coordinates): static` replaces one point.
-`MultiPolygon::withLineString(int $polygonIndex, int $ringIndex, array
+`MultiPolygon::withRing(int $polygonIndex, int $ringIndex, array
 $coordinates): static` replaces one ring, and `MultiPolygon::withPolygon(int
 $polygonIndex, array $coordinates): static` replaces one polygon. All three
 methods return deep copies and preserve family, dimension, and SRID.

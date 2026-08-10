@@ -58,7 +58,7 @@ interface PolygonInterface extends SpatialInterface
      * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
      * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
      */
-    public function withLineString(int $ringIndex, array $coordinates): static;
+    public function withRing(int $ringIndex, array $coordinates): static;
 
     /**
      * Return a new polygon with one replacement point in a ring.

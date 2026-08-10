@@ -46,25 +46,25 @@ $movedExterior = $polygon->withPoint(0, 0, Coordinates::xym(5, 6, 30));
 $movedHole = $polygon->withPoint(1, -1, Coordinates::xym(7, 8, 40));
 ```
 
-`Polygon::withLineString()` and `MultiLineString::withLineString()` replace a
+`Polygon::withRing()` and `MultiLineString::withLineString()` replace a
 complete ring or line string from coordinate tuples. They also return deep
 copies and preserve the source aggregate's family, dimension, and SRID.
 
 ```php
-$expandedPolygon = $polygon->withLineString(0, [
+$expandedPolygon = $polygon->withRing(0, [
     [-1, -1], [11, -1], [-1, 11], [-1, -1],
 ]);
 $updatedMultiLine = $multiLine->withLineString(1, [[5, 6], [7, 8]]);
 ```
 
 `MultiPolygon` follows the same rule at every nesting level:
-`withPoint()` selects a polygon, ring, and point; `withLineString()` selects a
+`withPoint()` selects a polygon, ring, and point; `withRing()` selects a
 polygon and ring; and `withPolygon()` selects a polygon. Every method returns a
 deep copy and preserves the family, dimension, and SRID.
 
 ```php
 $movedMultiPolygon = $multiPolygon->withPoint(0, 0, 0, Coordinates::xy(-1, -1));
-$expandedMultiPolygon = $multiPolygon->withLineString(1, 0, [[19, -1], [31, -1], [19, 11], [19, -1]]);
+$expandedMultiPolygon = $multiPolygon->withRing(1, 0, [[19, -1], [31, -1], [19, 11], [19, -1]]);
 $replacedMultiPolygon = $multiPolygon->withPolygon(0, [
     [[40, 0], [50, 0], [40, 10], [40, 0]],
 ]);
@@ -129,12 +129,12 @@ a point; `Polygon::withPoint()` selects a ring then a point. All use the
 immutable `Value\Coordinates` value, so a replacement must match the receiver's
 coordinate dimension.
 
-`Polygon::withLineString()` selects a ring and requires coordinates forming a
+`Polygon::withRing()` selects a ring and requires coordinates forming a
 closed ring. `MultiLineString::withLineString()` selects one of its line
 strings. Both derive the expected coordinate layout from the receiver.
 
 `MultiPolygon::withPoint()` selects a polygon, ring, then point.
-`MultiPolygon::withLineString()` selects a polygon then ring, while
+`MultiPolygon::withRing()` selects a polygon then ring, while
 `MultiPolygon::withPolygon()` replaces an entire polygon. Each operation
 creates a deep copy of every polygon in the collection.
 

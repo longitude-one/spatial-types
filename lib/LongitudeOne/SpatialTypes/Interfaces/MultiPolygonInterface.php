@@ -55,7 +55,7 @@ interface MultiPolygonInterface extends CollectionInterface
      * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
      * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
      */
-    public function withLineString(int $polygonIndex, int $ringIndex, array $coordinates): static;
+    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static;
 
     /**
      * Return a new multi-polygon with one replacement point.

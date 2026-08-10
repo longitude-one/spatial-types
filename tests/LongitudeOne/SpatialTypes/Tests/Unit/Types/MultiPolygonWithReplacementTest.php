@@ -46,10 +46,10 @@ class MultiPolygonWithReplacementTest extends TestCase
     /**
      * Verify that one ring is replaced in a deep copy of a multi-polygon.
      */
-    public function testWithLineStringReturnsAnIndependentCopy(): void
+    public function testWithRingReturnsAnIndependentCopy(): void
     {
         $multiPolygon = self::createMultiPolygon();
-        $replacement = $multiPolygon->withLineString(-1, 0, [[19, -1], [31, -1], [19, 11], [19, -1]]);
+        $replacement = $multiPolygon->withRing(-1, 0, [[19, -1], [31, -1], [19, 11], [19, -1]]);
 
         static::assertNotSame($multiPolygon, $replacement);
         static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());

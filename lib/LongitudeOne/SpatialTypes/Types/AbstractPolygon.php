@@ -170,7 +170,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      *
      * @throws OutOfBoundsException when the polygon has no rings
      */
-    public function withLineString(int $ringIndex, array $coordinates): static
+    public function withRing(int $ringIndex, array $coordinates): static
     {
         $ringIndex = $this->normalizeRingIndex($ringIndex);
         $polygon = clone $this;

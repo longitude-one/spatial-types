@@ -51,13 +51,13 @@ class SpatialWithLineStringTest extends TestCase
     /**
      * Verify that a polygon replaces one ring in a deep immutable copy.
      */
-    public function testPolygonWithLineStringReturnsAnIndependentCopy(): void
+    public function testPolygonWithRingReturnsAnIndependentCopy(): void
     {
         $polygon = FromIndexedArrayFactory::createPolygon([
             [[0, 0], [10, 0], [0, 10], [0, 0]],
             [[1, 1], [2, 1], [1, 2], [1, 1]],
         ], 2154);
-        $replacement = $polygon->withLineString(0, [[-1, -1], [11, -1], [-1, 11], [-1, -1]]);
+        $replacement = $polygon->withRing(0, [[-1, -1], [11, -1], [-1, 11], [-1, -1]]);
 
         static::assertNotSame($polygon, $replacement);
         static::assertSame($polygon::class, $replacement::class);

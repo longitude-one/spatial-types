@@ -183,13 +183,13 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
      *
      * @throws OutOfBoundsException when the multi-polygon has no polygons
      */
-    public function withLineString(int $polygonIndex, int $ringIndex, array $coordinates): static
+    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static
     {
         $polygonIndex = $this->normalizePolygonIndex($polygonIndex);
 
         return $this->withReplacedPolygon(
             $polygonIndex,
-            fn (PolygonInterface $polygon): PolygonInterface => $polygon->withLineString($ringIndex, $coordinates)
+            fn (PolygonInterface $polygon): PolygonInterface => $polygon->withRing($ringIndex, $coordinates)
         );
     }
 
