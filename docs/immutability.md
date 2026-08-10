@@ -71,6 +71,10 @@ $replacedMultiPolygon = $multiPolygon->withPolygon(0, [
 ]);
 ```
 
+`GeometryCollection` and `GeographyCollection` use `withElement()` to replace
+one indexed element. The replacement follows the usual family, dimension, and
+SRID compatibility rules, while unchanged elements are deeply copied.
+
 ## Why coordinates are immutable
 
 Consider a point used by a line string, where that line string is then used by
@@ -139,6 +143,9 @@ Both derive the expected coordinate layout from the receiver.
 `MultiPolygon::withRing()` selects a polygon then ring, while
 `MultiPolygon::withPolygon()` replaces an entire polygon. Each operation
 creates a deep copy of every polygon in the collection.
+
+`GeometryCollection::withElement()` and `GeographyCollection::withElement()`
+replace one element and deeply copy every unchanged element.
 
 Aggregate types such as `LineString`, `Polygon`, and `MultiLineString` still
 expose public membership mutators (`addPoint()`, `addRing()`, and similar

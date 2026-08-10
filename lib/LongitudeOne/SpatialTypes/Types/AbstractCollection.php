@@ -20,6 +20,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
@@ -138,6 +139,31 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     }
 
     /**
+     * Return a deep copy of this collection with one replacement element.
+     *
+     * The replacement is validated through the existing collection membership
+     * rules. Every unchanged element is copied to keep the returned collection
+     * independent from its source.
+     *
+     * @param int              $elementIndex index of the element to replace; negative indexes count from the end
+     * @param SpatialInterface $element      replacement spatial element
+     *
+     * @throws OutOfBoundsException when the collection has no elements
+     */
+    public function withElement(int $elementIndex, SpatialInterface $element): static
+    {
+        $elementIndex = $this->normalizeElementIndex($elementIndex);
+        $collection = clone $this;
+        $collection->elements = [];
+
+        foreach ($this->elements as $index => $currentElement) {
+            $collection->addElement($index === $elementIndex ? $element : $currentElement->withSrid($currentElement->getSrid()));
+        }
+
+        return $collection;
+    }
+
+    /**
      * Return a copy of this collection with the given Spatial Reference Identifier (SRID).
      *
      * Every contained spatial object is copied with the requested SRID, including
@@ -154,5 +180,24 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
         );
 
         return $collection;
+    }
+
+    /**
+     * Normalize an element index according to the collection accessor convention.
+     *
+     * @param int $elementIndex element index to normalize
+     *
+     * @throws OutOfBoundsException when the collection has no elements
+     */
+    private function normalizeElementIndex(int $elementIndex): int
+    {
+        $elementCount = count($this->elements);
+        if (0 === $elementCount) {
+            throw new OutOfBoundsException('The current collection of elements is empty.');
+        }
+
+        $elementIndex %= $elementCount;
+
+        return $elementIndex < 0 ? $elementCount + $elementIndex : $elementIndex;
     }
 }

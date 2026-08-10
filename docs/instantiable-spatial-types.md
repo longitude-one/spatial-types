@@ -284,6 +284,11 @@ $coordinates): static` replaces one ring, and `MultiPolygon::withPolygon(int
 $polygonIndex, array $coordinates): static` replaces one polygon. All three
 methods return deep copies and preserve family, dimension, and SRID.
 
+`GeometryCollection::withElement(int $elementIndex, SpatialInterface
+$element): static` and `GeographyCollection::withElement(...)` replace one
+element. They validate the replacement against the receiver and deeply copy the
+unchanged elements.
+
 The aggregate spatial types are **mutable**. They return `$this` from fluent
 mutators, so they must not be treated as immutable value objects:
 
