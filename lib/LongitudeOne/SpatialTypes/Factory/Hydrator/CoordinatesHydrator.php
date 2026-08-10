@@ -46,26 +46,13 @@ final class CoordinatesHydrator
             throw new InvalidDimensionException(sprintf('The array must contain exactly %d coordinates to create a %s point.', $coordinateCount, $context->dimension->value));
         }
 
-        foreach (range(0, $coordinateCount - 1) as $index) {
-            if (!array_key_exists($index, $coordinates) || null === $coordinates[$index]) {
-                throw new MissingValueException(sprintf('The %s coordinate of array is missing.', match ($index) {
-                    0 => 'first',
-                    1 => 'second',
-                    2 => 'third',
-                    3 => 'fourth',
-                    default => 'unknown',
-                }));
-            }
-        }
-
-        $zIndex = $context->dimension->zIndex();
-        $mIndex = $context->dimension->mIndex();
+        $this->validateRequiredCoordinates($coordinates, $coordinateCount);
 
         return new Coordinates(
             $coordinates[0],
             $coordinates[1],
-            null === $zIndex ? null : $this->numericCoordinate($coordinates[$zIndex], 'Z'),
-            null === $mIndex ? null : $this->numericCoordinate($coordinates[$mIndex], 'M')
+            $this->optionalNumericCoordinate($coordinates, $context->dimension->zIndex(), 'Z'),
+            $this->optionalNumericCoordinate($coordinates, $context->dimension->mIndex(), 'M')
         );
     }
 
@@ -86,5 +73,48 @@ final class CoordinatesHydrator
         }
 
         return $coordinate;
+    }
+
+    /**
+     * Return an optional Z or M coordinate for the current dimension.
+     *
+     * A null index means that the dimension does not contain this coordinate.
+     * Otherwise, validate the already-required indexed value as numeric before
+     * returning it to the factory DTO.
+     *
+     * @param array<array-key, mixed> $coordinates coordinates to read
+     * @param null|int                $index       coordinate index, if supported by the dimension
+     * @param string                  $name        coordinate name used in the error message
+     *
+     * @return null|float|int the coordinate, or null when absent from the dimension
+     *
+     * @throws InvalidValueException when the coordinate is not numeric
+     */
+    private function optionalNumericCoordinate(array $coordinates, ?int $index, string $name): float|int|null
+    {
+        if (null === $index) {
+            return null;
+        }
+
+        return $this->numericCoordinate($coordinates[$index], $name);
+    }
+
+    /**
+     * Ensure that every coordinate required by the dimension is present.
+     *
+     * @param array<array-key, mixed> $coordinates     coordinates to validate
+     * @param int                     $coordinateCount number of required coordinates
+     *
+     * @throws MissingValueException when a required coordinate is missing
+     */
+    private function validateRequiredCoordinates(array $coordinates, int $coordinateCount): void
+    {
+        $coordinateNames = ['first', 'second', 'third', 'fourth'];
+
+        foreach (range(0, $coordinateCount - 1) as $index) {
+            if (!array_key_exists($index, $coordinates) || null === $coordinates[$index]) {
+                throw new MissingValueException(sprintf('The %s coordinate of array is missing.', $coordinateNames[$index] ?? 'unknown'));
+            }
+        }
     }
 }
