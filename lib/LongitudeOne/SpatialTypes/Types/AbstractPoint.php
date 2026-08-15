@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\Geo\String\Exception\RangeException as GeoParserRangeException;
-use LongitudeOne\Geo\String\Exception\UnexpectedValueException;
-use LongitudeOne\Geo\String\Parser;
+use LongitudeOne\GeoParser\Exception\RangeException as GeoParserRangeException;
+use LongitudeOne\GeoParser\Exception\UnexpectedValueException;
+use LongitudeOne\GeoParser\Parser;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
