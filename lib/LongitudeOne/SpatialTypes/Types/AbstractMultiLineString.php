@@ -195,8 +195,10 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     {
         try {
             return $this->traitAddLineString($lineString);
+            // @codeCoverageIgnoreStart
         } catch (InvalidFamilyException $e) {
             throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
+            // @codeCoverageIgnoreEnd
         }
     }
 

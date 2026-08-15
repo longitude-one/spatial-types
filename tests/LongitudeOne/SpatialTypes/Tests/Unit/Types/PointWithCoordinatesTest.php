@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
+use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -38,6 +39,22 @@ use PHPUnit\Framework\TestCase;
  */
 class PointWithCoordinatesTest extends TestCase
 {
+    /**
+     * Point equality includes every ordinate that its dimension exposes.
+     */
+    public function testEqualsToRejectsDifferentMeasureOrElevation(): void
+    {
+        static::assertFalse(
+            (new GeometryPoint3Dm(1, 2, 3))->equalsTo(new GeometryPoint3Dm(1, 2, 4))
+        );
+        static::assertFalse(
+            (new GeometryPoint3Dz(1, 2, 3))->equalsTo(new GeometryPoint3Dz(1, 2, 4))
+        );
+        static::assertFalse(
+            (new GeometryPoint4Dzm(1, 2, 3, 4))->equalsTo(new GeometryPoint4Dzm(1, 2, 3, 5))
+        );
+    }
+
     /**
      * Verify that withCoordinates returns a distinct point with the same SRID and type.
      *
@@ -111,5 +128,15 @@ class PointWithCoordinatesTest extends TestCase
         self::expectExceptionMessageIsOrContains('Out of range longitude value');
 
         (new GeographyPoint2D(1, 2, 4326))->withCoordinates(Coordinates::xy(181, 2));
+    }
+
+    /**
+     * An XYM geographic point cannot expose an elevation ordinate.
+     */
+    public function testXymGeographicPointDoesNotExposeZ(): void
+    {
+        self::expectException(BadMethodCallException::class);
+
+        (new GeographyPoint3Dm(1, 2, 3))->getZ();
     }
 }

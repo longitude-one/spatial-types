@@ -232,7 +232,9 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     protected function initializeM(float|int $m): static
     {
+        // @codeCoverageIgnoreStart
         throw new BadMethodCallException(sprintf('The M ordinate "%s" cannot be assigned to a point with the %s dimension.', $m, $this->getDimension()->value));
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -280,7 +282,9 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     protected function initializeZ(float|int $z): static
     {
+        // @codeCoverageIgnoreStart
         throw new BadMethodCallException(sprintf('The Z ordinate "%s" cannot be assigned to a point with the %s dimension.', $z, $this->getDimension()->value));
+        // @codeCoverageIgnoreEnd
     }
 
     /**

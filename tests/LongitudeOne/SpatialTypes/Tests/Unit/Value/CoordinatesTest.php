@@ -19,6 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Value;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,14 +30,62 @@ use PHPUnit\Framework\TestCase;
 class CoordinatesTest extends TestCase
 {
     /**
+     * Coordinates cannot carry only part of the ordinates required by their dimension.
+     *
+     * @param \Closure $operation invalid coordinate value construction
+     */
+    #[DataProvider('provideIncompatibleCoordinates')]
+    public function testConstructorRejectsIncompatibleOrdinates(\Closure $operation): void
+    {
+        self::expectException(InvalidDimensionException::class);
+        $operation();
+    }
+
+    /**
+     * @return \Generator<string, array{0: \Closure}, null, void>
+     */
+    public static function provideIncompatibleCoordinates(): \Generator
+    {
+        yield 'XYM without measure' => [static fn () => new Coordinates(DimensionEnum::X_Y_M, 1, 2)];
+
+        yield 'XYZ with measure instead of elevation' => [static fn () => new Coordinates(DimensionEnum::X_Y_Z, 1, 2, null, 3)];
+
+        yield 'XYZM without measure' => [static fn () => new Coordinates(DimensionEnum::X_Y_Z_M, 1, 2, 3)];
+    }
+
+    /**
      * Verify that a coordinate value rejects ordinates incompatible with its dimension.
      */
-    public function testConstructorRejectsIncompatibleOrdinates(): void
+    public function testConstructorRejectsUnexpectedElevationForTwoDimensionalCoordinates(): void
     {
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessage('do not match the XY coordinate dimension');
 
         new Coordinates(DimensionEnum::X_Y, 1, 2, 3);
+    }
+
+    /**
+     * Missing ordinates are rejected on read as well as on update.
+     *
+     * @param \Closure $operation coordinate operation that requires an absent ordinate
+     */
+    #[DataProvider('provideOperationsRequiringAnAbsentOrdinate')]
+    public function testOperationsRejectAbsentOrdinates(\Closure $operation): void
+    {
+        self::expectException(InvalidDimensionException::class);
+        $operation();
+    }
+
+    /**
+     * @return \Generator<string, array{0: \Closure}, null, void>
+     */
+    public static function provideOperationsRequiringAnAbsentOrdinate(): \Generator
+    {
+        yield 'read M from XY' => [static fn () => Coordinates::xy(1, 2)->getM()];
+
+        yield 'read Z from XYM' => [static fn () => Coordinates::xym(1, 2, 3)->getZ()];
+
+        yield 'replace M on XYZ' => [static fn () => Coordinates::xyz(1, 2, 3)->withM(4)];
     }
 
     /**
@@ -61,6 +110,30 @@ class CoordinatesTest extends TestCase
         static::assertNotSame($coordinates, $updatedCoordinates);
         static::assertSame([1, 2, 3, 4], $coordinates->toArray());
         static::assertSame([5, 2, 3, 4], $updatedCoordinates->toArray());
+    }
+
+    /**
+     * Updating an ordinate supported by the dimension preserves every other ordinate.
+     */
+    public function testReplacingSupportedOrdinatesCreatesIndependentValues(): void
+    {
+        $xym = Coordinates::xym(1, 2, 3);
+        $xymWithM = $xym->withM(4);
+        static::assertNotSame($xym, $xymWithM);
+        static::assertSame([1, 2, 3], $xym->toArray());
+        static::assertSame([1, 2, 4], $xymWithM->toArray());
+
+        $xyz = Coordinates::xyz(1, 2, 3);
+        $xyzWithY = $xyz->withY(4);
+        static::assertNotSame($xyz, $xyzWithY);
+        static::assertSame([1, 2, 3], $xyz->toArray());
+        static::assertSame([1, 4, 3], $xyzWithY->toArray());
+
+        $xyzm = Coordinates::xyzm(1, 2, 3, 4);
+        $xyzmWithZ = $xyzm->withZ(5);
+        static::assertNotSame($xyzm, $xyzmWithZ);
+        static::assertSame([1, 2, 3, 4], $xyzm->toArray());
+        static::assertSame([1, 2, 5, 4], $xyzmWithZ->toArray());
     }
 
     /**
