@@ -115,6 +115,25 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
+     * Return a copy of this polygon with replacement ring coordinates.
+     *
+     * The original polygon and its rings are left unchanged. The copied
+     * instance retains its family, dimension, and Spatial Reference Identifier
+     * (SRID); the existing line-string hydrator validates each tuple and ring
+     * against that retained context.
+     *
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
+     */
+    public function withArrayOfCoordinates(array $coordinates): static
+    {
+        $polygon = clone $this;
+        $polygon->lineStrings = [];
+        $polygon->addRings($coordinates);
+
+        return $polygon;
+    }
+
+    /**
      * Return a deep copy of this polygon with one replacement point in a ring.
      *
      * The original polygon and its rings remain unchanged. Replacing either

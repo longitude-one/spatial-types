@@ -79,6 +79,17 @@ interface LineStringInterface extends SpatialInterface
     public function toArray(): array;
 
     /**
+     * Return a new line string with replacement coordinates.
+     *
+     * The returned line string preserves this instance's family, dimension,
+     * and Spatial Reference Identifier (SRID). Each tuple must therefore match
+     * this instance's coordinate layout: XY, XYM, XYZ, or XYZM.
+     *
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
+     */
+    public function withArrayOfCoordinates(array $coordinates): static;
+
+    /**
      * Return a new line string with one replacement point.
      *
      * The returned line string preserves this instance's family, dimension,

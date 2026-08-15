@@ -26,6 +26,9 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
  * 13249-3. This library also exposes a Geography family. Both families provide
  * the type, spatial reference identifier (SRID), and coordinate-dimension
  * information required by the concrete spatial types.
+ *
+ * Operations prefixed with {@see with} return a new instance and never alter
+ * the instance on which they are called.
  */
 interface SpatialInterface extends \JsonSerializable
 {

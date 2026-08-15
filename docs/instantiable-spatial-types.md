@@ -256,6 +256,13 @@ ordinates, SRID, and aggregate membership, and no public mutator exists.
 replacement coordinates of the same dimension; `withSrid(int $srid): static`
 returns one with the same coordinates and a new SRID.
 
+`LineString` and `Polygon` provide
+`withArrayOfCoordinates(array $coordinates): static`. These methods return a
+new aggregate with replacement coordinates while preserving family, dimension,
+and SRID. The line-string method accepts coordinate tuples; the polygon method
+accepts arrays of rings. The receiving aggregate determines whether tuples are
+XY, XYM, XYZ, or XYZM.
+
 `LineString::withPoint(int $pointIndex, Coordinates $coordinates): static`
 returns a deep copy with one replacement point. For polygons,
 `Polygon::withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static`

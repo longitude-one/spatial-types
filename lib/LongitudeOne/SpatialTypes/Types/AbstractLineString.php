@@ -83,6 +83,25 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     }
 
     /**
+     * Return a copy of this line string with replacement coordinates.
+     *
+     * The original line string and its points are left unchanged. The copied
+     * instance retains its family, dimension, and Spatial Reference Identifier
+     * (SRID); the existing point hydrator validates each tuple against that
+     * retained context.
+     *
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
+     */
+    public function withArrayOfCoordinates(array $coordinates): static
+    {
+        $lineString = clone $this;
+        $lineString->points = [];
+        $lineString->addPoints($coordinates);
+
+        return $lineString;
+    }
+
+    /**
      * Return a deep copy of this line string with one replacement point.
      *
      * The original line string and all its points remain unchanged. The

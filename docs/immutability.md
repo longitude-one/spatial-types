@@ -118,9 +118,13 @@ and factory concern because it depends on the point family. The value carries
 its dimension, so it cannot represent an `XY` point with a Z or M ordinate.
 
 ```php
-$coordinates = Coordinates::xyzm(2.3522, 48.8566, 35, 12);
-$higherCoordinates = $coordinates->withZ(42);
-$higherParis = $point->withCoordinates($higherCoordinates);
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
+$paris = new Point(2.3522, 48.8566, 28, 12, 4326);
+$higherParis = $paris->withCoordinates(
+    Coordinates::xyzm(2.3522, 48.8566, 42, 12)
+);
 ```
 
 `withCoordinates()` requires the same dimension as the receiving point. It
@@ -153,5 +157,5 @@ arrays, so changing a returned array cannot change the aggregate; the objects
 inside it are also immutable. Calling `withSrid()` on an aggregate creates a
 deep copy whose descendants all receive the requested SRID.
 
-See [Instantiable spatial types](instantiable-spatial-types.md#mutability-contract)
+See [Instantiable spatial types](instantiable-spatial-types.md#immutability-contract)
 for the complete current mutability contract.

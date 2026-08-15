@@ -1,6 +1,6 @@
 # Spatial Types Library
 
-Implement spatial PHP types and their geometric and geographic classes.
+PHP library providing spatial types and their geometric and geographic classes.
 
 If you want to persist spatial data in a database,
 you should use the [longitude-one/doctrine2-spatial](https://github.com/longitude-one/doctrine2-spatial) package.
@@ -12,8 +12,8 @@ you should use the [longitude-one/doctrine2-spatial](https://github.com/longitud
 ![Minimum PHP Version](https://img.shields.io/packagist/php-v/longitude-one/spatial-types.svg?maxAge=3600)
 [![Packagist License](https://img.shields.io/packagist/l/longitude-one/spatial-types)](https://github.com/longitude-one/spatial-types/blob/main/LICENSE)
 
-[![Last integration test](https://github.com/longitude-one/spatial-types/actions/workflows/php-oldest.yaml/badge.svg)](https://github.com/longitude-one/spatial-types/actions/workflows/php-oldest.yaml)
-[![Last integration test](https://github.com/longitude-one/spatial-types/actions/workflows/php-oldest.yaml/badge.svg)](https://github.com/longitude-one/spatial-types/actions/workflows/php-latests.yaml)
+[![Oldest PHP test](https://github.com/longitude-one/spatial-types/actions/workflows/php-oldest.yaml/badge.svg)](https://github.com/longitude-one/spatial-types/actions/workflows/php-oldest.yaml)
+[![Latest PHP test](https://github.com/longitude-one/spatial-types/actions/workflows/php-latests.yaml/badge.svg)](https://github.com/longitude-one/spatial-types/actions/workflows/php-latests.yaml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/494c578572cae00ec1db/maintainability)](https://codeclimate.com/github/longitude-one/spatial-types/maintainability)
 [![Downloads](https://img.shields.io/packagist/dm/longitude-one/spatial-types.svg)](https://packagist.org/packages/longitude-one/spatial-types)
 [![Coverage Status](https://coveralls.io/repos/github/longitude-one/spatial-types/badge.svg?branch=main)](https://coveralls.io/github/longitude-one/spatial-types?branch=main)
@@ -27,7 +27,8 @@ composer require longitude-one/spatial-types
 ## Usage
 
 ```php
-use LongitudeOne\Spatial\Types\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 
 $point = new Point(1, 2);
 echo $point->getX(); // 1
@@ -51,6 +52,11 @@ aggregate membership are set at construction time and never changed through
 the public API. Use `withCoordinates()` with an immutable `Value\Coordinates`
 value to represent another location, or `withSrid()` to associate the same
 coordinates with another SRID. Both return new objects.
+
+`LineString` and `Polygon` also provide
+`withArrayOfCoordinates()` to create a new instance with replacement
+coordinates. This preserves their family, dimension, and SRID without changing
+the source object.
 
 This prevents a value shared by other aggregates from silently changing them.
 See [Immutability](docs/immutability.md) for the rationale, examples, and the

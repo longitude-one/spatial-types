@@ -49,6 +49,17 @@ interface PolygonInterface extends SpatialInterface
     public function toArray(): array;
 
     /**
+     * Return a new polygon with replacement ring coordinates.
+     *
+     * The returned polygon preserves this instance's family, dimension, and
+     * Spatial Reference Identifier (SRID). Every coordinate tuple must match
+     * this instance's coordinate layout and every ring must be closed.
+     *
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
+     */
+    public function withArrayOfCoordinates(array $coordinates): static;
+
+    /**
      * Return a new polygon with one replacement point in a ring.
      *
      * The returned polygon preserves this instance's family, dimension, and
