@@ -1,0 +1,131 @@
+name: PHP CI
+
+on:
+    schedule:
+        - cron: '5 16 * * 3'
+    push:
+        paths-ignore:
+            - '**.md'
+            - LICENSE
+    pull_request:
+        paths-ignore:
+            - '**.md'
+            - LICENSE
+
+permissions:
+    contents: read
+    pull-requests: read
+
+jobs:
+    stable-build:
+        name: PHP 8.4
+        runs-on: ubuntu-latest
+        env:
+            HAS_CC_SECRET: ${{ secrets.CODECOV_TOKEN != '' }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Validate composer.json
+              run: composer validate --strict
+
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache Composer packages
+              uses: actions/cache@v6
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ format('{0}-composer-php84-{1}', runner.os, hashFiles('composer.json', 'quality/php-cs-fixer/composer.json', 'quality/php-code-sniffer/composer.json', 'quality/php-mess-detector/composer.json', 'quality/php-stan/composer.json')) }}
+                  restore-keys: |
+                      ${{ format('{0}-composer-php84-', runner.os) }}
+
+            - name: Set up PHP 8.4
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  coverage: pcov
+                  tools: composer:v2
+                  extensions: mbstring
+
+            - name: Install dependencies
+              run: composer update -vvv --prefer-dist
+
+            - name: List libraries
+              run: composer show
+
+            - name: Run test suite with coverage
+              run: composer test
+
+            - name: Upload coverage to Codecov
+              if: ${{ env.HAS_CC_SECRET == 'true' }}
+              uses: codecov/codecov-action@v7
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  files: .phpunit-cache/coverage.xml
+                  slug: longitude-one/spatial-types
+
+            - name: Install PHP-CS-Fixer
+              run: composer update --working-dir=quality/php-cs-fixer
+
+            - name: Run PHP-CS-Fixer
+              run: ./quality/php-cs-fixer/vendor/bin/php-cs-fixer fix --config=quality/php-cs-fixer/.php-cs-fixer.php --dry-run --allow-risky=yes --diff
+
+            - name: Install PHP-Mess Detector
+              run: composer update --working-dir=quality/php-mess-detector
+
+            - name: Run PHP-Mess Detector on lib
+              run: ./quality/php-mess-detector/vendor/bin/phpmd lib text quality/php-mess-detector/ruleset.xml
+
+            - name: Run PHP-Mess Detector on tests
+              run: ./quality/php-mess-detector/vendor/bin/phpmd tests text quality/php-mess-detector/test-ruleset.xml
+
+            - name: Install PHP CodeSniffer
+              run: composer update --working-dir=quality/php-code-sniffer
+
+            - name: Run PHP CodeSniffer
+              run: ./quality/php-code-sniffer/vendor/bin/phpcs --standard=quality/php-code-sniffer/phpcs.xml -s
+
+            - name: Install PHPStan
+              run: composer update --working-dir=quality/php-stan
+
+            - name: Run PHPStan
+              run: ./quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M -v
+
+    next-version-build:
+        needs: stable-build
+        name: PHP 8.5
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache Composer packages
+              uses: actions/cache@v6
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ format('{0}-composer-php85-{1}', runner.os, hashFiles('composer.json')) }}
+                  restore-keys: |
+                      ${{ format('{0}-composer-php85-', runner.os) }}
+
+            - name: Set up PHP 8.5
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  coverage: pcov
+                  tools: composer:v2
+                  extensions: mbstring
+
+            - name: Install dependencies
+              run: composer update -vvv --prefer-dist
+
+            - name: List libraries
+              run: composer show
+
+            - name: Run test suite
+              run: composer test
