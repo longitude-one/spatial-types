@@ -26,8 +26,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v7
 
-            - name: Validate composer.json
-              run: composer validate --strict
+            # Commented as long as we use the RC version of geo-parser
+            # - name: Validate composer.json
+            #   run: composer validate --strict
 
             - name: Get Composer cache directory
               id: composer-cache
