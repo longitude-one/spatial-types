@@ -27,12 +27,13 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v7
 
-            - name: Setup PHP 8.3
+            - name: Setup PHP 8.4
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.3'
+                  php-version: '8.4'
                   coverage: pcov
                   tools: composer:v2
+                  extensions: mbstring
 
             - name: Echo PHP version
               run: php -v
