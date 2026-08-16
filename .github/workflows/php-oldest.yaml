@@ -19,10 +19,8 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            #Code Climate Secret
-            HAS_CC_SECRET: ${{secrets.CC_TEST_REPORTER_ID != '' }}
-            #Coveralls Secret
-            HAS_CA_SECRET: ${{secrets.COVERALLS_REPO_TOKEN != '' }}
+            #CodeCov Secret
+            HAS_CC_SECRET: ${{secrets.CODECOV_TOKEN != '' }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v7
@@ -57,25 +55,16 @@ jobs:
             - name: List libraries
               run: composer show
 
-            - name: Run test suite with coverage for codeclimate and upload results
+            - name: Run test suite with coverage
+              run: composer test
+
+            - name: Upload coverage to CodeCov
               if: ${{ env.HAS_CC_SECRET == 'true' }}
-              uses: paambaati/codeclimate-action@v6.0.0
-              env:
-                  CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+              uses: codecov/codecov-action@v7
               with:
-                  coverageCommand: vendor/bin/phpunit
-                  coverageLocations: ${{github.workspace}}/.phpunit-cache/clover.xml:clover
-
-            - name: Run test suite for forks or version without code coverage
-              if: ${{ env.HAS_CC_SECRET != 'true' }}
-              run: vendor/bin/phpunit
-
-            - name: Upload code coverage on Coveralls.io
-              if: ${{ env.HAS_CA_SECRET == 'true' }}
-              uses: coverallsapp/github-action@v2
-              with:
-                  github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
-                  file: ${{github.workspace}}/.phpunit-cache/coverage.xml
+                token: ${{ secrets.CODECOV_TOKEN }}
+                files: .phpunit.cache/coverage.xml
+                slug: longitude-one/spatial-types
 
             ## Quality checks
             ## PHP-CS-Fixer is needed with only one version of PHP
