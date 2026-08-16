@@ -41,10 +41,10 @@ final class GeometricLineStringFactory implements LineStringFactoryInterface
     public function create(array $points, SpatialContext $context): LineStringInterface
     {
         return match ($context->dimension) {
-            DimensionEnum::X_Y => new LineString2D($points, $context->srid),
-            DimensionEnum::X_Y_M => new LineString3Dm($points, $context->srid),
-            DimensionEnum::X_Y_Z => new LineString3Dz($points, $context->srid),
-            DimensionEnum::X_Y_Z_M => new LineString4Dzm($points, $context->srid),
+            DimensionEnum::X_Y => new LineString2D($points, $context->reference),
+            DimensionEnum::X_Y_M => new LineString3Dm($points, $context->reference),
+            DimensionEnum::X_Y_Z => new LineString3Dz($points, $context->reference),
+            DimensionEnum::X_Y_Z_M => new LineString4Dzm($points, $context->reference),
         };
     }
 }

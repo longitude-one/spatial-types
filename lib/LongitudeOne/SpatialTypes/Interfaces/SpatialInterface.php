@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /**
  * Base spatial type interface.
@@ -33,15 +34,14 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 interface SpatialInterface extends \JsonSerializable
 {
     /**
-     * SQL/MM assigns SRID 0 when a constructor receives no SRID. Its semantic
-     * meaning is implementation-defined; this library uses it as its default.
-     */
-    public const int DEFAULT_SRID = 0;
-
-    /**
      * Return the family of this spatial object.
      */
     public function getFamily(): FamilyEnum;
+
+    /**
+     * Return the complete spatial-reference identity of this object.
+     */
+    public function getSpatialReference(): SpatialReference;
 
     /**
      * Return the spatial reference identifier (SRID) of this object.
@@ -86,6 +86,14 @@ interface SpatialInterface extends \JsonSerializable
      * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a copy declared in another spatial reference without transforming
+     * its coordinates. Use a coordinate transformation service for reprojection.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static;
 
     /**
      * Return a new spatial object with the given Spatial Reference Identifier (SRID).

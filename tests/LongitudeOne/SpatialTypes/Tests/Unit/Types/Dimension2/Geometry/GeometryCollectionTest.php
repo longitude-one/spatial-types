@@ -71,13 +71,8 @@ class GeometryCollectionTest extends TestCase
      */
     public function testAddElementWithInvalidSrid(): void
     {
-        $polygon = new GeometricPolygon([], 4326);
-        $polygon = new GeometricPolygon([], 4327);
-        new GeometryCollection(0, [new GeometricPolygon([], 4326), $polygon]);
-
-        $polygon = new GeometricPolygon([], 4326);
         static::expectException(InvalidSridException::class);
-        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different SRIDs.');
+        static::expectExceptionMessageIsOrContains('collection member spatial reference is not compatible');
 
         $polygon = new GeometricPolygon([], 4327);
         new GeometryCollection(4326, [new GeometricPolygon([], 4326), $polygon]);
@@ -127,9 +122,9 @@ class GeometryCollectionTest extends TestCase
      */
     public function testToArray(): void
     {
-        $polygon = new GeometricPolygon([]);
+        $polygon = new GeometricPolygon([], 4326);
         static::assertSame([], (new GeometryCollection())->toArray());
-        $geometryCollection = new GeometryCollection(0, [$polygon, new Point(1, 2, 4326)]);
+        $geometryCollection = new GeometryCollection(4326, [$polygon, new Point(1, 2, 4326)]);
         static::assertSame([[], [1, 2]], $geometryCollection->toArray());
     }
 }

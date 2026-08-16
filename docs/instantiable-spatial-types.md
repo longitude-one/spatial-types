@@ -41,8 +41,9 @@ type declarations are reproduced in the informative SQL/MM comparison in the
 
 `ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
 than a subtype of `ST_Geometry`; it is outside this value-type hierarchy. This
-library stores its identifier as an integer SRID and does not model spatial
-reference-system definitions. `ST_PolyhedralSurface` is not part of the SQL/MM
+library identifies a reference with `Reference\SpatialReference`, which can
+carry an authority and its integer identifier, without modelling a full
+reference-system definition. `ST_PolyhedralSurface` is not part of the SQL/MM
 base hierarchy covered by this matrix and is not implemented.
 
 The `Geography` family is a library-level counterpart to the `Geometry` family;
@@ -59,11 +60,14 @@ The coordinate layouts are `XY`, `XYZ`, `XYM`, and `XYZM`; their tuple order is
 always `X, Y[, Z][, M]`. `Z` is elevation and `M` is a measure. In particular,
 an `XYM` tuple is `[x, y, m]`, whereas an `XYZ` tuple is `[x, y, z]`.
 
-Every spatial object has an integer Spatial Reference Identifier (SRID). The
-default is `0`, as prescribed for constructors without an SRID by SQL/MM. This
-library interprets SRID `0` as an unspecified reference system. It is therefore
-compatible with a non-zero SRID when building aggregates; two different,
-non-zero SRIDs are incompatible.
+Every spatial object has a `SpatialReference`; `getSrid()` exposes its legacy
+integer identifier. Constructors without a reference use identifier `0`, as
+prescribed for SQL/MM constructors without an SRID. Identifier `0` is a real
+unnamed reference in this model, not a compatibility wildcard: every member of
+an aggregate must have exactly the aggregate's spatial reference.
+
+See [Spatial reference systems](spatial-reference-systems.md) for the ISO/IEC
+13249-3 rationale and examples of valid and invalid aggregate membership.
 
 ## Class catalogue
 
@@ -102,15 +106,16 @@ classes, not part of the instantiable API.
 ## Direct construction
 
 The selected namespace determines both the coordinate dimension and family.
-The optional `$srid` argument defaults to `0` in every constructor.
+The optional `$srid` argument accepts `int|SpatialReference` and defaults to
+the unnamed reference identified by `0` in every constructor.
 
 ### Point
 
 ```php
-new Point($x, $y, $srid = 0);                 // Dimension2
-new Point($x, $y, $z, $srid = 0);             // Dimension3z
-new Point($x, $y, $m, $srid = 0);             // Dimension3m
-new Point($x, $y, $z, $m, $srid = 0);         // Dimension4zm
+new Point($x, $y, int|SpatialReference $srid = 0);                 // Dimension2
+new Point($x, $y, $z, int|SpatialReference $srid = 0);             // Dimension3z
+new Point($x, $y, $m, int|SpatialReference $srid = 0);             // Dimension3m
+new Point($x, $y, $z, $m, int|SpatialReference $srid = 0);         // Dimension4zm
 ```
 
 `$x` and `$y` accept `int`, `float`, or a coordinate string accepted by the
@@ -145,8 +150,8 @@ $higherPoint = $point->withCoordinates(Coordinates::xyz(2.3522, 48.8566, 42));
 ### Point-based types
 
 ```php
-new LineString(array $points, int $srid = 0);
-new MultiPoint(array $points, int $srid = 0);
+new LineString(array $points, int|SpatialReference $srid = 0);
+new MultiPoint(array $points, int|SpatialReference $srid = 0);
 ```
 
 `$points` may contain instances of `PointInterface` or coordinate tuples for
@@ -162,9 +167,9 @@ $lineString = new LineString([[0, 0], [2, 1], [5, 1]], 3857);
 ### Ring-, line-, and polygon-based types
 
 ```php
-new Polygon(array $rings, int $srid = 0);
-new MultiLineString(array $lineStrings, int $srid = 0);
-new MultiPolygon(array $polygons, int $srid = 0);
+new Polygon(array $rings, int|SpatialReference $srid = 0);
+new MultiLineString(array $lineStrings, int|SpatialReference $srid = 0);
+new MultiPolygon(array $polygons, int|SpatialReference $srid = 0);
 ```
 
 - A polygon ring is a `LineStringInterface` or an array of point tuples. Every
@@ -184,8 +189,8 @@ $polygon = new Polygon([
 ### Heterogeneous collections
 
 ```php
-new GeometryCollection(int $srid = 0, array $elements = []);
-new GeographyCollection(int $srid = 0, array $elements = []);
+new GeometryCollection(int|SpatialReference $srid = 0, array $elements = []);
+new GeographyCollection(int|SpatialReference $srid = 0, array $elements = []);
 ```
 
 Collections accept their initial elements in their constructor. They accept any
@@ -208,6 +213,7 @@ All concrete types implement `SpatialInterface` and `JsonSerializable`.
 | `getFamily(): FamilyEnum` | `FamilyEnum::GEOMETRY` or `FamilyEnum::GEOGRAPHY`. |
 | `getType(): TypeEnum` | The OGC/SQL/MM type, such as `TypeEnum::POLYGON`. |
 | `getSrid(): int` | The object's SRID. |
+| `getSpatialReference(): SpatialReference` | The full reference identity, including its optional authority. |
 | `hasZ(): bool` / `hasM(): bool` | Whether the selected coordinate layout has Z or M. |
 | `hasSameDimension(SpatialInterface $other): bool` | Whether both values use the same Z/M layout. |
 | `toArray(): array` | Nested coordinate arrays only; it omits type, family, and SRID. |
@@ -253,8 +259,8 @@ topology validation is performed by these predicates.
 Every spatial type is immutable through the public API: construction sets its
 ordinates, SRID, and aggregate membership, and no public mutator exists.
 `withCoordinates(Coordinates $coordinates): static` returns a point with
-replacement coordinates of the same dimension; `withSrid(int $srid): static`
-returns one with the same coordinates and a new SRID.
+replacement coordinates of the same dimension; `withSpatialReference(SpatialReference $reference): static`
+returns one with the same coordinates and a new declared reference.
 
 `LineString` and `Polygon` provide
 `withArrayOfCoordinates(array $coordinates): static`. These methods return a
@@ -295,13 +301,14 @@ $element): static` and `GeographyCollection::withElement(...)` replace one
 element. They validate the replacement against the receiver and deeply copy the
 unchanged elements.
 
-All spatial types implement `withSrid(int $srid): static`. For aggregates, it
-returns a deep copy whose contained values receive the requested SRID, so the
-result remains internally SRID-consistent.
+All spatial types implement `withSpatialReference(SpatialReference $reference): static`.
+For aggregates, it returns a deep copy whose contained values receive the
+requested reference, so the result remains internally reference-consistent.
+`withSrid(int $srid)` remains as a legacy integer adapter.
 
 The constructors use these same validation paths. Aggregated values must be
-compatible with the receiving type's family, dimension, and SRID rules; invalid
-coordinates, missing ordinates, incompatible family/dimension/SRID, or a
+compatible with the receiving type's family, dimension, and spatial-reference
+rules; invalid coordinates, missing ordinates, incompatible family/dimension/reference, or a
 non-ring polygon boundary cause the corresponding spatial exception.
 
 `getPoints()`, `getRings()`, and the other plural getters return PHP arrays, so

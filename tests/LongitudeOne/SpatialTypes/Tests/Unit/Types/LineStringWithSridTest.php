@@ -53,7 +53,7 @@ class LineStringWithSridTest extends TestCase
         }
 
         static::assertSame(4326, $lineString->getPoint(0)->getSrid());
-        static::assertSame(0, $lineString->getPoint(1)->getSrid());
+        static::assertSame(4326, $lineString->getPoint(1)->getSrid());
     }
 
     /**
@@ -63,12 +63,12 @@ class LineStringWithSridTest extends TestCase
     {
         yield 'geometry' => [new GeometryLineString([
             new GeometryPoint(1, 2, 4326),
-            new GeometryPoint(3, 4),
+            new GeometryPoint(3, 4, 4326),
         ], 4326)];
 
         yield 'geography' => [new GeographyLineString([
             new GeographyPoint(1, 2, 4326),
-            new GeographyPoint(3, 4),
+            new GeographyPoint(3, 4, 4326),
         ], 4326)];
     }
 }

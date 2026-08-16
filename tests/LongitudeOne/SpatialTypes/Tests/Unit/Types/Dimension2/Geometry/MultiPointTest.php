@@ -38,11 +38,11 @@ class MultiPointTest extends TestCase
      */
     public function testConstructorRejectsIncompatibleSrid(): void
     {
-        $multiPoint = new MultiPoint([new Point(1, 2), [3, 4]], 4326);
+        $multiPoint = new MultiPoint([new Point(1, 2, 4326), [3, 4]], 4326);
         static::assertCount(2, $multiPoint->getPoints());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
+        self::expectExceptionMessageIsOrContains('The point spatial reference is not compatible');
         new MultiPoint([new Point(1, 2, 4327)], 4326);
     }
 
@@ -100,7 +100,7 @@ class MultiPointTest extends TestCase
      */
     public function testGetElements(): void
     {
-        $multiPoint = new MultiPoint([new Point(1, 2), new Point(3, 4)], 4326);
+        $multiPoint = new MultiPoint([new Point(1, 2, 4326), new Point(3, 4, 4326)], 4326);
         static::assertSame($multiPoint->getElements(), $multiPoint->getPoints());
     }
 

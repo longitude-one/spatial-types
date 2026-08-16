@@ -35,9 +35,9 @@ echo $point->getX(); // 1
 echo $point->getY(); // 2
 
 $lineString = new LineString([
-    new Point(1, 2),
-    new Point(3, 4),
-    new Point(5, 6),
+    new Point(1, 2, 4326),
+    new Point(3, 4, 4326),
+    new Point(5, 6, 4326),
 ], 4326);
 $lineString->getSrid(); // 4326
 ```
@@ -50,8 +50,8 @@ mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-typ
 Spatial values are immutable and safe to share: their coordinates, SRID, and
 aggregate membership are set at construction time and never changed through
 the public API. Use `withCoordinates()` with an immutable `Value\Coordinates`
-value to represent another location, or `withSrid()` to associate the same
-coordinates with another SRID. Both return new objects.
+value to represent another location, or `withSpatialReference()` to associate
+the same coordinates with another declared reference. Both return new objects.
 
 `LineString` and `Polygon` also provide
 `withArrayOfCoordinates()` to create a new instance with replacement
@@ -62,14 +62,18 @@ This prevents a value shared by other aggregates from silently changing them.
 See [Immutability](docs/immutability.md) for the rationale, examples, and the
 complete contract.
 
-## SRID
+## Spatial reference system (SRS)
 
-Every spatial object always has an integer SRID. `SpatialInterface::DEFAULT_SRID`
-is `0`, the default assigned by this library whenever no SRID is supplied. This
-follows SQL/MM, which specifies SRID 0 for constructors without an SRID and
-leaves its semantics to the implementation.
+Every spatial object has a `Reference\SpatialReference`. Its legacy integer
+projection remains available through `getSrid()`, while `getSpatialReference()`
+preserves the optional authority (for example `EPSG:4326`). Constructors and
+factories accept either a legacy integer or a `SpatialReference` instance.
 
-Here, SRID 0 means that the reference system is unspecified. It can therefore
-be combined with a non-zero SRID in a collection; two non-zero, distinct SRIDs
-remain incompatible. This preserves a concrete, serializable SRID while keeping
-the default useful for spatial values whose reference system is not known yet.
+All members of an aggregate must have exactly the same spatial reference
+system, including the unnamed reference represented by identifier `0`. It is
+not a wildcard. Use `withSpatialReference()` (or the legacy `withSrid()`) only
+to relabel coordinates; neither method performs a reprojection.
+
+See [Spatial reference systems](docs/spatial-reference-systems.md) for the
+strict aggregate rule, its ISO/IEC 13249-3 basis, and the distinction between
+declaring a reference and transforming coordinates.

@@ -19,7 +19,14 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
+use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /**
  * Abstract Spatial Type class.
@@ -28,17 +35,23 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
  */
 abstract class AbstractSpatialType implements SpatialInterface
 {
+    /** Spatial reference system associated with this spatial value. */
+    protected SpatialReference $spatialReference;
+
     /**
-     * @var int the SpatialTypes Reference Identifier (SRID)
+     * Return the spatial-reference identity.
      */
-    protected int $srid = SpatialInterface::DEFAULT_SRID;
+    public function getSpatialReference(): SpatialReference
+    {
+        return $this->spatialReference;
+    }
 
     /**
      * SRID getter.
      */
     public function getSrid(): int
     {
-        return $this->srid;
+        return $this->spatialReference->srid();
     }
 
     /**
@@ -82,6 +95,19 @@ abstract class AbstractSpatialType implements SpatialInterface
     }
 
     /**
+     * Return a copy declared with the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $spatial = clone $this;
+        $spatial->spatialReference = $reference;
+
+        return $spatial;
+    }
+
+    /**
      * Return a copy of this spatial object with the given Spatial Reference Identifier (SRID).
      *
      * Aggregate spatial types override this method to copy their contained
@@ -91,10 +117,75 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     public function withSrid(int $srid): static
     {
-        $spatial = clone $this;
-        $spatial->srid = $srid;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
+    }
 
-        return $spatial;
+    /**
+     * Require a member to belong to the same spatial reference system.
+     *
+     * ISO/IEC 13249-3 requires every member of a geometry collection to have
+     * the collection's spatial reference system. SRID 0 is therefore a real,
+     * albeit unnamed, reference and is not a wildcard.
+     *
+     * @param SpatialInterface $spatial Member to validate
+     * @param string           $member  Member type for the error message
+     */
+    final protected function assertSameSpatialReference(SpatialInterface $spatial, string $member): void
+    {
+        if (!$this->spatialReference->equals($spatial->getSpatialReference())) {
+            throw new InvalidSridException(sprintf('The %s spatial reference is not compatible with the spatial reference of this spatial value.', $member));
+        }
+    }
+
+    /**
+     * Hydrate a line-string tuple collection in this spatial value's context.
+     *
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $coordinates Point tuples
+     */
+    final protected function createLineStringFromCoordinates(array $coordinates): LineStringInterface
+    {
+        return DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray(
+            $coordinates,
+            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
+        );
+    }
+
+    /**
+     * Hydrate a point tuple in this spatial value's complete context.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates Point tuple
+     */
+    final protected function createPointFromCoordinates(array $coordinates): PointInterface
+    {
+        return DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray(
+            $coordinates,
+            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
+        );
+    }
+
+    /**
+     * Hydrate polygon rings in this spatial value's context.
+     *
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings Polygon rings
+     */
+    final protected function createPolygonFromCoordinates(array $rings): PolygonInterface
+    {
+        return DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray(
+            $rings,
+            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
+        );
+    }
+
+    /**
+     * Initialize the reference system from the typed API or its legacy SRID adapter.
+     *
+     * @param int|SpatialReference $reference Typed reference or legacy SRID
+     */
+    final protected function initializeSpatialReference(int|SpatialReference $reference): void
+    {
+        $this->spatialReference = $reference instanceof SpatialReference
+            ? $reference
+            : SpatialReference::fromSrid($reference);
     }
 
     /**

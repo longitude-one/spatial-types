@@ -26,7 +26,8 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollection;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -34,24 +35,22 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  *
  * @internal this class provides common behaviour for geometry and geography multi-line strings
  */
-abstract class AbstractMultiLineString extends AbstractSpatialType implements MultiLineStringInterface
+abstract class AbstractMultiLineString extends AbstractLineStringCollection implements MultiLineStringInterface
 {
-    use LineStringTrait;
-
     /**
      * AbstractMultiLineString constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
-     * @param int                                                                                                                                  $srid        Spatial Reference Identifier
+     * @param int|SpatialReference                                                                                                                 $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multiLineStlineString SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $lineStrings, int $srid = self::DEFAULT_SRID)
+    public function __construct(array $lineStrings, int|SpatialReference $srid = 0)
     {
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
         $this->addLineStrings($lineStrings);
     }
 
@@ -92,7 +91,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      */
     public function getLineStrings(): array
     {
-        return $this->traitGetLineStrings();
+        return $this->lineStringMembers();
     }
 
     /**
@@ -166,6 +165,22 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     }
 
     /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $multiLineString = parent::withSpatialReference($reference);
+        $multiLineString->lineStrings = array_map(
+            static fn (LineStringInterface $lineString): LineStringInterface => $lineString->withSpatialReference($reference),
+            $this->lineStrings
+        );
+
+        return $multiLineString;
+    }
+
+    /**
      * Return a copy of this multi-line string with the given Spatial Reference Identifier (SRID).
      *
      * Every line string, and therefore every contained point, is copied with the
@@ -175,13 +190,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      */
     public function withSrid(int $srid): static
     {
-        $multiLineString = parent::withSrid($srid);
-        $multiLineString->lineStrings = array_map(
-            static fn (LineStringInterface $lineString): LineStringInterface => $lineString->withSrid($srid),
-            $this->lineStrings
-        );
-
-        return $multiLineString;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
     }
 
     /**
@@ -194,7 +203,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     protected function addLineString(array|LineStringInterface $lineString): static
     {
         try {
-            return $this->traitAddLineString($lineString);
+            return $this->addLineStringMember($lineString);
             // @codeCoverageIgnoreStart
         } catch (InvalidFamilyException $e) {
             throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
@@ -211,7 +220,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      */
     protected function addLineStrings(array $lineStrings): static
     {
-        return $this->traitAddLineStrings($lineStrings);
+        return $this->addLineStringMembers($lineStrings);
     }
 
     /**

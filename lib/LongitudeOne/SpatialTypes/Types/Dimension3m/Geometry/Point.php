@@ -22,6 +22,7 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 /**
@@ -35,19 +36,19 @@ class Point extends AbstractPoint implements PointInterface
     protected float|int $m;
 
     /**
-     * @param float|int|string $x    X coordinate
-     * @param float|int|string $y    Y coordinate
-     * @param float|int        $m    M coordinate
-     * @param int              $srid SRID
+     * @param float|int|string     $x    X coordinate
+     * @param float|int|string     $y    Y coordinate
+     * @param float|int            $m    M coordinate
+     * @param int|SpatialReference $srid SRID
      *
      * @throws InvalidValueException when a coordinate is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $m, int $srid = self::DEFAULT_SRID)
+    public function __construct(float|int|string $x, float|int|string $y, float|int $m, int|SpatialReference $srid = 0)
     {
         $this->initializeX($x);
         $this->initializeY($y);
         $this->initializeM($m);
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
     }
 
     /**

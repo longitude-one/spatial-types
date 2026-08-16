@@ -22,6 +22,7 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 /**
@@ -42,19 +43,19 @@ class Point extends AbstractPoint implements PointInterface
      * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
      * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
      *
-     * @param float|int|string $x    X coordinate can be a string and will be parsed by the geo-parser
-     * @param float|int|string $y    Y coordinate can be a string and will be parsed by the geo-parser
-     * @param float|int        $z    Z coordinate (altitude, elevation)
-     * @param int              $srid SRID
+     * @param float|int|string     $x    X coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int|string     $y    Y coordinate can be a string and will be parsed by the geo-parser
+     * @param float|int            $z    Z coordinate (altitude, elevation)
+     * @param int|SpatialReference $srid SRID
      *
      * @throws InvalidValueException when point is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $z, int $srid = self::DEFAULT_SRID)
+    public function __construct(float|int|string $x, float|int|string $y, float|int $z, int|SpatialReference $srid = 0)
     {
         $this->initializeLongitude($x);
         $this->initializeLatitude($y);
         $this->initializeZ($z);
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
     }
 
     /**

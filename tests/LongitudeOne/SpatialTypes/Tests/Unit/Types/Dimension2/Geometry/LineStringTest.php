@@ -52,11 +52,11 @@ class LineStringTest extends TestCase
      */
     public function testConstructorRejectsIncompatibleSrid(): void
     {
-        $lineString = new LineString([new Point(1, 2), [3, 4]], 4326);
+        $lineString = new LineString([new Point(1, 2, 4326), [3, 4]], 4326);
         static::assertCount(2, $lineString->getPoints());
 
         self::expectException(InvalidSridException::class);
-        self::expectExceptionMessageIsOrContains('The point SRID is not compatible with the SRID of this current spatial collection.');
+        self::expectExceptionMessageIsOrContains('The point spatial reference is not compatible');
         new LineString([new Point(1, 2, 4327)], 4326);
     }
 
@@ -132,7 +132,7 @@ class LineStringTest extends TestCase
      */
     public function testGetElements(): void
     {
-        $lineString = new LineString([new Point(1, 2), new Point(3, 4)], 4326);
+        $lineString = new LineString([new Point(1, 2, 4326), new Point(3, 4, 4326)], 4326);
         static::assertSame($lineString->getElements(), $lineString->getPoints());
     }
 

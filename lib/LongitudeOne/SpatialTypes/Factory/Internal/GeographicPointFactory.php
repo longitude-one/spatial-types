@@ -41,10 +41,10 @@ final class GeographicPointFactory extends AbstractPointFactory
     public function create(Coordinates $coordinates, SpatialContext $context): PointInterface
     {
         return match ($context->dimension) {
-            DimensionEnum::X_Y => new Point2D($coordinates->x, $coordinates->y, $context->srid),
-            DimensionEnum::X_Y_M => new Point3Dm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->m, 'third'), $context->srid),
-            DimensionEnum::X_Y_Z => new Point3Dz($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), $context->srid),
-            DimensionEnum::X_Y_Z_M => new Point4Dzm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), self::requiredCoordinate($coordinates->m, 'fourth'), $context->srid),
+            DimensionEnum::X_Y => new Point2D($coordinates->x, $coordinates->y, $context->reference),
+            DimensionEnum::X_Y_M => new Point3Dm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->m, 'third'), $context->reference),
+            DimensionEnum::X_Y_Z => new Point3Dz($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), $context->reference),
+            DimensionEnum::X_Y_Z_M => new Point4Dzm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), self::requiredCoordinate($coordinates->m, 'fourth'), $context->reference),
         };
     }
 }

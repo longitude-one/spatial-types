@@ -84,24 +84,24 @@ class SpatialWithSridTest extends TestCase
     }
 
     /**
-     * Create a line string containing a point with the default SRID.
+     * Create a line string whose points share its spatial reference.
      */
     private static function createLineString(): LineString
     {
         return new LineString([
             new Point(1, 2, 4326),
-            new Point(3, 4),
+            new Point(3, 4, 4326),
         ], 4326);
     }
 
     /**
-     * Create a polygon whose rings contain points with the default SRID.
+     * Create a polygon whose boundary shares its spatial reference.
      */
     private static function createPolygon(): Polygon
     {
         return new Polygon([new LineString([
             new Point(0, 0, 4326),
-            new Point(1, 0),
+            new Point(1, 0, 4326),
             new Point(0, 0, 4326),
         ], 4326)], 4326);
     }
@@ -127,7 +127,7 @@ class SpatialWithSridTest extends TestCase
     {
         yield 'multipoint' => [new MultiPoint([
             new Point(1, 2, 4326),
-            new Point(3, 4),
+            new Point(3, 4, 4326),
         ], 4326)];
 
         yield 'polygon' => [self::createPolygon()];

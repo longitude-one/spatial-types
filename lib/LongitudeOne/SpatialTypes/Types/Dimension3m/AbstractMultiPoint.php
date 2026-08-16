@@ -24,6 +24,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiPoint as ParentMultiPoint;
 
 /**
@@ -33,16 +34,16 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
 {
     /**
      * @param (array{0: float|int|string, 1: float|int|string, 2: float|int}|PointInterface)[] $points points of the multipoint
-     * @param int                                                                              $srid   Spatial Reference Identifier
+     * @param int|SpatialReference                                                             $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a point dimension is incompatible
      * @throws InvalidSridException      when a point SRID is incompatible
      * @throws InvalidValueException     when point coordinates are invalid
      * @throws MissingValueException     when a point is missing
      */
-    public function __construct(array $points, int $srid = self::DEFAULT_SRID)
+    public function __construct(array $points, int|SpatialReference $srid = 0)
     {
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
         $this->addPoints($points);
     }
 

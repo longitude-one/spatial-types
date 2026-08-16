@@ -71,13 +71,8 @@ class GeographyCollectionTest extends TestCase
      */
     public function testAddElementWithInvalidSrid(): void
     {
-        $polygon = new GeographicPolygon([], 4326);
-        $polygon = new GeographicPolygon([], 4327);
-        new GeographyCollection(0, [new GeographicPolygon([], 4326), $polygon]);
-
-        $polygon = new GeographicPolygon([], 4326);
         static::expectException(InvalidSridException::class);
-        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different SRIDs.');
+        static::expectExceptionMessageIsOrContains('collection member spatial reference is not compatible');
 
         $polygon = new GeographicPolygon([], 4327);
         new GeographyCollection(4326, [new GeographicPolygon([], 4326), $polygon]);
@@ -127,9 +122,9 @@ class GeographyCollectionTest extends TestCase
      */
     public function testToArray(): void
     {
-        $polygon = new GeographicPolygon([]);
+        $polygon = new GeographicPolygon([], 4326);
         static::assertSame([], (new GeographyCollection())->toArray());
-        $geographyCollection = new GeographyCollection(0, [$polygon, new Point(1, 2, 4326)]);
+        $geographyCollection = new GeographyCollection(4326, [$polygon, new Point(1, 2, 4326)]);
         static::assertSame([[], [1, 2]], $geographyCollection->toArray());
     }
 }

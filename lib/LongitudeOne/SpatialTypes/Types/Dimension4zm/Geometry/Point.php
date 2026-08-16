@@ -21,6 +21,7 @@ use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 class Point extends AbstractPoint implements PointInterface
@@ -35,21 +36,21 @@ class Point extends AbstractPoint implements PointInterface
      * Coordinates are ordered as X (abscissa), Y (ordinate), Z (elevation),
      * then M (measure).
      *
-     * @param float|int|string $x    X (abscissa) coordinate; strings are parsed by the geo-parser
-     * @param float|int|string $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
-     * @param float|int        $z    Z (elevation) coordinate
-     * @param float|int        $m    M (measure) coordinate
-     * @param int              $srid Spatial Reference Identifier
+     * @param float|int|string     $x    X (abscissa) coordinate; strings are parsed by the geo-parser
+     * @param float|int|string     $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
+     * @param float|int            $z    Z (elevation) coordinate
+     * @param float|int            $m    M (measure) coordinate
+     * @param int|SpatialReference $srid Spatial Reference Identifier
      *
      * @throws InvalidValueException when a coordinate is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $z, float|int $m, int $srid = self::DEFAULT_SRID)
+    public function __construct(float|int|string $x, float|int|string $y, float|int $z, float|int $m, int|SpatialReference $srid = 0)
     {
         $this->initializeX($x);
         $this->initializeY($y);
         $this->initializeZ($z);
         $this->initializeM($m);
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
     }
 
     /**

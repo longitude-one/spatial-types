@@ -5,24 +5,30 @@ as immutable makes that reuse safe and makes a value's location explicit.
 
 ## Current contract
 
-Every spatial type is immutable through the public API. Its coordinates, SRID,
+Every spatial type is immutable through the public API. Its coordinates, spatial reference,
 and aggregate membership are set by its constructor, and it has no public
 setter or membership mutator. `getCoordinates()` returns an immutable
 `Value\Coordinates` value. `withCoordinates()` creates a distinct point with
-replacement coordinates, while `withSrid()` creates a distinct point with the
-same coordinates and a different SRID.
+replacement coordinates, while `withSpatialReference()` creates a distinct point with the
+same coordinates and a different declared spatial reference.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 $paris = new Point(2.3522, 48.8566, 4326);
 $movedParis = $paris->withCoordinates(Coordinates::xy(2.3600, 48.8566));
-$parisInLambert93 = $paris->withSrid(2154);
+$parisInLambert93 = $paris->withSpatialReference(SpatialReference::epsg(2154));
+$parisInLambert93 = $parisInLambert93->withCoordinates(
+    Coordinates::xy(652469.0227, 6862035.2594) // Calculated by an external coordinate transformer.
+);
 ```
 
 The original `$paris` remains unchanged. This is particularly useful when a
-point is part of an aggregate.
+point is part of an aggregate. `withSpatialReference()` only changes the
+declared reference; it never converts ordinates. The Lambert 93 values in the
+example must be calculated by an external coordinate transformer.
 
 `LineString`, `MultiPoint`, and `Polygon` provide an equally immutable
 point-replacement operation. `withPoint()` returns a deep copy: the source
@@ -105,8 +111,8 @@ another location creates another point and explicitly builds the spatial value
 that should contain it. This preserves validation of geography coordinate
 ranges, coordinate dimensions, family, and SRID compatibility.
 
-Changing an SRID follows the same value-object rule: `withSrid()` produces
-another spatial value. It does not transform coordinates; a coordinate
+Changing a spatial reference follows the same value-object rule:
+`withSpatialReference()` produces another spatial value. It does not transform coordinates; a coordinate
 transformation must first calculate new ordinates, then construct a value with
 those ordinates and the target SRID.
 
@@ -154,8 +160,8 @@ replace one element and deeply copy every unchanged element.
 
 Aggregate membership is fixed at construction. Their plural getters return PHP
 arrays, so changing a returned array cannot change the aggregate; the objects
-inside it are also immutable. Calling `withSrid()` on an aggregate creates a
-deep copy whose descendants all receive the requested SRID.
+inside it are also immutable. Calling `withSpatialReference()` on an aggregate
+creates a deep copy whose descendants all receive the requested reference.
 
 See [Instantiable spatial types](instantiable-spatial-types.md#immutability-contract)
 for the complete current mutability contract.

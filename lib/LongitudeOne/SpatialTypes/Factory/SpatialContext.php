@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
-use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /**
  * Immutable context used to create a spatial type.
@@ -27,15 +27,23 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
  */
 final readonly class SpatialContext
 {
+    /** Spatial reference propagated to every value created by this context. */
+    public SpatialReference $reference;
+
+    /** Legacy SRID view retained for source compatibility with factory clients. */
+    public int $srid;
+
     /**
-     * @param int           $srid      Spatial Reference Identifier
-     * @param FamilyEnum    $family    Spatial family
-     * @param DimensionEnum $dimension Coordinate dimension
+     * @param int|SpatialReference $srid      Spatial reference or legacy SRID
+     * @param FamilyEnum           $family    Spatial family
+     * @param DimensionEnum        $dimension Coordinate dimension
      */
     public function __construct(
-        public int $srid = SpatialInterface::DEFAULT_SRID,
+        int|SpatialReference $srid = 0,
         public FamilyEnum $family = FamilyEnum::GEOMETRY,
         public DimensionEnum $dimension = DimensionEnum::X_Y
     ) {
+        $this->reference = $srid instanceof SpatialReference ? $srid : SpatialReference::fromSrid($srid);
+        $this->srid = $this->reference->srid();
     }
 }

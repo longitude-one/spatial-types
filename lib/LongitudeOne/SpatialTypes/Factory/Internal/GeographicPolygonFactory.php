@@ -41,10 +41,10 @@ final class GeographicPolygonFactory implements PolygonFactoryInterface
     public function create(array $rings, SpatialContext $context): PolygonInterface
     {
         return match ($context->dimension) {
-            DimensionEnum::X_Y => new Polygon2D($rings, $context->srid),
-            DimensionEnum::X_Y_M => new Polygon3Dm($rings, $context->srid),
-            DimensionEnum::X_Y_Z => new Polygon3Dz($rings, $context->srid),
-            DimensionEnum::X_Y_Z_M => new Polygon4Dzm($rings, $context->srid),
+            DimensionEnum::X_Y => new Polygon2D($rings, $context->reference),
+            DimensionEnum::X_Y_M => new Polygon3Dm($rings, $context->reference),
+            DimensionEnum::X_Y_Z => new Polygon3Dz($rings, $context->reference),
+            DimensionEnum::X_Y_Z_M => new Polygon4Dzm($rings, $context->reference),
         };
     }
 }

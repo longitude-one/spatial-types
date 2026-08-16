@@ -51,7 +51,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreateLineStringFromPoints(): void
     {
-        $points = [new GeometricPoint(1, 2), new GeometricPoint(3, 4)];
+        $points = [new GeometricPoint(1, 2, 2154), new GeometricPoint(3, 4, 2154)];
 
         $lineString = FromIndexedArrayFactory::createLineString($points, 2154);
 

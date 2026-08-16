@@ -17,6 +17,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "ext-mbstring": "*",
         "longitude-one/geo-parser": "4.0.0-RC.2@RC",
         "doctrine/deprecations": "^1.1.3"
     },

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
+use LongitudeOne\SpatialTypes\Boundary\PolygonBoundary;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
@@ -23,12 +24,10 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -38,22 +37,24 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  */
 abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInterface
 {
-    use LineStringTrait;
+    /** ISO polygon boundary: an exterior ring followed by interior rings. */
+    protected PolygonBoundary $boundary;
 
     /**
      * AbstractPolygon constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
-     * @param int                                                                                                                                  $srid  Spatial Reference Identifier
+     * @param int|SpatialReference                                                                                                                 $srid  Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $rings, int $srid = self::DEFAULT_SRID)
+    public function __construct(array $rings, int|SpatialReference $srid = 0)
     {
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
+        $this->boundary = new PolygonBoundary();
         $this->addRings($rings);
     }
 
@@ -74,17 +75,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      */
     public function getRing(int $index): LineStringInterface
     {
-        if (empty($this->getRings())) {
-            throw new OutOfBoundsException('The current collection of rings is empty.');
-        }
-
-        $index = $index % count($this->getRings());
-
-        if ($index < 0) {
-            $index = count($this->getRings()) + $index;
-        }
-
-        return $this->getRings()[$index];
+        return $this->boundary->ringAt($index);
     }
 
     /**
@@ -96,7 +87,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      */
     public function getRings(): array
     {
-        return $this->traitGetLineStrings();
+        return $this->boundary->rings();
     }
 
     /**
@@ -127,7 +118,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     public function withArrayOfCoordinates(array $coordinates): static
     {
         $polygon = clone $this;
-        $polygon->lineStrings = [];
+        $polygon->boundary = new PolygonBoundary();
         $polygon->addRings($coordinates);
 
         return $polygon;
@@ -150,16 +141,16 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     {
         $ringIndex = $this->normalizeRingIndex($ringIndex);
         $polygon = clone $this;
-        $polygon->lineStrings = [];
+        $polygon->boundary = new PolygonBoundary();
 
-        foreach ($this->lineStrings as $index => $ring) {
+        foreach ($this->getRings() as $index => $ring) {
             if ($index === $ringIndex) {
-                $polygon->lineStrings[] = $this->replaceRingPoint($ring, $pointIndex, $coordinates);
+                $polygon->boundary->addRing($this->replaceRingPoint($ring, $pointIndex, $coordinates));
 
                 continue;
             }
 
-            $polygon->lineStrings[] = $ring->withSrid($ring->getSrid());
+            $polygon->boundary->addRing($ring->withSrid($ring->getSrid()));
         }
 
         return $polygon;
@@ -181,11 +172,27 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     {
         $ringIndex = $this->normalizeRingIndex($ringIndex);
         $polygon = clone $this;
-        $polygon->lineStrings = [];
+        $polygon->boundary = new PolygonBoundary();
 
-        foreach ($this->lineStrings as $index => $ring) {
+        foreach ($this->getRings() as $index => $ring) {
             $polygon->addRing($index === $ringIndex ? $coordinates : $ring->withSrid($ring->getSrid()));
         }
+
+        return $polygon;
+    }
+
+    /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $polygon = parent::withSpatialReference($reference);
+        $polygon->boundary = new PolygonBoundary(array_map(
+            static fn (LineStringInterface $ring): LineStringInterface => $ring->withSpatialReference($reference),
+            $this->getRings()
+        ));
 
         return $polygon;
     }
@@ -200,13 +207,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      */
     public function withSrid(int $srid): static
     {
-        $polygon = parent::withSrid($srid);
-        $polygon->lineStrings = array_map(
-            static fn (LineStringInterface $ring): LineStringInterface => $ring->withSrid($srid),
-            $this->lineStrings
-        );
-
-        return $polygon;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
     }
 
     /**
@@ -219,7 +220,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     protected function addRing(array|LineStringInterface $ring): static
     {
         if (is_array($ring)) {
-            $ring = DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($ring, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
+            $ring = $this->createLineStringFromCoordinates($ring);
         }
 
         if (!$ring->isRing()) {
@@ -230,7 +231,14 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
             throw new InvalidFamilyException('The ring family is not compatible with the family of the current polygon.');
         }
 
-        return $this->traitAddLineString($ring);
+        if (!$this->hasSameDimension($ring)) {
+            throw new InvalidDimensionException('The ring dimension is not compatible with the dimension of the current polygon.');
+        }
+
+        $this->assertSameSpatialReference($ring, 'ring');
+        $this->boundary->addRing($ring);
+
+        return $this;
     }
 
     /**
@@ -262,7 +270,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      */
     private function normalizeRingIndex(int $ringIndex): int
     {
-        $ringCount = count($this->lineStrings);
+        $ringCount = $this->boundary->count();
         if (0 === $ringCount) {
             throw new OutOfBoundsException('The current collection of lineStrings is empty.');
         }

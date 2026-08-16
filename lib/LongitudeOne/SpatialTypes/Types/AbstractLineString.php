@@ -19,7 +19,8 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Trait\PointTrait;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Types\Collection\AbstractPointCollection;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -27,10 +28,8 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  *
  * @internal this class provides common behaviour for geometry and geography line strings
  */
-abstract class AbstractLineString extends AbstractSpatialType implements LineStringInterface
+abstract class AbstractLineString extends AbstractPointCollection implements LineStringInterface
 {
-    use PointTrait;
-
     /**
      * Get the elements of this line string.
      *
@@ -128,6 +127,22 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
     }
 
     /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $lineString = parent::withSpatialReference($reference);
+        $lineString->points = array_map(
+            static fn (PointInterface $point): PointInterface => $point->withSpatialReference($reference),
+            $this->points
+        );
+
+        return $lineString;
+    }
+
+    /**
      * Return a copy of this line string with the given Spatial Reference Identifier (SRID).
      *
      * Every point is copied with the requested SRID so the returned line string
@@ -138,13 +153,7 @@ abstract class AbstractLineString extends AbstractSpatialType implements LineStr
      */
     public function withSrid(int $srid): static
     {
-        $lineString = parent::withSrid($srid);
-        $lineString->points = array_map(
-            static fn (PointInterface $point): PointInterface => $point->withSrid($srid),
-            $this->points
-        );
-
-        return $lineString;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
     }
 
     /**

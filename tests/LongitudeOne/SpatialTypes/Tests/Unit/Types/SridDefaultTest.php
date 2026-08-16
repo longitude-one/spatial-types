@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use PHPUnit\Framework\TestCase;
 
@@ -30,11 +29,12 @@ class SridDefaultTest extends TestCase
     /**
      * SQL/MM's default constructor SRID is represented as a concrete value.
      */
-    public function testSpatialObjectsUseTheNamedDefaultSrid(): void
+    public function testSpatialObjectsUseTheUnnamedReference(): void
     {
         $point = new Point(1, 2);
 
-        static::assertSame(SpatialInterface::DEFAULT_SRID, $point->getSrid());
+        static::assertSame(0, $point->getSrid());
+        static::assertSame(0, $point->getSpatialReference()->srid());
         static::assertSame(0, $point->jsonSerialize()['srid']);
     }
 }

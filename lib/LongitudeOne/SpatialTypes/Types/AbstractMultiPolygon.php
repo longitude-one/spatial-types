@@ -23,10 +23,9 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -48,16 +47,16 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
      * AbstractMultiPolygon constructor.
      *
      * @param (IndexedPolygon|PolygonInterface)[] $polygons polygons
-     * @param int                                 $srid     Spatial Reference Identifier
+     * @param int|SpatialReference                $srid     Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $polygons, int $srid = self::DEFAULT_SRID)
+    public function __construct(array $polygons, int|SpatialReference $srid = 0)
     {
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
         $this->addPolygons($polygons);
     }
 
@@ -189,6 +188,22 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     }
 
     /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $multiPolygon = parent::withSpatialReference($reference);
+        $multiPolygon->polygons = array_map(
+            static fn (PolygonInterface $polygon): PolygonInterface => $polygon->withSpatialReference($reference),
+            $this->polygons
+        );
+
+        return $multiPolygon;
+    }
+
+    /**
      * Return a copy of this multi-polygon with the given Spatial Reference Identifier (SRID).
      *
      * Every polygon, ring, and point is copied with the requested SRID to
@@ -198,13 +213,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
      */
     public function withSrid(int $srid): static
     {
-        $multiPolygon = parent::withSrid($srid);
-        $multiPolygon->polygons = array_map(
-            static fn (PolygonInterface $polygon): PolygonInterface => $polygon->withSrid($srid),
-            $this->polygons
-        );
-
-        return $multiPolygon;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
     }
 
     /**
@@ -217,12 +226,10 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     protected function addPolygon(array|PolygonInterface $polygon): static
     {
         if (is_array($polygon)) {
-            $polygon = DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($polygon, new SpatialContext($this->getSrid(), $this->getFamily(), $this->getDimension()));
+            $polygon = $this->createPolygonFromCoordinates($polygon);
         }
 
-        if (!empty($polygon->getSrid()) && !empty($this->getSrid()) && $polygon->getSrid() !== $this->getSrid()) {
-            throw new InvalidSridException('The polygon SRID is not compatible with the SRID of the current multipolygon.');
-        }
+        $this->assertSameSpatialReference($polygon, 'polygon');
 
         if ($polygon->getFamily() !== $this->getFamily()) {
             throw new InvalidFamilyException('The polygon family is not compatible with the family of the current multipolygon.');

@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -48,7 +47,8 @@ class SpatialContextTest extends TestCase
     {
         $context = new SpatialContext();
 
-        static::assertSame(SpatialInterface::DEFAULT_SRID, $context->srid);
+        static::assertSame(0, $context->srid);
+        static::assertSame(0, $context->reference->srid());
         static::assertSame(FamilyEnum::GEOMETRY, $context->family);
         static::assertSame(DimensionEnum::X_Y, $context->dimension);
     }

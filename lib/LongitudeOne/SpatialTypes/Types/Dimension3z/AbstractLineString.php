@@ -24,6 +24,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractLineString as ParentLineString;
 
 abstract class AbstractLineString extends ParentLineString implements LineStringInterface
@@ -32,16 +33,16 @@ abstract class AbstractLineString extends ParentLineString implements LineString
      * AbstractLineString constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int}|PointInterface)[] $points points of the line string
-     * @param int                                                                                     $srid   Spatial Reference Identifier
+     * @param int|SpatialReference                                                                    $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the line string dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the line string SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $points, int $srid = self::DEFAULT_SRID)
+    public function __construct(array $points, int|SpatialReference $srid = 0)
     {
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
 
         $this->addPoints($points);
     }

@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Trait\LineStringTrait
+ * @covers \LongitudeOne\SpatialTypes\Boundary\PolygonBoundary
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
  * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon

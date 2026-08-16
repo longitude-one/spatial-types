@@ -23,7 +23,8 @@ use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Trait\PointTrait;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Types\Collection\AbstractPointCollection;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -31,22 +32,20 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  *
  * @internal this class provides common behaviour for geometry and geography multi-points
  */
-abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPointInterface
+abstract class AbstractMultiPoint extends AbstractPointCollection implements MultiPointInterface
 {
-    use PointTrait;
-
     /**
      * AbstractMultiPoint constructor.
      *
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $points points of the multipoint
-     * @param int                                                                                                          $srid   Spatial Reference Identifier
+     * @param int|SpatialReference                                                                                         $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multipoint dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multipoint SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    abstract public function __construct(array $points, int $srid = self::DEFAULT_SRID);
+    abstract public function __construct(array $points, int|SpatialReference $srid = 0);
 
     /**
      * Get the elements (the points) of this multipoint.
@@ -85,6 +84,22 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
     }
 
     /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $multiPoint = parent::withSpatialReference($reference);
+        $multiPoint->points = array_map(
+            static fn (PointInterface $point): PointInterface => $point->withSpatialReference($reference),
+            $this->points
+        );
+
+        return $multiPoint;
+    }
+
+    /**
      * Return a copy of this multipoint with the given Spatial Reference Identifier (SRID).
      *
      * Every point is copied with the requested SRID to preserve the aggregate's
@@ -94,13 +109,7 @@ abstract class AbstractMultiPoint extends AbstractSpatialType implements MultiPo
      */
     public function withSrid(int $srid): static
     {
-        $multiPoint = parent::withSrid($srid);
-        $multiPoint->points = array_map(
-            static fn (PointInterface $point): PointInterface => $point->withSrid($srid),
-            $this->points
-        );
-
-        return $multiPoint;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
     }
 
     /**

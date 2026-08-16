@@ -28,9 +28,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Trait\LineStringTrait
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineString
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
+ * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollection
  * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiLineString
  */
 class MultiLineStringTest extends TestCase

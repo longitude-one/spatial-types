@@ -18,11 +18,11 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 
 /**
@@ -40,12 +40,12 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     /**
      * GeometryCollection constructor.
      *
-     * @param int                $srid     Spatial Reference Identifier
-     * @param SpatialInterface[] $elements initial elements of the collection
+     * @param int|SpatialReference $srid     Spatial Reference Identifier
+     * @param SpatialInterface[]   $elements initial elements of the collection
      */
-    public function __construct(int $srid = SpatialInterface::DEFAULT_SRID, array $elements = [])
+    public function __construct(int|SpatialReference $srid = 0, array $elements = [])
     {
-        $this->srid = $srid;
+        $this->initializeSpatialReference($srid);
         $this->addElements($elements);
     }
 
@@ -118,6 +118,22 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     }
 
     /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $collection = parent::withSpatialReference($reference);
+        $collection->elements = array_map(
+            static fn (SpatialInterface $element): SpatialInterface => $element->withSpatialReference($reference),
+            $this->elements
+        );
+
+        return $collection;
+    }
+
+    /**
      * Return a copy of this collection with the given Spatial Reference Identifier (SRID).
      *
      * Every contained spatial object is copied with the requested SRID, including
@@ -127,13 +143,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     public function withSrid(int $srid): static
     {
-        $collection = parent::withSrid($srid);
-        $collection->elements = array_map(
-            static fn (SpatialInterface $element): SpatialInterface => $element->withSrid($srid),
-            $this->elements
-        );
-
-        return $collection;
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
     }
 
     /**
@@ -155,11 +165,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
             throw new InvalidFamilyException('Collection cannot contain elements with different families.');
         }
 
-        // SRID 0 is the SQL/MM default and deliberately acts as an unspecified
-        // SRID in aggregate compatibility checks.
-        if (self::DEFAULT_SRID !== $this->getSrid() && self::DEFAULT_SRID !== $spatial->getSrid() && $this->getSrid() !== $spatial->getSrid()) {
-            throw new InvalidSridException('Collection cannot contain elements with different SRIDs.');
-        }
+        $this->assertSameSpatialReference($spatial, 'collection member');
 
         $this->elements[] = $spatial;
 
