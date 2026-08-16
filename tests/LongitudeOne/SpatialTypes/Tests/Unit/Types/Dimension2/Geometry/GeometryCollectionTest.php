@@ -20,7 +20,6 @@ use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographicPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
@@ -37,13 +36,16 @@ use PHPUnit\Framework\TestCase;
 class GeometryCollectionTest extends TestCase
 {
     /**
-     * Test that construction rejects another GeometryCollection.
+     * Test that construction accepts another GeometryCollection.
+     *
+     * @see https://github.com/longitude-one/spatial-types/issues/1
      */
     public function testAddElementWithGeometryCollection(): void
     {
-        static::expectException(InvalidValueException::class);
-        static::expectExceptionMessageIsOrContains('An instance of LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection cannot contain another GeometryCollection nor GeographyCollection.');
-        new GeometryCollection(0, [new GeometryCollection()]);
+        $nestedCollection = new GeometryCollection();
+        $geometryCollection = new GeometryCollection(0, [$nestedCollection]);
+
+        static::assertSame([$nestedCollection], $geometryCollection->getElements());
     }
 
     /**

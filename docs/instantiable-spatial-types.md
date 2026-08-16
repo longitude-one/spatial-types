@@ -32,7 +32,7 @@ type declarations are reproduced in the informative SQL/MM comparison in the
 | `ST_Surface` | No | — | Abstract two-dimensional base type. |
 | `ST_CurvePolygon` | Yes | — | Curve-bounded polygons are not implemented. |
 | `ST_Polygon` | Yes | `Polygon` | Implemented with `LineString` rings only. |
-| `ST_GeomCollection` | Yes | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous, non-nested collection. |
+| `ST_GeomCollection` | Yes | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous collection that can contain other collections. |
 | `ST_MultiPoint` | Yes | `MultiPoint` | Implemented. |
 | `ST_MultiCurve` | Yes | — | Not implemented; it could contain any `ST_Curve` subtype. |
 | `ST_MultiLineString` | Yes | `MultiLineString` | Implemented. |

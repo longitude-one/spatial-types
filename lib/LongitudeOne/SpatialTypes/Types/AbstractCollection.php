@@ -153,10 +153,6 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     protected function addElement(SpatialInterface $spatial): static
     {
-        if ($spatial instanceof CollectionInterface) {
-            throw new InvalidValueException(sprintf('An instance of %s cannot contain another GeometryCollection nor GeographyCollection.', static::class));
-        }
-
         if (!$this->hasSameDimension($spatial)) {
             throw new InvalidDimensionException('Collection cannot contain elements with different dimensions.');
         }
