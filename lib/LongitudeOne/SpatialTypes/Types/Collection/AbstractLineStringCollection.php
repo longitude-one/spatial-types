@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Collection;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -50,9 +49,7 @@ abstract class AbstractLineStringCollection extends AbstractSpatialType
 
         $this->assertSameSpatialReference($lineString, 'line string');
 
-        if ($lineString->getFamily() !== $this->getFamily()) {
-            throw new InvalidFamilyException('The line string family is not compatible with the family of the current line-string collection.');
-        }
+        $this->assertSameFamily($lineString, 'The line string family is not compatible with the family of the current line-string collection.');
 
         $this->lineStrings[] = $lineString;
 

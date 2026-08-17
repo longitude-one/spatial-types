@@ -26,6 +26,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Validator\FamilyValidation;
 use LongitudeOne\SpatialTypes\Validator\SpatialReferenceValidation;
 
 /**
@@ -118,6 +119,17 @@ abstract class AbstractSpatialType implements SpatialInterface
     public function withSrid(int $srid): static
     {
         return $this->withSpatialReference(SpatialReference::fromSrid($srid));
+    }
+
+    /**
+     * Require a member to belong to the same spatial family.
+     *
+     * @param SpatialInterface $spatial Member to validate
+     * @param string           $message Exception message
+     */
+    final protected function assertSameFamily(SpatialInterface $spatial, string $message): void
+    {
+        FamilyValidation::assertSame($this->getFamily(), $spatial, $message);
     }
 
     /**

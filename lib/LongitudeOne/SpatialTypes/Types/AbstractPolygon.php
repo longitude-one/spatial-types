@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Boundary\PolygonBoundary;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -224,9 +223,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
             $ring = $this->createLineStringFromCoordinates($ring);
         }
 
-        if ($ring->getFamily() !== $this->getFamily()) {
-            throw new InvalidFamilyException('The ring family is not compatible with the family of the current polygon.');
-        }
+        $this->assertSameFamily($ring, 'The ring family is not compatible with the family of the current polygon.');
 
         if (!$this->hasSameDimension($ring)) {
             throw new InvalidDimensionException('The ring dimension is not compatible with the dimension of the current polygon.');

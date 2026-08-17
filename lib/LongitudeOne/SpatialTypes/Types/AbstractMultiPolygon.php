@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -231,9 +230,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
 
         $this->assertSameSpatialReference($polygon, 'polygon');
 
-        if ($polygon->getFamily() !== $this->getFamily()) {
-            throw new InvalidFamilyException('The polygon family is not compatible with the family of the current multipolygon.');
-        }
+        $this->assertSameFamily($polygon, 'The polygon family is not compatible with the family of the current multipolygon.');
 
         if (!$polygon->hasSameDimension($this)) {
             throw new InvalidDimensionException('The polygon is not compatible with the dimension of the current multipolygon.');

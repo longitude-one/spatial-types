@@ -111,9 +111,7 @@ abstract class AbstractPointCollection extends AbstractSpatialType
 
         $this->assertSameSpatialReference($point, 'point');
 
-        if ($this->getFamily() !== $point->getFamily()) {
-            throw new InvalidFamilyException('The point family is not compatible with the family of the current spatial collection.');
-        }
+        $this->assertSameFamily($point, 'The point family is not compatible with the family of the current spatial collection.');
 
         $this->points[] = $point;
 
