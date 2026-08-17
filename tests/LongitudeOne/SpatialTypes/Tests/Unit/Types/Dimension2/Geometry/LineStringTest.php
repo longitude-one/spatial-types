@@ -19,6 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
@@ -37,6 +38,15 @@ use PHPUnit\Framework\TestCase;
  */
 class LineStringTest extends TestCase
 {
+    /** Test that a line string rejects consecutive duplicate points. */
+    public function testConstructorRejectsConsecutiveDuplicatePoints(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('must not contain consecutive duplicate points');
+
+        new LineString([[1, 2], [3, 4], [3, 4]]);
+    }
+
     /**
      * Test that construction rejects a geographic point in a geometric line string.
      */

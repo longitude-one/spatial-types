@@ -19,6 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Validator\Constraints;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Validator\Constraints\FirstPointEqualsLastPoint;
 use LongitudeOne\SpatialTypes\Validator\Constraints\MinimumPointCount;
+use LongitudeOne\SpatialTypes\Validator\Constraints\NoConsecutiveDuplicatePoints;
 use LongitudeOne\SpatialTypes\Validator\Constraints\Ring;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
@@ -30,6 +31,17 @@ use Symfony\Component\Validator\Validation;
  */
 class RingValidatorTest extends TestCase
 {
+    /** Test that the constraint accepts a valid point sequence. */
+    public function testNoConsecutiveDuplicatePointsAcceptsDistinctAdjacentPoints(): void
+    {
+        $violations = Validation::createValidator()->validate(
+            new LineString([[0, 0], [1, 0], [0, 1], [0, 0]]),
+            new NoConsecutiveDuplicatePoints()
+        );
+
+        static::assertCount(0, $violations);
+    }
+
     /** Test that four closed points form a valid ring. */
     public function testRingAcceptsFourClosedPoints(): void
     {

@@ -17,33 +17,40 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Validator\Constraints;
 
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-/** Validates a linear ring through its reusable structural constraints. */
-final class RingValidator extends ConstraintValidator
+/** Validates that adjacent points of a line string differ. */
+final class NoConsecutiveDuplicatePointsValidator extends ConstraintValidator
 {
     /**
-     * Validate the structural constraints that compose a linear ring.
+     * Validate that no adjacent points are equal.
      *
      * @param mixed      $value      Value to validate
      * @param Constraint $constraint Applied constraint
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof Ring) {
-            throw new UnexpectedTypeException($constraint, Ring::class);
+        if (!$constraint instanceof NoConsecutiveDuplicatePoints) {
+            throw new UnexpectedTypeException($constraint, NoConsecutiveDuplicatePoints::class);
         }
 
         if (!$value instanceof LineStringInterface) {
             throw new UnexpectedValueException($value, LineStringInterface::class);
         }
 
-        $this->context->getValidator()
-            ->inContext($this->context)
-            ->validate($value, [new MinimumPointCount(), new FirstPointEqualsLastPoint(), new NoConsecutiveDuplicatePoints()], $this->context->getGroup())
-        ;
+        $previousPoint = null;
+        foreach ($value->getPoints() as $point) {
+            if ($previousPoint instanceof PointInterface && $previousPoint->equalsTo($point)) {
+                $this->context->buildViolation($constraint->message)->addViolation();
+
+                return;
+            }
+
+            $previousPoint = $point;
+        }
     }
 }
