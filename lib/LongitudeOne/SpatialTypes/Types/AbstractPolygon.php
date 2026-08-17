@@ -225,9 +225,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
 
         $this->assertSameFamily($ring, 'The ring family is not compatible with the family of the current polygon.');
 
-        if (!$this->hasSameDimension($ring)) {
-            throw new InvalidDimensionException('The ring dimension is not compatible with the dimension of the current polygon.');
-        }
+        $this->assertSameDimension($ring, 'The ring dimension is not compatible with the dimension of the current polygon.');
 
         $this->assertSameSpatialReference($ring, 'ring');
 

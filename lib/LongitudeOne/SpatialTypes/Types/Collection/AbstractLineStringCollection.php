@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Collection;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -43,9 +42,7 @@ abstract class AbstractLineStringCollection extends AbstractSpatialType
             $lineString = $this->createLineStringFromCoordinates($lineString);
         }
 
-        if (!$this->hasSameDimension($lineString)) {
-            throw new InvalidDimensionException('The line string dimension is not compatible with the dimension of the current line-string collection.');
-        }
+        $this->assertSameDimension($lineString, 'The line string dimension is not compatible with the dimension of the current line-string collection.');
 
         $this->assertSameSpatialReference($lineString, 'line string');
 

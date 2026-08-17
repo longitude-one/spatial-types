@@ -16,15 +16,18 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Validator\Constraints;
 
+use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as ThreeDimensionalPoint;
 use LongitudeOne\SpatialTypes\Validator\Constraints\FirstPointEqualsLastPoint;
 use LongitudeOne\SpatialTypes\Validator\Constraints\MinimumPointCount;
 use LongitudeOne\SpatialTypes\Validator\Constraints\NoConsecutiveDuplicatePoints;
 use LongitudeOne\SpatialTypes\Validator\Constraints\Ring;
+use LongitudeOne\SpatialTypes\Validator\Constraints\SameDimension;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameFamily;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameSpatialReference;
 use PHPUnit\Framework\TestCase;
@@ -81,6 +84,15 @@ class RingValidatorTest extends TestCase
 
         static::assertCount(1, $violations);
         static::assertSame('A linear ring must contain at least 4 points.', $violations->get(0)->getMessage());
+    }
+
+    /** Test that the required coordinate dimension is validated independently. */
+    public function testSameDimensionDetectsAnIncompatibleDimension(): void
+    {
+        $validator = Validation::createValidator();
+
+        static::assertCount(0, $validator->validate(new Point(1, 2), new SameDimension(DimensionEnum::X_Y)));
+        static::assertCount(1, $validator->validate(new ThreeDimensionalPoint(1, 2, 3), new SameDimension(DimensionEnum::X_Y)));
     }
 
     /** Test that the required spatial family is validated independently. */

@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
@@ -152,9 +151,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     protected function addElement(SpatialInterface $spatial): static
     {
-        if (!$this->hasSameDimension($spatial)) {
-            throw new InvalidDimensionException('Collection cannot contain elements with different dimensions.');
-        }
+        $this->assertSameDimension($spatial, 'Collection cannot contain elements with different dimensions.');
 
         $this->assertSameFamily($spatial, 'Collection cannot contain elements with different families.');
 

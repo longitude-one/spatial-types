@@ -232,9 +232,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
 
         $this->assertSameFamily($polygon, 'The polygon family is not compatible with the family of the current multipolygon.');
 
-        if (!$polygon->hasSameDimension($this)) {
-            throw new InvalidDimensionException('The polygon is not compatible with the dimension of the current multipolygon.');
-        }
+        $this->assertSameDimension($polygon, 'The polygon is not compatible with the dimension of the current multipolygon.');
 
         $this->polygons[] = $polygon;
 

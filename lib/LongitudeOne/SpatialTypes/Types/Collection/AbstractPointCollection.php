@@ -105,9 +105,7 @@ abstract class AbstractPointCollection extends AbstractSpatialType
             $point = $this->createPointFromCoordinates($point);
         }
 
-        if (!$this->hasSameDimension($point)) {
-            throw new InvalidDimensionException('The point dimension is not compatible with the dimension of the current spatial collection.');
-        }
+        $this->assertSameDimension($point, 'The point dimension is not compatible with the dimension of the current spatial collection.');
 
         $this->assertSameSpatialReference($point, 'point');
 

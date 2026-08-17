@@ -26,6 +26,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Validator\DimensionValidation;
 use LongitudeOne\SpatialTypes\Validator\FamilyValidation;
 use LongitudeOne\SpatialTypes\Validator\SpatialReferenceValidation;
 
@@ -119,6 +120,17 @@ abstract class AbstractSpatialType implements SpatialInterface
     public function withSrid(int $srid): static
     {
         return $this->withSpatialReference(SpatialReference::fromSrid($srid));
+    }
+
+    /**
+     * Require a member to use the same coordinate dimension.
+     *
+     * @param SpatialInterface $spatial Member to validate
+     * @param string           $message Exception message
+     */
+    final protected function assertSameDimension(SpatialInterface $spatial, string $message): void
+    {
+        DimensionValidation::assertSame($this->getDimension(), $spatial, $message);
     }
 
     /**
