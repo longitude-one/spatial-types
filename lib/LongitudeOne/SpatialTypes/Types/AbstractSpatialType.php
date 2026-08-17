@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
@@ -27,6 +26,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Validator\SpatialReferenceValidation;
 
 /**
  * Abstract Spatial Type class.
@@ -132,9 +132,7 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     final protected function assertSameSpatialReference(SpatialInterface $spatial, string $member): void
     {
-        if (!$this->spatialReference->equals($spatial->getSpatialReference())) {
-            throw new InvalidSridException(sprintf('The %s spatial reference is not compatible with the spatial reference of this spatial value.', $member));
-        }
+        SpatialReferenceValidation::assertSame($this->spatialReference, $spatial, $member);
     }
 
     /**
