@@ -68,6 +68,8 @@ an aggregate must have exactly the aggregate's spatial reference.
 
 See [Spatial reference systems](spatial-reference-systems.md) for the ISO/IEC
 13249-3 rationale and examples of valid and invalid aggregate membership.
+See [Spatial validators](validators.md) for the constraints available through
+Symfony Validator, their constructor integration, and opt-in validation.
 
 ## Class catalogue
 
