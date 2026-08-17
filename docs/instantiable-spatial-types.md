@@ -253,7 +253,57 @@ In the current implementation, `isLine()` is true for a line string with at
 least two points. `isClosed()` requires a line and equal first/last points.
 Use the Symfony constraint `Validator\\Constraints\\Ring` to validate a
 linear ring: it requires at least four points and equal first and last points.
-No simplicity or polygon topology validation is performed yet.
+
+### Checking line-string simplicity
+
+A `LineString` is allowed to be non-simple: construction and immutable update
+methods do not reject self-intersections. When an application needs the
+SQL/MM `ST_IsSimple` predicate, validate the value explicitly with Symfony's
+validator and the `SimpleLineString` constraint:
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Validator\Constraints\SimpleLineString;
+use Symfony\Component\Validator\Validation;
+
+$lineString = new LineString([[0, 0], [2, 2], [0, 2], [2, 0]]);
+$violations = Validation::createValidator()->validate($lineString, new SimpleLineString());
+
+$isSimple = 0 === count($violations); // false: the two non-neighbouring segments cross
+```
+
+The constraint considers the `X, Y` projection only. Z and M ordinates are
+ignored, so two segments that cross in `XY` are non-simple even if they have
+different elevations or measures. It rejects proper crossings, tangencies and
+overlaps; consecutive segments may share their common endpoint, as may the
+first and last segments of a closed line. `Ring` validates only ring structure;
+apply `SimpleLineString` separately when a simple ring is required. Polygon
+topology, such as an inner-ring containment check, remains outside this
+constraint.
+
+### Checking three-dimensional line-string simplicity
+
+For `XYZ` and `XYZM` line strings, use the separate
+`SimpleThreeDimensionalLineString` constraint. It implements the spatial
+three-dimensional check: X, Y and Z determine whether segments meet, while M
+is ignored. Consequently, segments that cross in their XY projection at
+different elevations are simple in 3D; segments meeting at the same XYZ
+position are not, even if their M values differ.
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Validator\Constraints\SimpleThreeDimensionalLineString;
+use Symfony\Component\Validator\Validation;
+
+$lineString = new LineString([[0, 0, 0], [2, 2, 0], [0, 2, 1], [2, 0, 1]]);
+$violations = Validation::createValidator()->validate($lineString, new SimpleThreeDimensionalLineString());
+
+$isSimpleInThreeDimensions = 0 === count($violations); // true
+```
+
+Apply this constraint only to line strings that have a Z ordinate (`XYZ` or
+`XYZM`). Use `SimpleLineString` when the required rule is the usual 2D
+projection check.
 
 ## Immutability contract
 
