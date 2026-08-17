@@ -130,13 +130,13 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
     public static function provideContextsAndCoordinates(): \Generator
     {
         foreach ([FamilyEnum::GEOMETRY, FamilyEnum::GEOGRAPHY] as $family) {
-            yield sprintf('%s XY', $family->value) => [DimensionEnum::X_Y, $family, [[1, 2], [3, 4], [1, 2]], [[5, 6], [7, 8], [5, 6]]];
+            yield sprintf('%s XY', $family->value) => [DimensionEnum::X_Y, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
 
-            yield sprintf('%s XYM', $family->value) => [DimensionEnum::X_Y_M, $family, [[1, 2, 3], [4, 5, 6], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [7, 8, 9]]];
+            yield sprintf('%s XYM', $family->value) => [DimensionEnum::X_Y_M, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
 
-            yield sprintf('%s XYZ', $family->value) => [DimensionEnum::X_Y_Z, $family, [[1, 2, 3], [4, 5, 6], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [7, 8, 9]]];
+            yield sprintf('%s XYZ', $family->value) => [DimensionEnum::X_Y_Z, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
 
-            yield sprintf('%s XYZM', $family->value) => [DimensionEnum::X_Y_Z_M, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [9, 10, 11, 12]]];
+            yield sprintf('%s XYZM', $family->value) => [DimensionEnum::X_Y_Z_M, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
         }
     }
 
@@ -148,7 +148,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         $polygon = FromIndexedArrayFactory::createPolygon([], 4326, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
 
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The line string is not a ring.');
+        self::expectExceptionMessageIsOrContains('at least 4 points');
 
         $polygon->withArrayOfCoordinates([[[1, 2], [3, 4]]]);
     }
@@ -160,8 +160,8 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
     {
         $lineString = FromIndexedArrayFactory::createLineString([[1, 2, 3], [4, 5, 6]], 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
         $lineStringClone = $lineString->withArrayOfCoordinates([[7, 8, 9], [10, 11, 12]]);
-        $polygon = FromIndexedArrayFactory::createPolygon([[[1, 2, 3], [4, 5, 6], [1, 2, 3]]], 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
-        $polygonClone = $polygon->withArrayOfCoordinates([[[7, 8, 9], [10, 11, 12], [7, 8, 9]]]);
+        $polygon = FromIndexedArrayFactory::createPolygon([[[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]]], 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        $polygonClone = $polygon->withArrayOfCoordinates([[[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]]);
 
         static::assertNotSame($lineString, $lineStringClone);
         static::assertSame($lineString::class, $lineStringClone::class);
@@ -174,6 +174,6 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         static::assertSame(2154, $polygonClone->getSrid());
         static::assertNotSame($polygon->getRing(0), $polygonClone->getRing(0));
         static::assertNotSame($polygon->getRing(0)->getPoint(0), $polygonClone->getRing(0)->getPoint(0));
-        static::assertSame([[[1, 2, 3], [4, 5, 6], [1, 2, 3]]], $polygon->toArray());
+        static::assertSame([[[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]]], $polygon->toArray());
     }
 }

@@ -28,6 +28,7 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Validator\RingValidation;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -223,10 +224,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
             $ring = $this->createLineStringFromCoordinates($ring);
         }
 
-        if (!$ring->isRing()) {
-            throw new InvalidValueException('The line string is not a ring.');
-        }
-
         if ($ring->getFamily() !== $this->getFamily()) {
             throw new InvalidFamilyException('The ring family is not compatible with the family of the current polygon.');
         }
@@ -236,6 +233,8 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
         }
 
         $this->assertSameSpatialReference($ring, 'ring');
+
+        RingValidation::assertValid($ring);
         $this->boundary->addRing($ring);
 
         return $this;

@@ -59,14 +59,6 @@ abstract class AbstractLineString extends AbstractPointCollection implements Lin
     }
 
     /**
-     * This line string is a string when the line is closed and simple.
-     */
-    public function isRing(): bool
-    {
-        return $this->isClosed();
-    }
-
-    /**
      * Return an array representation of the line string.
      *
      * @return (float|int)[][]

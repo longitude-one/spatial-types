@@ -56,8 +56,8 @@ class AggregateBoundaryAndValidationTest extends TestCase
         $third = new Point(5, 6);
         $firstLine = new LineString([$first, $second]);
         $secondLine = new LineString([$second, $third]);
-        $firstPolygon = new Polygon([new LineString([$first, $second, $first])]);
-        $secondPolygon = new Polygon([new LineString([$second, $third, $second])]);
+        $firstPolygon = new Polygon([new LineString([$first, $second, $third, $first])]);
+        $secondPolygon = new Polygon([new LineString([$second, $third, $first, $second])]);
 
         $multiLineString = new MultiLineString([$firstLine, $secondLine]);
         static::assertSame($firstLine, $multiLineString->getLineString(2));
@@ -165,7 +165,7 @@ class AggregateBoundaryAndValidationTest extends TestCase
      */
     public static function provideIncompatiblePolygons(): \Generator
     {
-        $ring = [[0, 0], [1, 1], [0, 0]];
+        $ring = [[0, 0], [1, 1], [2, 2], [0, 0]];
 
         yield 'different SRID' => [
             static fn () => new MultiPolygon([new Polygon([$ring], 4327)], 4326),
@@ -178,7 +178,7 @@ class AggregateBoundaryAndValidationTest extends TestCase
         ];
 
         yield 'different dimension' => [
-            static fn () => new MultiPolygon([new ThreeDimensionalPolygon([[[0, 0, 1], [1, 1, 2], [0, 0, 1]]])]),
+            static fn () => new MultiPolygon([new ThreeDimensionalPolygon([[[0, 0, 1], [1, 1, 2], [2, 2, 3], [0, 0, 1]]])]),
             InvalidDimensionException::class,
         ];
     }
@@ -221,7 +221,7 @@ class AggregateBoundaryAndValidationTest extends TestCase
 
         static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]]], $polygon->toArray());
         static::assertSame([[[0, 0], [8, 9], [0, 10], [0, 0]]], $replacement->toArray());
-        static::assertTrue($replacement->getRing(0)->isRing());
+        static::assertTrue($replacement->getRing(0)->getPoint(0)->equalsTo($replacement->getRing(0)->getPoint(-1)));
     }
 
     /**

@@ -171,7 +171,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePolygonRejectsAnOpenLineString(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The line string is not a ring.');
+        self::expectExceptionMessageIsOrContains('at least 4 points');
 
         FromIndexedArrayFactory::createPolygon([[[0, 0], [1, 1]]]);
     }

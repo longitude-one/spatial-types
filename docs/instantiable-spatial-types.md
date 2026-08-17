@@ -238,7 +238,7 @@ returns one tuple in the layout's order.
 
 | Type | Element access | Predicates |
 | --- | --- | --- |
-| `LineString` | `getPoints()`, `getPoint($index)`, `getElements()` | `isEmpty()`, `isLine()`, `isClosed()`, `isRing()` |
+| `LineString` | `getPoints()`, `getPoint($index)`, `getElements()` | `isEmpty()`, `isLine()`, `isClosed()` |
 | `MultiPoint` | `getPoints()`, `getPoint($index)`, `getElements()` | `isEmpty()`, `isSimple()` |
 | `Polygon` | `getRings()`, `getRing($index)`, `getElements()` | — |
 | `MultiLineString` | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()` |
@@ -250,9 +250,10 @@ indexes count from the end (`-1` is the last element). An index is wrapped by
 the element count; accessing an empty aggregate raises `OutOfBoundsException`.
 
 In the current implementation, `isLine()` is true for a line string with at
-least two points. `isClosed()` requires a line and equal first/last points, and
-`isRing()` has the same implementation. No additional simplicity or polygon
-topology validation is performed by these predicates.
+least two points. `isClosed()` requires a line and equal first/last points.
+Use the Symfony constraint `Validator\\Constraints\\Ring` to validate a
+linear ring: it requires at least four points and equal first and last points.
+No simplicity or polygon topology validation is performed yet.
 
 ## Immutability contract
 

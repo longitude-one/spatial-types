@@ -115,7 +115,7 @@ class ConcreteTypeContractTest extends TestCase
         $point = self::asPoint(new $pointClass(...$pointArguments));
         $otherPoint = self::asPoint(new $pointClass(...$otherPointArguments));
         $lineString = self::asLineString(new $lineStringClass([$point, $otherPoint], 4326));
-        $ring = self::asLineString(new $lineStringClass([$point, $otherPoint, $point], 4326));
+        $ring = self::asLineString(new $lineStringClass([$point, $otherPoint, $otherPoint, $point], 4326));
         $multiPoint = self::asSpatial(new $multiPointClass([$point, $otherPoint], 4326));
         $multiLineString = self::asSpatial(new $multiLineStringClass([$lineString], 4326));
         $polygon = self::asPolygon(new $polygonClass([$ring], 4326));
@@ -127,8 +127,8 @@ class ConcreteTypeContractTest extends TestCase
             [$lineString, TypeEnum::LINESTRING, [$coordinates, $otherCoordinates]],
             [$multiPoint, TypeEnum::MULTIPOINT, [$coordinates, $otherCoordinates]],
             [$multiLineString, TypeEnum::MULTILINESTRING, [[$coordinates, $otherCoordinates]]],
-            [$polygon, TypeEnum::POLYGON, [[$coordinates, $otherCoordinates, $coordinates]]],
-            [$multiPolygon, TypeEnum::MULTIPOLYGON, [[[$coordinates, $otherCoordinates, $coordinates]]]],
+            [$polygon, TypeEnum::POLYGON, [[$coordinates, $otherCoordinates, $otherCoordinates, $coordinates]]],
+            [$multiPolygon, TypeEnum::MULTIPOLYGON, [[[$coordinates, $otherCoordinates, $otherCoordinates, $coordinates]]]],
             [$collection, TypeEnum::COLLECTION, [$coordinates]],
         ];
     }

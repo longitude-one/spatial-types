@@ -48,7 +48,8 @@ class SpatialTypesTest extends TestCase
     {
         $first = new GeographicPoint('1W', '2N', 3);
         $second = new GeographicPoint('4W', '5N', 6);
-        $lineString = new GeographicLineString([$first, $second, $first]);
+        $third = new GeographicPoint('7W', '8N', 9);
+        $lineString = new GeographicLineString([$first, $second, $third, $first]);
         $polygon = new GeographicPolygon([$lineString]);
 
         static::assertSame(FamilyEnum::GEOGRAPHY, $first->getFamily());
@@ -56,7 +57,6 @@ class SpatialTypesTest extends TestCase
         static::assertFalse($first->hasZ());
         static::assertSame(3, $first->getM());
         static::assertSame([-1, 2, 3], $first->toArray());
-        static::assertTrue($lineString->isRing());
         static::assertSame([$first, $second, $first], (new GeographicMultiPoint([$first, $second, $first]))->getElements());
         static::assertSame([$lineString], (new GeographicMultiLineString([$lineString]))->getElements());
         static::assertSame([$polygon], (new GeographicMultiPolygon([$polygon]))->getElements());
@@ -72,7 +72,8 @@ class SpatialTypesTest extends TestCase
     {
         $first = new GeometricPoint(1, 2, 3);
         $second = new GeometricPoint(4, 5, 6);
-        $lineString = new GeometricLineString([$first, $second, $first]);
+        $third = new GeometricPoint(7, 8, 9);
+        $lineString = new GeometricLineString([$first, $second, $third, $first]);
         $polygon = new GeometricPolygon([$lineString]);
 
         static::assertSame(FamilyEnum::GEOMETRY, $first->getFamily());
@@ -80,7 +81,6 @@ class SpatialTypesTest extends TestCase
         static::assertFalse($first->hasZ());
         static::assertSame(3, $first->getM());
         static::assertSame([1, 2, 3], $first->toArray());
-        static::assertTrue($lineString->isRing());
         static::assertSame([$first, $second, $first], (new GeometricMultiPoint([$first, $second, $first]))->getElements());
         static::assertSame([$lineString], (new GeometricMultiLineString([$lineString]))->getElements());
         static::assertSame([$polygon], (new GeometricMultiPolygon([$polygon]))->getElements());

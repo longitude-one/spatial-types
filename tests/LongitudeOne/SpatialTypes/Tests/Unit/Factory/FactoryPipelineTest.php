@@ -240,7 +240,7 @@ class FactoryPipelineTest extends TestCase
         $context = new SpatialContext(2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
         $firstPoint = new Point(0, 0, 2154);
         $secondPoint = new Point(1, 1, 2154);
-        $ring = new LineString([$firstPoint, $secondPoint, $firstPoint], 2154);
+        $ring = new LineString([$firstPoint, $secondPoint, new Point(0, 1, 2154), $firstPoint], 2154);
 
         $point = $factory->createPoint(new Coordinates(2, 3), $context);
         $lineString = $factory->createLineString([$firstPoint, $secondPoint], $context);
@@ -248,7 +248,7 @@ class FactoryPipelineTest extends TestCase
 
         static::assertSame([2, 3], $point->toArray());
         static::assertSame([[0, 0], [1, 1]], $lineString->toArray());
-        static::assertSame([[[0, 0], [1, 1], [0, 0]]], $polygon->toArray());
+        static::assertSame([[[0, 0], [1, 1], [0, 1], [0, 0]]], $polygon->toArray());
         static::assertSame(2154, $point->getSrid());
         static::assertSame(2154, $lineString->getSrid());
         static::assertSame(2154, $polygon->getSrid());

@@ -92,6 +92,6 @@ class SpatialWithPointTest extends TestCase
         $replacement = $polygon->withPoint(-1, -1, Coordinates::xy(0.5, 0.5));
 
         static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]], [[0.5, 0.5], [2, 1], [1, 2], [0.5, 0.5]]], $replacement->toArray());
-        static::assertTrue($replacement->getRing(-1)->isRing());
+        static::assertTrue($replacement->getRing(-1)->getPoint(0)->equalsTo($replacement->getRing(-1)->getPoint(-1)));
     }
 }

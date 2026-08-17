@@ -25,7 +25,7 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  * A LineString instance has linear interpolation between Point values.
  * Each consecutive pair of Point values defines a line segment.
  * A line is a LineString value with exactly two points.
- * A linear ring is a LineString value that is both closed and simple.
+ * Linear-ring validation is provided by Validator\Constraints\Ring.
  *
  * As ST_Curve is not instantiable, this library does not implement it.
  */
@@ -65,11 +65,6 @@ interface LineStringInterface extends SpatialInterface
      * A line is a LineString value with exactly two points.
      */
     public function isLine(): bool;
-
-    /**
-     * A linear ring is a LineString value that is both closed and simple.
-     */
-    public function isRing(): bool;
 
     /**
      * Return an array of coordinates.

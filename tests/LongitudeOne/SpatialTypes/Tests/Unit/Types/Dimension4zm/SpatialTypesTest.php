@@ -47,7 +47,8 @@ class SpatialTypesTest extends TestCase
     {
         $first = new GeographicPoint('1W', '2N', 3, 4);
         $second = new GeographicPoint('4W', '5N', 6, 7);
-        $lineString = new GeographicLineString([$first, $second, $first]);
+        $third = new GeographicPoint('7W', '8N', 9, 10);
+        $lineString = new GeographicLineString([$first, $second, $third, $first]);
         $polygon = new GeographicPolygon([$lineString]);
 
         static::assertSame(FamilyEnum::GEOGRAPHY, $first->getFamily());
@@ -69,7 +70,8 @@ class SpatialTypesTest extends TestCase
     {
         $first = new GeometricPoint(1, 2, 3, 4);
         $second = new GeometricPoint(4, 5, 6, 7);
-        $lineString = new GeometricLineString([$first, $second, $first]);
+        $third = new GeometricPoint(7, 8, 9, 10);
+        $lineString = new GeometricLineString([$first, $second, $third, $first]);
         $polygon = new GeometricPolygon([$lineString]);
 
         static::assertSame(FamilyEnum::GEOMETRY, $first->getFamily());

@@ -40,14 +40,12 @@ class LineStringTest extends TestCase
         $lineString = new LineString([new Point(1, 2), new Point(3, 4)]);
         static::assertCount(2, $lineString->getPoints());
         static::assertFalse($lineString->isClosed());
-        static::assertFalse($lineString->isRing());
         static::assertTrue($lineString->isLine());
         static::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
 
         $lineString = new LineString([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isClosed());
-        static::assertTrue($lineString->isRing());
         static::assertTrue($lineString->isLine());
         static::assertEquals([[1, 2], [3, 4], [1, 2]], $lineString->toArray());
     }
@@ -60,7 +58,6 @@ class LineStringTest extends TestCase
         $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326)], 4326);
         static::assertCount(2, $lineString->getPoints());
         static::assertFalse($lineString->isClosed());
-        static::assertFalse($lineString->isRing());
         static::assertTrue($lineString->isLine());
         static::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
 
@@ -68,7 +65,6 @@ class LineStringTest extends TestCase
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isLine());
         static::assertTrue($lineString->isClosed());
-        static::assertTrue($lineString->isRing());
         static::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $lineString->toArray());
     }
 
@@ -80,7 +76,6 @@ class LineStringTest extends TestCase
         $lineString = new LineString([]);
         static::assertEmpty($lineString->getPoints());
         static::assertFalse($lineString->isClosed());
-        static::assertFalse($lineString->isRing());
         static::assertFalse($lineString->isLine());
         static::assertEquals([], $lineString->toArray());
         static::assertEquals([], $lineString->getPoints());

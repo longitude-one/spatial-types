@@ -102,6 +102,7 @@ class SpatialWithSridTest extends TestCase
         return new Polygon([new LineString([
             new Point(0, 0, 4326),
             new Point(1, 0, 4326),
+            new Point(0, 1, 4326),
             new Point(0, 0, 4326),
         ], 4326)], 4326);
     }
