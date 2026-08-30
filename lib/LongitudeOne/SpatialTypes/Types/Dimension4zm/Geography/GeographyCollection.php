@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractCollection;
@@ -43,8 +43,8 @@ class GeographyCollection extends AbstractCollection implements CollectionInterf
     /**
      * Return the four-dimensional XYZM coordinate layout.
      */
-    protected function getDimension(): DimensionEnum
+    protected function getDimension(): CoordinateDimensionEnum
     {
-        return DimensionEnum::X_Y_Z_M;
+        return CoordinateDimensionEnum::XYZM;
     }
 }

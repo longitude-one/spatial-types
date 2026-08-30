@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
@@ -41,7 +41,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
      * @param array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}> $initialCoordinates     initial coordinates
      * @param array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}> $replacementCoordinates replacement coordinates
      * @param SpatialModelEnum                                                         $family                 expected family
-     * @param DimensionEnum                                                            $dimension              expected dimension
+     * @param CoordinateDimensionEnum                                                  $dimension              expected dimension
      */
     private static function assertLineStringWasReplaced(
         LineStringInterface $lineString,
@@ -49,7 +49,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         array $initialCoordinates,
         array $replacementCoordinates,
         SpatialModelEnum $family,
-        DimensionEnum $dimension
+        CoordinateDimensionEnum $dimension
     ): void {
         static::assertNotSame($lineString, $replacement);
         static::assertSame($lineString::class, $replacement::class);
@@ -65,14 +65,14 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
     /**
      * Verify that replacement coordinates create an immutable line string for every supported layout and family.
      *
-     * @param DimensionEnum                                                            $dimension              dimension to test
+     * @param CoordinateDimensionEnum                                                  $dimension              dimension to test
      * @param SpatialModelEnum                                                         $family                 family to test
      * @param array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}> $initialCoordinates     initial coordinates
      * @param array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}> $replacementCoordinates replacement coordinates
      */
     #[DataProvider('provideContextsAndCoordinates')]
     public function testLineStringWithArrayOfCoordinates(
-        DimensionEnum $dimension,
+        CoordinateDimensionEnum $dimension,
         SpatialModelEnum $family,
         array $initialCoordinates,
         array $replacementCoordinates
@@ -88,7 +88,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
      */
     public function testLineStringWithArrayOfCoordinatesRejectsAnIncompatibleTuple(): void
     {
-        $lineString = FromIndexedArrayFactory::createLineString([], 4326, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
+        $lineString = FromIndexedArrayFactory::createLineString([], 4326, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
 
         self::expectException(InvalidDimensionException::class);
 
@@ -98,14 +98,14 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
     /**
      * Verify that replacement coordinates create an immutable polygon for every supported layout and family.
      *
-     * @param DimensionEnum                                                            $dimension              dimension to test
+     * @param CoordinateDimensionEnum                                                  $dimension              dimension to test
      * @param SpatialModelEnum                                                         $family                 family to test
      * @param array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}> $initialCoordinates     initial ring coordinates
      * @param array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}> $replacementCoordinates replacement ring coordinates
      */
     #[DataProvider('provideContextsAndCoordinates')]
     public function testPolygonWithArrayOfCoordinates(
-        DimensionEnum $dimension,
+        CoordinateDimensionEnum $dimension,
         SpatialModelEnum $family,
         array $initialCoordinates,
         array $replacementCoordinates
@@ -125,18 +125,18 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
     /**
      * Provide every coordinate layout for both spatial families.
      *
-     * @return \Generator<string, array{0: DimensionEnum, 1: SpatialModelEnum, 2: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>, 3: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>}, null, void>
+     * @return \Generator<string, array{0: CoordinateDimensionEnum, 1: SpatialModelEnum, 2: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>, 3: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>}, null, void>
      */
     public static function provideContextsAndCoordinates(): \Generator
     {
         foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
-            yield sprintf('%s XY', $family->value) => [DimensionEnum::X_Y, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
+            yield sprintf('%s XY', $family->value) => [CoordinateDimensionEnum::XY, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
 
-            yield sprintf('%s XYM', $family->value) => [DimensionEnum::X_Y_M, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
+            yield sprintf('%s XYM', $family->value) => [CoordinateDimensionEnum::XYM, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
 
-            yield sprintf('%s XYZ', $family->value) => [DimensionEnum::X_Y_Z, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
+            yield sprintf('%s XYZ', $family->value) => [CoordinateDimensionEnum::XYZ, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
 
-            yield sprintf('%s XYZM', $family->value) => [DimensionEnum::X_Y_Z_M, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
+            yield sprintf('%s XYZM', $family->value) => [CoordinateDimensionEnum::XYZM, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
         }
     }
 
@@ -145,7 +145,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
      */
     public function testPolygonWithArrayOfCoordinatesRejectsAnOpenRing(): void
     {
-        $polygon = FromIndexedArrayFactory::createPolygon([], 4326, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
+        $polygon = FromIndexedArrayFactory::createPolygon([], 4326, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
 
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('at least 4 points');
@@ -158,9 +158,9 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
      */
     public function testWithArrayOfCoordinatesReturnsIndependentClones(): void
     {
-        $lineString = FromIndexedArrayFactory::createLineString([[1, 2, 3], [4, 5, 6]], 2154, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        $lineString = FromIndexedArrayFactory::createLineString([[1, 2, 3], [4, 5, 6]], 2154, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM);
         $lineStringClone = $lineString->withArrayOfCoordinates([[7, 8, 9], [10, 11, 12]]);
-        $polygon = FromIndexedArrayFactory::createPolygon([[[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]]], 2154, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        $polygon = FromIndexedArrayFactory::createPolygon([[[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]]], 2154, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM);
         $polygonClone = $polygon->withArrayOfCoordinates([[[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]]);
 
         static::assertNotSame($lineString, $lineStringClone);

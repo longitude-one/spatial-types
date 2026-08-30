@@ -41,7 +41,7 @@ final class CoordinatesHydrator
      */
     public function hydrate(array $coordinates, SpatialContext $context): Coordinates
     {
-        $coordinateCount = $context->dimension->coordinateCount();
+        $coordinateCount = $context->dimension->coordinateDimension();
         if (count($coordinates) > $coordinateCount) {
             throw new InvalidDimensionException(sprintf('The array must contain exactly %d coordinates to create a %s point.', $coordinateCount, $context->dimension->value));
         }

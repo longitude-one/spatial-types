@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -115,7 +115,7 @@ class FactoryPipelineTest extends TestCase
         $coordinates = $hydrator->hydrate([1, 2], new SpatialContext());
         $fourDimensionalCoordinates = $hydrator->hydrate(
             [3, 4, 5, 6],
-            new SpatialContext(0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z_M)
+            new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZM)
         );
 
         static::assertSame(1, $coordinates->x);
@@ -137,7 +137,7 @@ class FactoryPipelineTest extends TestCase
         (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
             new CoordinatesHydrator(),
             [1, 2, 'not-a-number'],
-            new SpatialContext(0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z)
+            new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
         );
     }
 
@@ -205,7 +205,7 @@ class FactoryPipelineTest extends TestCase
 
         (new GeometricPointFactory())->create(
             new Coordinates(1, 2),
-            new SpatialContext(0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z)
+            new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
         );
     }
 
@@ -237,7 +237,7 @@ class FactoryPipelineTest extends TestCase
     public function testSpatialFactoryCreatesTypedComponents(): void
     {
         $factory = self::createFactory();
-        $context = new SpatialContext(2154, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
+        $context = new SpatialContext(2154, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
         $firstPoint = new Point(0, 0, 2154);
         $secondPoint = new Point(1, 1, 2154);
         $ring = new LineString([$firstPoint, $secondPoint, new Point(0, 1, 2154), $firstPoint], 2154);
@@ -263,7 +263,7 @@ class FactoryPipelineTest extends TestCase
 
         self::createFactory()->createPoint(
             new Coordinates(1, 2, 3),
-            new SpatialContext(0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y)
+            new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY)
         );
     }
 }

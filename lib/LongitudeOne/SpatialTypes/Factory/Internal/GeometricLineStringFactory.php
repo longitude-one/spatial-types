@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -41,10 +41,10 @@ final class GeometricLineStringFactory implements LineStringFactoryInterface
     public function create(array $points, SpatialContext $context): LineStringInterface
     {
         return match ($context->dimension) {
-            DimensionEnum::X_Y => new LineString2D($points, $context->reference),
-            DimensionEnum::X_Y_M => new LineString3Dm($points, $context->reference),
-            DimensionEnum::X_Y_Z => new LineString3Dz($points, $context->reference),
-            DimensionEnum::X_Y_Z_M => new LineString4Dzm($points, $context->reference),
+            CoordinateDimensionEnum::XY => new LineString2D($points, $context->reference),
+            CoordinateDimensionEnum::XYM => new LineString3Dm($points, $context->reference),
+            CoordinateDimensionEnum::XYZ => new LineString3Dz($points, $context->reference),
+            CoordinateDimensionEnum::XYZM => new LineString4Dzm($points, $context->reference),
         };
     }
 }

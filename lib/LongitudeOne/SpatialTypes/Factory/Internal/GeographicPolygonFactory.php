@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -41,10 +41,10 @@ final class GeographicPolygonFactory implements PolygonFactoryInterface
     public function create(array $rings, SpatialContext $context): PolygonInterface
     {
         return match ($context->dimension) {
-            DimensionEnum::X_Y => new Polygon2D($rings, $context->reference),
-            DimensionEnum::X_Y_M => new Polygon3Dm($rings, $context->reference),
-            DimensionEnum::X_Y_Z => new Polygon3Dz($rings, $context->reference),
-            DimensionEnum::X_Y_Z_M => new Polygon4Dzm($rings, $context->reference),
+            CoordinateDimensionEnum::XY => new Polygon2D($rings, $context->reference),
+            CoordinateDimensionEnum::XYM => new Polygon3Dm($rings, $context->reference),
+            CoordinateDimensionEnum::XYZ => new Polygon3Dz($rings, $context->reference),
+            CoordinateDimensionEnum::XYZM => new Polygon4Dzm($rings, $context->reference),
         };
     }
 }

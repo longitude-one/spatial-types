@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Validator;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameDimension;
@@ -28,13 +28,13 @@ final class DimensionValidation
     /**
      * Reject a spatial value that uses a different coordinate dimension.
      *
-     * @param DimensionEnum    $dimension Required coordinate dimension
-     * @param SpatialInterface $spatial   Spatial value to validate
-     * @param string           $message   Exception message
+     * @param CoordinateDimensionEnum $dimension Required coordinate dimension
+     * @param SpatialInterface        $spatial   Spatial value to validate
+     * @param string                  $message   Exception message
      *
      * @throws InvalidDimensionException when dimensions are different
      */
-    public static function assertSame(DimensionEnum $dimension, SpatialInterface $spatial, string $message): void
+    public static function assertSame(CoordinateDimensionEnum $dimension, SpatialInterface $spatial, string $message): void
     {
         $violations = Validation::createValidator()->validate($spatial, new SameDimension($dimension, $message));
         if (0 !== count($violations)) {

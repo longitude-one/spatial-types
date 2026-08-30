@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension3z;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString as ParentMultiLineString;
@@ -34,8 +34,8 @@ abstract class AbstractMultiLineString extends ParentMultiLineString implements 
     /**
      * Initialize the dimension of the object.
      */
-    protected function getDimension(): DimensionEnum
+    protected function getDimension(): CoordinateDimensionEnum
     {
-        return DimensionEnum::X_Y_Z;
+        return CoordinateDimensionEnum::XYZ;
     }
 }

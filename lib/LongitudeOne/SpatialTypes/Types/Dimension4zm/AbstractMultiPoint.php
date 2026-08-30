@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
@@ -57,8 +57,8 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
     /**
      * Define the four-dimensional XYZM coordinate layout.
      */
-    protected function getDimension(): DimensionEnum
+    protected function getDimension(): CoordinateDimensionEnum
     {
-        return DimensionEnum::X_Y_Z_M;
+        return CoordinateDimensionEnum::XYZM;
     }
 }

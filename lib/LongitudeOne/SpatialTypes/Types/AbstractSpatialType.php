@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
@@ -213,7 +213,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Dimension getter.
      */
-    abstract protected function getDimension(): DimensionEnum;
+    abstract protected function getDimension(): CoordinateDimensionEnum;
 
     /**
      * Family getter.

@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Validator\Constraints;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
@@ -91,8 +91,8 @@ class RingValidatorTest extends TestCase
     {
         $validator = Validation::createValidator();
 
-        static::assertCount(0, $validator->validate(new Point(1, 2), new SameDimension(DimensionEnum::X_Y)));
-        static::assertCount(1, $validator->validate(new ThreeDimensionalPoint(1, 2, 3), new SameDimension(DimensionEnum::X_Y)));
+        static::assertCount(0, $validator->validate(new Point(1, 2), new SameDimension(CoordinateDimensionEnum::XY)));
+        static::assertCount(1, $validator->validate(new ThreeDimensionalPoint(1, 2, 3), new SameDimension(CoordinateDimensionEnum::XY)));
     }
 
     /** Test that the required spatial family is validated independently. */

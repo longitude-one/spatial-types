@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Value;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -46,11 +46,11 @@ class CoordinatesTest extends TestCase
      */
     public static function provideIncompatibleCoordinates(): \Generator
     {
-        yield 'XYM without measure' => [static fn () => new Coordinates(DimensionEnum::X_Y_M, 1, 2)];
+        yield 'XYM without measure' => [static fn () => new Coordinates(CoordinateDimensionEnum::XYM, 1, 2)];
 
-        yield 'XYZ with measure instead of elevation' => [static fn () => new Coordinates(DimensionEnum::X_Y_Z, 1, 2, null, 3)];
+        yield 'XYZ with measure instead of elevation' => [static fn () => new Coordinates(CoordinateDimensionEnum::XYZ, 1, 2, null, 3)];
 
-        yield 'XYZM without measure' => [static fn () => new Coordinates(DimensionEnum::X_Y_Z_M, 1, 2, 3)];
+        yield 'XYZM without measure' => [static fn () => new Coordinates(CoordinateDimensionEnum::XYZM, 1, 2, 3)];
     }
 
     /**
@@ -61,7 +61,7 @@ class CoordinatesTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessage('do not match the XY coordinate dimension');
 
-        new Coordinates(DimensionEnum::X_Y, 1, 2, 3);
+        new Coordinates(CoordinateDimensionEnum::XY, 1, 2, 3);
     }
 
     /**

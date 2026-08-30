@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\Coordinates;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -41,10 +41,10 @@ final class GeographicPointFactory extends AbstractPointFactory
     public function create(Coordinates $coordinates, SpatialContext $context): PointInterface
     {
         return match ($context->dimension) {
-            DimensionEnum::X_Y => new Point2D($coordinates->x, $coordinates->y, $context->reference),
-            DimensionEnum::X_Y_M => new Point3Dm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->m, 'third'), $context->reference),
-            DimensionEnum::X_Y_Z => new Point3Dz($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), $context->reference),
-            DimensionEnum::X_Y_Z_M => new Point4Dzm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), self::requiredCoordinate($coordinates->m, 'fourth'), $context->reference),
+            CoordinateDimensionEnum::XY => new Point2D($coordinates->x, $coordinates->y, $context->reference),
+            CoordinateDimensionEnum::XYM => new Point3Dm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->m, 'third'), $context->reference),
+            CoordinateDimensionEnum::XYZ => new Point3Dz($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), $context->reference),
+            CoordinateDimensionEnum::XYZM => new Point4Dzm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), self::requiredCoordinate($coordinates->m, 'fourth'), $context->reference),
         };
     }
 }

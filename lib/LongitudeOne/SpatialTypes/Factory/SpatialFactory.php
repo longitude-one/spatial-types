@@ -84,7 +84,7 @@ final class SpatialFactory
     public function createPoint(Coordinates $coordinates, SpatialContext $context): PointInterface
     {
         if ((!$context->dimension->hasZ() && null !== $coordinates->z) || (!$context->dimension->hasM() && null !== $coordinates->m)) {
-            throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter DimensionEnum?');
+            throw new InvalidDimensionException('The third and fourth dimensions are not supported for two-dimensions points. Did you miss the 7th parameter CoordinateDimensionEnum?');
         }
 
         return $this->factoryRegistry->pointFactory($context->family)->create($coordinates, $context);

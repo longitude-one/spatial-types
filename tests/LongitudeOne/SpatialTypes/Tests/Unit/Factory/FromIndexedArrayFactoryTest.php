@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -93,7 +93,7 @@ class FromIndexedArrayFactoryTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The array must contain exactly 2 coordinates to create a XY point.');
 
-        FromIndexedArrayFactory::createPoint([1, 2, 3], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
+        FromIndexedArrayFactory::createPoint([1, 2, 3], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
     }
 
     /**
@@ -104,7 +104,7 @@ class FromIndexedArrayFactoryTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('Invalid coordinate value, got "invalid".');
 
-        FromIndexedArrayFactory::createPoint(['invalid', 2], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
+        FromIndexedArrayFactory::createPoint(['invalid', 2], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
     }
 
     /**
@@ -193,7 +193,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreatePolygonWithElevationDimension(): void
     {
-        $polygon = FromIndexedArrayFactory::createPolygon([], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        $polygon = FromIndexedArrayFactory::createPolygon([], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ);
 
         static::assertTrue($polygon->hasZ());
         static::assertFalse($polygon->hasM());
@@ -204,7 +204,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreateXymLineString(): void
     {
-        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM);
 
         static::assertTrue($lineString->hasM());
         static::assertFalse($lineString->hasZ());
@@ -216,7 +216,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreateXyzmPoint(): void
     {
-        $point = FromIndexedArrayFactory::createPoint([1, 2, 3, 4], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        $point = FromIndexedArrayFactory::createPoint([1, 2, 3, 4], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZM);
 
         static::assertSame([1, 2, 3, 4], $point->toArray());
         static::assertTrue($point->hasM());

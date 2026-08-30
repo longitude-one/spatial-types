@@ -16,20 +16,20 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Validator\Constraints;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use Symfony\Component\Validator\Constraint;
 
 /** Require a spatial value to use the supplied coordinate dimension. */
 final class SameDimension extends Constraint
 {
     /**
-     * @param DimensionEnum $dimension Required coordinate dimension
-     * @param string        $message   Violation message
-     * @param null|string[] $groups    Validation groups
-     * @param mixed         $payload   Constraint payload
+     * @param CoordinateDimensionEnum $dimension Required coordinate dimension
+     * @param string                  $message   Violation message
+     * @param null|string[]           $groups    Validation groups
+     * @param mixed                   $payload   Constraint payload
      */
     public function __construct(
-        public DimensionEnum $dimension,
+        public CoordinateDimensionEnum $dimension,
         public string $message = 'The spatial dimension is not compatible with the dimension of this spatial value.',
         ?array $groups = null,
         mixed $payload = null

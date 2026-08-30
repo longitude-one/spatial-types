@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Value;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 
 /**
@@ -28,16 +28,16 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 final readonly class Coordinates
 {
     /**
-     * @param DimensionEnum  $dimension coordinate layout represented by these ordinates
-     * @param float|int      $x         X coordinate or longitude
-     * @param float|int      $y         Y coordinate or latitude
-     * @param null|float|int $z         Z coordinate or elevation
-     * @param null|float|int $m         M coordinate or measure
+     * @param CoordinateDimensionEnum $dimension coordinate layout represented by these ordinates
+     * @param float|int               $x         X coordinate or longitude
+     * @param float|int               $y         Y coordinate or latitude
+     * @param null|float|int          $z         Z coordinate or elevation
+     * @param null|float|int          $m         M coordinate or measure
      *
      * @throws InvalidDimensionException when Z or M does not match the coordinate layout
      */
     public function __construct(
-        public DimensionEnum $dimension,
+        public CoordinateDimensionEnum $dimension,
         public float|int $x,
         public float|int $y,
         public float|int|null $z = null,
@@ -56,7 +56,7 @@ final readonly class Coordinates
      */
     public static function xy(float|int $x, float|int $y): self
     {
-        return new self(DimensionEnum::X_Y, $x, $y);
+        return new self(CoordinateDimensionEnum::XY, $x, $y);
     }
 
     /**
@@ -68,7 +68,7 @@ final readonly class Coordinates
      */
     public static function xym(float|int $x, float|int $y, float|int $m): self
     {
-        return new self(DimensionEnum::X_Y_M, $x, $y, null, $m);
+        return new self(CoordinateDimensionEnum::XYM, $x, $y, null, $m);
     }
 
     /**
@@ -80,7 +80,7 @@ final readonly class Coordinates
      */
     public static function xyz(float|int $x, float|int $y, float|int $z): self
     {
-        return new self(DimensionEnum::X_Y_Z, $x, $y, $z);
+        return new self(CoordinateDimensionEnum::XYZ, $x, $y, $z);
     }
 
     /**
@@ -93,7 +93,7 @@ final readonly class Coordinates
      */
     public static function xyzm(float|int $x, float|int $y, float|int $z, float|int $m): self
     {
-        return new self(DimensionEnum::X_Y_Z_M, $x, $y, $z, $m);
+        return new self(CoordinateDimensionEnum::XYZM, $x, $y, $z, $m);
     }
 
     /**
@@ -132,10 +132,10 @@ final readonly class Coordinates
     public function toArray(): array
     {
         return match ($this->dimension) {
-            DimensionEnum::X_Y => [$this->x, $this->y],
-            DimensionEnum::X_Y_M => [$this->x, $this->y, $this->getM()],
-            DimensionEnum::X_Y_Z => [$this->x, $this->y, $this->getZ()],
-            DimensionEnum::X_Y_Z_M => [$this->x, $this->y, $this->getZ(), $this->getM()],
+            CoordinateDimensionEnum::XY => [$this->x, $this->y],
+            CoordinateDimensionEnum::XYM => [$this->x, $this->y, $this->getM()],
+            CoordinateDimensionEnum::XYZ => [$this->x, $this->y, $this->getZ()],
+            CoordinateDimensionEnum::XYZM => [$this->x, $this->y, $this->getZ(), $this->getM()],
         };
     }
 

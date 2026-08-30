@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Exception;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 
 /**
  * This exception is thrown when a method should not be called in a class.
@@ -29,10 +29,10 @@ class BadMethodCallException extends \BadMethodCallException implements SpatialT
     /**
      * Create a new instance of the exception when a method should not be called in a class.
      *
-     * @param string        $method    the method name
-     * @param DimensionEnum $dimension the dimension
+     * @param string                  $method    the method name
+     * @param CoordinateDimensionEnum $dimension the dimension
      */
-    public static function create(string $method, DimensionEnum $dimension): BadMethodCallException
+    public static function create(string $method, CoordinateDimensionEnum $dimension): BadMethodCallException
     {
         return new BadMethodCallException(sprintf('The method "%s" cannot be called with a spatial object with dimensions "%s".', $method, $dimension->value));
     }

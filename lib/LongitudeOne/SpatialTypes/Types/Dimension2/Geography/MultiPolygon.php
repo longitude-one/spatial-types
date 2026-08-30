@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geography;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPolygonInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon;
@@ -43,8 +43,8 @@ class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
     /**
      * Initialize the dimension of the object.
      */
-    protected function getDimension(): DimensionEnum
+    protected function getDimension(): CoordinateDimensionEnum
     {
-        return DimensionEnum::X_Y;
+        return CoordinateDimensionEnum::XY;
     }
 }

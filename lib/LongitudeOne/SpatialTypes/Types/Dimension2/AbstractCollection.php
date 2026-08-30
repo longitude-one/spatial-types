@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractCollection as ParentCollection;
@@ -34,8 +34,8 @@ abstract class AbstractCollection extends ParentCollection implements Collection
     /**
      * Return the two-dimensional coordinate layout.
      */
-    protected function getDimension(): DimensionEnum
+    protected function getDimension(): CoordinateDimensionEnum
     {
-        return DimensionEnum::X_Y;
+        return CoordinateDimensionEnum::XY;
     }
 }

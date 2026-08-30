@@ -97,7 +97,7 @@ constructor argument. This mirrors the checks performed when a spatial value
 is added to an aggregate.
 
 ```php
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameDimension;
@@ -106,7 +106,7 @@ use LongitudeOne\SpatialTypes\Validator\Constraints\SameSpatialReference;
 
 $violations = Validation::createValidator()->validate($line, [
     new SameFamily(SpatialModelEnum::GEOMETRY),
-    new SameDimension(DimensionEnum::X_Y_Z),
+    new SameDimension(CoordinateDimensionEnum::XYZ),
     new SameSpatialReference(SpatialReference::fromSrid(2154), 'line string'),
 ]);
 ```

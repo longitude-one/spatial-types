@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use PHPUnit\Framework\TestCase;
 
@@ -33,11 +33,11 @@ class SpatialContextTest extends TestCase
      */
     public function testCustomValues(): void
     {
-        $context = new SpatialContext(4326, SpatialModelEnum::GEOGRAPHY, DimensionEnum::X_Y_Z_M);
+        $context = new SpatialContext(4326, SpatialModelEnum::GEOGRAPHY, CoordinateDimensionEnum::XYZM);
 
         static::assertSame(4326, $context->srid);
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $context->family);
-        static::assertSame(DimensionEnum::X_Y_Z_M, $context->dimension);
+        static::assertSame(CoordinateDimensionEnum::XYZM, $context->dimension);
     }
 
     /**
@@ -50,6 +50,6 @@ class SpatialContextTest extends TestCase
         static::assertSame(0, $context->srid);
         static::assertSame(0, $context->reference->srid());
         static::assertSame(SpatialModelEnum::GEOMETRY, $context->family);
-        static::assertSame(DimensionEnum::X_Y, $context->dimension);
+        static::assertSame(CoordinateDimensionEnum::XY, $context->dimension);
     }
 }
