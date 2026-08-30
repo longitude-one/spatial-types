@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
@@ -48,7 +48,7 @@ class SpatialWithPointTest extends TestCase
      */
     public function testLineStringWithPointReturnsAnIndependentCopy(): void
     {
-        $lineString = FromIndexedArrayFactory::createLineString([[1, 2, 3], [4, 5, 6]], 2154, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        $lineString = FromIndexedArrayFactory::createLineString([[1, 2, 3], [4, 5, 6]], 2154, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_M);
         $replacement = $lineString->withPoint(1, Coordinates::xym(7, 8, 9));
 
         static::assertNotSame($lineString, $replacement);

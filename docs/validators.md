@@ -98,14 +98,14 @@ is added to an aggregate.
 
 ```php
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameDimension;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameFamily;
 use LongitudeOne\SpatialTypes\Validator\Constraints\SameSpatialReference;
 
 $violations = Validation::createValidator()->validate($line, [
-    new SameFamily(FamilyEnum::GEOMETRY),
+    new SameFamily(SpatialModelEnum::GEOMETRY),
     new SameDimension(DimensionEnum::X_Y_Z),
     new SameSpatialReference(SpatialReference::fromSrid(2154), 'line string'),
 ]);

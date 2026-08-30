@@ -19,6 +19,7 @@
         "php": "^8.4",
         "ext-mbstring": "*",
         "longitude-one/geo-parser": "4.0.0-RC.2@RC",
+        "longitude-one/spatial-core": "^1.0",
         "doctrine/deprecations": "^1.1.3",
         "symfony/validator": "^8.1"
     },
@@ -29,9 +30,13 @@
     "prefer-stable": true,
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": {
-            "LongitudeOne\\SpatialTypes": "lib/",
-            "LongitudeOne\\SpatialTypes\\Tests": "tests/"
+        "psr-4": {
+            "LongitudeOne\\SpatialTypes\\": "lib/LongitudeOne/SpatialTypes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LongitudeOne\\SpatialTypes\\Tests\\": "tests/LongitudeOne/SpatialTypes/Tests/"
         }
     },
     "scripts": {
@@ -41,6 +46,13 @@
             "quality/php-mess-detector/vendor/bin/phpmd lib text quality/php-mess-detector/ruleset.xml",
             "quality/php-mess-detector/vendor/bin/phpmd tests text quality/php-mess-detector/test-ruleset.xml",
             "quality/php-code-sniffer/vendor/bin/phpcs --standard=quality/php-code-sniffer/phpcs.xml -s"
+        ],
+        "upgrade-tools": [
+            "composer update",
+            "composer update --working-dir=quality/php-cs-fixer",
+            "composer update --working-dir=quality/php-stan",
+            "composer update --working-dir=quality/php-mess-detector",
+            "composer update --working-dir=quality/php-code-sniffer"
         ],
         "test": "phpunit",
         "test-local": [

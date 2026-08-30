@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\AbstractMultiPoint;
 
@@ -28,8 +28,8 @@ class MultiPoint extends AbstractMultiPoint implements MultiPointInterface
     /**
      * Return the geometry family.
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOMETRY;
+        return SpatialModelEnum::GEOMETRY;
     }
 }

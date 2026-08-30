@@ -246,7 +246,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     protected function initializeX(float|int|string $x): static
     {
-        if ($this->getFamily()->usesGeodeticCoordinates()) {
+        if ($this->getFamily()->requiresGeographicCoordinateRanges()) {
             return $this->initializeLongitude($x);
         }
 
@@ -264,7 +264,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     protected function initializeY(float|int|string $y): static
     {
-        if ($this->getFamily()->usesGeodeticCoordinates()) {
+        if ($this->getFamily()->requiresGeographicCoordinateRanges()) {
             return $this->initializeLatitude($y);
         }
 

@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry;
 
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
@@ -63,11 +63,11 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Initialize the family.
      *
-     * @return FamilyEnum::GEOMETRY
+     * @return SpatialModelEnum::GEOMETRY
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOMETRY;
+        return SpatialModelEnum::GEOMETRY;
     }
 
     /**

@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
@@ -218,9 +218,9 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Family getter.
      *
-     * @return FamilyEnum the family of the object (Geometry, Geography)
+     * @return SpatialModelEnum the family of the object (Geometry, Geography)
      */
-    abstract public function getFamily(): FamilyEnum;
+    abstract public function getFamily(): SpatialModelEnum;
 
     /**
      * Type getter.

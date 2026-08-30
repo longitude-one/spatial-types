@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geography;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractCollection;
 
@@ -25,8 +25,8 @@ class GeographyCollection extends AbstractCollection implements CollectionInterf
     /**
      * Return the geography family.
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOGRAPHY;
+        return SpatialModelEnum::GEOGRAPHY;
     }
 }

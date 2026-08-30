@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\AbstractMultiLineString;
 
@@ -25,8 +25,8 @@ class MultiLineString extends AbstractMultiLineString implements MultiLineString
     /**
      * Return the geometry family.
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOMETRY;
+        return SpatialModelEnum::GEOMETRY;
     }
 }

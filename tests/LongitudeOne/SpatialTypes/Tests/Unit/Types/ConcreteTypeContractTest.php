@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -91,16 +91,16 @@ class ConcreteTypeContractTest extends TestCase
     }
 
     /**
-     * @param string        $dimension        dimension namespace suffix
-     * @param FamilyEnum    $family           spatial family
-     * @param (float|int)[] $coordinates      point coordinates in the declared layout
-     * @param (float|int)[] $otherCoordinates another point in the declared layout
+     * @param string           $dimension        dimension namespace suffix
+     * @param SpatialModelEnum $family           spatial family
+     * @param (float|int)[]    $coordinates      point coordinates in the declared layout
+     * @param (float|int)[]    $otherCoordinates another point in the declared layout
      *
      * @return array<array{0: SpatialInterface, 1: TypeEnum, 2: array<mixed>}>
      */
-    private static function createSpatialTypes(string $dimension, FamilyEnum $family, array $coordinates, array $otherCoordinates): array
+    private static function createSpatialTypes(string $dimension, SpatialModelEnum $family, array $coordinates, array $otherCoordinates): array
     {
-        $familyNamespace = FamilyEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
+        $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
         $collectionClass = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\%sCollection', $dimension, $familyNamespace, $familyNamespace);
         $namespace = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\\', $dimension, $familyNamespace);
         $pointClass = $namespace.'Point';
@@ -152,16 +152,16 @@ class ConcreteTypeContractTest extends TestCase
     /**
      * Each concrete class must describe both its shape and its coordinate layout.
      *
-     * @param FamilyEnum    $family           spatial family
-     * @param bool          $hasM             whether the dimension includes an M ordinate
-     * @param bool          $hasZ             whether the dimension includes a Z ordinate
-     * @param string        $dimension        dimension namespace suffix
-     * @param (float|int)[] $coordinates      point coordinates in the declared layout
-     * @param (float|int)[] $otherCoordinates another point in the declared layout
+     * @param SpatialModelEnum $family           spatial family
+     * @param bool             $hasM             whether the dimension includes an M ordinate
+     * @param bool             $hasZ             whether the dimension includes a Z ordinate
+     * @param string           $dimension        dimension namespace suffix
+     * @param (float|int)[]    $coordinates      point coordinates in the declared layout
+     * @param (float|int)[]    $otherCoordinates another point in the declared layout
      */
     #[DataProvider('provideConcreteSpatialTypes')]
     public function testConcreteTypesExposeTheirPublicContract(
-        FamilyEnum $family,
+        SpatialModelEnum $family,
         bool $hasM,
         bool $hasZ,
         string $dimension,
@@ -185,12 +185,12 @@ class ConcreteTypeContractTest extends TestCase
     }
 
     /**
-     * @return \Generator<string, array{0: FamilyEnum, 1: bool, 2: bool, 3: string, 4: (float|int)[], 5: (float|int)[]}, null, void>
+     * @return \Generator<string, array{0: SpatialModelEnum, 1: bool, 2: bool, 3: string, 4: (float|int)[], 5: (float|int)[]}, null, void>
      */
     public static function provideConcreteSpatialTypes(): \Generator
     {
         foreach (self::layouts() as $dimension => [$hasM, $hasZ, $coordinates, $otherCoordinates]) {
-            foreach ([FamilyEnum::GEOMETRY, FamilyEnum::GEOGRAPHY] as $family) {
+            foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
                 yield sprintf('%s %s', $dimension, $family->value) => [
                     $family,
                     $hasM,

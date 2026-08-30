@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension3z\Geography;
 
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractPolygon;
@@ -27,9 +27,9 @@ class Polygon extends AbstractPolygon implements PolygonInterface
     /**
      * Initialize the family of the object.
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOGRAPHY;
+        return SpatialModelEnum::GEOGRAPHY;
     }
 
     /**

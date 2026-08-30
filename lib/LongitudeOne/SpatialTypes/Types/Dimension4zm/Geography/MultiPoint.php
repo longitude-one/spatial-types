@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\AbstractMultiPoint;
 
@@ -25,8 +25,8 @@ class MultiPoint extends AbstractMultiPoint implements MultiPointInterface
     /**
      * Return the geography family.
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOGRAPHY;
+        return SpatialModelEnum::GEOGRAPHY;
     }
 }

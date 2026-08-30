@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension4zm;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineString as GeographicLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineString as GeographicMultiLineString;
@@ -51,7 +51,7 @@ class SpatialTypesTest extends TestCase
         $lineString = new GeographicLineString([$first, $second, $third, $first]);
         $polygon = new GeographicPolygon([$lineString]);
 
-        static::assertSame(FamilyEnum::GEOGRAPHY, $first->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $first->getFamily());
         static::assertTrue($first->hasM());
         static::assertTrue($first->hasZ());
         static::assertSame([-1, 2, 3, 4], $first->toArray());
@@ -74,7 +74,7 @@ class SpatialTypesTest extends TestCase
         $lineString = new GeometricLineString([$first, $second, $third, $first]);
         $polygon = new GeometricPolygon([$lineString]);
 
-        static::assertSame(FamilyEnum::GEOMETRY, $first->getFamily());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $first->getFamily());
         static::assertTrue($first->hasM());
         static::assertTrue($first->hasZ());
         static::assertSame(3, $first->getZ());

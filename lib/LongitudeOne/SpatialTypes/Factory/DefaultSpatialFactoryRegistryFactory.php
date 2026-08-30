@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeographicLineStringFactory;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPointFactory;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPolygonFactory;
@@ -40,13 +40,13 @@ final class DefaultSpatialFactoryRegistryFactory
     {
         return self::$registry ??= new SpatialFactoryRegistry(
             new FamilyFactories(
-                FamilyEnum::GEOGRAPHY,
+                SpatialModelEnum::GEOGRAPHY,
                 new GeographicPointFactory(),
                 new GeographicLineStringFactory(),
                 new GeographicPolygonFactory()
             ),
             new FamilyFactories(
-                FamilyEnum::GEOMETRY,
+                SpatialModelEnum::GEOMETRY,
                 new GeometricPointFactory(),
                 new GeometricLineStringFactory(),
                 new GeometricPolygonFactory()

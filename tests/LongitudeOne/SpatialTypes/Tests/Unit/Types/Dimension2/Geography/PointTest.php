@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
@@ -70,7 +70,7 @@ class PointTest extends TestCase
      */
     public function testGetFamily(): void
     {
-        static::assertSame(FamilyEnum::GEOGRAPHY, $this->point->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $this->point->getFamily());
     }
 
     /**

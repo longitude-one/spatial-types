@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
@@ -36,7 +36,7 @@ interface SpatialInterface extends \JsonSerializable
     /**
      * Return the family of this spatial object.
      */
-    public function getFamily(): FamilyEnum;
+    public function getFamily(): SpatialModelEnum;
 
     /**
      * Return the complete spatial-reference identity of this object.

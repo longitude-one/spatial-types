@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\AbstractLineString;
 
@@ -25,8 +25,8 @@ class LineString extends AbstractLineString implements LineStringInterface
     /**
      * Return the geography family.
      */
-    public function getFamily(): FamilyEnum
+    public function getFamily(): SpatialModelEnum
     {
-        return FamilyEnum::GEOGRAPHY;
+        return SpatialModelEnum::GEOGRAPHY;
     }
 }

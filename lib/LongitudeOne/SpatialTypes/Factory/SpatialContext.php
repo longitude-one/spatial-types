@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory;
 
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /**
@@ -35,12 +35,12 @@ final readonly class SpatialContext
 
     /**
      * @param int|SpatialReference $srid      Spatial reference or legacy SRID
-     * @param FamilyEnum           $family    Spatial family
+     * @param SpatialModelEnum     $family    Spatial family
      * @param DimensionEnum        $dimension Coordinate dimension
      */
     public function __construct(
         int|SpatialReference $srid = 0,
-        public FamilyEnum $family = FamilyEnum::GEOMETRY,
+        public SpatialModelEnum $family = SpatialModelEnum::GEOMETRY,
         public DimensionEnum $dimension = DimensionEnum::X_Y
     ) {
         $this->reference = $srid instanceof SpatialReference ? $srid : SpatialReference::fromSrid($srid);

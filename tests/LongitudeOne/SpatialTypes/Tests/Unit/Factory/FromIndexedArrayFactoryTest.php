@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -38,11 +38,11 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreateLineStringFromCoordinates(): void
     {
-        $lineString = FromIndexedArrayFactory::createLineString([[0, 0], [1, 1]], 4326, FamilyEnum::GEOGRAPHY);
+        $lineString = FromIndexedArrayFactory::createLineString([[0, 0], [1, 1]], 4326, SpatialModelEnum::GEOGRAPHY);
 
         static::assertCount(2, $lineString->getPoints());
         static::assertSame(4326, $lineString->getSrid());
-        static::assertSame(FamilyEnum::GEOGRAPHY, $lineString->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineString->getFamily());
         static::assertFalse($lineString->isEmpty());
     }
 
@@ -57,7 +57,7 @@ class FromIndexedArrayFactoryTest extends TestCase
 
         static::assertSame($points, $lineString->getPoints());
         static::assertSame(2154, $lineString->getSrid());
-        static::assertSame(FamilyEnum::GEOMETRY, $lineString->getFamily());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $lineString->getFamily());
     }
 
     /**
@@ -77,12 +77,12 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreatePoint(): void
     {
-        $point = FromIndexedArrayFactory::createPoint([1, 2], 2154, FamilyEnum::GEOGRAPHY);
+        $point = FromIndexedArrayFactory::createPoint([1, 2], 2154, SpatialModelEnum::GEOGRAPHY);
 
         static::assertSame(1, $point->getX());
         static::assertSame(2, $point->getY());
         static::assertSame(2154, $point->getSrid());
-        static::assertSame(FamilyEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
     }
 
     /**
@@ -93,7 +93,7 @@ class FromIndexedArrayFactoryTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('The array must contain exactly 2 coordinates to create a XY point.');
 
-        FromIndexedArrayFactory::createPoint([1, 2, 3], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
+        FromIndexedArrayFactory::createPoint([1, 2, 3], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
     }
 
     /**
@@ -104,7 +104,7 @@ class FromIndexedArrayFactoryTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('Invalid coordinate value, got "invalid".');
 
-        FromIndexedArrayFactory::createPoint(['invalid', 2], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y);
+        FromIndexedArrayFactory::createPoint(['invalid', 2], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y);
     }
 
     /**
@@ -145,11 +145,11 @@ class FromIndexedArrayFactoryTest extends TestCase
         $polygon = FromIndexedArrayFactory::createPolygon([
             [[0, 0], [2, 0], [2, 2], [0, 0]],
             [[0.5, 0.5], [1, 0.5], [1, 1], [0.5, 0.5]],
-        ], 4326, FamilyEnum::GEOGRAPHY);
+        ], 4326, SpatialModelEnum::GEOGRAPHY);
 
         static::assertCount(2, $polygon->getRings());
         static::assertSame(4326, $polygon->getSrid());
-        static::assertSame(FamilyEnum::GEOGRAPHY, $polygon->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
     }
 
     /**
@@ -162,7 +162,7 @@ class FromIndexedArrayFactoryTest extends TestCase
         $polygon = FromIndexedArrayFactory::createPolygon($rings, 2154);
 
         static::assertSame($rings, $polygon->getRings());
-        static::assertSame(FamilyEnum::GEOMETRY, $polygon->getFamily());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $polygon->getFamily());
     }
 
     /**
@@ -193,7 +193,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreatePolygonWithElevationDimension(): void
     {
-        $polygon = FromIndexedArrayFactory::createPolygon([], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z);
+        $polygon = FromIndexedArrayFactory::createPolygon([], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z);
 
         static::assertTrue($polygon->hasZ());
         static::assertFalse($polygon->hasM());
@@ -204,7 +204,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreateXymLineString(): void
     {
-        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_M);
+        $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_M);
 
         static::assertTrue($lineString->hasM());
         static::assertFalse($lineString->hasZ());
@@ -216,7 +216,7 @@ class FromIndexedArrayFactoryTest extends TestCase
      */
     public function testCreateXyzmPoint(): void
     {
-        $point = FromIndexedArrayFactory::createPoint([1, 2, 3, 4], 0, FamilyEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
+        $point = FromIndexedArrayFactory::createPoint([1, 2, 3, 4], 0, SpatialModelEnum::GEOMETRY, DimensionEnum::X_Y_Z_M);
 
         static::assertSame([1, 2, 3, 4], $point->toArray());
         static::assertTrue($point->hasM());

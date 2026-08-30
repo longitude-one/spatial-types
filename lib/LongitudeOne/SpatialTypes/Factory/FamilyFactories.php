@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\Internal\LineStringFactoryInterface;
 use LongitudeOne\SpatialTypes\Factory\Internal\PointFactoryInterface;
 use LongitudeOne\SpatialTypes\Factory\Internal\PolygonFactoryInterface;
@@ -29,13 +29,13 @@ use LongitudeOne\SpatialTypes\Factory\Internal\PolygonFactoryInterface;
 final readonly class FamilyFactories
 {
     /**
-     * @param FamilyEnum                 $family            spatial family
+     * @param SpatialModelEnum           $family            spatial family
      * @param PointFactoryInterface      $pointFactory      point constructor
      * @param LineStringFactoryInterface $lineStringFactory line string constructor
      * @param PolygonFactoryInterface    $polygonFactory    polygon constructor
      */
     public function __construct(
-        public FamilyEnum $family,
+        public SpatialModelEnum $family,
         public PointFactoryInterface $pointFactory,
         public LineStringFactoryInterface $lineStringFactory,
         public PolygonFactoryInterface $polygonFactory

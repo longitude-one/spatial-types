@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryRegistryFactory;
 use LongitudeOne\SpatialTypes\Factory\Internal\GeographicLineStringFactory;
@@ -59,9 +59,9 @@ class SpatialFactoryRegistryTest extends TestCase
     {
         $registry = DefaultSpatialFactoryRegistryFactory::create();
 
-        static::assertInstanceOf(GeographicPointFactory::class, $registry->pointFactory(FamilyEnum::GEOGRAPHY));
-        static::assertInstanceOf(GeographicLineStringFactory::class, $registry->lineStringFactory(FamilyEnum::GEOGRAPHY));
-        static::assertInstanceOf(GeographicPolygonFactory::class, $registry->polygonFactory(FamilyEnum::GEOGRAPHY));
+        static::assertInstanceOf(GeographicPointFactory::class, $registry->pointFactory(SpatialModelEnum::GEOGRAPHY));
+        static::assertInstanceOf(GeographicLineStringFactory::class, $registry->lineStringFactory(SpatialModelEnum::GEOGRAPHY));
+        static::assertInstanceOf(GeographicPolygonFactory::class, $registry->polygonFactory(SpatialModelEnum::GEOGRAPHY));
     }
 
     /**
@@ -71,8 +71,8 @@ class SpatialFactoryRegistryTest extends TestCase
     {
         $registry = DefaultSpatialFactoryRegistryFactory::create();
 
-        static::assertInstanceOf(GeometricPointFactory::class, $registry->pointFactory(FamilyEnum::GEOMETRY));
-        static::assertInstanceOf(GeometricLineStringFactory::class, $registry->lineStringFactory(FamilyEnum::GEOMETRY));
-        static::assertInstanceOf(GeometricPolygonFactory::class, $registry->polygonFactory(FamilyEnum::GEOMETRY));
+        static::assertInstanceOf(GeometricPointFactory::class, $registry->pointFactory(SpatialModelEnum::GEOMETRY));
+        static::assertInstanceOf(GeometricLineStringFactory::class, $registry->lineStringFactory(SpatialModelEnum::GEOMETRY));
+        static::assertInstanceOf(GeometricPolygonFactory::class, $registry->polygonFactory(SpatialModelEnum::GEOMETRY));
     }
 }

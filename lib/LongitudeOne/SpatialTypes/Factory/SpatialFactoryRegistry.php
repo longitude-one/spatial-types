@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory;
 
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\Internal\LineStringFactoryInterface;
 use LongitudeOne\SpatialTypes\Factory\Internal\PointFactoryInterface;
@@ -54,9 +54,9 @@ final readonly class SpatialFactoryRegistry
     /**
      * Return the line string constructor for a family.
      *
-     * @param FamilyEnum $family spatial family whose constructor is requested
+     * @param SpatialModelEnum $family spatial family whose constructor is requested
      */
-    public function lineStringFactory(FamilyEnum $family): LineStringFactoryInterface
+    public function lineStringFactory(SpatialModelEnum $family): LineStringFactoryInterface
     {
         return $this->forFamily($family)->lineStringFactory;
     }
@@ -64,9 +64,9 @@ final readonly class SpatialFactoryRegistry
     /**
      * Return the point constructor for a family.
      *
-     * @param FamilyEnum $family spatial family whose constructor is requested
+     * @param SpatialModelEnum $family spatial family whose constructor is requested
      */
-    public function pointFactory(FamilyEnum $family): PointFactoryInterface
+    public function pointFactory(SpatialModelEnum $family): PointFactoryInterface
     {
         return $this->forFamily($family)->pointFactory;
     }
@@ -74,9 +74,9 @@ final readonly class SpatialFactoryRegistry
     /**
      * Return the polygon constructor for a family.
      *
-     * @param FamilyEnum $family spatial family whose constructor is requested
+     * @param SpatialModelEnum $family spatial family whose constructor is requested
      */
-    public function polygonFactory(FamilyEnum $family): PolygonFactoryInterface
+    public function polygonFactory(SpatialModelEnum $family): PolygonFactoryInterface
     {
         return $this->forFamily($family)->polygonFactory;
     }
@@ -84,11 +84,11 @@ final readonly class SpatialFactoryRegistry
     /**
      * Return constructors registered for a family.
      *
-     * @param FamilyEnum $family spatial family whose constructors are requested
+     * @param SpatialModelEnum $family spatial family whose constructors are requested
      *
      * @throws InvalidValueException when no constructor is registered for the family
      */
-    private function forFamily(FamilyEnum $family): FamilyFactories
+    private function forFamily(SpatialModelEnum $family): FamilyFactories
     {
         if (!isset($this->familyFactories[$family->name])) {
             throw new InvalidValueException(sprintf('No factories are registered for the %s family.', $family->value));
