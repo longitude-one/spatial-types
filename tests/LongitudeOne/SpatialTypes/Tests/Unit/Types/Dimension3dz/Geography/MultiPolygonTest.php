@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension3z\Geography;
 
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygon;
@@ -98,7 +98,7 @@ class MultiPolygonTest extends TestCase
     public function testGetType(): void
     {
         $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE);
-        static::assertSame(TypeEnum::MULTIPOLYGON, $multiPolygon->getType());
+        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $multiPolygon->getType());
     }
 
     /**

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
@@ -50,9 +50,9 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     /**
      * Define the type.
      */
-    public function getType(): TypeEnum
+    public function getType(): GeometryTypeEnum
     {
-        return TypeEnum::LINESTRING;
+        return GeometryTypeEnum::LINESTRING;
     }
 
     /**

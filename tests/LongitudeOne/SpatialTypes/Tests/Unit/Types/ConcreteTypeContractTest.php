@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
@@ -96,7 +96,7 @@ class ConcreteTypeContractTest extends TestCase
      * @param (float|int)[]    $coordinates      point coordinates in the declared layout
      * @param (float|int)[]    $otherCoordinates another point in the declared layout
      *
-     * @return array<array{0: SpatialInterface, 1: TypeEnum, 2: array<mixed>}>
+     * @return array<array{0: SpatialInterface, 1: GeometryTypeEnum, 2: array<mixed>}>
      */
     private static function createSpatialTypes(string $dimension, SpatialModelEnum $family, array $coordinates, array $otherCoordinates): array
     {
@@ -126,13 +126,13 @@ class ConcreteTypeContractTest extends TestCase
         $collection = self::asSpatial(new $collectionClass(4326, [$point]));
 
         return [
-            [$point, TypeEnum::POINT, $coordinates],
-            [$lineString, TypeEnum::LINESTRING, [$coordinates, $otherCoordinates]],
-            [$multiPoint, TypeEnum::MULTIPOINT, [$coordinates, $otherCoordinates]],
-            [$multiLineString, TypeEnum::MULTILINESTRING, [[$coordinates, $otherCoordinates]]],
-            [$polygon, TypeEnum::POLYGON, [[$coordinates, $otherCoordinates, $thirdCoordinates, $coordinates]]],
-            [$multiPolygon, TypeEnum::MULTIPOLYGON, [[[$coordinates, $otherCoordinates, $thirdCoordinates, $coordinates]]]],
-            [$collection, TypeEnum::COLLECTION, [$coordinates]],
+            [$point, GeometryTypeEnum::POINT, $coordinates],
+            [$lineString, GeometryTypeEnum::LINESTRING, [$coordinates, $otherCoordinates]],
+            [$multiPoint, GeometryTypeEnum::MULTIPOINT, [$coordinates, $otherCoordinates]],
+            [$multiLineString, GeometryTypeEnum::MULTILINESTRING, [[$coordinates, $otherCoordinates]]],
+            [$polygon, GeometryTypeEnum::POLYGON, [[$coordinates, $otherCoordinates, $thirdCoordinates, $coordinates]]],
+            [$multiPolygon, GeometryTypeEnum::MULTIPOLYGON, [[[$coordinates, $otherCoordinates, $thirdCoordinates, $coordinates]]]],
+            [$collection, GeometryTypeEnum::GEOMETRYCOLLECTION, [$coordinates]],
         ];
     }
 

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString as ParentMultiLineString;
 
@@ -26,9 +26,9 @@ abstract class AbstractMultiLineString extends ParentMultiLineString implements 
     /**
      * Initialize the type of the object.
      */
-    public function getType(): TypeEnum
+    public function getType(): GeometryTypeEnum
     {
-        return TypeEnum::MULTILINESTRING;
+        return GeometryTypeEnum::MULTILINESTRING;
     }
 
     /**

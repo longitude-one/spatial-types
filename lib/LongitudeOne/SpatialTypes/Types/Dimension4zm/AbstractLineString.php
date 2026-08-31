@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
@@ -38,9 +38,9 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     /**
      * Define the line string type.
      */
-    public function getType(): TypeEnum
+    public function getType(): GeometryTypeEnum
     {
-        return TypeEnum::LINESTRING;
+        return GeometryTypeEnum::LINESTRING;
     }
 
     /**

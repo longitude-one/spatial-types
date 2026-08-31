@@ -213,7 +213,7 @@ All concrete types implement `SpatialInterface` and `JsonSerializable`.
 | Method | Result |
 | --- | --- |
 | `getFamily(): SpatialModelEnum` | `SpatialModelEnum::GEOMETRY` or `SpatialModelEnum::GEOGRAPHY`. |
-| `getType(): TypeEnum` | The OGC/SQL/MM type, such as `TypeEnum::POLYGON`. |
+| `getType(): GeometryTypeEnum` | The OGC/SQL/MM type, such as `GeometryTypeEnum::POLYGON`. |
 | `getSrid(): int` | The object's SRID. |
 | `getSpatialReference(): SpatialReference` | The full reference identity, including its optional authority. |
 | `hasZ(): bool` / `hasM(): bool` | Whether the selected coordinate layout has Z or M. |

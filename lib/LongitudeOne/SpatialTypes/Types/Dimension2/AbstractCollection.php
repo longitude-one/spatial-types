@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\CollectionInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractCollection as ParentCollection;
 
@@ -26,9 +26,9 @@ abstract class AbstractCollection extends ParentCollection implements Collection
     /**
      * Return the geometry collection type.
      */
-    public function getType(): TypeEnum
+    public function getType(): GeometryTypeEnum
     {
-        return TypeEnum::COLLECTION;
+        return GeometryTypeEnum::GEOMETRYCOLLECTION;
     }
 
     /**

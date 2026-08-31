@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
@@ -225,7 +225,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Type getter.
      */
-    abstract public function getType(): TypeEnum;
+    abstract public function getType(): GeometryTypeEnum;
 
     /**
      * Convert any spatial object to its array representation.

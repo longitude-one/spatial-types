@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiLineString;
@@ -97,7 +97,7 @@ class MultiLineStringTest extends TestCase
     public function testGetType(): void
     {
         $multiLineString = new MultiLineString([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame(TypeEnum::MULTILINESTRING, $multiLineString->getType());
+        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $multiLineString->getType());
     }
 
     /**

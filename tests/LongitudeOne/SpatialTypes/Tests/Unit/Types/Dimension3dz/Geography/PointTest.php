@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension3z\Geography;
 
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Enum\TypeEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
@@ -104,7 +104,7 @@ class PointTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(TypeEnum::POINT, $this->point->getType());
+        static::assertSame(GeometryTypeEnum::POINT, $this->point->getType());
     }
 
     /**
