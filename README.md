@@ -45,6 +45,35 @@ $lineString->getSrid(); // 4326
 For the complete catalogue of concrete types, constructors, accessors, and
 mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-types.md).
 
+## Type class hierarchy
+
+The following tree describes class inheritance in `Types`, rather than the
+file layout. Intermediate abstract classes are hidden; only
+`AbstractSpatialType` and instantiable classes are shown. `{Dimension2,
+Dimension3m, Dimension3z, Dimension4zm}` represents one branch for each listed
+coordinate dimension and `{Geometry, Geography}` one concrete class for each
+spatial model. For the complete hierarchy, including intermediate abstract
+classes, see [Type class hierarchy](docs/type-class-hierarchy.md).
+
+```text
+AbstractSpatialType
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Point
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineString
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPoint
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineString
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygon
+├── Dimension{2,3m,3z,4zm}\Geometry\GeometryCollection
+└── Dimension{2,3m,3z,4zm}\Geography\GeographyCollection
+```
+
+### Types not yet available
+
+`CircularString`, `CompoundCurve`, `CurvePolygon`, `MultiCurve`,
+`MultiSurface`, `PolyhedralSurface`, `TIN`, and `Triangle` do not yet have
+instantiable classes. See [Instantiable spatial types](docs/instantiable-spatial-types.md)
+for the complete coverage matrix.
+
 ## Immutability
 
 Spatial values are immutable and safe to share: their coordinates, SRID, and

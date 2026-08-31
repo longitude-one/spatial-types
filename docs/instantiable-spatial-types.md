@@ -21,23 +21,23 @@ though the library deliberately implements only the linear subset. The SQL/MM
 type declarations are reproduced in the informative SQL/MM comparison in the
 [OGC Simple Features Access specification](https://docs.ogc.org/is/06-104r4/06-104r4/pdf).
 
-| ISO/IEC 13249-3 type | Instantiable in SQL/MM | Library representation | Coverage note |
-| --- | --- | --- | --- |
-| `ST_Geometry` | No | — | Abstract root type; `SpatialInterface` is the common PHP contract. |
-| `ST_Point` | Yes | `Point` | Implemented for every family and coordinate layout. |
-| `ST_Curve` | No | — | Abstract one-dimensional base type. |
-| `ST_LineString` | Yes | `LineString` | Implemented for every family and coordinate layout. |
-| `ST_CircularString` | Yes | — | Circular-arc curves are not implemented. |
-| `ST_CompoundCurve` | Yes | — | Compositions of linear and circular curves are not implemented. |
-| `ST_Surface` | No | — | Abstract two-dimensional base type. |
-| `ST_CurvePolygon` | Yes | — | Curve-bounded polygons are not implemented. |
-| `ST_Polygon` | Yes | `Polygon` | Implemented with `LineString` rings only. |
-| `ST_GeomCollection` | Yes | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous collection that can contain other collections. |
-| `ST_MultiPoint` | Yes | `MultiPoint` | Implemented. |
-| `ST_MultiCurve` | Yes | — | Not implemented; it could contain any `ST_Curve` subtype. |
-| `ST_MultiLineString` | Yes | `MultiLineString` | Implemented. |
-| `ST_MultiSurface` | Yes | — | Not implemented; it could contain any `ST_Surface` subtype. |
-| `ST_MultiPolygon` | Yes | `MultiPolygon` | Implemented. |
+| ISO/IEC 13249-3 type | Instantiable in SQL/MM | Library representation                       | Coverage note                                                                 |
+| -------------------- | ---------------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
+| `ST_Geometry`        | No                     | —                                            | Abstract root type; `SpatialInterface` is the common PHP contract.            |
+| `ST_Point`           | Yes                    | `Point`                                      | Implemented for every family and coordinate layout.                           |
+| `ST_Curve`           | No                     | —                                            | Abstract one-dimensional base type.                                           |
+| `ST_LineString`      | Yes                    | `LineString`                                 | Implemented for every family and coordinate layout.                           |
+| `ST_CircularString`  | Yes                    | —                                            | Circular-arc curves are not implemented.                                      |
+| `ST_CompoundCurve`   | Yes                    | —                                            | Compositions of linear and circular curves are not implemented.               |
+| `ST_Surface`         | No                     | —                                            | Abstract two-dimensional base type.                                           |
+| `ST_CurvePolygon`    | Yes                    | —                                            | Curve-bounded polygons are not implemented.                                   |
+| `ST_Polygon`         | Yes                    | `Polygon`                                    | Implemented with `LineString` rings only.                                     |
+| `ST_GeomCollection`  | Yes                    | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous collection that can contain other collections. |
+| `ST_MultiPoint`      | Yes                    | `MultiPoint`                                 | Implemented.                                                                  |
+| `ST_MultiCurve`      | Yes                    | —                                            | Not implemented; it could contain any `ST_Curve` subtype.                     |
+| `ST_MultiLineString` | Yes                    | `MultiLineString`                            | Implemented.                                                                  |
+| `ST_MultiSurface`    | Yes                    | —                                            | Not implemented; it could contain any `ST_Surface` subtype.                   |
+| `ST_MultiPolygon`    | Yes                    | `MultiPolygon`                               | Implemented.                                                                  |
 
 `ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
 than a subtype of `ST_Geometry`; it is outside this value-type hierarchy. This
@@ -80,23 +80,23 @@ name is composed from the dimension, family, and type:
 LongitudeOne\SpatialTypes\Types\<dimension>\<family>\<type>
 ```
 
-| Dimension | Namespace segment | Coordinates |
-| --- | --- | --- |
-| 2D | `Dimension2` | `X, Y` |
-| 3D with elevation | `Dimension3z` | `X, Y, Z` |
-| 3D with measure | `Dimension3m` | `X, Y, M` |
-| 4D | `Dimension4zm` | `X, Y, Z, M` |
+| Dimension         | Namespace segment | Coordinates  |
+| ----------------- | ----------------- | ------------ |
+| 2D                | `Dimension2`      | `X, Y`       |
+| 3D with elevation | `Dimension3z`     | `X, Y, Z`    |
+| 3D with measure   | `Dimension3m`     | `X, Y, M`    |
+| 4D                | `Dimension4zm`    | `X, Y, Z, M` |
 
 For each dimension, both `Geometry` and `Geography` provide:
 
-| Type | Geometry class | Geography class |
-| --- | --- | --- |
-| Point | `…\Geometry\Point` | `…\Geography\Point` |
-| Line string | `…\Geometry\LineString` | `…\Geography\LineString` |
-| Polygon | `…\Geometry\Polygon` | `…\Geography\Polygon` |
-| Multi-point | `…\Geometry\MultiPoint` | `…\Geography\MultiPoint` |
-| Multi-line string | `…\Geometry\MultiLineString` | `…\Geography\MultiLineString` |
-| Multi-polygon | `…\Geometry\MultiPolygon` | `…\Geography\MultiPolygon` |
+| Type                     | Geometry class                    | Geography class                     |
+| ------------------------ | --------------------------------- | ----------------------------------- |
+| Point                    | `…\Geometry\Point`              | `…\Geography\Point`               |
+| Line string              | `…\Geometry\LineString`         | `…\Geography\LineString`          |
+| Polygon                  | `…\Geometry\Polygon`            | `…\Geography\Polygon`             |
+| Multi-point              | `…\Geometry\MultiPoint`         | `…\Geography\MultiPoint`          |
+| Multi-line string        | `…\Geometry\MultiLineString`    | `…\Geography\MultiLineString`     |
+| Multi-polygon            | `…\Geometry\MultiPolygon`       | `…\Geography\MultiPolygon`        |
 | Heterogeneous collection | `…\Geometry\GeometryCollection` | `…\Geography\GeographyCollection` |
 
 For example, a four-dimensional geographic polygon is
@@ -210,16 +210,16 @@ $collection = new GeometryCollection(3857, [new Point(0, 0, 3857)]);
 
 All concrete types implement `SpatialInterface` and `JsonSerializable`.
 
-| Method | Result |
-| --- | --- |
-| `getFamily(): SpatialModelEnum` | `SpatialModelEnum::GEOMETRY` or `SpatialModelEnum::GEOGRAPHY`. |
-| `getType(): GeometryTypeEnum` | The OGC/SQL/MM type, such as `GeometryTypeEnum::POLYGON`. |
-| `getSrid(): int` | The object's SRID. |
-| `getSpatialReference(): SpatialReference` | The full reference identity, including its optional authority. |
-| `hasZ(): bool` / `hasM(): bool` | Whether the selected coordinate layout has Z or M. |
-| `hasSameDimension(SpatialInterface $other): bool` | Whether both values use the same Z/M layout. |
-| `toArray(): array` | Nested coordinate arrays only; it omits type, family, and SRID. |
-| `jsonSerialize(): array` | `['type' => string, 'coordinates' => array, 'srid' => int]`. |
+| Method                                            | Result                                                          |
+| ------------------------------------------------- | --------------------------------------------------------------- |
+| `getFamily(): SpatialModelEnum`                   | `SpatialModelEnum::GEOMETRY` or `SpatialModelEnum::GEOGRAPHY`.  |
+| `getType(): GeometryTypeEnum`                     | The OGC/SQL/MM type, such as `GeometryTypeEnum::POLYGON`.       |
+| `getSrid(): int`                                  | The object's SRID.                                              |
+| `getSpatialReference(): SpatialReference`         | The full reference identity, including its optional authority.  |
+| `hasZ(): bool` / `hasM(): bool`                   | Whether the selected coordinate layout has Z or M.              |
+| `hasSameDimension(SpatialInterface $other): bool` | Whether both values use the same Z/M layout.                    |
+| `toArray(): array`                                | Nested coordinate arrays only; it omits type, family, and SRID. |
+| `jsonSerialize(): array`                          | `['type' => string, 'coordinates' => array, 'srid' => int]`.    |
 
 There is intentionally no public `getDimension()` method. Use `hasZ()` and
 `hasM()` to inspect the coordinate layout.
@@ -238,14 +238,14 @@ returns one tuple in the layout's order.
 
 ### Aggregate getters and predicates
 
-| Type | Element access | Predicates |
-| --- | --- | --- |
-| `LineString` | `getPoints()`, `getPoint($index)`, `getElements()` | `isEmpty()`, `isLine()`, `isClosed()` |
-| `MultiPoint` | `getPoints()`, `getPoint($index)`, `getElements()` | `isEmpty()`, `isSimple()` |
-| `Polygon` | `getRings()`, `getRing($index)`, `getElements()` | — |
-| `MultiLineString` | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()` |
-| `MultiPolygon` | `getPolygons()`, `getPolygon($index)`, `getElements()` | `isEmpty()` |
-| `GeometryCollection` / `GeographyCollection` | `getElements()` | `isEmpty()`, `hasElement($spatial)` |
+| Type                                         | Element access                                               | Predicates                            |
+| -------------------------------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| `LineString`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isLine()`, `isClosed()` |
+| `MultiPoint`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isSimple()`             |
+| `Polygon`                                    | `getRings()`, `getRing($index)`, `getElements()`             | —                                   |
+| `MultiLineString`                            | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()`                           |
+| `MultiPolygon`                               | `getPolygons()`, `getPolygon($index)`, `getElements()`       | `isEmpty()`                           |
+| `GeometryCollection` / `GeographyCollection` | `getElements()`                                              | `isEmpty()`, `hasElement($spatial)`   |
 
 For point, ring, line-string, and polygon single-element accessors, negative
 indexes count from the end (`-1` is the last element). An index is wrapped by
