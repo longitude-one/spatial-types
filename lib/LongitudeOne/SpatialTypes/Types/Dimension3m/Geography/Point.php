@@ -36,15 +36,25 @@ class Point extends AbstractPoint implements PointInterface
     protected float|int $m;
 
     /**
-     * @param float|int|string     $x    longitude
-     * @param float|int|string     $y    latitude
-     * @param float|int            $m    M coordinate
-     * @param int|SpatialReference $srid SRID
+     * @param null|float|int|string $x    longitude
+     * @param null|float|int|string $y    latitude
+     * @param null|float|int        $m    M coordinate
+     * @param int|SpatialReference  $srid SRID
      *
      * @throws InvalidValueException when a coordinate is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $m, int|SpatialReference $srid = 0)
+    public function __construct(float|int|string|null $x = null, float|int|string|null $y = null, float|int|null $m = null, int|SpatialReference $srid = 0)
     {
+        if ($this->hasOnlyNullCoordinates($x, $y, $m)) {
+            $this->initializeSpatialReference($srid);
+
+            return;
+        }
+
+        if (null === $x || null === $y || null === $m) {
+            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
+        }
+
         $this->initializeLongitude($x);
         $this->initializeLatitude($y);
         $this->initializeM($m);
@@ -62,9 +72,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Return the M coordinate.
      */
-    public function getM(): float|int
+    public function getM(): float|int|null
     {
-        return $this->m;
+        return $this->isEmpty() ? null : $this->m;
     }
 
     /**
@@ -78,16 +88,20 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * @throws BadMethodCallException because the point has no Z coordinate
      */
-    public function getZ(): float|int
+    public function getZ(): float|int|null
     {
         throw BadMethodCallException::create(__METHOD__, $this->getDimension());
     }
 
     /**
-     * @return array{0: float|int, 1: float|int, 2: float|int}
+     * @return array{0: float|int, 1: float|int, 2: float|int}|array{}
      */
     public function toArray(): array
     {
+        if ($this->isEmpty()) {
+            return [];
+        }
+
         return [$this->x, $this->y, $this->m];
     }
 

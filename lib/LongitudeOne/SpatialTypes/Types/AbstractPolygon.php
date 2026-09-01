@@ -91,6 +91,14 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     }
 
     /**
+     * Is this polygon empty?
+     */
+    public function isEmpty(): bool
+    {
+        return 0 === $this->boundary->count();
+    }
+
+    /**
      * Return an array representation of this polygon.
      *
      * @return (float|int)[][][]

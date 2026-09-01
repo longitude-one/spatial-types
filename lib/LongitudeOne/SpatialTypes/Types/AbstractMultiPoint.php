@@ -75,7 +75,7 @@ abstract class AbstractMultiPoint extends AbstractPointCollection implements Mul
         $pointIndex = $this->normalizePointIndex($pointIndex);
         $multiPoint = clone $this;
         $multiPoint->points = array_map(
-            static fn (PointInterface $point): PointInterface => $point->withCoordinates($point->getCoordinates()),
+            static fn (PointInterface $point): PointInterface => $point->withSrid($point->getSrid()),
             $this->points
         );
         $multiPoint->points[$pointIndex] = $multiPoint->points[$pointIndex]->withCoordinates($coordinates);

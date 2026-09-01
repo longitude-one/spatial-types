@@ -38,14 +38,24 @@ class Point extends AbstractPoint implements PointInterface
      * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
      * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
      *
-     * @param float|int|string     $x    X (abscissa) coordinate; strings are parsed by the geo-parser
-     * @param float|int|string     $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
-     * @param int|SpatialReference $srid SRID
+     * @param null|float|int|string $x    X (abscissa) coordinate; null creates an empty point when Y is also null
+     * @param null|float|int|string $y    Y (ordinate) coordinate; null creates an empty point when X is also null
+     * @param int|SpatialReference  $srid SRID
      *
      * @throws InvalidValueException when point is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, int|SpatialReference $srid = 0)
+    public function __construct(float|int|string|null $x = null, float|int|string|null $y = null, int|SpatialReference $srid = 0)
     {
+        if ($this->hasOnlyNullCoordinates($x, $y)) {
+            $this->initializeSpatialReference($srid);
+
+            return;
+        }
+
+        if (null === $x || null === $y) {
+            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
+        }
+
         $this->initializeX($x);
         $this->initializeY($y);
         $this->initializeSpatialReference($srid);
@@ -66,7 +76,7 @@ class Point extends AbstractPoint implements PointInterface
      *
      * @throws BadMethodCallException because the point has no M coordinate
      */
-    public function getM(): float|int
+    public function getM(): float|int|null
     {
         throw BadMethodCallException::create(__METHOD__, $this->getDimension());
     }
@@ -84,7 +94,7 @@ class Point extends AbstractPoint implements PointInterface
      *
      * @throws BadMethodCallException because the point has no Z coordinate
      */
-    public function getZ(): float|int
+    public function getZ(): float|int|null
     {
         throw BadMethodCallException::create(__METHOD__, $this->getDimension());
     }
@@ -93,10 +103,14 @@ class Point extends AbstractPoint implements PointInterface
      * Convert this point to an array containing X and Y coordinates.
      * The SRID is not exported.
      *
-     * @return array{0 : float|int, 1 : float|int}
+     * @return array{0 : float|int, 1 : float|int}|array{}
      */
     public function toArray(): array
     {
+        if ($this->isEmpty()) {
+            return [];
+        }
+
         return [$this->x, $this->y];
     }
 

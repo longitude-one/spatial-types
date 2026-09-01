@@ -228,6 +228,11 @@ abstract class AbstractSpatialType implements SpatialInterface
     abstract public function getType(): GeometryTypeEnum;
 
     /**
+     * Does this spatial object correspond to the empty set?
+     */
+    abstract public function isEmpty(): bool;
+
+    /**
      * Convert any spatial object to its array representation.
      *
      * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[]

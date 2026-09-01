@@ -105,6 +105,10 @@ abstract class AbstractPointCollection extends AbstractSpatialType
             $point = $this->createPointFromCoordinates($point);
         }
 
+        if ($point->isEmpty()) {
+            throw new InvalidValueException('A spatial collection cannot contain an empty point.');
+        }
+
         $this->assertSameDimension($point, 'The point dimension is not compatible with the dimension of the current spatial collection.');
 
         $this->assertSameSpatialReference($point, 'point');

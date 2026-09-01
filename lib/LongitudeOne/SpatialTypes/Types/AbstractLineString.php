@@ -111,7 +111,7 @@ abstract class AbstractLineString extends AbstractPointCollection implements Lin
         $pointIndex = $this->normalizePointIndex($pointIndex);
         $lineString = clone $this;
         $lineString->points = array_map(
-            static fn (PointInterface $point): PointInterface => $point->withCoordinates($point->getCoordinates()),
+            static fn (PointInterface $point): PointInterface => $point->withSrid($point->getSrid()),
             $this->points
         );
         $lineString->points[$pointIndex] = $lineString->points[$pointIndex]->withCoordinates($coordinates);

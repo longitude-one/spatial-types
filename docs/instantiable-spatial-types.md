@@ -89,8 +89,8 @@ LongitudeOne\SpatialTypes\Types\<dimension>\<family>\<type>
 
 For each dimension, both `Geometry` and `Geography` provide:
 
-| Type                     | Geometry class                    | Geography class                     |
-| ------------------------ | --------------------------------- | ----------------------------------- |
+| Type                     | Geometry class                  | Geography class                   |
+| ------------------------ | ------------------------------- | --------------------------------- |
 | Point                    | `…\Geometry\Point`              | `…\Geography\Point`               |
 | Line string              | `…\Geometry\LineString`         | `…\Geography\LineString`          |
 | Polygon                  | `…\Geometry\Polygon`            | `…\Geography\Polygon`             |
@@ -123,6 +123,20 @@ new Point($x, $y, $z, $m, int|SpatialReference $srid = 0);         // Dimension4
 `$x` and `$y` accept `int`, `float`, or a coordinate string accepted by the
 geo-parser. `$z` and `$m` accept `int|float`. For Geography, `$x` means
 longitude and `$y` means latitude.
+
+Each coordinate parameter is nullable. Omitting every ordinate (or passing
+`null` for every ordinate) creates an empty point; incomplete tuples are
+invalid. This preserves the selected coordinate layout and optional SRID:
+
+```php
+$emptyPoint = new Point(srid: 4326);
+assert($emptyPoint->isEmpty());
+assert([] === $emptyPoint->toArray());
+```
+
+`FromIndexedArrayFactory::createPoint([])` creates the same empty point in its
+requested family, dimension, and spatial-reference context. Empty points cannot
+be added to point-defined aggregates such as `LineString` or `MultiPoint`.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
@@ -218,6 +232,7 @@ All concrete types implement `SpatialInterface` and `JsonSerializable`.
 | `getSpatialReference(): SpatialReference`         | The full reference identity, including its optional authority.  |
 | `hasZ(): bool` / `hasM(): bool`                   | Whether the selected coordinate layout has Z or M.              |
 | `hasSameDimension(SpatialInterface $other): bool` | Whether both values use the same Z/M layout.                    |
+| `isEmpty(): bool`                                 | Whether the object corresponds to the empty set.                |
 | `toArray(): array`                                | Nested coordinate arrays only; it omits type, family, and SRID. |
 | `jsonSerialize(): array`                          | `['type' => string, 'coordinates' => array, 'srid' => int]`.    |
 
@@ -230,7 +245,8 @@ Every point provides `getX()` and `getY()`. `getLongitude()` is an alias for
 `getX()`, and `getLatitude()` is an alias for `getY()`; those aliases are useful
 for Geography values. `getZ()` is available only for `XYZ`/`XYZM` points and
 `getM()` only for `XYM`/`XYZM` points. Calling an unavailable getter throws
-`BadMethodCallException`.
+`BadMethodCallException`. For an empty point, its available coordinate getters
+and `getCoordinates()` return `null`; `toArray()` returns `[]`.
 
 `equalsTo(PointInterface $other): bool` compares the concrete point class,
 family, SRID, coordinate layout, and all applicable ordinates. `toArray()`
@@ -242,7 +258,7 @@ returns one tuple in the layout's order.
 | -------------------------------------------- | ------------------------------------------------------------ | ------------------------------------- |
 | `LineString`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isLine()`, `isClosed()` |
 | `MultiPoint`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isSimple()`             |
-| `Polygon`                                    | `getRings()`, `getRing($index)`, `getElements()`             | —                                   |
+| `Polygon`                                    | `getRings()`, `getRing($index)`, `getElements()`             | `isEmpty()`                           |
 | `MultiLineString`                            | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()`                           |
 | `MultiPolygon`                               | `getPolygons()`, `getPolygon($index)`, `getElements()`       | `isEmpty()`                           |
 | `GeometryCollection` / `GeographyCollection` | `getElements()`                                              | `isEmpty()`, `hasElement($spatial)`   |

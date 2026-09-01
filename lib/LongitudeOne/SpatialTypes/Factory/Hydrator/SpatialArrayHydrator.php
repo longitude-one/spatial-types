@@ -63,6 +63,12 @@ final class SpatialArrayHydrator
                 continue;
             }
 
+            if ([] === $point) {
+                $hydratedPoints[] = $this->factoryRegistry->pointFactory($context->family)->createEmpty($context);
+
+                continue;
+            }
+
             $hydratedPoints[] = $this->factoryRegistry->pointFactory($context->family)->create(
                 $this->coordinatesHydrator->hydrate($point, $context),
                 $context

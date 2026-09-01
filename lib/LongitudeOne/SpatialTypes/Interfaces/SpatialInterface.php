@@ -73,9 +73,15 @@ interface SpatialInterface extends \JsonSerializable
     public function hasZ(): bool;
 
     /**
+     * Does this spatial object correspond to the empty set?
+     */
+    public function isEmpty(): bool;
+
+    /**
      * Convert this spatial object to its array representation.
      *
-     * The array contains only nested arrays of floats and integers.
+     * The array contains only nested arrays of floats and integers, or is empty
+     * when the spatial object corresponds to the empty set.
      *
      * Some information is lost in this representation. For example, a line string
      * containing two points has the same representation as a multi-point containing

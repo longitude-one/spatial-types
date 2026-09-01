@@ -47,4 +47,19 @@ final class GeometricPointFactory extends AbstractPointFactory
             CoordinateDimensionEnum::XYZM => new Point4Dzm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), self::requiredCoordinate($coordinates->m, 'fourth'), $context->reference),
         };
     }
+
+    /**
+     * Create an empty geometric point.
+     *
+     * @param SpatialContext $context family, dimension, and SRID to apply
+     */
+    public function createEmpty(SpatialContext $context): PointInterface
+    {
+        return match ($context->dimension) {
+            CoordinateDimensionEnum::XY => new Point2D(srid: $context->reference),
+            CoordinateDimensionEnum::XYM => new Point3Dm(srid: $context->reference),
+            CoordinateDimensionEnum::XYZ => new Point3Dz(srid: $context->reference),
+            CoordinateDimensionEnum::XYZM => new Point4Dzm(srid: $context->reference),
+        };
+    }
 }

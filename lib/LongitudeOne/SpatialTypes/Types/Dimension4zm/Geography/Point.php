@@ -36,16 +36,26 @@ class Point extends AbstractPoint implements PointInterface
      * Coordinates are ordered as longitude, latitude, Z (elevation), then M
      * (measure).
      *
-     * @param float|int|string     $x    longitude; strings are parsed by the geo-parser
-     * @param float|int|string     $y    latitude; strings are parsed by the geo-parser
-     * @param float|int            $z    Z (elevation) coordinate
-     * @param float|int            $m    M (measure) coordinate
-     * @param int|SpatialReference $srid Spatial Reference Identifier
+     * @param null|float|int|string $x    longitude; strings are parsed by the geo-parser
+     * @param null|float|int|string $y    latitude; strings are parsed by the geo-parser
+     * @param null|float|int        $z    Z (elevation) coordinate
+     * @param null|float|int        $m    M (measure) coordinate
+     * @param int|SpatialReference  $srid Spatial Reference Identifier
      *
      * @throws InvalidValueException when a coordinate is invalid
      */
-    public function __construct(float|int|string $x, float|int|string $y, float|int $z, float|int $m, int|SpatialReference $srid = 0)
+    public function __construct(float|int|string|null $x = null, float|int|string|null $y = null, float|int|null $z = null, float|int|null $m = null, int|SpatialReference $srid = 0)
     {
+        if ($this->hasOnlyNullCoordinates($x, $y, $z, $m)) {
+            $this->initializeSpatialReference($srid);
+
+            return;
+        }
+
+        if (null === $x || null === $y || null === $z || null === $m) {
+            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
+        }
+
         $this->initializeLongitude($x);
         $this->initializeLatitude($y);
         $this->initializeZ($z);
@@ -64,9 +74,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Return the M (measure) coordinate.
      */
-    public function getM(): float|int
+    public function getM(): float|int|null
     {
-        return $this->m;
+        return $this->isEmpty() ? null : $this->m;
     }
 
     /**
@@ -80,18 +90,22 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Return the Z (elevation) coordinate.
      */
-    public function getZ(): float|int
+    public function getZ(): float|int|null
     {
-        return $this->z;
+        return $this->isEmpty() ? null : $this->z;
     }
 
     /**
      * Convert the point to its ordered longitude-latitude-Z-M coordinates; the SRID is omitted.
      *
-     * @return array{0: float|int, 1: float|int, 2: float|int, 3: float|int}
+     * @return array{0: float|int, 1: float|int, 2: float|int, 3: float|int}|array{}
      */
     public function toArray(): array
     {
+        if ($this->isEmpty()) {
+            return [];
+        }
+
         return [$this->x, $this->y, $this->z, $this->m];
     }
 

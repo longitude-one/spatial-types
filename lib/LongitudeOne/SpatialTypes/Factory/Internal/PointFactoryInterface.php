@@ -34,4 +34,11 @@ interface PointFactoryInterface
      * @param SpatialContext $context     family, dimension, and SRID to apply
      */
     public function create(Coordinates $coordinates, SpatialContext $context): PointInterface;
+
+    /**
+     * Create an empty point in the supplied context.
+     *
+     * @param SpatialContext $context family, dimension, and SRID to apply
+     */
+    public function createEmpty(SpatialContext $context): PointInterface;
 }

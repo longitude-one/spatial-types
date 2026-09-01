@@ -49,10 +49,10 @@ class FromIndexedArrayFactory
     /**
      * Create a point from an array of coordinates.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates   array of coordinates
-     * @param int|SpatialReference                                                                      $srid          SRID
-     * @param SpatialModelEnum                                                                          $family        family
-     * @param CoordinateDimensionEnum                                                                   $dimensionEnum dimension
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates   array of coordinates; an empty array creates an empty point
+     * @param int|SpatialReference                                                                              $srid          SRID
+     * @param SpatialModelEnum                                                                                  $family        family
+     * @param CoordinateDimensionEnum                                                                           $dimensionEnum dimension
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
      */

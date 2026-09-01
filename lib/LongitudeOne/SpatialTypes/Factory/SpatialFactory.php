@@ -93,11 +93,15 @@ final class SpatialFactory
     /**
      * Create a point from an indexed array.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates coordinates
-     * @param SpatialContext                                                                            $context     family, dimension, and SRID to apply
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates coordinates
+     * @param SpatialContext                                                                                    $context     family, dimension, and SRID to apply
      */
     public function createPointFromIndexedArray(array $coordinates, SpatialContext $context): PointInterface
     {
+        if ([] === $coordinates) {
+            return $this->factoryRegistry->pointFactory($context->family)->createEmpty($context);
+        }
+
         return $this->createPoint($this->coordinatesHydrator->hydrate($coordinates, $context), $context);
     }
 

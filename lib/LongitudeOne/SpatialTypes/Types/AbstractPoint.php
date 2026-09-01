@@ -46,6 +46,9 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     protected float|int $y;
 
+    /** Whether this point corresponds to the empty set. */
+    private bool $empty = false;
+
     /**
      * Is the current point equal to another point?
      *
@@ -55,6 +58,10 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     {
         if (!($point instanceof static && $point->getSrid() === $this->getSrid() && $point->getFamily() === $this->getFamily() && $point->getDimension() === $this->getDimension())) {
             return false;
+        }
+
+        if ($this->isEmpty() || $point->isEmpty()) {
+            return $this->isEmpty() && $point->isEmpty();
         }
 
         if ($point->getX() !== $this->getX() || $point->getY() !== $this->getY()) {
@@ -75,8 +82,12 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * Return the normalized coordinates of this point.
      */
-    public function getCoordinates(): Coordinates
+    public function getCoordinates(): ?Coordinates
     {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
         return new Coordinates(
             $this->getDimension(),
             $this->x,
@@ -89,7 +100,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * Latitude getter.
      */
-    public function getLatitude(): float|int
+    public function getLatitude(): float|int|null
     {
         return $this->getY();
     }
@@ -97,7 +108,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * Longitude getter.
      */
-    public function getLongitude(): float|int
+    public function getLongitude(): float|int|null
     {
         return $this->getX();
     }
@@ -105,17 +116,25 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * X getter. (Longitude getter).
      */
-    public function getX(): float|int
+    public function getX(): float|int|null
     {
-        return $this->x;
+        return $this->isEmpty() ? null : $this->x;
     }
 
     /**
      * Y getter. Latitude getter.
      */
-    public function getY(): float|int
+    public function getY(): float|int|null
     {
-        return $this->y;
+        return $this->isEmpty() ? null : $this->y;
+    }
+
+    /**
+     * Does this point correspond to the empty set?
+     */
+    public function isEmpty(): bool
+    {
+        return $this->empty;
     }
 
     /**
@@ -145,6 +164,8 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         if ($coordinates->dimension->hasM()) {
             $point->initializeM($coordinates->getM());
         }
+
+        $point->empty = false;
 
         return $point;
     }
@@ -181,6 +202,32 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         }
 
         return $parsedCoordinate;
+    }
+
+    /**
+     * Determine whether all coordinates describe an empty point.
+     *
+     * A point is empty only when every ordinate in its coordinate layout is
+     * null. Supplying only some coordinates would produce an invalid point.
+     *
+     * @param (null|float|int|string) ...$coordinates Point ordinates
+     *
+     * @throws InvalidValueException when only a subset of ordinates is null
+     */
+    final protected function hasOnlyNullCoordinates(float|int|string|null ...$coordinates): bool
+    {
+        $nullCount = count(array_filter($coordinates, static fn (float|int|string|null $coordinate): bool => null === $coordinate));
+        if (count($coordinates) === $nullCount) {
+            $this->empty = true;
+
+            return true;
+        }
+
+        if (0 !== $nullCount) {
+            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
+        }
+
+        return false;
     }
 
     /**

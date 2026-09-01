@@ -38,37 +38,37 @@ interface PointInterface extends SpatialInterface
     /**
      * Return the normalized coordinates of this point.
      */
-    public function getCoordinates(): Coordinates;
+    public function getCoordinates(): ?Coordinates;
 
     /**
      * Get the latitude.
      */
-    public function getLatitude(): float|int;
+    public function getLatitude(): float|int|null;
 
     /**
      * Get the longitude.
      */
-    public function getLongitude(): float|int;
+    public function getLongitude(): float|int|null;
 
     /**
      * Get the M coordinate.
      */
-    public function getM(): float|int;
+    public function getM(): float|int|null;
 
     /**
      * Get the X coordinate.
      */
-    public function getX(): float|int;
+    public function getX(): float|int|null;
 
     /**
      * Get the Y coordinate.
      */
-    public function getY(): float|int;
+    public function getY(): float|int|null;
 
     /**
      * Get the Z coordinate (elevation).
      */
-    public function getZ(): float|int;
+    public function getZ(): float|int|null;
 
     /**
      * Return an array of all coordinates.
