@@ -140,8 +140,8 @@ longitude/latitude validation when creating the replacement point.
 ## Aggregate types
 
 The coordinate-replacement API applies to `Point`, `LineString`, `MultiPoint`,
-and `Polygon`. `LineString::withPoint()` and `MultiPoint::withPoint()` select
-a point; `Polygon::withPoint()` selects a ring then a point. All use the
+and `Polygon` (including `Triangle`). `LineString::withPoint()` and
+`MultiPoint::withPoint()` select a point; `Polygon::withPoint()` selects a ring then a point. All use the
 immutable `Value\Coordinates` value, so a replacement must match the receiver's
 coordinate dimension.
 

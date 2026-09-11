@@ -59,6 +59,7 @@ AbstractSpatialType
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Point
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineString
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Triangle
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPoint
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineString
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygon
@@ -69,7 +70,7 @@ AbstractSpatialType
 ### Types not yet available
 
 `CircularString`, `CompoundCurve`, `CurvePolygon`, `MultiCurve`,
-`MultiSurface`, `PolyhedralSurface`, `TIN`, and `Triangle` do not yet have
+`MultiSurface`, `PolyhedralSurface`, and `TIN` do not yet have
 instantiable classes. See [Instantiable spatial types](docs/instantiable-spatial-types.md)
 for the complete coverage matrix.
 
@@ -81,7 +82,7 @@ the public API. Use `withCoordinates()` with an immutable `Value\Coordinates`
 value to represent another location, or `withSpatialReference()` to associate
 the same coordinates with another declared reference. Both return new objects.
 
-`LineString` and `Polygon` also provide
+`LineString`, `Polygon`, and `Triangle` also provide
 `withArrayOfCoordinates()` to create a new instance with replacement
 coordinates. This preserves their family, dimension, and SRID without changing
 the source object.

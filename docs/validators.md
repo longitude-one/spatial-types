@@ -22,6 +22,7 @@ or invalid geometry for later review.
 | `MinimumPointCount` | `LineString` | Requires at least the configured number of points (four by default). | Through `Ring` when a polygon receives a ring. | Validate a candidate ring before building a polygon. |
 | `FirstPointEqualsLastPoint` | `LineString` | First and last points are equal. | Through `Ring` when a polygon receives a ring. | Validate a candidate ring. |
 | `Ring` | `LineString` | Composes minimum point count, closure, and no consecutive duplicate points. | Yes: polygon boundaries. | Validate a ring independently. |
+| `Triangle` | `PolygonInterface` | Empty or one four-position exterior ring, validated through `Ring`, without holes. | Yes: triangle construction and coordinate replacement. | Check whether a polygon has triangle structure. |
 | `SameFamily` | Spatial value | Uses the requested `Geometry` or `Geography` family. | Yes: aggregate membership. | Validate an incoming member against an expected family. |
 | `SameDimension` | Spatial value | Uses the requested `XY`, `XYZ`, `XYM`, or `XYZM` layout. | Yes: aggregate membership. | Validate an incoming member against an expected layout. |
 | `SameSpatialReference` | Spatial value | Uses the requested complete spatial reference. | Yes: aggregate membership. | Validate an incoming member against an expected reference. |
@@ -114,3 +115,25 @@ $violations = Validation::createValidator()->validate($line, [
 An SRID of `0` is a concrete unnamed spatial reference, not a wildcard. See
 [Spatial reference systems](spatial-reference-systems.md) for the membership
 rules and their rationale.
+
+## Triangle structure
+
+`Triangle` validates any `PolygonInterface`, including ordinary polygons and
+third-party implementations. It accepts an empty boundary; otherwise it requires
+exactly one exterior ring containing four positions and no interior rings
+(ISO/IEC CD 13249-3, section 8.4). It composes `Ring` to check closure and
+consecutive duplicate points. It does not test non-collinearity or full polygon
+topology.
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Validator\Constraints\Triangle;
+use Symfony\Component\Validator\Validation;
+
+$polygon = new Polygon([[[0, 0], [4, 0], [0, 4], [0, 0]]]);
+$violations = Validation::createValidator()->validate($polygon, new Triangle());
+```
+
+Triangle values invoke this constraint through `TriangleValidation` during
+construction and immutable coordinate replacements, in both families and all
+four coordinate layouts. Invalid values raise `InvalidValueException`.

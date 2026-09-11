@@ -10,7 +10,7 @@ The library follows the spatial-object model established by the
 [OGC Simple Features Access standard](https://www.ogc.org/standards/sfa/) and
 the `ST_Geometry` hierarchy of SQL/MM Spatial (ISO/IEC 13249-3). In practice,
 that model supplies the instantiable `Point`, `LineString`, `Polygon`,
-`MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types.
+`Triangle`, `MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types.
 
 ### ISO/IEC 13249-3 geometry-type coverage
 
@@ -32,6 +32,7 @@ type declarations are reproduced in the informative SQL/MM comparison in the
 | `ST_Surface`         | No                     | —                                            | Abstract two-dimensional base type.                                           |
 | `ST_CurvePolygon`    | Yes                    | —                                            | Curve-bounded polygons are not implemented.                                   |
 | `ST_Polygon`         | Yes                    | `Polygon`                                    | Implemented with `LineString` rings only.                                     |
+| `ST_Triangle`        | Yes                    | `Triangle`                                   | Four exterior positions, including closure, and no interior rings (section 8.4). |
 | `ST_GeomCollection`  | Yes                    | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous collection that can contain other collections. |
 | `ST_MultiPoint`      | Yes                    | `MultiPoint`                                 | Implemented.                                                                  |
 | `ST_MultiCurve`      | Yes                    | —                                            | Not implemented; it could contain any `ST_Curve` subtype.                     |
@@ -94,6 +95,7 @@ For each dimension, both `Geometry` and `Geography` provide:
 | Point                    | `…\Geometry\Point`              | `…\Geography\Point`               |
 | Line string              | `…\Geometry\LineString`         | `…\Geography\LineString`          |
 | Polygon                  | `…\Geometry\Polygon`            | `…\Geography\Polygon`             |
+| Triangle                 | `…\Geometry\Triangle`           | `…\Geography\Triangle`            |
 | Multi-point              | `…\Geometry\MultiPoint`         | `…\Geography\MultiPoint`          |
 | Multi-line string        | `…\Geometry\MultiLineString`    | `…\Geography\MultiLineString`     |
 | Multi-polygon            | `…\Geometry\MultiPolygon`       | `…\Geography\MultiPolygon`        |
@@ -184,12 +186,16 @@ $lineString = new LineString([[0, 0], [2, 1], [5, 1]], 3857);
 
 ```php
 new Polygon(array $rings, int|SpatialReference $srid = 0);
+new Triangle(array $rings, int|SpatialReference $srid = 0);
 new MultiLineString(array $lineStrings, int|SpatialReference $srid = 0);
 new MultiPolygon(array $polygons, int|SpatialReference $srid = 0);
 ```
 
 - A polygon ring is a `LineStringInterface` or an array of point tuples. Every
   supplied ring must be closed.
+- A triangle uses the same ring representation as a polygon, with exactly four
+  exterior positions (including closure) and no interior rings. `[]` represents
+  an empty triangle; `[[]]` is invalid.
 - A multi-line-string element is a `LineStringInterface` or an array of point
   tuples.
 - A multi-polygon element is a `PolygonInterface` or an array of rings.
@@ -201,6 +207,30 @@ $polygon = new Polygon([
     [[0, 0], [4, 0], [4, 3], [0, 0]],
 ], 3857);
 ```
+
+`TriangleInterface` extends `PolygonInterface`. All eight dimension/family
+combinations provide a concrete `Triangle`:
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Triangle;
+
+$triangle = new Triangle([[[0, 0], [4, 0], [0, 4], [0, 0]]], 3857);
+$empty = new Triangle([]);
+```
+
+These structural constraints follow sections 4.2.11 and 8.4 of
+ISO/IEC CD 13249-3:201x(E). The `Triangle` constraint enforces them and
+composes `Ring` to reject unclosed rings and consecutive duplicate points.
+It can also [validate ordinary polygons](validators.md#triangle-structure). Family, coordinate layout, geographic ranges and
+spatial reference are validated as for polygons; non-collinearity and full
+surface topology are not checked.
+
+Triangles provide the polygon accessors and immutable replacement methods.
+Copies preserve the concrete triangle class and enforce its structural
+constraints. `getType()` returns `GeometryTypeEnum::TRIANGLE`; JSON uses
+`Triangle` with the same nested coordinate representation as polygons.
+Triangle factory entry points, SQL/MM visibility attributes and text/binary/GML
+conversion routines are not currently exposed.
 
 ### Heterogeneous collections
 
@@ -258,7 +288,7 @@ returns one tuple in the layout's order.
 | -------------------------------------------- | ------------------------------------------------------------ | ------------------------------------- |
 | `LineString`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isLine()`, `isClosed()` |
 | `MultiPoint`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isSimple()`             |
-| `Polygon`                                    | `getRings()`, `getRing($index)`, `getElements()`             | `isEmpty()`                           |
+| `Polygon` / `Triangle`                       | `getRings()`, `getRing($index)`, `getElements()`             | `isEmpty()`                           |
 | `MultiLineString`                            | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()`                           |
 | `MultiPolygon`                               | `getPolygons()`, `getPolygon($index)`, `getElements()`       | `isEmpty()`                           |
 | `GeometryCollection` / `GeographyCollection` | `getElements()`                                              | `isEmpty()`, `hasElement($spatial)`   |
@@ -331,7 +361,7 @@ ordinates, SRID, and aggregate membership, and no public mutator exists.
 replacement coordinates of the same dimension; `withSpatialReference(SpatialReference $reference): static`
 returns one with the same coordinates and a new declared reference.
 
-`LineString` and `Polygon` provide
+`LineString`, `Polygon`, and `Triangle` provide
 `withArrayOfCoordinates(array $coordinates): static`. These methods return a
 new aggregate with replacement coordinates while preserving family, dimension,
 and SRID. The line-string method accepts coordinate tuples; the polygon method
