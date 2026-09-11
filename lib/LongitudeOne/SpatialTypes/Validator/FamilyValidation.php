@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Validator;
 
+use LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
@@ -38,7 +39,7 @@ final class FamilyValidation
     {
         $violations = Validation::createValidator()->validate($spatial, new SameFamily($family, $message));
         if (0 !== count($violations)) {
-            throw new InvalidFamilyException((string) $violations->get(0)->getMessage());
+            throw new InvalidFamilyException(DiagnosticValueFormatter::format((string) $violations->get(0)->getMessage()));
         }
     }
 }

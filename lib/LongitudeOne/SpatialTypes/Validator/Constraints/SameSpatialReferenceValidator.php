@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Validator\Constraints;
 
+use LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -43,7 +44,7 @@ final class SameSpatialReferenceValidator extends ConstraintValidator
 
         if (!$constraint->reference->equals($value->getSpatialReference())) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ member }}', $constraint->member)
+                ->setParameter('{{ member }}', DiagnosticValueFormatter::format($constraint->member))
                 ->addViolation()
             ;
         }

@@ -384,3 +384,16 @@ non-ring polygon boundary cause the corresponding spatial exception.
 changing the returned array does not alter the aggregate's membership. Their
 contained objects are immutable too, so the retrieved object graph is safe to
 share.
+
+## Diagnostic messages
+
+Untrusted values included in exceptions raised by this library are formatted with
+`LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter` (spatial-core 1.1+).
+Control characters, invisible Unicode formatting characters and line separators
+are escaped visibly; invalid UTF-8 bytes are escaped and each formatted value is
+limited to 2,048 characters. This affects diagnostic output only, not coordinate parsing.
+Caller-supplied dimension and family validation messages are formatted as a whole.
+
+Previous exceptions from dependencies retain their original messages and formatting.
+Exceptions constructed directly by application code retain PHP's standard constructor behavior.
+The formatter does not escape messages for HTML, JSON, XML or SQL.

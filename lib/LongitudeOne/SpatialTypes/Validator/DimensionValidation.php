@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Validator;
 
+use LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
@@ -38,7 +39,7 @@ final class DimensionValidation
     {
         $violations = Validation::createValidator()->validate($spatial, new SameDimension($dimension, $message));
         if (0 !== count($violations)) {
-            throw new InvalidDimensionException((string) $violations->get(0)->getMessage());
+            throw new InvalidDimensionException(DiagnosticValueFormatter::format((string) $violations->get(0)->getMessage()));
         }
     }
 }

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
+use LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter;
 use LongitudeOne\GeoParser\Exception\RangeException as GeoParserRangeException;
 use LongitudeOne\GeoParser\Exception\UnexpectedValueException;
 use LongitudeOne\GeoParser\Parser;
@@ -185,16 +186,16 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
             $parsedCoordinate = $parser->parse();
         } catch (GeoParserRangeException $e) {
             $messages = [
-                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $coordinate),
-                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $coordinate),
-                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, $coordinate),
-                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, $coordinate),
+                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, DiagnosticValueFormatter::format((string) $coordinate)),
             ];
-            $message = $messages[$e->getCode()] ?? $e->getMessage();
+            $message = $messages[$e->getCode()] ?? DiagnosticValueFormatter::format($e->getMessage());
 
             throw new InvalidValueException($message, $e->getCode(), $e);
         } catch (UnexpectedValueException $e) {
-            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', $coordinate), $e->getCode(), $e);
+            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', DiagnosticValueFormatter::format((string) $coordinate)), $e->getCode(), $e);
         }
 
         if (is_array($parsedCoordinate)) {
@@ -242,7 +243,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         try {
             $geodesicCoordinate = $this->setGeodesicCoordinate($latitude, -90, 90);
         } catch (RangeException $e) {
-            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $latitude), $e->getCode(), $e);
+            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, DiagnosticValueFormatter::format((string) $latitude)), $e->getCode(), $e);
         }
 
         $this->y = $geodesicCoordinate;
@@ -262,7 +263,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         try {
             $geodesicCoordinate = $this->setGeodesicCoordinate($longitude, -180, 180);
         } catch (RangeException $e) {
-            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $longitude), $e->getCode(), $e);
+            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, DiagnosticValueFormatter::format((string) $longitude)), $e->getCode(), $e);
         }
 
         $this->x = $geodesicCoordinate;
@@ -374,7 +375,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         $parsedCoordinate = $this->geoParse($coordinate);
 
         if ($parsedCoordinate < $min || $parsedCoordinate > $max) {
-            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, $coordinate));
+            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, DiagnosticValueFormatter::format((string) $coordinate)));
         }
 
         return $parsedCoordinate;
@@ -394,7 +395,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     private function checkRange(float|int $coordinate, int $min, int $max): float|int
     {
         if ($coordinate < $min || $coordinate > $max) {
-            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, $coordinate));
+            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, DiagnosticValueFormatter::format((string) $coordinate)));
         }
 
         return $coordinate;
