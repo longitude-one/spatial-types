@@ -26,60 +26,32 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Trait\LineStringTrait;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollection;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract MultiLineString class.
  *
- * @internal This class is internal. It is used to create geometry or geography multi line string of spatial objects.
+ * @internal this class provides common behaviour for geometry and geography multi-line strings
  */
-abstract class AbstractMultiLineString extends AbstractSpatialType implements MultiLineStringInterface
+abstract class AbstractMultiLineString extends AbstractLineStringCollection implements MultiLineStringInterface
 {
-    use LineStringTrait;
-
     /**
      * AbstractMultiLineString constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
-     * @param null|int                                                                                                                                                $srid        Spatial Reference Identifier
+     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
+     * @param int|SpatialReference                                                                                                                 $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
      * @throws InvalidSridException      when the point SRID is not compatible with the multiLineStlineString SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
-    public function __construct(array $lineStrings, ?int $srid = null)
+    public function __construct(array $lineStrings, int|SpatialReference $srid = 0)
     {
-        $this->setSrid($srid);
+        $this->initializeSpatialReference($srid);
         $this->addLineStrings($lineStrings);
-    }
-
-    /**
-     * Add a line string to the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
-     *
-     * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
-     */
-    public function addLineString(array|LineStringInterface $lineString): static
-    {
-        try {
-            return $this->traitAddLineString($lineString);
-        } catch (InvalidFamilyException $e) {
-            throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * Add line strings to the spatial collection.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|\DateTimeInterface|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
-     *
-     * @throws SpatialTypeExceptionInterface when something is wrong during the addition
-     */
-    public function addLineStrings(array $lineStrings): static
-    {
-        return $this->traitAddLineStrings($lineStrings);
     }
 
     /**
@@ -119,7 +91,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
      */
     public function getLineStrings(): array
     {
-        return $this->traitGetLineStrings();
+        return $this->lineStringMembers();
     }
 
     /**
@@ -133,7 +105,7 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
     /**
      * Return an array representation of the multiLineString.
      *
-     * @return (\DateTimeInterface|float|int)[][][]
+     * @return (float|int)[][][]
      */
     public function toArray(): array
     {
@@ -143,5 +115,130 @@ abstract class AbstractMultiLineString extends AbstractSpatialType implements Mu
             static fn (LineStringInterface $lineString) => $lineString->toArray(),
             $lineStrings
         );
+    }
+
+    /**
+     * Return a deep copy of this multi-line string with one replacement line string.
+     *
+     * The original multi-line string and all its line strings remain unchanged.
+     * The replacement coordinates are created through the existing family,
+     * dimension, and Spatial Reference Identifier (SRID) context.
+     *
+     * @param int                                                                                              $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     *
+     * @throws OutOfBoundsException when the multi-line string has no line strings
+     */
+    public function withLineString(int $lineStringIndex, array $coordinates): static
+    {
+        $lineStringIndex = $this->normalizeLineStringIndex($lineStringIndex);
+        $multiLineString = clone $this;
+        $multiLineString->lineStrings = [];
+
+        foreach ($this->lineStrings as $index => $lineString) {
+            $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : $lineString->withSrid($lineString->getSrid()));
+        }
+
+        return $multiLineString;
+    }
+
+    /**
+     * Return a deep copy of this multi-line string with one replacement point.
+     *
+     * @param int         $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param int         $pointIndex      index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates     replacement point coordinates
+     *
+     * @throws OutOfBoundsException when the multi-line string has no line strings
+     */
+    public function withPoint(int $lineStringIndex, int $pointIndex, Coordinates $coordinates): static
+    {
+        $lineStringIndex = $this->normalizeLineStringIndex($lineStringIndex);
+        $multiLineString = clone $this;
+        $multiLineString->lineStrings = array_map(
+            static fn (LineStringInterface $lineString): LineStringInterface => $lineString->withSrid($lineString->getSrid()),
+            $this->lineStrings
+        );
+        $multiLineString->lineStrings[$lineStringIndex] = $multiLineString->lineStrings[$lineStringIndex]->withPoint($pointIndex, $coordinates);
+
+        return $multiLineString;
+    }
+
+    /**
+     * Return a deep copy declared in the supplied spatial reference.
+     *
+     * @param SpatialReference $reference Target spatial reference
+     */
+    public function withSpatialReference(SpatialReference $reference): static
+    {
+        $multiLineString = parent::withSpatialReference($reference);
+        $multiLineString->lineStrings = array_map(
+            static fn (LineStringInterface $lineString): LineStringInterface => $lineString->withSpatialReference($reference),
+            $this->lineStrings
+        );
+
+        return $multiLineString;
+    }
+
+    /**
+     * Return a copy of this multi-line string with the given Spatial Reference Identifier (SRID).
+     *
+     * Every line string, and therefore every contained point, is copied with the
+     * requested SRID to preserve the aggregate's internal SRID consistency.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
+    }
+
+    /**
+     * Add a line string to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
+     *
+     * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
+     */
+    protected function addLineString(array|LineStringInterface $lineString): static
+    {
+        try {
+            return $this->addLineStringMember($lineString);
+            // @codeCoverageIgnoreStart
+        } catch (InvalidFamilyException $e) {
+            throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
+            // @codeCoverageIgnoreEnd
+        }
+    }
+
+    /**
+     * Add line strings to the spatial collection.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
+     *
+     * @throws SpatialTypeExceptionInterface when something is wrong during the addition
+     */
+    protected function addLineStrings(array $lineStrings): static
+    {
+        return $this->addLineStringMembers($lineStrings);
+    }
+
+    /**
+     * Normalize a line-string index according to the collection accessor convention.
+     *
+     * @param int $lineStringIndex line-string index to normalize
+     *
+     * @throws OutOfBoundsException when the multi-line string has no line strings
+     */
+    private function normalizeLineStringIndex(int $lineStringIndex): int
+    {
+        $lineStringCount = count($this->lineStrings);
+        if (0 === $lineStringCount) {
+            throw new OutOfBoundsException('The current collection of lineStrings is empty.');
+        }
+
+        $lineStringIndex %= $lineStringCount;
+
+        return $lineStringIndex < 0 ? $lineStringCount + $lineStringIndex : $lineStringIndex;
     }
 }

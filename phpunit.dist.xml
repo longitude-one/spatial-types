@@ -10,7 +10,8 @@
   displayDetailsOnPhpunitNotices="true">
   <testsuites>
     <testsuite name="spatial-types">
-      <directory>tests/LongitudeOne/SpatialTypes</directory>
+      <directory>tests/LongitudeOne/SpatialTypes/Tests/Functional</directory>
+      <directory>tests/LongitudeOne/SpatialTypes/Tests/Unit</directory>
     </testsuite>
   </testsuites>
   <source>
@@ -21,6 +22,7 @@
   <coverage>
     <report>
       <clover outputFile=".phpunit-cache/coverage.xml"/>
+      <html outputDirectory=".phpunit-cache/coverage-html"/>
       <text outputFile=".phpunit-cache/coverage-results.txt" showOnlySummary="true"/>
     </report>
   </coverage>

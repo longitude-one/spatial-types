@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Exception;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ class BadMethodCallExceptionTest extends TestCase
      */
     public function testCreate(): void
     {
-        $exception = BadMethodCallException::create('Foo::getM', DimensionEnum::X_Y_Z);
+        $exception = BadMethodCallException::create('Foo::getM', CoordinateDimensionEnum::XYZ);
         static::assertSame('The method "Foo::getM" cannot be called with a spatial object with dimensions "XYZ".', $exception->getMessage());
     }
 }

@@ -16,9 +16,19 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\SpatialTypes\Enum\DimensionEnum;
-use LongitudeOne\SpatialTypes\Enum\FamilyEnum;
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
+use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Validator\DimensionValidation;
+use LongitudeOne\SpatialTypes\Validator\FamilyValidation;
+use LongitudeOne\SpatialTypes\Validator\SpatialReferenceValidation;
 
 /**
  * Abstract Spatial Type class.
@@ -27,17 +37,23 @@ use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
  */
 abstract class AbstractSpatialType implements SpatialInterface
 {
+    /** Spatial reference system associated with this spatial value. */
+    protected SpatialReference $spatialReference;
+
     /**
-     * @var null|int the SpatialTypes Reference Identifier (SRID)
+     * Return the spatial-reference identity.
      */
-    protected ?int $srid = null;
+    public function getSpatialReference(): SpatialReference
+    {
+        return $this->spatialReference;
+    }
 
     /**
      * SRID getter.
      */
-    public function getSrid(): ?int
+    public function getSrid(): int
     {
-        return $this->srid;
+        return $this->spatialReference->srid();
     }
 
     /**
@@ -45,10 +61,7 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     public function hasM(): bool
     {
-        return match ($this->getDimension()) {
-            DimensionEnum::X_Y_M, DimensionEnum::X_Y_Z_M => true,
-            default => false,
-        };
+        return $this->getDimension()->hasM();
     }
 
     /**
@@ -66,59 +79,163 @@ abstract class AbstractSpatialType implements SpatialInterface
      */
     public function hasZ(): bool
     {
-        return match ($this->getDimension()) {
-            DimensionEnum::X_Y_Z, DimensionEnum::X_Y_Z_M => true,
-            default => false,
-        };
+        return $this->getDimension()->hasZ();
     }
 
     /**
      * Define elements for the JSON serialization.
      *
-     * @return array{type: string, coordinates: (\DateTimeInterface|float|int)[]|(\DateTimeInterface|float|int)[][]|(\DateTimeInterface|float|int)[][][]|(\DateTimeInterface|float|int)[][][][]|SpatialInterface[], srid: ?int}
+     * @return array{type: string, coordinates: (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[], srid: ?int}
      */
     public function jsonSerialize(): array
     {
         return [
-            'type' => $this->getType(),
+            'type' => $this->getType()->value,
             'coordinates' => $this->toArray(),
             'srid' => $this->getSrid(),
         ];
     }
 
     /**
-     * SRID setter.
+     * Return a copy declared with the supplied spatial reference.
      *
-     * @param null|int $srid the new SRID
+     * @param SpatialReference $reference Target spatial reference
      */
-    public function setSrid(?int $srid): static
+    public function withSpatialReference(SpatialReference $reference): static
     {
-        $this->srid = $srid;
+        $spatial = clone $this;
+        $spatial->spatialReference = $reference;
 
-        return $this;
+        return $spatial;
+    }
+
+    /**
+     * Return a copy of this spatial object with the given Spatial Reference Identifier (SRID).
+     *
+     * Aggregate spatial types override this method to copy their contained
+     * elements with the same SRID.
+     *
+     * @param int $srid Spatial Reference Identifier
+     */
+    public function withSrid(int $srid): static
+    {
+        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
+    }
+
+    /**
+     * Require a member to use the same coordinate dimension.
+     *
+     * @param SpatialInterface $spatial Member to validate
+     * @param string           $message Exception message
+     */
+    final protected function assertSameDimension(SpatialInterface $spatial, string $message): void
+    {
+        DimensionValidation::assertSame($this->getDimension(), $spatial, $message);
+    }
+
+    /**
+     * Require a member to belong to the same spatial family.
+     *
+     * @param SpatialInterface $spatial Member to validate
+     * @param string           $message Exception message
+     */
+    final protected function assertSameFamily(SpatialInterface $spatial, string $message): void
+    {
+        FamilyValidation::assertSame($this->getFamily(), $spatial, $message);
+    }
+
+    /**
+     * Require a member to belong to the same spatial reference system.
+     *
+     * ISO/IEC 13249-3 requires every member of a geometry collection to have
+     * the collection's spatial reference system. SRID 0 is therefore a real,
+     * albeit unnamed, reference and is not a wildcard.
+     *
+     * @param SpatialInterface $spatial Member to validate
+     * @param string           $member  Member type for the error message
+     */
+    final protected function assertSameSpatialReference(SpatialInterface $spatial, string $member): void
+    {
+        SpatialReferenceValidation::assertSame($this->spatialReference, $spatial, $member);
+    }
+
+    /**
+     * Hydrate a line-string tuple collection in this spatial value's context.
+     *
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $coordinates Point tuples
+     */
+    final protected function createLineStringFromCoordinates(array $coordinates): LineStringInterface
+    {
+        return DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray(
+            $coordinates,
+            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
+        );
+    }
+
+    /**
+     * Hydrate a point tuple in this spatial value's complete context.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates Point tuple
+     */
+    final protected function createPointFromCoordinates(array $coordinates): PointInterface
+    {
+        return DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray(
+            $coordinates,
+            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
+        );
+    }
+
+    /**
+     * Hydrate polygon rings in this spatial value's context.
+     *
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings Polygon rings
+     */
+    final protected function createPolygonFromCoordinates(array $rings): PolygonInterface
+    {
+        return DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray(
+            $rings,
+            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
+        );
+    }
+
+    /**
+     * Initialize the reference system from the typed API or its legacy SRID adapter.
+     *
+     * @param int|SpatialReference $reference Typed reference or legacy SRID
+     */
+    final protected function initializeSpatialReference(int|SpatialReference $reference): void
+    {
+        $this->spatialReference = $reference instanceof SpatialReference
+            ? $reference
+            : SpatialReference::fromSrid($reference);
     }
 
     /**
      * Dimension getter.
      */
-    abstract protected function getDimension(): DimensionEnum;
+    abstract protected function getDimension(): CoordinateDimensionEnum;
 
     /**
      * Family getter.
      *
-     * @return FamilyEnum the family of the object (Geometry, Geography)
+     * @return SpatialModelEnum the family of the object (Geometry, Geography)
      */
-    abstract public function getFamily(): FamilyEnum;
+    abstract public function getFamily(): SpatialModelEnum;
 
     /**
      * Type getter.
      */
-    abstract public function getType(): string;
+    abstract public function getType(): GeometryTypeEnum;
+
+    /**
+     * Does this spatial object correspond to the empty set?
+     */
+    abstract public function isEmpty(): bool;
 
     /**
      * Convert any spatial object to its array representation.
      *
-     * @return (\DateTimeInterface|float|int)[]|(\DateTimeInterface|float|int)[][]|(\DateTimeInterface|float|int)[][][]|(\DateTimeInterface|float|int)[][][][]|SpatialInterface[]
+     * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[]
      */
     abstract public function toArray(): array;
 }

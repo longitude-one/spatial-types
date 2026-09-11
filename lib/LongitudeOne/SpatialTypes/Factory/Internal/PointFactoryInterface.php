@@ -1,0 +1,44 @@
+<?php
+/**
+ * This file is part of the spatial project.
+ *
+ * PHP 8.4 | 8.5
+ *
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
+declare(strict_types=1);
+
+namespace LongitudeOne\SpatialTypes\Factory\Internal;
+
+use LongitudeOne\SpatialTypes\Factory\Coordinates;
+use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+
+/**
+ * Creates points for a spatial family.
+ *
+ * @internal
+ */
+interface PointFactoryInterface
+{
+    /**
+     * Create a point.
+     *
+     * @param Coordinates    $coordinates normalized X, Y, Z, and M values
+     * @param SpatialContext $context     family, dimension, and SRID to apply
+     */
+    public function create(Coordinates $coordinates, SpatialContext $context): PointInterface;
+
+    /**
+     * Create an empty point in the supplied context.
+     *
+     * @param SpatialContext $context family, dimension, and SRID to apply
+     */
+    public function createEmpty(SpatialContext $context): PointInterface;
+}

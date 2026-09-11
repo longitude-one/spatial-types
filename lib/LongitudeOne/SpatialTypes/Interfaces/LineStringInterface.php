@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
  * LineString interface.
  *
@@ -23,28 +25,28 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
  * A LineString instance has linear interpolation between Point values.
  * Each consecutive pair of Point values defines a line segment.
  * A line is a LineString value with exactly two points.
- * A linear ring is a LineString value that is both closed and simple.
+ * Linear-ring validation is provided by Validator\Constraints\Ring.
  *
  * As ST_Curve is not instantiable, this library does not implement it.
  */
 interface LineStringInterface extends SpatialInterface
 {
     /**
-     * Return an ordered array of spatial interfaces in the collection.
+     * Return the points that compose the line string.
      *
-     * @return LineStringInterface[]
+     * @return PointInterface[]
      */
     public function getElements(): array;
 
     /**
-     * Get a point of the linestring.
+     * Return a point from the line string.
      *
      * @param int $index index of the point. -1 is the last point. -2 is the penultimate point, etc.
      */
     public function getPoint(int $index): PointInterface;
 
     /**
-     * Return points composing the line string.
+     * Return the points that compose the line string.
      *
      * @return PointInterface[]
      */
@@ -65,14 +67,32 @@ interface LineStringInterface extends SpatialInterface
     public function isLine(): bool;
 
     /**
-     * A linear ring is a LineString value that is both closed and simple.
-     */
-    public function isRing(): bool;
-
-    /**
      * Return an array of coordinates.
      *
      * @return (float|int)[][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new line string with replacement coordinates.
+     *
+     * The returned line string preserves this instance's family, dimension,
+     * and Spatial Reference Identifier (SRID). Each tuple must therefore match
+     * this instance's coordinate layout: XY, XYM, XYZ, or XYZM.
+     *
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
+     */
+    public function withArrayOfCoordinates(array $coordinates): static;
+
+    /**
+     * Return a new line string with one replacement point.
+     *
+     * The returned line string preserves this instance's family, dimension,
+     * and Spatial Reference Identifier (SRID). The coordinate dimension must
+     * match the point selected by the index.
+     *
+     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates replacement point coordinates
+     */
+    public function withPoint(int $pointIndex, Coordinates $coordinates): static;
 }

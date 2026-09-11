@@ -16,12 +16,16 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\Geo\String\Exception\RangeException as GeoParserRangeException;
-use LongitudeOne\Geo\String\Exception\UnexpectedValueException;
-use LongitudeOne\Geo\String\Parser;
+use LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter;
+use LongitudeOne\GeoParser\Exception\RangeException as GeoParserRangeException;
+use LongitudeOne\GeoParser\Exception\UnexpectedValueException;
+use LongitudeOne\GeoParser\Parser;
+use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\RangeException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
  * Abstract point object for POINT spatial types.
@@ -29,7 +33,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
  * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
  * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
  *
- * @internal This class is internal. It is used to create geometry or geography point of spatial objects.
+ * @internal this class provides common behaviour for geometry and geography points
  */
 abstract class AbstractPoint extends AbstractSpatialType implements PointInterface
 {
@@ -43,6 +47,9 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      */
     protected float|int $y;
 
+    /** Whether this point corresponds to the empty set. */
+    private bool $empty = false;
+
     /**
      * Is the current point equal to another point?
      *
@@ -52,6 +59,10 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     {
         if (!($point instanceof static && $point->getSrid() === $this->getSrid() && $point->getFamily() === $this->getFamily() && $point->getDimension() === $this->getDimension())) {
             return false;
+        }
+
+        if ($this->isEmpty() || $point->isEmpty()) {
+            return $this->isEmpty() && $point->isEmpty();
         }
 
         if ($point->getX() !== $this->getX() || $point->getY() !== $this->getY()) {
@@ -70,9 +81,27 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     }
 
     /**
+     * Return the normalized coordinates of this point.
+     */
+    public function getCoordinates(): ?Coordinates
+    {
+        if ($this->isEmpty()) {
+            return null;
+        }
+
+        return new Coordinates(
+            $this->getDimension(),
+            $this->x,
+            $this->y,
+            $this->hasZ() ? $this->getZ() : null,
+            $this->hasM() ? $this->getM() : null
+        );
+    }
+
+    /**
      * Latitude getter.
      */
-    public function getLatitude(): float|int
+    public function getLatitude(): float|int|null
     {
         return $this->getY();
     }
@@ -80,7 +109,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * Longitude getter.
      */
-    public function getLongitude(): float|int
+    public function getLongitude(): float|int|null
     {
         return $this->getX();
     }
@@ -88,98 +117,58 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * X getter. (Longitude getter).
      */
-    public function getX(): float|int
+    public function getX(): float|int|null
     {
-        return $this->x;
+        return $this->isEmpty() ? null : $this->x;
     }
 
     /**
      * Y getter. Latitude getter.
      */
-    public function getY(): float|int
+    public function getY(): float|int|null
     {
-        return $this->y;
+        return $this->isEmpty() ? null : $this->y;
     }
 
     /**
-     * Latitude fluent setter.
-     *
-     * @param float|int|string $latitude the new latitude of point
-     *
-     * @throws InvalidValueException when latitude is not valid
+     * Does this point correspond to the empty set?
      */
-    public function setLatitude(float|int|string $latitude): static
+    public function isEmpty(): bool
     {
-        try {
-            $geodesicCoordinate = $this->setGeodesicCoordinate($latitude, -90, 90);
-        } catch (RangeException $e) {
-            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $latitude), $e->getCode(), $e);
+        return $this->empty;
+    }
+
+    /**
+     * Return a copy of this point with the supplied normalized coordinates.
+     *
+     * The coordinate dimension must match the concrete point type. The point's
+     * family and Spatial Reference Identifier (SRID) are preserved.
+     *
+     * @param Coordinates $coordinates replacement coordinates
+     *
+     * @throws InvalidDimensionException when the coordinate dimension differs from this point's dimension
+     */
+    public function withCoordinates(Coordinates $coordinates): static
+    {
+        if ($this->getDimension() !== $coordinates->dimension) {
+            throw new InvalidDimensionException(sprintf('The %s coordinates are incompatible with the %s point dimension.', $coordinates->dimension->value, $this->getDimension()->value));
         }
 
-        $this->y = $geodesicCoordinate;
+        $point = clone $this;
+        $point->initializeX($coordinates->x);
+        $point->initializeY($coordinates->y);
 
-        return $this;
-    }
-
-    /**
-     * Longitude setter.
-     *
-     * @param float|int|string $longitude the new longitude
-     *
-     * @throws InvalidValueException when longitude is not valid
-     */
-    public function setLongitude(float|int|string $longitude): static
-    {
-        try {
-            $geodesicCoordinate = $this->setGeodesicCoordinate($longitude, -180, 180);
-        } catch (RangeException $e) {
-            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $longitude), $e->getCode(), $e);
+        if ($coordinates->dimension->hasZ()) {
+            $point->initializeZ($coordinates->getZ());
         }
 
-        $this->x = $geodesicCoordinate;
+        if ($coordinates->dimension->hasM()) {
+            $point->initializeM($coordinates->getM());
+        }
 
-        return $this;
-    }
+        $point->empty = false;
 
-    /**
-     * X setter. (Latitude setter).
-     *
-     * @param float|int|string $x the new X
-     *
-     * @throws InvalidValueException when x is not valid
-     */
-    public function setX(float|int|string $x): static
-    {
-        $this->x = $this->setCartesianCoordinate($x);
-
-        return $this;
-    }
-
-    /**
-     * Y setter. Longitude Setter.
-     *
-     * @param float|int|string $y the new Y value
-     *
-     * @throws InvalidValueException when Y is invalid, not in valid range
-     */
-    public function setY(float|int|string $y): static
-    {
-        $this->y = $this->setCartesianCoordinate($y);
-
-        return $this;
-    }
-
-    /**
-     * Convert point into an array X, Y.
-     * Latitude, longitude.
-     *
-     * AbstractPoint does NOT contain SpatialInterface, only floats, integers in a one-dimensional arrays.
-     *
-     * @return array{0 : float|int, 1 : float|int}
-     */
-    public function toArray(): array
-    {
-        return [$this->x, $this->y];
+        return $point;
     }
 
     /**
@@ -196,17 +185,17 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
 
             $parsedCoordinate = $parser->parse();
         } catch (GeoParserRangeException $e) {
-            $message = match ($e->getCode()) {
-                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, $coordinate),
-                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, $coordinate),
-                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, $coordinate),
-                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, $coordinate),
-                default => $e->getMessage(),
-            };
+            $messages = [
+                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, DiagnosticValueFormatter::format((string) $coordinate)),
+            ];
+            $message = $messages[$e->getCode()] ?? DiagnosticValueFormatter::format($e->getMessage());
 
             throw new InvalidValueException($message, $e->getCode(), $e);
         } catch (UnexpectedValueException $e) {
-            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', $coordinate), $e->getCode(), $e);
+            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', DiagnosticValueFormatter::format((string) $coordinate)), $e->getCode(), $e);
         }
 
         if (is_array($parsedCoordinate)) {
@@ -214,6 +203,136 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         }
 
         return $parsedCoordinate;
+    }
+
+    /**
+     * Determine whether all coordinates describe an empty point.
+     *
+     * A point is empty only when every ordinate in its coordinate layout is
+     * null. Supplying only some coordinates would produce an invalid point.
+     *
+     * @param (null|float|int|string) ...$coordinates Point ordinates
+     *
+     * @throws InvalidValueException when only a subset of ordinates is null
+     */
+    final protected function hasOnlyNullCoordinates(float|int|string|null ...$coordinates): bool
+    {
+        $nullCount = count(array_filter($coordinates, static fn (float|int|string|null $coordinate): bool => null === $coordinate));
+        if (count($coordinates) === $nullCount) {
+            $this->empty = true;
+
+            return true;
+        }
+
+        if (0 !== $nullCount) {
+            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
+        }
+
+        return false;
+    }
+
+    /**
+     * Latitude fluent setter.
+     *
+     * @param float|int|string $latitude the new latitude of point
+     *
+     * @throws InvalidValueException when latitude is not valid
+     */
+    protected function initializeLatitude(float|int|string $latitude): static
+    {
+        try {
+            $geodesicCoordinate = $this->setGeodesicCoordinate($latitude, -90, 90);
+        } catch (RangeException $e) {
+            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, DiagnosticValueFormatter::format((string) $latitude)), $e->getCode(), $e);
+        }
+
+        $this->y = $geodesicCoordinate;
+
+        return $this;
+    }
+
+    /**
+     * Longitude setter.
+     *
+     * @param float|int|string $longitude the new longitude
+     *
+     * @throws InvalidValueException when longitude is not valid
+     */
+    protected function initializeLongitude(float|int|string $longitude): static
+    {
+        try {
+            $geodesicCoordinate = $this->setGeodesicCoordinate($longitude, -180, 180);
+        } catch (RangeException $e) {
+            throw new InvalidValueException(sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, DiagnosticValueFormatter::format((string) $longitude)), $e->getCode(), $e);
+        }
+
+        $this->x = $geodesicCoordinate;
+
+        return $this;
+    }
+
+    /**
+     * Set the M coordinate on a point that supports a measure ordinate.
+     *
+     * @param float|int $m M coordinate or measure
+     *
+     * @throws BadMethodCallException when the point has no M ordinate
+     */
+    protected function initializeM(float|int $m): static
+    {
+        // @codeCoverageIgnoreStart
+        throw new BadMethodCallException(sprintf('The M ordinate "%s" cannot be assigned to a point with the %s dimension.', $m, $this->getDimension()->value));
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * X setter. (Latitude setter).
+     *
+     * @param float|int|string $x the new X
+     *
+     * @throws InvalidValueException when x is not valid
+     */
+    protected function initializeX(float|int|string $x): static
+    {
+        if ($this->getFamily()->requiresGeographicCoordinateRanges()) {
+            return $this->initializeLongitude($x);
+        }
+
+        $this->x = $this->setCartesianCoordinate($x);
+
+        return $this;
+    }
+
+    /**
+     * Y setter. Longitude Setter.
+     *
+     * @param float|int|string $y the new Y value
+     *
+     * @throws InvalidValueException when Y is invalid, not in valid range
+     */
+    protected function initializeY(float|int|string $y): static
+    {
+        if ($this->getFamily()->requiresGeographicCoordinateRanges()) {
+            return $this->initializeLatitude($y);
+        }
+
+        $this->y = $this->setCartesianCoordinate($y);
+
+        return $this;
+    }
+
+    /**
+     * Set the Z coordinate on a point that supports an elevation ordinate.
+     *
+     * @param float|int $z Z coordinate or elevation
+     *
+     * @throws BadMethodCallException when the point has no Z ordinate
+     */
+    protected function initializeZ(float|int $z): static
+    {
+        // @codeCoverageIgnoreStart
+        throw new BadMethodCallException(sprintf('The Z ordinate "%s" cannot be assigned to a point with the %s dimension.', $z, $this->getDimension()->value));
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -256,7 +375,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
         $parsedCoordinate = $this->geoParse($coordinate);
 
         if ($parsedCoordinate < $min || $parsedCoordinate > $max) {
-            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, $coordinate));
+            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, DiagnosticValueFormatter::format((string) $coordinate)));
         }
 
         return $parsedCoordinate;
@@ -276,9 +395,17 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     private function checkRange(float|int $coordinate, int $min, int $max): float|int
     {
         if ($coordinate < $min || $coordinate > $max) {
-            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, $coordinate));
+            throw new RangeException(sprintf('Coordinate must be comprised between %d and %d, got "%s".', $min, $max, DiagnosticValueFormatter::format((string) $coordinate)));
         }
 
         return $coordinate;
     }
+
+    /**
+     * Convert point into an array of coordinates.
+     * SRID is NOT exported.
+     *
+     * The array contains coordinate values only; it does not contain SpatialInterface instances.
+     */
+    abstract public function toArray(): array;
 }

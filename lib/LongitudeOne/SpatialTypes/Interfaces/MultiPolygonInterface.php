@@ -16,13 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
- * MultiPolygon interface.
+ * Multi-polygon interface.
  *
- * MultiPolygon type is a subtype of MultiSurface. The MultiPolygon type is instantiable.
- * The elements of a MultiPolygon value are restricted to Polygon values.
- *
- * Nota: This library does not implement MultiSurface as this type is not instantiable, according to the ISO-13249-3 standard.
+ * The MultiPolygon type corresponds to the instantiable ST_MultiPolygon subtype
+ * of ST_MultiSurface defined by ISO/IEC 13249-3. Its elements are restricted to
+ * Polygon values.
  */
 interface MultiPolygonInterface extends CollectionInterface
 {
@@ -34,7 +35,7 @@ interface MultiPolygonInterface extends CollectionInterface
     public function getElements(): array;
 
     /**
-     * Return each polygon composing the multi-polygon.
+     * Return the polygons that compose the multi-polygon.
      *
      * @return PolygonInterface[]
      */
@@ -46,4 +47,31 @@ interface MultiPolygonInterface extends CollectionInterface
      * @return (float|int)[][][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new multi-polygon with one replacement point.
+     *
+     * @param int         $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int         $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param int         $pointIndex   index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates  replacement point coordinates
+     */
+    public function withPoint(int $polygonIndex, int $ringIndex, int $pointIndex, Coordinates $coordinates): static;
+
+    /**
+     * Return a new multi-polygon with one replacement polygon.
+     *
+     * @param int                                                                                                     $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
+     */
+    public function withPolygon(int $polygonIndex, array $coordinates): static;
+
+    /**
+     * Return a new multi-polygon with one replacement ring.
+     *
+     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     */
+    public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static;
 }

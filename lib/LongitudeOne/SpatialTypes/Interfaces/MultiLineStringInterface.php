@@ -16,8 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
- * MultiLineString interface.
+ * Multi-line string interface.
+ *
+ * The MultiLineString type corresponds to the instantiable ST_MultiLineString
+ * subtype of ST_MultiCurve defined by ISO/IEC 13249-3. Its elements are
+ * restricted to LineString values.
  */
 interface MultiLineStringInterface extends CollectionInterface
 {
@@ -29,7 +35,7 @@ interface MultiLineStringInterface extends CollectionInterface
     public function getElements(): array;
 
     /**
-     * Return an array of LineStrings composing the polygon.
+     * Return the line strings that compose the multi-line string.
      *
      * @return LineStringInterface[]
      */
@@ -41,4 +47,25 @@ interface MultiLineStringInterface extends CollectionInterface
      * @return (float|int)[][][]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new multi-line string with one replacement line string.
+     *
+     * The returned multi-line string preserves this instance's family,
+     * dimension, and Spatial Reference Identifier (SRID). Every replacement
+     * coordinate tuple must match this instance's coordinate layout.
+     *
+     * @param int                                                                                              $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     */
+    public function withLineString(int $lineStringIndex, array $coordinates): static;
+
+    /**
+     * Return a new multi-line string with one replacement point.
+     *
+     * @param int         $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param int         $pointIndex      index of the point to replace; negative indexes count from the end
+     * @param Coordinates $coordinates     replacement point coordinates
+     */
+    public function withPoint(int $lineStringIndex, int $pointIndex, Coordinates $coordinates): static;
 }

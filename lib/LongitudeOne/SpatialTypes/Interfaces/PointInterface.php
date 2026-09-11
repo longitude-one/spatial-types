@@ -16,24 +16,18 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
 /**
  * Point interface.
  *
- * The Point type is a subtype of Geometry. The Point type is instantiable. A Point value
- * is a 0-dimensional geometry and represents a single location. A Point has an x coordinate value, a
- * y coordinate value, an optional z coordinate value, and an optional m coordinate value.
+ * The Point type corresponds to the instantiable ST_Point subtype of ST_Geometry
+ * defined by ISO/IEC 13249-3. A point is a zero-dimensional geometry that
+ * represents a single location. It has X and Y coordinates and may have Z
+ * (elevation) and M (measure) coordinates.
  */
 interface PointInterface extends SpatialInterface
 {
-    /**
-     * Point constructor.
-     *
-     * @param float|int|string $x    X coordinate
-     * @param float|int|string $y    Y coordinate
-     * @param null|int         $srid SRID
-     */
-    public function __construct(float|int|string $x, float|int|string $y, ?int $srid = null);
-
     /**
      * Is this point equal to another point?
      *
@@ -42,34 +36,39 @@ interface PointInterface extends SpatialInterface
     public function equalsTo(PointInterface $point): bool;
 
     /**
+     * Return the normalized coordinates of this point.
+     */
+    public function getCoordinates(): ?Coordinates;
+
+    /**
      * Get the latitude.
      */
-    public function getLatitude(): float|int;
+    public function getLatitude(): float|int|null;
 
     /**
      * Get the longitude.
      */
-    public function getLongitude(): float|int;
+    public function getLongitude(): float|int|null;
 
     /**
      * Get the M coordinate.
      */
-    public function getM(): \DateTimeInterface|float|int;
+    public function getM(): float|int|null;
 
     /**
      * Get the X coordinate.
      */
-    public function getX(): float|int;
+    public function getX(): float|int|null;
 
     /**
      * Get the Y coordinate.
      */
-    public function getY(): float|int;
+    public function getY(): float|int|null;
 
     /**
      * Get the Z coordinate (elevation).
      */
-    public function getZ(): float|int;
+    public function getZ(): float|int|null;
 
     /**
      * Return an array of all coordinates.
@@ -77,4 +76,14 @@ interface PointInterface extends SpatialInterface
      * @return (float|int)[]
      */
     public function toArray(): array;
+
+    /**
+     * Return a new point with the supplied normalized coordinates.
+     *
+     * The coordinates must use the same dimension as this point. The point's
+     * family and Spatial Reference Identifier (SRID) are preserved.
+     *
+     * @param Coordinates $coordinates replacement coordinates
+     */
+    public function withCoordinates(Coordinates $coordinates): static;
 }
