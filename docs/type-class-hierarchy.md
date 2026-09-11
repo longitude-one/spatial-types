@@ -10,7 +10,9 @@ AbstractSpatialType
 ├── AbstractPoint
 │   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Point
 ├── AbstractPolygon
-│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
+│   ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
+│   └── AbstractTriangle
+│       └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Triangle
 ├── AbstractMultiPolygon
 │   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygon
 ├── AbstractCollection
