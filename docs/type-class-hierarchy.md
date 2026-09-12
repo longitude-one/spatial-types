@@ -13,6 +13,8 @@ AbstractSpatialType
 │   ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
 │   └── AbstractTriangle
 │       └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Triangle
+├── AbstractPolyhedralSurface
+│   └── Dimension{3z,4zm}\{Geometry,Geography}\PolyhedralSurface
 ├── AbstractMultiPolygon
 │   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygon
 ├── AbstractCollection

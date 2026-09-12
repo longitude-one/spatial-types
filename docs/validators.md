@@ -23,6 +23,7 @@ or invalid geometry for later review.
 | `FirstPointEqualsLastPoint` | `LineString` | First and last points are equal. | Through `Ring` when a polygon receives a ring. | Validate a candidate ring. |
 | `Ring` | `LineString` | Composes minimum point count, closure, and no consecutive duplicate points. | Yes: polygon boundaries. | Validate a ring independently. |
 | `Triangle` | `PolygonInterface` | Empty or one four-position exterior ring, validated through `Ring`, without holes. | Yes: triangle construction and coordinate replacement. | Check whether a polygon has triangle structure. |
+| `PolyhedralSurface` | `PolyhedralSurfaceInterface` | Empty or connected planar 3D faces with simple rings and consistent shared edges; free edges are allowed. | Yes: construction and coordinate replacement. | Audit patch boundaries without requiring a closed solid. |
 | `SameFamily` | Spatial value | Uses the requested `Geometry` or `Geography` family. | Yes: aggregate membership. | Validate an incoming member against an expected family. |
 | `SameDimension` | Spatial value | Uses the requested `XY`, `XYZ`, `XYM`, or `XYZM` layout. | Yes: aggregate membership. | Validate an incoming member against an expected layout. |
 | `SameSpatialReference` | Spatial value | Uses the requested complete spatial reference. | Yes: aggregate membership. | Validate an incoming member against an expected reference. |
@@ -68,7 +69,15 @@ $violations = Validation::createValidator()->validate($line, [
 ```
 
 Use `Ring` instead of its three structural components when simplicity is not a
-requirement. Add `SimpleLineString` separately when it is.
+requirement. Add `SimpleLineString` separately when it is. `PolyhedralSurface`
+composes `Ring` and `SimpleThreeDimensionalLineString` for each face boundary,
+checks face planarity and tests oriented edge incidence and global connectivity.
+Empty surfaces and single faces are accepted, but empty member faces are not.
+The edge test splits common segments at existing vertices and ignores M. It
+uses exact XYZ arithmetic, including in Geography, without geodesic modelling.
+It does not validate arbitrary face-interior intersections, hole containment or
+vertex-manifold topology. A surface can have free boundary edges; closure around
+a solid is not required.
 
 ## Two-dimensional and three-dimensional simplicity
 
