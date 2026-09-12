@@ -10,7 +10,7 @@ The library follows the spatial-object model established by the
 [OGC Simple Features Access standard](https://www.ogc.org/standards/sfa/) and
 the `ST_Geometry` hierarchy of SQL/MM Spatial (ISO/IEC 13249-3). In practice,
 that model supplies the instantiable `Point`, `LineString`, `Polygon`,
-`Triangle`, `MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types.
+`Triangle`, `PolyhedralSurface`, `MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types.
 
 ### ISO/IEC 13249-3 geometry-type coverage
 
@@ -33,19 +33,21 @@ type declarations are reproduced in the informative SQL/MM comparison in the
 | `ST_CurvePolygon`    | Yes                    | —                                            | Curve-bounded polygons are not implemented.                                   |
 | `ST_Polygon`         | Yes                    | `Polygon`                                    | Implemented with `LineString` rings only.                                     |
 | `ST_Triangle`        | Yes                    | `Triangle`                                   | Four exterior positions, including closure, and no interior rings (section 8.4). |
+| `ST_PolyhdrlSurface` | Yes                    | `PolyhedralSurface`                          | Connected polygon patches in XYZ or XYZM; an open boundary is allowed. |
+| `ST_TIN`             | Yes                    | —                                            | Triangulated surfaces are not implemented. |
 | `ST_GeomCollection`  | Yes                    | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous collection that can contain other collections. |
 | `ST_MultiPoint`      | Yes                    | `MultiPoint`                                 | Implemented.                                                                  |
 | `ST_MultiCurve`      | Yes                    | —                                            | Not implemented; it could contain any `ST_Curve` subtype.                     |
 | `ST_MultiLineString` | Yes                    | `MultiLineString`                            | Implemented.                                                                  |
 | `ST_MultiSurface`    | Yes                    | —                                            | Not implemented; it could contain any `ST_Surface` subtype.                   |
-| `ST_MultiPolygon`    | Yes                    | `MultiPolygon`                               | Implemented.                                                                  |
+| `ST_MultiPolygon`    | Yes                    | `MultiPolygon`                               | Implemented. |
 
 `ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
 than a subtype of `ST_Geometry`; it is outside this value-type hierarchy. This
 library identifies a reference with `Reference\SpatialReference`, which can
 carry an authority and its integer identifier, without modelling a full
-reference-system definition. `ST_PolyhedralSurface` is not part of the SQL/MM
-base hierarchy covered by this matrix and is not implemented.
+reference-system definition. The supplied ISO/IEC CD 13249-3:201x(E), section
+8.5, names the polyhedral surface type `ST_PolyhdrlSurface`.
 
 The `Geography` family is a library-level counterpart to the `Geometry` family;
 it is not a separate `ST_Geography` branch in the SQL/MM hierarchy.
@@ -100,6 +102,10 @@ For each dimension, both `Geometry` and `Geography` provide:
 | Multi-line string        | `…\Geometry\MultiLineString`    | `…\Geography\MultiLineString`     |
 | Multi-polygon            | `…\Geometry\MultiPolygon`       | `…\Geography\MultiPolygon`        |
 | Heterogeneous collection | `…\Geometry\GeometryCollection` | `…\Geography\GeographyCollection` |
+
+`PolyhedralSurface` is additionally available in `Dimension3z` and
+`Dimension4zm`, in both families. Its faces require Z; XY and XYM variants are
+not provided. It is a surface, not a heterogeneous collection or a solid.
 
 For example, a four-dimensional geographic polygon is
 `LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Polygon`.
@@ -189,6 +195,7 @@ new Polygon(array $rings, int|SpatialReference $srid = 0);
 new Triangle(array $rings, int|SpatialReference $srid = 0);
 new MultiLineString(array $lineStrings, int|SpatialReference $srid = 0);
 new MultiPolygon(array $polygons, int|SpatialReference $srid = 0);
+new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0);
 ```
 
 - A polygon ring is a `LineStringInterface` or an array of point tuples. Every
@@ -199,6 +206,19 @@ new MultiPolygon(array $polygons, int|SpatialReference $srid = 0);
 - A multi-line-string element is a `LineStringInterface` or an array of point
   tuples.
 - A multi-polygon element is a `PolygonInterface` or an array of rings.
+- A polyhedral-surface patch is also a `PolygonInterface` (including a triangle)
+  or an array of rings. All patches must match the surface family, XYZ/XYZM
+  layout and complete spatial reference. `new PolyhedralSurface()` or `[]`
+  creates an empty surface; empty member patches are rejected. A single patch
+  is accepted, as are open and closed assemblies: enclosing a volume is not
+  required. Faces must be planar with finite XYZ coordinates and simple closed
+  rings. Shared edges join at most two faces, in opposite directions, and the
+  whole patch adjacency graph must be connected. Shared edges may have
+  different vertex subdivisions. M does not participate in adjacency checks.
+  These checks use exact floating-point comparisons in Cartesian XYZ, including
+  for Geography; they do not compute geodesic edges. General face-interior
+  intersections, hole containment and vertex-manifold topology are not checked.
+  Direct construction is supported; no new public factory entry point is added.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
@@ -291,9 +311,10 @@ returns one tuple in the layout's order.
 | `Polygon` / `Triangle`                       | `getRings()`, `getRing($index)`, `getElements()`             | `isEmpty()`                           |
 | `MultiLineString`                            | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()`                           |
 | `MultiPolygon`                               | `getPolygons()`, `getPolygon($index)`, `getElements()`       | `isEmpty()`                           |
+| `PolyhedralSurface` | `getPatches()`, `getPatch($index)`, `getElements()` | `isEmpty()` |
 | `GeometryCollection` / `GeographyCollection` | `getElements()`                                              | `isEmpty()`, `hasElement($spatial)`   |
 
-For point, ring, line-string, and polygon single-element accessors, negative
+For point, ring, line-string, polygon, and patch single-element accessors, negative
 indexes count from the end (`-1` is the last element). An index is wrapped by
 the element count; accessing an empty aggregate raises `OutOfBoundsException`.
 
@@ -361,12 +382,13 @@ ordinates, SRID, and aggregate membership, and no public mutator exists.
 replacement coordinates of the same dimension; `withSpatialReference(SpatialReference $reference): static`
 returns one with the same coordinates and a new declared reference.
 
-`LineString`, `Polygon`, and `Triangle` provide
+`LineString`, `Polygon`, `Triangle`, and `PolyhedralSurface` provide
 `withArrayOfCoordinates(array $coordinates): static`. These methods return a
 new aggregate with replacement coordinates while preserving family, dimension,
 and SRID. The line-string method accepts coordinate tuples; the polygon method
 accepts arrays of rings. The receiving aggregate determines whether tuples are
-XY, XYM, XYZ, or XYZM.
+XY, XYM, XYZ, or XYZM. For `PolyhedralSurface`, replacement coordinates are
+arrays of patches and use XYZ or XYZM; `[]` returns an empty surface.
 
 `LineString::withPoint(int $pointIndex, Coordinates $coordinates): static`
 returns a deep copy with one replacement point. For polygons,
@@ -394,6 +416,13 @@ Coordinates $coordinates): static` replaces one point.
 $coordinates): static` replaces one ring, and `MultiPolygon::withPolygon(int
 $polygonIndex, array $coordinates): static` replaces one polygon. All three
 methods return deep copies and preserve family, dimension, and SRID.
+`PolyhedralSurface` provides `withPoint($patchIndex, $ringIndex, $pointIndex,
+$coordinates)`, `withRing($patchIndex, $ringIndex, $coordinates)` and
+`withPatch($patchIndex, $coordinates)` with the same deep-copy semantics.
+Every replacement revalidates the complete surface. A local edit that breaks
+adjacency is rejected; use `withArrayOfCoordinates()` to update several faces
+atomically. Editing a shared vertex does not silently move neighbouring faces.
+Empty surfaces reject indexed access and indexed replacements.
 
 `GeometryCollection::withElement(int $elementIndex, SpatialInterface
 $element): static` and `GeographyCollection::withElement(...)` replace one

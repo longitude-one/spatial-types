@@ -153,7 +153,12 @@ Both derive the expected coordinate layout from the receiver.
 `MultiPolygon::withPoint()` selects a polygon, ring, then point.
 `MultiPolygon::withRing()` selects a polygon then ring, while
 `MultiPolygon::withPolygon()` replaces an entire polygon. Each operation
-creates a deep copy of every polygon in the collection.
+creates a deep copy of every polygon in the collection. `PolyhedralSurface`
+uses patch indexes with `withPoint()`, `withRing()` and `withPatch()`, and
+revalidates the complete surface after each replacement. Its
+`withArrayOfCoordinates()` replaces all patches atomically, or returns an empty
+surface for `[]`. Indexed replacements on an empty surface are invalid.
+Neighbouring faces are never changed implicitly when editing a shared vertex.
 
 `GeometryCollection::withElement()` and `GeographyCollection::withElement()`
 replace one element and deeply copy every unchanged element.
