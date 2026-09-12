@@ -1,8 +1,0 @@
-services:
-  si-php8:
-    container_name: "si-php8"
-    build:
-      context: ./docker/php8
-    volumes:
-      - ${APP_FOLDER}:/var/www
-    restart: no

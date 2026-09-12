@@ -3,19 +3,16 @@
 ## Quick start
 
 ```bash
-cd docker
-# build composer image and run a container
-docker compose build
-docker compose up -d
 # install quality tools
-docker compose exec si-php8 composer install --working-dir=quality/php-cs-fixer
-docker compose exec si-php8 composer install --working-dir=quality/php-stan
-docker compose exec si-php8 composer install --working-dir=quality/php-mess-detector
-docker compose exec si-php8 composer install --working-dir=quality/php-code-sniffer
+composer upgrade-quality-tools
 # install library-dependencies if not already done
-docker compose exec si-php8 composer install
+composer update
 # launch quality checks
-docker compose exec si-php8 composer quality
+composer quality
+# launch test
+composer test
+# launch test with coverage information
+composer test-local
 ```
  
 In this repository we use PHP_CodeSniffer (phpcs), PHP CS Fixer, PHP Mess Detector (phpmd), and PHPStan to enforce and improve code quality: 
@@ -28,5 +25,5 @@ In this repository we use PHP_CodeSniffer (phpcs), PHP CS Fixer, PHP Mess Detect
 ## How to regenerate PHP-Stan baseline
 
 ```bash
-docker compose exec si-php8 quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M --generate-baseline quality/php-stan/phpstan-baseline.neon
+quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M --generate-baseline quality/php-stan/phpstan-baseline.neon
 ```
