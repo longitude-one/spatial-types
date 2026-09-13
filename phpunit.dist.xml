@@ -12,6 +12,7 @@
     <testsuite name="spatial-types">
       <directory>tests/Functional</directory>
       <directory>tests/Unit</directory>
+      <directory>tests/Issue</directory>
     </testsuite>
   </testsuites>
   <source>
