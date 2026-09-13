@@ -4,40 +4,40 @@ parameters:
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidDimensionException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidDimensionExceptionTest.php
+			path: ../../tests/Unit/Exception/InvalidDimensionExceptionTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidFamilyException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidFamilyExceptionTest.php
+			path: ../../tests/Unit/Exception/InvalidFamilyExceptionTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidSridException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidSridExceptionTest.php
+			path: ../../tests/Unit/Exception/InvalidSridExceptionTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\InvalidValueException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/InvalidValueExceptionTest.php
+			path: ../../tests/Unit/Exception/InvalidValueExceptionTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\MissingValueException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/MissingValueExceptionTest.php
+			path: ../../tests/Unit/Exception/MissingValueExceptionTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\OutOfBoundsException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/OutOfBoundsExceptionTest.php
+			path: ../../tests/Unit/Exception/OutOfBoundsExceptionTest.php
 
 		-
 			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''LongitudeOne\\\\SpatialTypes\\\\Exception\\\\SpatialTypeExceptionInterface'' and LongitudeOne\\SpatialTypes\\Exception\\RangeException will always evaluate to true\.$#'
 			identifier: staticMethod.alreadyNarrowedType
 			count: 1
-			path: ../../tests/LongitudeOne/SpatialTypes/Tests/Unit/Exception/RangeExceptionTest.php
+			path: ../../tests/Unit/Exception/RangeExceptionTest.php

@@ -5,14 +5,13 @@
 /.gitignore export-ignore
 /.gitattributes export-ignore
 
-# Ignore documentation and quality tools
+# Ignore quality tools
 /quality export-ignore
-CONTRIBUTING.md export-ignore
-
-# Ignore Docker and local development files
-/docker export-ignore
-docker-compose.yaml export-ignore
+/.versionrc.json export-ignore
 
 # Ignore tests and related resources
 /tests export-ignore
-phpunit.dist.xml export-ignore
+/phpunit.dist.xml export-ignore
+
+# Conventions
+* text=auto eol=lf
