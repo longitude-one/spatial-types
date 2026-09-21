@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -148,6 +149,24 @@ abstract class AbstractLineString extends AbstractPointCollection implements Lin
     public function withSrid(int $srid): static
     {
         return $this->withSpatialReference(SpatialReference::fromSrid($srid));
+    }
+
+    /**
+     * Reject empty vertices while allowing MultiPoint to retain empty members.
+     *
+     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
+     */
+    protected function addPoint(array|PointInterface $point): static
+    {
+        if (is_array($point)) {
+            $point = $this->createPointFromCoordinates($point);
+        }
+
+        if ($point->isEmpty()) {
+            throw new InvalidValueException('A spatial collection cannot contain an empty point.');
+        }
+
+        return parent::addPoint($point);
     }
 
     /**
