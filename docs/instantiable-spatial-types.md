@@ -208,7 +208,9 @@ new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0);
   `[]` as an element creates an empty line string in the aggregate's context.
   Empty members retain their positions and must satisfy the same family,
   dimension, and complete spatial-reference checks as non-empty members.
-- A multi-polygon element is a `PolygonInterface` or an array of rings.
+- A multi-polygon element is a `PolygonInterface` or an array of rings. Empty
+  polygons are accepted in every dimension and both families; `[]` as an
+  element creates an empty polygon in the aggregate's context.
 - A polyhedral-surface patch is also a `PolygonInterface` (including a triangle)
   or an array of rings. All patches must match the surface family, XYZ/XYZM
   layout and complete spatial reference. `new PolyhedralSurface()` or `[]`
@@ -236,6 +238,13 @@ $polygon = new Polygon([
 `getLineStrings()`, `getLineString()` and `toArray()` preserve this distinction.
 The current `MultiLineString::isEmpty()` checks whether it has zero members;
 inspect the member arrays when the distinction matters.
+
+`new MultiPolygon([])` has zero members and `isEmpty()` returns `true`.
+`new MultiPolygon([[]])` and `new MultiPolygon([new Polygon([])])` each
+contain one empty polygon and `isEmpty()` returns `false`. `getElements()`,
+`getPolygons()` and `getPolygon()` expose that member, whose own `isEmpty()`
+returns `true`. `toArray()` preserves the distinction as `[]` versus `[[]]`;
+empty members in mixed collections retain their positions.
 
 `withLineString($index, [])` replaces a member with an empty line string without
 removing it. Replacing an empty member with non-empty coordinates preserves its
