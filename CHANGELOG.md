@@ -1,5 +1,3 @@
 # Changelog
 
-All notable changes to this library are documented in this file.
-
-This changelog is automatically generated from Conventional Commits using commit-and-tag-version.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
