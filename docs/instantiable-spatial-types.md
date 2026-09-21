@@ -204,7 +204,10 @@ new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0);
   exterior positions (including closure) and no interior rings. `[]` represents
   an empty triangle; `[[]]` is invalid.
 - A multi-line-string element is a `LineStringInterface` or an array of point
-  tuples.
+  tuples. Empty line strings are accepted in every dimension and both families;
+  `[]` as an element creates an empty line string in the aggregate's context.
+  Empty members retain their positions and must satisfy the same family,
+  dimension, and complete spatial-reference checks as non-empty members.
 - A multi-polygon element is a `PolygonInterface` or an array of rings.
 - A polyhedral-surface patch is also a `PolygonInterface` (including a triangle)
   or an array of rings. All patches must match the surface family, XYZ/XYZM
@@ -227,6 +230,22 @@ $polygon = new Polygon([
     [[0, 0], [4, 0], [4, 3], [0, 0]],
 ], 3857);
 ```
+
+`new MultiLineString([])` has zero members, whereas
+`new MultiLineString([[]])` has one empty member. `getElements()`,
+`getLineStrings()`, `getLineString()` and `toArray()` preserve this distinction.
+The current `MultiLineString::isEmpty()` checks whether it has zero members;
+inspect the member arrays when the distinction matters.
+
+`withLineString($index, [])` replaces a member with an empty line string without
+removing it. Replacing an empty member with non-empty coordinates preserves its
+position too. Unchanged members are deeply copied with their full spatial
+reference, including its authority. `withSpatialReference()` and `withSrid()`
+preserve empty members while applying the requested reference to the copy.
+The original value remains unchanged.
+
+See [empty MultiLineString interoperability](empty-multilinestring-interoperability.md)
+for the WKT/WKB verification and the current WKT parser limitation.
 
 `TriangleInterface` extends `PolygonInterface`. All eight dimension/family
 combinations provide a concrete `Triangle`:

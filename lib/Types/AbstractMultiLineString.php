@@ -136,7 +136,7 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
         $multiLineString->lineStrings = [];
 
         foreach ($this->lineStrings as $index => $lineString) {
-            $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : $lineString->withSrid($lineString->getSrid()));
+            $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : $lineString->withSpatialReference($lineString->getSpatialReference()));
         }
 
         return $multiLineString;
