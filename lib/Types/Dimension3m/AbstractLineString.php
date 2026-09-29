@@ -48,18 +48,18 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     }
 
     /**
+     * Return the XYM dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYM;
+    }
+
+    /**
      * Return the line string type.
      */
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::LINESTRING;
-    }
-
-    /**
-     * Return the XYM dimension.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYM;
     }
 }

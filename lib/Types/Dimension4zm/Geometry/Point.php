@@ -64,6 +64,14 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
+     * Return the four-dimensional XYZM coordinate layout.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYZM;
+    }
+
+    /**
      * Return the geometry family.
      */
     public function getFamily(): SpatialModelEnum
@@ -107,14 +115,6 @@ class Point extends AbstractPoint implements PointInterface
         }
 
         return [$this->x, $this->y, $this->z, $this->m];
-    }
-
-    /**
-     * Return the four-dimensional XYZM coordinate layout.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYZM;
     }
 
     /**

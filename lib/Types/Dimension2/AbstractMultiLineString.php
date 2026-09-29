@@ -24,18 +24,18 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString as ParentMultiLineSt
 abstract class AbstractMultiLineString extends ParentMultiLineString implements MultiLineStringInterface
 {
     /**
+     * Initialize the dimension of the object.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XY;
+    }
+
+    /**
      * Initialize the type of the object.
      */
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::MULTILINESTRING;
-    }
-
-    /**
-     * Initialize the dimension of the object.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XY;
     }
 }

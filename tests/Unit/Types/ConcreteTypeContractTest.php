@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
@@ -169,10 +170,19 @@ class ConcreteTypeContractTest extends TestCase
         array $otherCoordinates
     ): void {
         $spatialTypes = self::createSpatialTypes($dimension, $family, $coordinates, $otherCoordinates);
+        $expectedDimension = match ($dimension) {
+            'Dimension2' => CoordinateDimensionEnum::XY,
+            'Dimension3m' => CoordinateDimensionEnum::XYM,
+            'Dimension3z' => CoordinateDimensionEnum::XYZ,
+            'Dimension4zm' => CoordinateDimensionEnum::XYZM,
+            default => throw new \LogicException('Unsupported coordinate dimension.'),
+        };
 
         foreach ($spatialTypes as [$spatial, $type, $expectedCoordinates]) {
             static::assertSame($family, $spatial->getFamily());
             static::assertSame($type, $spatial->getType());
+            static::assertSame($expectedDimension, $spatial->getDimension());
+            static::assertFalse($spatial->isEmpty());
             static::assertSame($hasM, $spatial->hasM());
             static::assertSame($hasZ, $spatial->hasZ());
             static::assertSame($expectedCoordinates, $spatial->toArray());

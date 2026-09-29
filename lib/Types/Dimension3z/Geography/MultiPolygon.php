@@ -25,6 +25,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon;
 class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
 {
     /**
+     * Initialize the dimension of the object.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYZ;
+    }
+
+    /**
      * Initialize the family of the object.
      */
     public function getFamily(): SpatialModelEnum
@@ -38,13 +46,5 @@ class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::MULTIPOLYGON;
-    }
-
-    /**
-     * Initialize the dimension of the object.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYZ;
     }
 }

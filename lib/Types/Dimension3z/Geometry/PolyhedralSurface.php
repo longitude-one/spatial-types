@@ -25,6 +25,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurface;
 class PolyhedralSurface extends AbstractPolyhedralSurface implements PolyhedralSurfaceInterface
 {
     /**
+     * Initialize the dimension of the object.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYZ;
+    }
+
+    /**
      * Initialize the family of the object.
      */
     public function getFamily(): SpatialModelEnum
@@ -38,13 +46,5 @@ class PolyhedralSurface extends AbstractPolyhedralSurface implements PolyhedralS
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::POLYHEDRALSURFACE;
-    }
-
-    /**
-     * Initialize the dimension of the object.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYZ;
     }
 }
