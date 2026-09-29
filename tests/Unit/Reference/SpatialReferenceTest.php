@@ -30,6 +30,15 @@ use PHPUnit\Framework\TestCase;
  */
 class SpatialReferenceTest extends TestCase
 {
+    /** Verify that an empty authority is rejected. */
+    public function testEmptyAuthorityIsRejected(): void
+    {
+        self::expectException(InvalidSridException::class);
+        self::expectExceptionMessageIsOrContains('A spatial reference authority cannot be empty.');
+
+        new SpatialReference(4326, ' ');
+    }
+
     /** Verify that a typed EPSG reference propagates to aggregate descendants. */
     public function testEpsgReferenceIsPreservedByAnAggregateAndItsChildren(): void
     {
@@ -41,6 +50,15 @@ class SpatialReferenceTest extends TestCase
 
         static::assertSame($reference, $lineString->getSpatialReference());
         static::assertSame($reference, $lineString->getPoint(0)->getSpatialReference());
+    }
+
+    /** Verify that a negative spatial reference identifier is rejected. */
+    public function testNegativeIdentifierIsRejected(): void
+    {
+        self::expectException(InvalidSridException::class);
+        self::expectExceptionMessageIsOrContains('A spatial reference identifier cannot be negative.');
+
+        new SpatialReference(-1);
     }
 
     /** Verify that the unnamed reference cannot act as an aggregate wildcard. */

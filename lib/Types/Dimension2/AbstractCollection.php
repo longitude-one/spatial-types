@@ -24,18 +24,18 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection as ParentCollection;
 abstract class AbstractCollection extends ParentCollection implements CollectionInterface
 {
     /**
+     * Return the two-dimensional coordinate layout.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XY;
+    }
+
+    /**
      * Return the geometry collection type.
      */
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::GEOMETRYCOLLECTION;
-    }
-
-    /**
-     * Return the two-dimensional coordinate layout.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XY;
     }
 }

@@ -62,6 +62,14 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
+     * Return the XYM dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYM;
+    }
+
+    /**
      * Return the geometry family.
      */
     public function getFamily(): SpatialModelEnum
@@ -103,14 +111,6 @@ class Point extends AbstractPoint implements PointInterface
         }
 
         return [$this->x, $this->y, $this->m];
-    }
-
-    /**
-     * Return the XYM dimension.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYM;
     }
 
     /**

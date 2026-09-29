@@ -213,7 +213,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Dimension getter.
      */
-    abstract protected function getDimension(): CoordinateDimensionEnum;
+    abstract public function getDimension(): CoordinateDimensionEnum;
 
     /**
      * Family getter.

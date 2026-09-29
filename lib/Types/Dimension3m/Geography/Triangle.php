@@ -28,6 +28,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractTriangle;
 class Triangle extends AbstractTriangle implements TriangleInterface
 {
     /**
+     * Return the XYM dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYM;
+    }
+
+    /**
      * Return the geography family.
      */
     public function getFamily(): SpatialModelEnum
@@ -41,13 +49,5 @@ class Triangle extends AbstractTriangle implements TriangleInterface
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::TRIANGLE;
-    }
-
-    /**
-     * Return the XYM dimension.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYM;
     }
 }

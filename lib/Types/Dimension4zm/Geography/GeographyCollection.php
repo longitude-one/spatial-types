@@ -25,6 +25,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection;
 class GeographyCollection extends AbstractCollection implements CollectionInterface
 {
     /**
+     * Return the four-dimensional XYZM coordinate layout.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYZM;
+    }
+
+    /**
      * Return the geography family.
      */
     public function getFamily(): SpatialModelEnum
@@ -38,13 +46,5 @@ class GeographyCollection extends AbstractCollection implements CollectionInterf
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::GEOMETRYCOLLECTION;
-    }
-
-    /**
-     * Return the four-dimensional XYZM coordinate layout.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYZM;
     }
 }

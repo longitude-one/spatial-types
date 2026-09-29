@@ -48,18 +48,18 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
     }
 
     /**
+     * Define the dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XY;
+    }
+
+    /**
      * Define the type.
      */
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::MULTIPOINT;
-    }
-
-    /**
-     * Define the dimension.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XY;
     }
 }

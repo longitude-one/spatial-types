@@ -28,6 +28,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractCollection;
 class GeometryCollection extends AbstractCollection implements CollectionInterface
 {
     /**
+     * Return the XYM dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYM;
+    }
+
+    /**
      * Return the geometry family.
      */
     public function getFamily(): SpatialModelEnum
@@ -41,13 +49,5 @@ class GeometryCollection extends AbstractCollection implements CollectionInterfa
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::GEOMETRYCOLLECTION;
-    }
-
-    /**
-     * Return the XYM dimension.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYM;
     }
 }

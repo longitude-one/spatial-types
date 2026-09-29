@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
@@ -33,6 +34,11 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
  */
 interface SpatialInterface extends \JsonSerializable
 {
+    /**
+     * Return the complete coordinate dimension of this spatial object.
+     */
+    public function getDimension(): CoordinateDimensionEnum;
+
     /**
      * Return the family of this spatial object.
      */

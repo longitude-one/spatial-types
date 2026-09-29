@@ -25,6 +25,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractPolygon;
 class Polygon extends AbstractPolygon implements PolygonInterface
 {
     /**
+     * Declare the dimension of the object.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XY;
+    }
+
+    /**
      * Declare the family of the object.
      */
     public function getFamily(): SpatialModelEnum
@@ -38,13 +46,5 @@ class Polygon extends AbstractPolygon implements PolygonInterface
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::POLYGON;
-    }
-
-    /**
-     * Declare the dimension of the object.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XY;
     }
 }

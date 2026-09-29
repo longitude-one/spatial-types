@@ -25,6 +25,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurface;
 class PolyhedralSurface extends AbstractPolyhedralSurface implements PolyhedralSurfaceInterface
 {
     /**
+     * Return the four-dimensional XYZM coordinate layout.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYZM;
+    }
+
+    /**
      * Return the geography family.
      */
     public function getFamily(): SpatialModelEnum
@@ -38,13 +46,5 @@ class PolyhedralSurface extends AbstractPolyhedralSurface implements PolyhedralS
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::POLYHEDRALSURFACE;
-    }
-
-    /**
-     * Return the four-dimensional XYZM coordinate layout.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYZM;
     }
 }

@@ -28,6 +28,14 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon;
 class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
 {
     /**
+     * Return the XYM dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYM;
+    }
+
+    /**
      * Return the geography family.
      */
     public function getFamily(): SpatialModelEnum
@@ -41,13 +49,5 @@ class MultiPolygon extends AbstractMultiPolygon implements MultiPolygonInterface
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::MULTIPOLYGON;
-    }
-
-    /**
-     * Return the XYM dimension.
-     */
-    protected function getDimension(): CoordinateDimensionEnum
-    {
-        return CoordinateDimensionEnum::XYM;
     }
 }
