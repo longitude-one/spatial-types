@@ -42,7 +42,7 @@ that the request throws `InvalidValueException`, identifying the enum case and
 its non-instantiable status. It never returns `false` for an abstract type.
 **No** means that an instantiable type is not yet fully implemented.
 
-If a future enum case has no explicit classification, the API throws
+If a future instantiable enum case has no explicit classification, the API throws
 `LongitudeOne\SpatialTypes\Exception\LogicException` with the case name.
 This exception extends PHP's `LogicException` and implements
 `SpatialTypeExceptionInterface`; it identifies an incomplete library
