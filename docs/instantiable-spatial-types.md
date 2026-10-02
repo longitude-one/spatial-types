@@ -42,6 +42,13 @@ that the request throws `InvalidValueException`, identifying the enum case and
 its non-instantiable status. It never returns `false` for an abstract type.
 **No** means that an instantiable type is not yet fully implemented.
 
+If a future enum case has no explicit classification, the API throws
+`LongitudeOne\SpatialTypes\Exception\LogicException` with the case name.
+This exception extends PHP's `LogicException` and implements
+`SpatialTypeExceptionInterface`; it identifies an incomplete library
+classification, rather than an unsupported spatial type. A test iterates all
+enum cases to ensure this exception is not raised for the current model.
+
 | `GeometryTypeEnum` | Instantiable | Fully implemented by `spatial-types` |
 | --- | --- | --- |
 | `GEOMETRY` | No | Not applicable |

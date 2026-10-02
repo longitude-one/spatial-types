@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Implementation;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\LogicException;
 use LongitudeOne\SpatialTypes\Implementation\SpatialTypeImplementationStatus;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -170,6 +171,23 @@ class SpatialTypeImplementationStatusTest extends TestCase
     {
         static::assertTrue(GeometryTypeEnum::MULTISURFACE->isInstantiable());
         static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTISURFACE));
+    }
+
+    /**
+     * Every enum case has a status or the expected non-instantiable rejection.
+     */
+    public function testNoEnumCaseHasUndefinedImplementationStatus(): void
+    {
+        foreach (GeometryTypeEnum::cases() as $type) {
+            try {
+                SpatialTypeImplementationStatus::isFullyImplemented($type);
+                static::assertTrue($type->isInstantiable(), $type->name);
+            } catch (InvalidValueException) {
+                static::assertFalse($type->isInstantiable(), $type->name);
+            } catch (LogicException $exception) {
+                static::fail($exception->getMessage());
+            }
+        }
     }
 
     /**

@@ -18,6 +18,7 @@ namespace LongitudeOne\SpatialTypes\Implementation;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\LogicException;
 
 /**
  * Implementation coverage of the geometry types in the spatial model.
@@ -30,9 +31,17 @@ final class SpatialTypeImplementationStatus
      * @param GeometryTypeEnum $type Requested geometry type
      *
      * @throws InvalidValueException when the geometry type is non-instantiable
+     * @throws LogicException        when the geometry type has no implementation classification
      */
     public static function isFullyImplemented(GeometryTypeEnum $type): bool
     {
+        if (!$type->isInstantiable()) {
+            throw new InvalidValueException(sprintf(
+                'Implementation status is not applicable to non-instantiable GeometryTypeEnum::%s.',
+                $type->name
+            ));
+        }
+
         return match ($type) {
             GeometryTypeEnum::POINT,
             GeometryTypeEnum::LINESTRING,
@@ -49,11 +58,8 @@ final class SpatialTypeImplementationStatus
             GeometryTypeEnum::TIN,
             GeometryTypeEnum::MULTICURVE,
             GeometryTypeEnum::MULTISURFACE => false,
-            GeometryTypeEnum::GEOMETRY,
-            GeometryTypeEnum::CURVE,
-            GeometryTypeEnum::SURFACE,
-            GeometryTypeEnum::SOLID => throw new InvalidValueException(sprintf(
-                'Implementation status is not applicable to non-instantiable GeometryTypeEnum::%s.',
+            default => throw new LogicException(sprintf(
+                'Implementation status is undefined for GeometryTypeEnum::%s.',
                 $type->name
             )),
         };
