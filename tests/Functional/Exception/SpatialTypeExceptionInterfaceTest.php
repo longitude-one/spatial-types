@@ -22,6 +22,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\LogicException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Exception\RangeException;
@@ -89,5 +90,18 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
         yield 'OutOfBoundsException' => [OutOfBoundsException::class];
 
         yield 'RangeException' => [RangeException::class];
+    }
+
+    /**
+     * Logic failures remain catchable through the public spatial exception contract.
+     */
+    public function testCatchLogicException(): void
+    {
+        try {
+            throw new LogicException('Undefined implementation status.');
+        } catch (SpatialTypeExceptionInterface $exception) {
+            static::assertInstanceOf(\LogicException::class, $exception);
+            static::assertSame('Undefined implementation status.', $exception->getMessage());
+        }
     }
 }

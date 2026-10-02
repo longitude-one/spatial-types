@@ -12,35 +12,74 @@ the `ST_Geometry` hierarchy of SQL/MM Spatial (ISO/IEC 13249-3). In practice,
 that model supplies the instantiable `Point`, `LineString`, `Polygon`,
 `Triangle`, `PolyhedralSurface`, `MultiPoint`, `MultiLineString`, `MultiPolygon`, and collection types.
 
-### ISO/IEC 13249-3 geometry-type coverage
+### GeometryTypeEnum implementation status
 
-The following matrix covers the SQL/MM geometry hierarchy used by this
-library. It distinguishes the standard's instantiable types from the concrete
-types exposed by the library. SQL/MM's curve-capable types are listed even
-though the library deliberately implements only the linear subset. The SQL/MM
-type declarations are reproduced in the informative SQL/MM comparison in the
-[OGC Simple Features Access specification](https://docs.ogc.org/is/06-104r4/06-104r4/pdf).
+Use `Implementation\SpatialTypeImplementationStatus::isFullyImplemented()` to
+query library support without depending on concrete class names or namespaces.
+The API accepts a `LongitudeOne\Core\Enum\GeometryTypeEnum` and returns a
+boolean for instantiable types. Instantiability is defined by
+`GeometryTypeEnum::isInstantiable()` in `spatial-core`; implementation status
+belongs to `spatial-types`.
 
-| ISO/IEC 13249-3 type | Instantiable in SQL/MM | Library representation                       | Coverage note                                                                 |
-| -------------------- | ---------------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
-| `ST_Geometry`        | No                     | —                                            | Abstract root type; `SpatialInterface` is the common PHP contract.            |
-| `ST_Point`           | Yes                    | `Point`                                      | Implemented for every family and coordinate layout.                           |
-| `ST_Curve`           | No                     | —                                            | Abstract one-dimensional base type.                                           |
-| `ST_LineString`      | Yes                    | `LineString`                                 | Implemented for every family and coordinate layout.                           |
-| `ST_CircularString`  | Yes                    | —                                            | Circular-arc curves are not implemented.                                      |
-| `ST_CompoundCurve`   | Yes                    | —                                            | Compositions of linear and circular curves are not implemented.               |
-| `ST_Surface`         | No                     | —                                            | Abstract two-dimensional base type.                                           |
-| `ST_CurvePolygon`    | Yes                    | —                                            | Curve-bounded polygons are not implemented.                                   |
-| `ST_Polygon`         | Yes                    | `Polygon`                                    | Implemented with `LineString` rings only.                                     |
-| `ST_Triangle`        | Yes                    | `Triangle`                                   | Four exterior positions, including closure, and no interior rings (section 8.4). |
-| `ST_PolyhdrlSurface` | Yes                    | `PolyhedralSurface`                          | Connected polygon patches in XYZ or XYZM; an open boundary is allowed. |
-| `ST_TIN`             | Yes                    | —                                            | Triangulated surfaces are not implemented. |
-| `ST_GeomCollection`  | Yes                    | `GeometryCollection` / `GeographyCollection` | Implemented as a heterogeneous collection that can contain other collections. |
-| `ST_MultiPoint`      | Yes                    | `MultiPoint`                                 | Implemented.                                                                  |
-| `ST_MultiCurve`      | Yes                    | —                                            | Not implemented; it could contain any `ST_Curve` subtype.                     |
-| `ST_MultiLineString` | Yes                    | `MultiLineString`                            | Implemented.                                                                  |
-| `ST_MultiSurface`    | Yes                    | —                                            | Not implemented; it could contain any `ST_Surface` subtype.                   |
-| `ST_MultiPolygon`    | Yes                    | `MultiPolygon`                               | Implemented. |
+```php
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Implementation\SpatialTypeImplementationStatus;
+
+SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POINT); // true
+SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::TIN); // false
+SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POLYHEDRALSURFACE); // true
+
+try {
+    SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEOMETRY);
+} catch (InvalidValueException $exception) {
+    // Implementation status is not applicable to non-instantiable GeometryTypeEnum::GEOMETRY.
+}
+```
+
+The following matrix covers every current enum case. **Not applicable** means
+that the request throws `InvalidValueException`, identifying the enum case and
+its non-instantiable status. It never returns `false` for an abstract type.
+**No** means that an instantiable type is not yet fully implemented.
+
+If a future instantiable enum case has no explicit classification, the API throws
+`LongitudeOne\SpatialTypes\Exception\LogicException` with the case name.
+This exception extends PHP's `LogicException` and implements
+`SpatialTypeExceptionInterface`; it identifies an incomplete library
+classification, rather than an unsupported spatial type. A test iterates all
+enum cases to ensure this exception is not raised for the current model.
+
+| `GeometryTypeEnum` | Instantiable | Fully implemented by `spatial-types` |
+| --- | --- | --- |
+| `GEOMETRY` | No | Not applicable |
+| `POINT` | Yes | Yes |
+| `CURVE` | No | Not applicable |
+| `LINESTRING` | Yes | Yes |
+| `CIRCULARSTRING` | Yes | No |
+| `COMPOUNDCURVE` | Yes | No |
+| `SURFACE` | No | Not applicable |
+| `CURVEPOLYGON` | Yes | No |
+| `POLYGON` | Yes | Yes |
+| `TRIANGLE` | Yes | Yes |
+| `POLYHEDRALSURFACE` | Yes | Yes |
+| `TIN` | Yes | No |
+| `GEOMETRYCOLLECTION` | Yes | Yes |
+| `MULTIPOINT` | Yes | Yes |
+| `MULTICURVE` | Yes | No |
+| `MULTILINESTRING` | Yes | Yes |
+| `MULTISURFACE` | Yes | No |
+| `MULTIPOLYGON` | Yes | Yes |
+| `SOLID` | No | Not applicable |
+
+Full implementation is evaluated over the layouts applicable to the geometry
+type, not over every layout in the library. `POLYHEDRALSURFACE` is fully
+implemented for this API: both families provide XYZ and XYZM variants. This
+does not add XY or XYM variants. The other eight implemented types are
+available in both families for XY, XYZ, XYM and XYZM.
+
+This API requires `spatial-core` 1.2 or newer within the 1.x series. The
+library's minimum dependency has accordingly increased from 1.1 to 1.2.
+No existing spatial type or supported coordinate layout changes.
 
 `ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
 than a subtype of `ST_Geometry`; it is outside this value-type hierarchy. This
