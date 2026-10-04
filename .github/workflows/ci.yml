@@ -3,10 +3,6 @@ name: PHP CI
 on:
     schedule:
         - cron: '5 16 * * 3'
-    push:
-        paths-ignore:
-            - '**.md'
-            - LICENSE
     pull_request:
         paths-ignore:
             - '**.md'
@@ -23,7 +19,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                validator: ['5.4', '6.4', '7.4', '8.1']
+                validator: ['5.4', '6.4', '7.4']
         env:
             SYMFONY_VALIDATOR_VERSION: ${{ matrix.validator }}
         steps:
