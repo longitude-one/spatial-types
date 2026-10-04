@@ -53,6 +53,12 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
         return $this->getPoints();
     }
 
+    /** Return the last defining point, or null for an empty curve. */
+    public function getEndPoint(): ?PointInterface
+    {
+        return $this->isEmpty() ? null : $this->getPoint(-1);
+    }
+
     /**
      * Return a point using the collection index convention.
      *
@@ -75,10 +81,22 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
         return $this->points;
     }
 
+    /** Return the first defining point, or null for an empty curve. */
+    public function getStartPoint(): ?PointInterface
+    {
+        return $this->isEmpty() ? null : $this->getPoint(0);
+    }
+
     /** Return the circular-string type. */
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::CIRCULARSTRING;
+    }
+
+    /** Whether the first and last defining points are equal. */
+    public function isClosed(): bool
+    {
+        return !$this->isEmpty() && $this->getPoint(0)->equalsTo($this->getPoint(-1));
     }
 
     /** Whether this point collection is empty. */

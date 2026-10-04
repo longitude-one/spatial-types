@@ -16,12 +16,15 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-/**
- * Common spatial contract for curves, independent of their interpolation.
- *
- * This category deliberately adds no point-sequence or topology operations:
- * those belong to the supported concrete curve contracts.
- */
+/** Common endpoint and closure contract for supported curves. */
 interface CurveInterface extends SpatialInterface
 {
+    /** Return the end point, or null for an empty curve. */
+    public function getEndPoint(): ?PointInterface;
+
+    /** Return the start point, or null for an empty curve. */
+    public function getStartPoint(): ?PointInterface;
+
+    /** Whether this non-empty curve has equal start and end points. */
+    public function isClosed(): bool;
 }

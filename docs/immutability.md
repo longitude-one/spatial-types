@@ -178,3 +178,9 @@ members and distinct intermediate points. Complete-circle endpoints may
 coincide, and collinear arcs remain valid. Reference replacements preserve the
 defining coordinates and copy the contained points. Editing an endpoint does
 not automatically edit the other end of a closed circular string.
+
+Compound curves retain immutable ordered curve components. Their
+`withSpatialReference()` and legacy `withSrid()` operations deeply copy all
+components and defining points, preserving interpolation and validating
+continuity. Construct a new compound from replacement curves to change its
+path; modifying a returned `getCurves()` array does not affect the original.

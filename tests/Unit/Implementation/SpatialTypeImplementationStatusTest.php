@@ -73,7 +73,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
     public function testCompoundCurve(): void
     {
         static::assertTrue(GeometryTypeEnum::COMPOUNDCURVE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDCURVE));
+        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDCURVE));
     }
 
     /**
