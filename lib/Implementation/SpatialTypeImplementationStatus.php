@@ -43,6 +43,7 @@ final class SpatialTypeImplementationStatus
         }
 
         return match ($type) {
+            GeometryTypeEnum::CIRCULARSTRING,
             GeometryTypeEnum::POINT,
             GeometryTypeEnum::LINESTRING,
             GeometryTypeEnum::POLYGON,
@@ -60,7 +61,6 @@ final class SpatialTypeImplementationStatus
             GeometryTypeEnum::GEODESICSTRING,
             GeometryTypeEnum::NURBSCURVE,
             GeometryTypeEnum::SPIRALCURVE,
-            GeometryTypeEnum::CIRCULARSTRING,
             GeometryTypeEnum::COMPOUNDCURVE,
             GeometryTypeEnum::CURVEPOLYGON,
             GeometryTypeEnum::TIN,

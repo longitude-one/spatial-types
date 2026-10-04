@@ -30,7 +30,7 @@ point is part of an aggregate. `withSpatialReference()` only changes the
 declared reference; it never converts ordinates. The Lambert 93 values in the
 example must be calculated by an external coordinate transformer.
 
-`LineString`, `MultiPoint`, and `Polygon` provide an equally immutable
+`LineString`, `CircularString`, `MultiPoint`, and `Polygon` provide an equally immutable
 point-replacement operation. `withPoint()` returns a deep copy: the source
 aggregate, its rings, and its points remain unchanged.
 
@@ -170,3 +170,11 @@ creates a deep copy whose descendants all receive the requested reference.
 
 See [Instantiable spatial types](instantiable-spatial-types.md#immutability-contract)
 for the complete current mutability contract.
+
+
+Circular strings also provide `withArrayOfCoordinates()`; every replacement
+revalidates the odd point count (at least three when non-empty), non-empty
+members and distinct intermediate points. Complete-circle endpoints may
+coincide, and collinear arcs remain valid. Reference replacements preserve the
+defining coordinates and copy the contained points. Editing an endpoint does
+not automatically edit the other end of a closed circular string.

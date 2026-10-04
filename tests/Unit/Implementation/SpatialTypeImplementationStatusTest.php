@@ -55,7 +55,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
     public function testCircularString(): void
     {
         static::assertTrue(GeometryTypeEnum::CIRCULARSTRING->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCULARSTRING));
+        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCULARSTRING));
     }
 
     /**
