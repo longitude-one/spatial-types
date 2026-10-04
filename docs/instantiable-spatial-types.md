@@ -55,7 +55,7 @@ enum cases to ensure this exception is not raised for the current model.
 | `POINT` | Yes | Yes |
 | `CURVE` | No | Not applicable |
 | `LINESTRING` | Yes | Yes |
-| `CIRCULARSTRING` | Yes | No |
+| `CIRCULARSTRING` | Yes | Yes |
 | `COMPOUNDCURVE` | Yes | No |
 | `SURFACE` | No | Not applicable |
 | `CURVEPOLYGON` | Yes | No |
@@ -533,3 +533,60 @@ Caller-supplied dimension and family validation messages are formatted as a whol
 Previous exceptions from dependencies retain their original messages and formatting.
 Exceptions constructed directly by application code retain PHP's standard constructor behavior.
 The formatter does not escape messages for HTML, JSON, XML or SQL.
+
+## Circular strings and the common curve contract
+
+`Interfaces\CurveInterface` extends `SpatialInterface` and is the shared curve
+category implemented by `LineStringInterface` and `CircularStringInterface`.
+It deliberately adds no methods: point-sequence operations remain on the
+concrete interfaces, and no speculative operations for future curve types are
+part of this contract. Existing line-string implementations acquire this category
+without additional method requirements.
+
+`Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CircularString` supports
+XY, XYZ, XYM and XYZM in both families. Its constructor is:
+
+```php
+public function __construct(array $points, int|SpatialReference $srid = 0);
+```
+
+Pass defining `PointInterface` values or coordinate tuples, using the same
+family, dimension and complete spatial-reference identity as the curve.
+`[]` creates an empty circular string. A non-empty value requires an odd
+number of at least three non-empty points. The first three points define one
+arc; every subsequent pair adds its intermediate and end points, sharing the
+preceding endpoint. An intermediate point must differ from both endpoints.
+
+These rules follow ISO/IEC CD 13249-3:201x(E), clause 4.2.6 (the available
+2009-01-16 Committee Draft), and clause 7.3.1, Description rules 4–12.
+Consecutive duplicates are rejected as required by clause 7.3.3. Collinear defining points are valid and describe
+a degenerate straight-line arc. Coincident start and end points describe a
+complete circle, with the intermediate point opposite the start across the
+circle's centre. Stored defining points are never replaced by a linear
+approximation. A closed and simple circular string is a circular ring; this
+API does not expose circular simplicity or ring predicates.
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
+use LongitudeOne\SpatialTypes\Value\Coordinates;
+
+$arc = new CircularString([[0, 0], [1, 1], [2, 0]], 4326);
+$circle = new CircularString([[1, 0], [-1, 0], [1, 0]], 4326);
+$empty = new CircularString([], 4326);
+$replacement = $arc->withPoint(1, Coordinates::xy(1, 2));
+```
+
+`getPoints()`, `getPoint($index)` and `getElements()` expose defining points.
+Indexes wrap by the point count and negative indexes count from the end;
+empty indexed access throws `OutOfBoundsException`. The ordinary spatial
+methods report `CIRCULARSTRING`, coordinate dimension, family and reference.
+`toArray()` contains the defining coordinate tuples.
+
+`withPoint()` and `withArrayOfCoordinates()` preserve the curve's family,
+dimension and complete reference. Each replacement validates the resulting
+curve; `withArrayOfCoordinates([])` returns an empty curve. Reference changes
+copy every point without transforming coordinates. Invalid point counts,
+empty members and coincident intermediate/endpoints throw
+`InvalidValueException`; dimension, family and reference mismatches retain
+the existing spatial exception contracts. No parsing, serialization strategy,
+linear approximation or `CompoundCurve` implementation is added here.

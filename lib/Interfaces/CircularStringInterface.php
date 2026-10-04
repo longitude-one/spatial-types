@@ -19,52 +19,41 @@ namespace LongitudeOne\SpatialTypes\Interfaces;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
- * LineString interface.
+ * Defining points of a circularly interpolated curve.
  *
- * The LineString type is a subtype of ST_Curve. The LineString type is instantiable.
- * A LineString instance has linear interpolation between Point values.
- * Each consecutive pair of Point values defines a line segment.
- * A line is a LineString value with exactly two points.
- * Linear-ring validation is provided by Validator\Constraints\Ring.
- *
- * The common curve category is represented by CurveInterface.
+ * Non-empty values contain an odd number of at least three points. Each arc
+ * uses a start, intermediate and end point; consecutive arcs share endpoints.
+ * ISO/IEC CD 13249-3:201x(E), clause 4.2.6.
  */
-interface LineStringInterface extends CurveInterface
+interface CircularStringInterface extends CurveInterface
 {
     /**
-     * Return the points that compose the line string.
+     * Return the points that compose the circular string.
      *
      * @return PointInterface[]
      */
     public function getElements(): array;
 
     /**
-     * Return a point from the line string.
+     * Return a point from the circular string.
      *
      * @param int $index index of the point. -1 is the last point. -2 is the penultimate point, etc.
      */
     public function getPoint(int $index): PointInterface;
 
     /**
-     * Return the points that compose the line string.
+     * Return the points that compose the circular string.
      *
      * @return PointInterface[]
      */
     public function getPoints(): array;
 
     /**
-     * Is the line string empty?
+     * Is the circular string empty?
      *
-     * A line string is empty when it does not contain any point.
+     * A circular string is empty when it does not contain any point.
      */
     public function isEmpty(): bool;
-
-    /**
-     * Is the line string a line?
-     *
-     * A line is a LineString value with exactly two points.
-     */
-    public function isLine(): bool;
 
     /**
      * Return an array of coordinates.
@@ -74,9 +63,9 @@ interface LineStringInterface extends CurveInterface
     public function toArray(): array;
 
     /**
-     * Return a new line string with replacement coordinates.
+     * Return a new circular string with replacement coordinates.
      *
-     * The returned line string preserves this instance's family, dimension,
+     * The returned circular string preserves this instance's family, dimension,
      * and Spatial Reference Identifier (SRID). Each tuple must therefore match
      * this instance's coordinate layout: XY, XYM, XYZ, or XYZM.
      *
@@ -85,9 +74,9 @@ interface LineStringInterface extends CurveInterface
     public function withArrayOfCoordinates(array $coordinates): static;
 
     /**
-     * Return a new line string with one replacement point.
+     * Return a new circular string with one replacement point.
      *
-     * The returned line string preserves this instance's family, dimension,
+     * The returned circular string preserves this instance's family, dimension,
      * and Spatial Reference Identifier (SRID). The coordinate dimension must
      * match the point selected by the index.
      *
