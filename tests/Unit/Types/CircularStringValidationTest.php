@@ -142,6 +142,20 @@ class CircularStringValidationTest extends TestCase
         (new \ReflectionClass(CircularString::class))->newInstance([false, [1, 1], [2, 0]]);
     }
 
+    /** Numeric equality also applies to the final endpoint of an arc. */
+    public function testRejectNumericallyEqualEndPoint(): void
+    {
+        $this->expectException(InvalidValueException::class);
+        new CircularString([[0, 0], [2, 1], [2.0, 1.0]]);
+    }
+
+    /** Numeric equality does not depend on integer versus floating-point storage. */
+    public function testRejectNumericallyEqualIntermediatePoint(): void
+    {
+        $this->expectException(InvalidValueException::class);
+        new CircularString([[0, 0], [0.0, 0.0], [2, 0]]);
+    }
+
     /** One point cannot define an arc. */
     public function testRejectOnePoint(): void
     {

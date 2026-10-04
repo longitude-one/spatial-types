@@ -161,7 +161,8 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
 
         $this->assertSameFamily($point, 'The point family is not compatible with the family of the current spatial collection.');
 
-        if ([] !== $this->points && $this->points[count($this->points) - 1]->equalsTo($point)) {
+        // Compare normalized numeric ordinates, not their PHP integer/float storage types.
+        if ([] !== $this->points && $this->points[count($this->points) - 1]->toArray() == $point->toArray()) {
             throw new InvalidValueException('The intermediate point of a circular arc must differ from its endpoints.');
         }
 

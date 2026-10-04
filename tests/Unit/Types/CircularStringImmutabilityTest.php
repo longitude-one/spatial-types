@@ -79,6 +79,19 @@ class CircularStringImmutabilityTest extends TestCase
         }
     }
 
+    /** An edit cannot introduce a numerically identical intermediate point. */
+    public function testRejectNumericallyEqualReplacement(): void
+    {
+        $curve = new CircularString([[0, 0], [1, 1], [2, 0]]);
+        $this->expectException(InvalidValueException::class);
+
+        try {
+            $curve->withPoint(1, Coordinates::xy(0.0, 0.0));
+        } finally {
+            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+        }
+    }
+
     /** Replacement coordinates cannot change the curve layout. */
     public function testRejectWrongReplacementDimension(): void
     {
