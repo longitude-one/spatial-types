@@ -3,10 +3,6 @@ name: PHP CI
 on:
     schedule:
         - cron: '5 16 * * 3'
-    push:
-        paths-ignore:
-            - '**.md'
-            - LICENSE
     pull_request:
         paths-ignore:
             - '**.md'
@@ -17,6 +13,47 @@ permissions:
     pull-requests: read
 
 jobs:
+    validator-compatibility:
+        name: Symfony Validator ${{ matrix.validator }} / PHP 8.4
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                validator: ['5.4', '6.4', '7.4']
+        env:
+            SYMFONY_VALIDATOR_VERSION: ${{ matrix.validator }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Set up PHP 8.4
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  coverage: pcov
+                  tools: composer:v2
+                  extensions: mbstring
+
+            - name: Install the selected Symfony Validator version
+              run: composer update --with "symfony/validator:${SYMFONY_VALIDATOR_VERSION}.*" --prefer-dist --no-interaction
+
+            - name: Verify the installed Symfony Validator version
+              run: |
+                  composer show symfony/validator
+                  php <<'PHP'
+                  <?php
+                  require 'vendor/autoload.php';
+                  $version = Composer\InstalledVersions::getPrettyVersion('symfony/validator');
+                  $expected = getenv('SYMFONY_VALIDATOR_VERSION');
+                  if (1 !== preg_match('/^v?'.preg_quote($expected, '/').'\./', $version ?? '')) {
+                      fwrite(STDERR, "Expected Symfony Validator $expected.x, installed $version\n");
+                      exit(1);
+                  }
+                  PHP
+
+            - name: Run the complete test suite
+              run: composer test
+
     stable-build:
         name: PHP 8.4
         runs-on: ubuntu-latest
