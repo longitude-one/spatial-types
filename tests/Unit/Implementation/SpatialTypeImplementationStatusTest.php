@@ -32,6 +32,24 @@ use PHPUnit\Framework\TestCase;
 class SpatialTypeImplementationStatusTest extends TestCase
 {
     /**
+     * BRepSolid implementation status is explicit.
+     */
+    public function testBrepSolid(): void
+    {
+        static::assertTrue(GeometryTypeEnum::BREPSOLID->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::BREPSOLID));
+    }
+
+    /**
+     * Circle implementation status is explicit.
+     */
+    public function testCircle(): void
+    {
+        static::assertTrue(GeometryTypeEnum::CIRCLE->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCLE));
+    }
+
+    /**
      * CircularString implementation status is explicit.
      */
     public function testCircularString(): void
@@ -41,12 +59,30 @@ class SpatialTypeImplementationStatusTest extends TestCase
     }
 
     /**
+     * Clothoid implementation status is explicit.
+     */
+    public function testClothoid(): void
+    {
+        static::assertTrue(GeometryTypeEnum::CLOTHOID->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CLOTHOID));
+    }
+
+    /**
      * CompoundCurve implementation status is explicit.
      */
     public function testCompoundCurve(): void
     {
         static::assertTrue(GeometryTypeEnum::COMPOUNDCURVE->isInstantiable());
         static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDCURVE));
+    }
+
+    /**
+     * CompoundSurface implementation status is explicit.
+     */
+    public function testCompoundSurface(): void
+    {
+        static::assertTrue(GeometryTypeEnum::COMPOUNDSURFACE->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDSURFACE));
     }
 
     /**
@@ -71,15 +107,30 @@ class SpatialTypeImplementationStatusTest extends TestCase
     }
 
     /**
+     * EllipticalCurve implementation status is explicit.
+     */
+    public function testEllipticalCurve(): void
+    {
+        static::assertTrue(GeometryTypeEnum::ELLIPTICALCURVE->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::ELLIPTICALCURVE));
+    }
+
+    /**
      * An enum addition requires an explicit status and a dedicated test.
      */
     public function testEveryEnumCaseIsCovered(): void
     {
         static::assertSame([
+            'BREPSOLID',
+            'CIRCLE',
             'CIRCULARSTRING',
+            'CLOTHOID',
             'COMPOUNDCURVE',
+            'COMPOUNDSURFACE',
             'CURVE',
             'CURVEPOLYGON',
+            'ELLIPTICALCURVE',
+            'GEODESICSTRING',
             'GEOMETRY',
             'GEOMETRYCOLLECTION',
             'LINESTRING',
@@ -88,14 +139,25 @@ class SpatialTypeImplementationStatusTest extends TestCase
             'MULTIPOINT',
             'MULTIPOLYGON',
             'MULTISURFACE',
+            'NURBSCURVE',
             'POINT',
             'POLYGON',
             'POLYHEDRALSURFACE',
             'SOLID',
+            'SPIRALCURVE',
             'SURFACE',
             'TIN',
             'TRIANGLE',
         ], array_map(static fn (GeometryTypeEnum $type): string => $type->name, GeometryTypeEnum::cases()));
+    }
+
+    /**
+     * GeodesicString implementation status is explicit.
+     */
+    public function testGeodesicString(): void
+    {
+        static::assertTrue(GeometryTypeEnum::GEODESICSTRING->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEODESICSTRING));
     }
 
     /**
@@ -191,6 +253,15 @@ class SpatialTypeImplementationStatusTest extends TestCase
     }
 
     /**
+     * NurbsCurve implementation status is explicit.
+     */
+    public function testNurbsCurve(): void
+    {
+        static::assertTrue(GeometryTypeEnum::NURBSCURVE->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::NURBSCURVE));
+    }
+
+    /**
      * Point implementation status is explicit.
      */
     public function testPoint(): void
@@ -227,6 +298,15 @@ class SpatialTypeImplementationStatusTest extends TestCase
         $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SOLID.');
 
         SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::SOLID);
+    }
+
+    /**
+     * SpiralCurve implementation status is explicit.
+     */
+    public function testSpiralCurve(): void
+    {
+        static::assertTrue(GeometryTypeEnum::SPIRALCURVE->isInstantiable());
+        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::SPIRALCURVE));
     }
 
     /**

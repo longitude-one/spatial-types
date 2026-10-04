@@ -70,6 +70,14 @@ enum cases to ensure this exception is not raised for the current model.
 | `MULTISURFACE` | Yes | No |
 | `MULTIPOLYGON` | Yes | Yes |
 | `SOLID` | No | Not applicable |
+| `BREPSOLID` | Yes | No |
+| `CIRCLE` | Yes | No |
+| `CLOTHOID` | Yes | No |
+| `COMPOUNDSURFACE` | Yes | No |
+| `ELLIPTICALCURVE` | Yes | No |
+| `GEODESICSTRING` | Yes | No |
+| `NURBSCURVE` | Yes | No |
+| `SPIRALCURVE` | Yes | No |
 
 Full implementation is evaluated over the layouts applicable to the geometry
 type, not over every layout in the library. `POLYHEDRALSURFACE` is fully
@@ -77,8 +85,10 @@ implemented for this API: both families provide XYZ and XYZM variants. This
 does not add XY or XYM variants. The other eight implemented types are
 available in both families for XY, XYZ, XYM and XYZM.
 
-This API requires `spatial-core` 1.2 or newer within the 1.x series. The
-library's minimum dependency has accordingly increased from 1.1 to 1.2.
+This API requires `spatial-core` 1.3 or newer within the 1.x series. The
+library's minimum dependency has accordingly increased from 1.2 to 1.3.
+The eight instantiable types added in `spatial-core` 1.3 are explicitly
+classified as not yet implemented.
 No existing spatial type or supported coordinate layout changes.
 
 `ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
