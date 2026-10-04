@@ -56,7 +56,7 @@ enum cases to ensure this exception is not raised for the current model.
 | `CURVE` | No | Not applicable |
 | `LINESTRING` | Yes | Yes |
 | `CIRCULARSTRING` | Yes | Yes |
-| `COMPOUNDCURVE` | Yes | No |
+| `COMPOUNDCURVE` | Yes | Yes |
 | `SURFACE` | No | Not applicable |
 | `CURVEPOLYGON` | Yes | No |
 | `POLYGON` | Yes | Yes |
@@ -537,11 +537,16 @@ The formatter does not escape messages for HTML, JSON, XML or SQL.
 ## Circular strings and the common curve contract
 
 `Interfaces\CurveInterface` extends `SpatialInterface` and is the shared curve
-category implemented by `LineStringInterface` and `CircularStringInterface`.
-It deliberately adds no methods: point-sequence operations remain on the
-concrete interfaces, and no speculative operations for future curve types are
-part of this contract. Existing line-string implementations acquire this category
-without additional method requirements.
+contract implemented by `LineStringInterface`, `CircularStringInterface` and
+`CompoundCurveInterface`. It provides `getStartPoint(): ?PointInterface`,
+`getEndPoint(): ?PointInterface` and `isClosed(): bool`. Empty curves return
+`null` endpoints and are not closed. Endpoint equality uses the existing
+`PointInterface::equalsTo()` semantics, including all ordinates and their PHP
+numeric types; no tolerance or coordinate normalization is introduced.
+
+This is an approved breaking change before 1.0.0: third-party implementations
+of these curve interfaces must implement the three common methods. Existing
+concrete line-string closure behavior is preserved.
 
 `Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CircularString` supports
 XY, XYZ, XYM and XYZM in both families. Its constructor is:
@@ -589,4 +594,57 @@ copy every point without transforming coordinates. Invalid point counts,
 empty members and coincident intermediate/endpoints throw
 `InvalidValueException`; dimension, family and reference mismatches retain
 the existing spatial exception contracts. No parsing, serialization strategy,
-linear approximation or `CompoundCurve` implementation is added here.
+linear approximation is performed.
+
+
+## Compound curves
+
+`Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CompoundCurve` implements
+`CompoundCurveInterface` in XY, XYZ, XYM and XYZM. Construct it with ordered
+`CurveInterface` components and an optional integer or `SpatialReference`:
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurve;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+
+$curve = new CompoundCurve([
+    new LineString([[0, 0], [1, 1]], 4326),
+    new CircularString([[1, 1], [2, 2], [3, 1]], 4326),
+], 4326);
+$empty = new CompoundCurve([], 4326);
+```
+
+`new CompoundCurve()` creates an empty XY Geometry value with SRID 0 when
+using the class imported above. Components must report `LINESTRING` or
+`CIRCULARSTRING`; nested compounds and other curve types are not supported.
+Empty components are rejected because they cannot supply connection endpoints.
+Each component retains its own invariants and must match the compound's family,
+coordinate dimension and complete spatial-reference identity. Consecutive
+components must have equal end/start points; discontinuity raises
+`InvalidValueException`. Family, dimension and reference mismatches use the
+existing corresponding spatial exceptions. Valid components are preserved as
+objects without flattening, reversal or linear approximation.
+
+`getCurves()` and `getElements()` expose the ordered components as
+`CurveInterface[]`. `getCurve($index)` uses wrapping indexes and negative
+indexes from the end; EMPTY indexed access raises `OutOfBoundsException`.
+`getStartPoint()` and `getEndPoint()` expose the outer endpoints. `isClosed()`
+compares those endpoints after construction has enforced intermediate
+continuity. Closure does not claim simplicity; no compound ring or simplicity
+predicate is added. `getType()` returns `GeometryTypeEnum::COMPOUNDCURVE`.
+`toArray()` contains one array of defining coordinate tuples per component;
+use component accessors when interpolation identity is needed. The inherited
+JSON representation uses type `CompoundCurve`, these coordinates, and SRID;
+it is not a GeoJSON or interchange-format implementation.
+
+`withSpatialReference()` deeply copies components and their points and
+revalidates continuity, without transforming coordinates. `withSrid()` is the
+legacy integer adapter. Reconstruct a compound from replacement component
+curves to change its path; returned component arrays cannot mutate membership.
+
+The normative basis is ISO/IEC CD 13249-3:201x(E), the available 2009-01-16
+Committee Draft: clauses 4.2.7 and 7.4.1 (component types, continuity and empty
+values), and 7.4.6–7.4.7 (endpoints, including `null` for EMPTY). The library's
+point equality semantics govern continuity as required by Story #25. This
+feature adds no serialization, decoding, linearization or factory entry points.

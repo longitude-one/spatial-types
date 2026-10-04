@@ -12,7 +12,8 @@ Use `getSpatialReference()` when the authority must be retained or compared.
 
 Every member of an aggregate must have exactly the same spatial reference as
 its parent. This applies to points in a `LineString`, rings in a `Polygon`, and
-all values contained by a `Multi*` type or a geometry collection.
+components in a `CompoundCurve`, and all values contained by a `Multi*` type
+or a geometry collection.
 
 Consequently, this is invalid:
 

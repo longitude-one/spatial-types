@@ -59,6 +59,8 @@ AbstractSpatialType
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Point
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineString
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CircularString
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CompoundCurve
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Triangle
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPoint
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineString
@@ -70,7 +72,7 @@ AbstractSpatialType
 
 ### Types not yet available
 
-`CircularString`, `CompoundCurve`, `CurvePolygon`, `MultiCurve`,
+`CurvePolygon`, `MultiCurve`,
 `MultiSurface` and `TIN` do not yet have
 instantiable classes. See [Instantiable spatial types](docs/instantiable-spatial-types.md)
 for the complete coverage matrix.

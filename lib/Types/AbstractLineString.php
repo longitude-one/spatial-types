@@ -42,6 +42,18 @@ abstract class AbstractLineString extends AbstractPointCollection implements Lin
         return $this->getPoints();
     }
 
+    /** Return the last defining point, or null for an empty curve. */
+    public function getEndPoint(): ?PointInterface
+    {
+        return $this->isEmpty() ? null : $this->getPoint(-1);
+    }
+
+    /** Return the first defining point, or null for an empty curve. */
+    public function getStartPoint(): ?PointInterface
+    {
+        return $this->isEmpty() ? null : $this->getPoint(0);
+    }
+
     /**
      * This line string is closed when the first point is the same as the last point.
      */

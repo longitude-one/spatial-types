@@ -7,6 +7,8 @@ concrete class for each spatial model.
 
 ```text
 AbstractSpatialType
+├── AbstractCompoundCurve
+│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CompoundCurve
 ├── AbstractCircularString
 │   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CircularString
 ├── AbstractPoint
@@ -37,7 +39,9 @@ AbstractSpatialType
             └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineString
 ```
 
-`LineStringInterface` and `CircularStringInterface` both extend the common
-`CurveInterface`, which extends `SpatialInterface` without imposing additional
-methods. Circular strings have their own point storage and validation; they
-are not line strings and do not inherit point-set simplicity checks.
+`LineStringInterface`, `CircularStringInterface` and `CompoundCurveInterface`
+extend `CurveInterface`, which exposes nullable start/end points and closure
+in addition to `SpatialInterface`. Circular strings have their own point
+storage and validation; they are not line strings and do not inherit point-set
+simplicity checks. Compound curves retain ordered `CurveInterface` components
+and validate their types, compatibility and endpoint continuity.
