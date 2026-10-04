@@ -1,5 +1,11 @@
 # Spatial validators
 
+Symfony Validator `^5.4 || ^6.0 || ^7.0 || ^8.0` is supported. Versions below
+5.4 and future major versions such as 9.x are not accepted. The library still
+requires PHP 8.4 or later within PHP 8.x, independently of Symfony's requirements.
+CI explicitly installs and verifies Validator 5.4.x, 6.4.x, 7.4.x and 8.1.x,
+then runs the complete test suite for each version.
+
 This library exposes Symfony Validator constraints for checking spatial values.
 They are useful in two complementary situations:
 
