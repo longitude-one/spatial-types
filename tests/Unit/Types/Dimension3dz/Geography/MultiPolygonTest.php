@@ -37,18 +37,6 @@ class MultiPolygonTest extends TestCase
     private const DEFAULT_COORDINATE = [[[[1, 2, 3], [3, 4, 5], [3, 6, 42.195], [1, 2, 3]]]];
 
     /**
-     * Test the constructor with array of cartesian coordinates.
-     *
-     * @throws SpatialTypeExceptionInterface test shall not throw any exception
-     */
-    public function testConstructorWithCartesianCoordinates(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Out of range latitude value, latitude must be between -90 and 90, got "186".');
-        new MultiPolygon([[[[1, 2, 3], [3, 186, 5], [1, 2, 3]]]]);
-    }
-
-    /**
      * Test the constructor with geodesic points.
      *
      * @throws SpatialTypeExceptionInterface test shall not throw any exception

@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
@@ -35,8 +34,7 @@ abstract class AbstractLineString extends ParentLineString implements LineString
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $points points of the line string
      * @param int|SpatialReference                                                                                         $srid   Spatial Reference Identifier
      *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the line string dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the line string SRID
+     * @throws InvalidDimensionException when a coordinate tuple does not match the line string dimension
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */

@@ -8,43 +8,18 @@ its authority. For example, `SpatialReference::epsg(4326)` represents
 `getSrid()` remains available as the legacy integer view of that reference.
 Use `getSpatialReference()` when the authority must be retained or compared.
 
-## Aggregate invariant
+## Aggregate references
 
-Every member of an aggregate must have exactly the same spatial reference as
-its parent. This applies to points in a `LineString`, rings in a `Polygon`, and
-components in a `CompoundCurve`, and all values contained by a `Multi*` type
-or a geometry collection.
+Constructors retain each supplied member's declared reference without checking
+it against the aggregate. Identifier `0` identifies an unnamed reference; it
+is not rewritten when an object is inserted into an aggregate.
 
-Consequently, this is invalid:
+Coordinate tuples are hydrated using the receiving aggregate's reference.
+`withSpatialReference()` instead deeply copies members with the requested
+reference. Neither operation transforms coordinates.
 
-```php
-use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
-
-new LineString([
-    new Point(2.3522, 48.8566), // The unnamed reference with identifier 0.
-], SpatialReference::epsg(4326));
-```
-
-It raises `InvalidSridException`. Identifier `0` is an unnamed reference, not a
-wildcard. A line string with the unnamed reference may contain only points with
-that same unnamed reference; a line string in `EPSG:4326` may contain only
-points in `EPSG:4326`.
-
-This rule also distinguishes references that have the same identifier but a
-different authority. The full `SpatialReference` identity must match.
-
-## Why the library is strict
-
-ISO/IEC 13249-3, subclause 4.2.14 (`ST_GeomCollection`), states that all
-elements of a geometry collection are in the same spatial reference system and
-that it is also the collection's SRS. The standard then describes typed
-subcollections such as `ST_MultiPoint`, whose members are restricted to points.
-
-This library applies that same invariant consistently to every aggregate. It
-prevents a coordinate tuple expressed in one system from being silently read as
-coordinates in another system.
+Spatial-reference compatibility is a functional validation concern and must be
+checked explicitly by consumers. See [Spatial validation](validators.md).
 
 ## Changing a reference is not a transformation
 

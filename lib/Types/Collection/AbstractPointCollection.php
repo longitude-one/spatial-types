@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Collection;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
@@ -94,8 +93,7 @@ abstract class AbstractPointCollection extends AbstractSpatialType
     /**
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
      *
-     * @throws InvalidDimensionException When the point dimension differs
-     * @throws InvalidFamilyException    When the point family differs
+     * @throws InvalidDimensionException When a coordinate tuple has an incompatible layout
      * @throws InvalidValueException     When coordinates are invalid
      * @throws MissingValueException     When a coordinate is missing
      */
@@ -104,12 +102,6 @@ abstract class AbstractPointCollection extends AbstractSpatialType
         if (is_array($point)) {
             $point = $this->createPointFromCoordinates($point);
         }
-
-        $this->assertSameDimension($point, 'The point dimension is not compatible with the dimension of the current spatial collection.');
-
-        $this->assertSameSpatialReference($point, 'point');
-
-        $this->assertSameFamily($point, 'The point family is not compatible with the family of the current spatial collection.');
 
         $this->points[] = $point;
 

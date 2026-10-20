@@ -26,9 +26,6 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Validator\DimensionValidation;
-use LongitudeOne\SpatialTypes\Validator\FamilyValidation;
-use LongitudeOne\SpatialTypes\Validator\SpatialReferenceValidation;
 
 /**
  * Abstract Spatial Type class.
@@ -120,43 +117,6 @@ abstract class AbstractSpatialType implements SpatialInterface
     public function withSrid(int $srid): static
     {
         return $this->withSpatialReference(SpatialReference::fromSrid($srid));
-    }
-
-    /**
-     * Require a member to use the same coordinate dimension.
-     *
-     * @param SpatialInterface $spatial Member to validate
-     * @param string           $message Exception message
-     */
-    final protected function assertSameDimension(SpatialInterface $spatial, string $message): void
-    {
-        DimensionValidation::assertSame($this->getDimension(), $spatial, $message);
-    }
-
-    /**
-     * Require a member to belong to the same spatial family.
-     *
-     * @param SpatialInterface $spatial Member to validate
-     * @param string           $message Exception message
-     */
-    final protected function assertSameFamily(SpatialInterface $spatial, string $message): void
-    {
-        FamilyValidation::assertSame($this->getFamily(), $spatial, $message);
-    }
-
-    /**
-     * Require a member to belong to the same spatial reference system.
-     *
-     * ISO/IEC 13249-3 requires every member of a geometry collection to have
-     * the collection's spatial reference system. SRID 0 is therefore a real,
-     * albeit unnamed, reference and is not a wildcard.
-     *
-     * @param SpatialInterface $spatial Member to validate
-     * @param string           $member  Member type for the error message
-     */
-    final protected function assertSameSpatialReference(SpatialInterface $spatial, string $member): void
-    {
-        SpatialReferenceValidation::assertSame($this->spatialReference, $spatial, $member);
     }
 
     /**

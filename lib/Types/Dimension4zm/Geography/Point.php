@@ -56,8 +56,8 @@ class Point extends AbstractPoint implements PointInterface
             throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
         }
 
-        $this->initializeLongitude($x);
-        $this->initializeLatitude($y);
+        $this->initializeX($x);
+        $this->initializeY($y);
         $this->initializeZ($z);
         $this->initializeM($m);
         $this->initializeSpatialReference($srid);

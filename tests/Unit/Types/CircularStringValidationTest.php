@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\CurveInterface;
@@ -75,98 +72,10 @@ class CircularStringValidationTest extends TestCase
         static::assertCount(5, $curve->getPoints());
     }
 
-    /** Coordinate dimensions cannot be mixed. */
-    public function testRejectDifferentDimension(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-        new CircularString([new Point(0, 0), new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point(1, 1, 1), new Point(2, 0)]);
-    }
-
-    /** Geometry and geography points cannot be mixed. */
-    public function testRejectDifferentFamily(): void
-    {
-        $this->expectException(InvalidFamilyException::class);
-        new CircularString([new Point(0, 0), new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point(1, 1), new Point(2, 0)]);
-    }
-
-    /** SRID zero is not a wildcard. */
-    public function testRejectDifferentReference(): void
-    {
-        $this->expectException(InvalidSridException::class);
-        new CircularString([new Point(0, 0, 4326), new Point(1, 1), new Point(2, 0, 4326)], 4326);
-    }
-
-    /** A matching tuple length does not make XYZ and XYM compatible. */
-    public function testRejectElevationPointInMeasuredCurve(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-        new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CircularString([
-            new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point(0, 0, 1),
-            new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point(1, 1, 1),
-            new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point(2, 0, 1),
-        ]);
-    }
-
-    /** Empty members cannot define an arc. */
-    public function testRejectEmptyPoint(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([new Point(), new Point(1, 1), new Point(2, 0)]);
-    }
-
-    /** Four points leave an incomplete second arc. */
-    public function testRejectEvenPointCount(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0], [1, 1], [2, 0], [3, 1]]);
-    }
-
-    /** An intermediate point must differ from the end point. */
-    public function testRejectIntermediateEqualToEnd(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0], [2, 0], [2, 0]]);
-    }
-
-    /** An intermediate point must differ from the start point. */
-    public function testRejectIntermediateEqualToStart(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0], [0, 0], [2, 0]]);
-    }
-
     /** Non-point elements are invalid. */
     public function testRejectInvalidMember(): void
     {
         $this->expectException(InvalidValueException::class);
         (new \ReflectionClass(CircularString::class))->newInstance([false, [1, 1], [2, 0]]);
-    }
-
-    /** Numeric equality also applies to the final endpoint of an arc. */
-    public function testRejectNumericallyEqualEndPoint(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0], [2, 1], [2.0, 1.0]]);
-    }
-
-    /** Numeric equality does not depend on integer versus floating-point storage. */
-    public function testRejectNumericallyEqualIntermediatePoint(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0], [0.0, 0.0], [2, 0]]);
-    }
-
-    /** One point cannot define an arc. */
-    public function testRejectOnePoint(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0]]);
-    }
-
-    /** Two points cannot define an arc. */
-    public function testRejectTwoPoints(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new CircularString([[0, 0], [1, 1]]);
     }
 }

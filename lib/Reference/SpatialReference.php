@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Reference;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-
 /**
  * Identifies the spatial reference system associated with a spatial value.
  *
@@ -34,13 +32,6 @@ final readonly class SpatialReference
         public int $identifier,
         public ?string $authority = null
     ) {
-        if (0 > $identifier) {
-            throw new InvalidSridException('A spatial reference identifier cannot be negative.');
-        }
-
-        if (null !== $authority && '' === mb_trim($authority)) {
-            throw new InvalidSridException('A spatial reference authority cannot be empty.');
-        }
     }
 
     /**

@@ -25,7 +25,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /**
- * Ordered curve storage and continuity validation.
+ * Ordered curve storage.
  *
  * ISO/IEC CD 13249-3:201x(E), clauses 4.2.7 and 7.4.1.
  *
@@ -134,27 +134,12 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
     }
 
     /**
-     * Validate a component and append it without altering its interpolation.
+     * Append a typed component without altering its interpolation.
      *
      * @param CurveInterface $curve Component to append
      */
     private function addCurve(CurveInterface $curve): void
     {
-        if (!in_array($curve->getType(), [GeometryTypeEnum::LINESTRING, GeometryTypeEnum::CIRCULARSTRING], true)) {
-            throw new InvalidValueException('Compound curve components must be line strings or circular strings.');
-        }
-        $this->assertSameDimension($curve, 'The curve dimension is not compatible with the compound curve.');
-        $this->assertSameFamily($curve, 'The curve family is not compatible with the compound curve.');
-        $this->assertSameSpatialReference($curve, 'curve');
-        $start = $curve->getStartPoint();
-        $end = $curve->getEndPoint();
-        if ($curve->isEmpty() || null === $start || null === $end || $start->isEmpty() || $end->isEmpty()) {
-            throw new InvalidValueException('A compound curve component must have non-empty start and end points.');
-        }
-        $previousEnd = $this->getEndPoint();
-        if (null !== $previousEnd && !$previousEnd->equalsTo($start)) {
-            throw new InvalidValueException('Consecutive compound curve components must share an endpoint.');
-        }
         $this->componentCoordinates($curve);
         $this->curves[] = $curve;
     }

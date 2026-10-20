@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
@@ -28,7 +27,7 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
- * Shared circular-string storage and immutable validation.
+ * Shared circular-string storage and immutable replacement.
  *
  * @internal
  */
@@ -158,8 +157,7 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     /**
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
      *
-     * @throws InvalidDimensionException When the point dimension differs
-     * @throws InvalidFamilyException    When the point family differs
+     * @throws InvalidDimensionException When a coordinate tuple has an incompatible layout
      * @throws InvalidValueException     When coordinates are invalid
      * @throws MissingValueException     When a coordinate is missing
      */
@@ -167,21 +165,6 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     {
         if (is_array($point)) {
             $point = $this->createPointFromCoordinates($point);
-        }
-
-        if ($point->isEmpty()) {
-            throw new InvalidValueException('A circular string cannot contain an empty point.');
-        }
-
-        $this->assertSameDimension($point, 'The point dimension is not compatible with the dimension of the current spatial collection.');
-
-        $this->assertSameSpatialReference($point, 'point');
-
-        $this->assertSameFamily($point, 'The point family is not compatible with the family of the current spatial collection.');
-
-        // Compare normalized numeric ordinates, not their PHP integer/float storage types.
-        if ([] !== $this->points && $this->points[count($this->points) - 1]->toArray() == $point->toArray()) {
-            throw new InvalidValueException('The intermediate point of a circular arc must differ from its endpoints.');
         }
 
         $this->points[] = $point;
@@ -194,10 +177,6 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
      */
     protected function addPoints(array $points): static
     {
-        if ([] !== $points && (count($points) < 3 || 0 === count($points) % 2)) {
-            throw new InvalidValueException('A non-empty circular string requires an odd number of at least three points.');
-        }
-
         foreach ($points as $point) {
             if (!is_array($point) && !$point instanceof PointInterface) {
                 throw new InvalidValueException('Argument shall contain an array of PointInterface or an array of coordinates.');

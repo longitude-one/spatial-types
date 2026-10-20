@@ -16,13 +16,11 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Collection\AbstractPointCollection;
-use LongitudeOne\SpatialTypes\Validator\LineStringValidation;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -128,7 +126,6 @@ abstract class AbstractLineString extends AbstractPointCollection implements Lin
             $this->points
         );
         $lineString->points[$pointIndex] = $lineString->points[$pointIndex]->withCoordinates($coordinates);
-        LineStringValidation::assertNoConsecutiveDuplicatePoints($lineString);
 
         return $lineString;
     }
@@ -161,37 +158,6 @@ abstract class AbstractLineString extends AbstractPointCollection implements Lin
     public function withSrid(int $srid): static
     {
         return $this->withSpatialReference(SpatialReference::fromSrid($srid));
-    }
-
-    /**
-     * Reject empty vertices while allowing MultiPoint to retain empty members.
-     *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
-     */
-    protected function addPoint(array|PointInterface $point): static
-    {
-        if (is_array($point)) {
-            $point = $this->createPointFromCoordinates($point);
-        }
-
-        if ($point->isEmpty()) {
-            throw new InvalidValueException('A spatial collection cannot contain an empty point.');
-        }
-
-        return parent::addPoint($point);
-    }
-
-    /**
-     * Add points then enforce the line-string point-sequence invariant.
-     *
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Points or tuples to add
-     */
-    protected function addPoints(array $points): static
-    {
-        parent::addPoints($points);
-        LineStringValidation::assertNoConsecutiveDuplicatePoints($this);
-
-        return $this;
     }
 
     /**

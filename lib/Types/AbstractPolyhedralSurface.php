@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
@@ -25,7 +24,6 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolyhedralSurfaceInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Validator\PolyhedralSurfaceValidation;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -49,8 +47,7 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
      * @param (IndexedPolygon|PolygonInterface)[] $patches Surface patches
      * @param int|SpatialReference                $srid    Spatial Reference Identifier
      *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
+     * @throws InvalidDimensionException when a coordinate tuple does not match the polygon dimension
      * @throws InvalidValueException     when coordinates or surface topology are invalid
      * @throws MissingValueException     when the point is missing
      */
@@ -58,7 +55,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     {
         $this->initializeSpatialReference($srid);
         $this->addPatches($patches);
-        PolyhedralSurfaceValidation::assertValid($this);
     }
 
     /**
@@ -138,7 +134,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
         $surface = clone $this;
         $surface->patches = [];
         $surface->addPatches($coordinates);
-        PolyhedralSurfaceValidation::assertValid($surface);
 
         return $surface;
     }
@@ -161,8 +156,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
         foreach ($this->patches as $index => $patch) {
             $surface->addPatch($index === $patchIndex ? $coordinates : $patch->withSpatialReference($patch->getSpatialReference()));
         }
-
-        PolyhedralSurfaceValidation::assertValid($surface);
 
         return $surface;
     }
@@ -221,8 +214,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
             $this->patches
         );
 
-        PolyhedralSurfaceValidation::assertValid($surface);
-
         return $surface;
     }
 
@@ -251,12 +242,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
         if (is_array($patch)) {
             $patch = $this->createPolygonFromCoordinates($patch);
         }
-
-        $this->assertSameSpatialReference($patch, 'polygon');
-
-        $this->assertSameFamily($patch, 'The polygon family is not compatible with the family of the current polyhedral surface.');
-
-        $this->assertSameDimension($patch, 'The polygon is not compatible with the dimension of the current polyhedral surface.');
 
         $this->patches[] = $patch;
 
@@ -314,8 +299,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
                 ? $transform($patch)
                 : $patch->withSpatialReference($patch->getSpatialReference());
         }
-
-        PolyhedralSurfaceValidation::assertValid($surface);
 
         return $surface;
     }

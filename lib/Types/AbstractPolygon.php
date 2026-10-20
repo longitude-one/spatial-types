@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Boundary\PolygonBoundary;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
@@ -27,7 +26,6 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Validator\RingValidation;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
@@ -46,8 +44,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
      * @param int|SpatialReference                                                                                                                 $srid  Spatial Reference Identifier
      *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
+     * @throws InvalidDimensionException when a coordinate tuple does not match the polygon dimension
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
@@ -82,8 +79,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      * Get the rings of the spatial collection.
      *
      * @return LineStringInterface[]
-     *
-     * @throws InvalidValueException when at least one of the line strings is not a ring
      */
     public function getRings(): array
     {
@@ -118,7 +113,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      *
      * The original polygon and its rings are left unchanged. The copied
      * instance retains its family, dimension, and Spatial Reference Identifier
-     * (SRID); the existing line-string hydrator validates each tuple and ring
+     * (SRID); the existing line-string hydrator creates members from each tuple
      * against that retained context.
      *
      * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
@@ -169,7 +164,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      *
      * The original polygon and all its rings remain unchanged. The replacement
      * coordinates are created through the polygon's existing family, dimension,
-     * and Spatial Reference Identifier (SRID) context and must form a ring.
+     * and Spatial Reference Identifier (SRID) context without enforcing ring validity.
      *
      * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
      * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
@@ -231,13 +226,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
             $ring = $this->createLineStringFromCoordinates($ring);
         }
 
-        $this->assertSameFamily($ring, 'The ring family is not compatible with the family of the current polygon.');
-
-        $this->assertSameDimension($ring, 'The ring dimension is not compatible with the dimension of the current polygon.');
-
-        $this->assertSameSpatialReference($ring, 'ring');
-
-        RingValidation::assertValid($ring);
         $this->boundary->addRing($ring);
 
         return $this;
@@ -248,7 +236,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      *
      * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
      *
-     * @throws SpatialTypeExceptionInterface when one of the linestring is not a ring
+     * @throws SpatialTypeExceptionInterface when an input does not provide a line-string interface or coordinate tuples
      */
     protected function addRings(array $rings): static
     {
@@ -292,6 +280,10 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     private function replaceRingPoint(LineStringInterface $ring, int $pointIndex, Coordinates $coordinates): LineStringInterface
     {
         $pointCount = count($ring->getPoints());
+        if (0 === $pointCount) {
+            throw new OutOfBoundsException('The current collection of points is empty.');
+        }
+
         $normalizedPointIndex = $pointIndex % $pointCount;
         if ($normalizedPointIndex < 0) {
             $normalizedPointIndex += $pointCount;

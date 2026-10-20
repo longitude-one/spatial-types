@@ -106,7 +106,7 @@ The library distinguishes two coordinate families:
 - **Geometry** uses Cartesian `X, Y` coordinates. Numeric values are not range
   limited by this library.
 - **Geography** uses geodetic `longitude, latitude` coordinates, still ordered
-  as `X, Y`. Longitude must be in `[-180, 180]` and latitude in `[-90, 90]`.
+  as `X, Y`. Numeric longitude/latitude ranges are not checked automatically.
 
 The coordinate layouts are `XY`, `XYZ`, `XYM`, and `XYZM`; their tuple order is
 always `X, Y[, Z][, M]`. `Z` is elevation and `M` is a measure. In particular,
@@ -114,14 +114,11 @@ an `XYM` tuple is `[x, y, m]`, whereas an `XYZ` tuple is `[x, y, z]`.
 
 Every spatial object has a `SpatialReference`; `getSrid()` exposes its legacy
 integer identifier. Constructors without a reference use identifier `0`, as
-prescribed for SQL/MM constructors without an SRID. Identifier `0` is a real
-unnamed reference in this model, not a compatibility wildcard: every member of
-an aggregate must have exactly the aggregate's spatial reference.
+prescribed for SQL/MM constructors without an SRID. Supplied objects retain
+their own references; aggregate compatibility is not checked automatically.
 
-See [Spatial reference systems](spatial-reference-systems.md) for the ISO/IEC
-13249-3 rationale and examples of valid and invalid aggregate membership.
-See [Spatial validators](validators.md) for the constraints available through
-Symfony Validator, their constructor integration, and opt-in validation.
+See [Spatial reference systems](spatial-reference-systems.md) for reference
+handling and [Spatial validation](validators.md) for explicit functional checks.
 
 ## Class catalogue
 
@@ -211,8 +208,7 @@ the coordinate dimension: `Coordinates::xy()`, `Coordinates::xym()`,
 `PointInterface::getCoordinates()` returns this value object.
 `PointInterface::withCoordinates(Coordinates $coordinates)` returns a new point
 of the same concrete class and SRID. The supplied coordinates must have the
-same dimension as the point; geographic points additionally validate longitude
-and latitude ranges.
+same dimension as the point; numeric geographic ranges are not validated.
 
 ```php
 use LongitudeOne\SpatialTypes\Value\Coordinates;
@@ -247,32 +243,20 @@ new MultiPolygon(array $polygons, int|SpatialReference $srid = 0);
 new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0);
 ```
 
-- A polygon ring is a `LineStringInterface` or an array of point tuples. Every
-  supplied ring must be closed.
-- A triangle uses the same ring representation as a polygon, with exactly four
-  exterior positions (including closure) and no interior rings. `[]` represents
-  an empty triangle; `[[]]` is invalid.
-- A multi-line-string element is a `LineStringInterface` or an array of point
-  tuples. Empty line strings are accepted in every dimension and both families;
+- A polygon ring is a `LineStringInterface` or an array of point tuples.
+- A triangle uses the same ring representation as a polygon. Cardinality,
+  closure and absence of holes are not enforced; `[]` is an empty triangle.
+- A multi-line-string element is a `LineStringInterface` or point-tuple array.
   `[]` as an element creates an empty line string in the aggregate's context.
-  Empty members retain their positions and must satisfy the same family,
-  dimension, and complete spatial-reference checks as non-empty members.
-- A multi-polygon element is a `PolygonInterface` or an array of rings. Empty
-  polygons are accepted in every dimension and both families; `[]` as an
-  element creates an empty polygon in the aggregate's context.
-- A polyhedral-surface patch is also a `PolygonInterface` (including a triangle)
-  or an array of rings. All patches must match the surface family, XYZ/XYZM
-  layout and complete spatial reference. `new PolyhedralSurface()` or `[]`
-  creates an empty surface; empty member patches are rejected. A single patch
-  is accepted, as are open and closed assemblies: enclosing a volume is not
-  required. Faces must be planar with finite XYZ coordinates and simple closed
-  rings. Shared edges join at most two faces, in opposite directions, and the
-  whole patch adjacency graph must be connected. Shared edges may have
-  different vertex subdivisions. M does not participate in adjacency checks.
-  These checks use exact floating-point comparisons in Cartesian XYZ, including
-  for Geography; they do not compute geodesic edges. General face-interior
-  intersections, hole containment and vertex-manifold topology are not checked.
-  Direct construction is supported; no new public factory entry point is added.
+- A multi-polygon element is a `PolygonInterface` or an array of rings.
+  Empty member polygons retain their positions.
+- A polyhedral-surface patch is a `PolygonInterface` (including a triangle)
+  or an array of rings. Empty patches, disconnected faces and non-planar faces
+  can be represented. `[]` creates a surface with zero patches.
+
+Supplied member objects keep their family, layout and reference; compatibility
+and geometric validity are explicit consumer concerns. Coordinate tuples are
+hydrated in the receiving aggregate's family, dimension and reference.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
@@ -315,16 +299,11 @@ $triangle = new Triangle([[[0, 0], [4, 0], [0, 4], [0, 0]]], 3857);
 $empty = new Triangle([]);
 ```
 
-These structural constraints follow sections 4.2.11 and 8.4 of
-ISO/IEC CD 13249-3:201x(E). The `Triangle` constraint enforces them and
-composes `Ring` to reject unclosed rings and consecutive duplicate points.
-It can also [validate ordinary polygons](validators.md#triangle-structure). Family, coordinate layout, geographic ranges and
-spatial reference are validated as for polygons; non-collinearity and full
-surface topology are not checked.
+Triangle cardinality and closure are functional validity rules and are no
+longer enforced by constructors or immutable replacements.
 
 Triangles provide the polygon accessors and immutable replacement methods.
-Copies preserve the concrete triangle class and enforce its structural
-constraints. `getType()` returns `GeometryTypeEnum::TRIANGLE`; JSON uses
+Copies preserve the concrete triangle class. `getType()` returns `GeometryTypeEnum::TRIANGLE`; JSON uses
 `Triangle` with the same nested coordinate representation as polygons.
 Triangle factory entry points, SQL/MM visibility attributes and text/binary/GML
 conversion routines are not currently exposed.
@@ -337,8 +316,7 @@ new GeographyCollection(int|SpatialReference $srid = 0, array $elements = []);
 ```
 
 Collections accept their initial elements in their constructor. They accept any
-non-collection spatial type with the same family and coordinate dimension.
-Nested geometry/geography collections are rejected.
+spatial type implementing `SpatialInterface`, including nested collections.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
@@ -397,59 +375,8 @@ the element count; accessing an empty aggregate raises `OutOfBoundsException`.
 
 In the current implementation, `isLine()` is true for a line string with at
 least two points. `isClosed()` requires a line and equal first/last points.
-Use the Symfony constraint `Validator\\Constraints\\Ring` to validate a
-linear ring: it requires at least four points and equal first and last points.
-
-### Checking line-string simplicity
-
-A `LineString` is allowed to be non-simple: construction and immutable update
-methods do not reject self-intersections. When an application needs the
-SQL/MM `ST_IsSimple` predicate, validate the value explicitly with Symfony's
-validator and the `SimpleLineString` constraint:
-
-```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Validator\Constraints\SimpleLineString;
-use Symfony\Component\Validator\Validation;
-
-$lineString = new LineString([[0, 0], [2, 2], [0, 2], [2, 0]]);
-$violations = Validation::createValidator()->validate($lineString, new SimpleLineString());
-
-$isSimple = 0 === count($violations); // false: the two non-neighbouring segments cross
-```
-
-The constraint considers the `X, Y` projection only. Z and M ordinates are
-ignored, so two segments that cross in `XY` are non-simple even if they have
-different elevations or measures. It rejects proper crossings, tangencies and
-overlaps; consecutive segments may share their common endpoint, as may the
-first and last segments of a closed line. `Ring` validates only ring structure;
-apply `SimpleLineString` separately when a simple ring is required. Polygon
-topology, such as an inner-ring containment check, remains outside this
-constraint.
-
-### Checking three-dimensional line-string simplicity
-
-For `XYZ` and `XYZM` line strings, use the separate
-`SimpleThreeDimensionalLineString` constraint. It implements the spatial
-three-dimensional check: X, Y and Z determine whether segments meet, while M
-is ignored. Consequently, segments that cross in their XY projection at
-different elevations are simple in 3D; segments meeting at the same XYZ
-position are not, even if their M values differ.
-
-```php
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Validator\Constraints\SimpleThreeDimensionalLineString;
-use Symfony\Component\Validator\Validation;
-
-$lineString = new LineString([[0, 0, 0], [2, 2, 0], [0, 2, 1], [2, 0, 1]]);
-$violations = Validation::createValidator()->validate($lineString, new SimpleThreeDimensionalLineString());
-
-$isSimpleInThreeDimensions = 0 === count($violations); // true
-```
-
-Apply this constraint only to line strings that have a Z ordinate (`XYZ` or
-`XYZM`). Use `SimpleLineString` when the required rule is the usual 2D
-projection check.
+Functional validity checks belong to explicit consumer validation; see
+[Spatial validation](validators.md).
 
 ## Immutability contract
 
@@ -479,7 +406,7 @@ returns a deep copy with one replacement point and preserves the receiving
 multi-point's family, dimension, and SRID.
 
 `Polygon::withRing(int $ringIndex, array $coordinates): static` replaces
-one closed ring. `MultiLineString::withLineString(int $lineStringIndex, array
+one ring. `MultiLineString::withLineString(int $lineStringIndex, array
 $coordinates): static` replaces one line string. Both return deep copies and
 derive the expected XY, XYM, XYZ, or XYZM layout from the receiving aggregate.
 
@@ -496,25 +423,21 @@ methods return deep copies and preserve family, dimension, and SRID.
 `PolyhedralSurface` provides `withPoint($patchIndex, $ringIndex, $pointIndex,
 $coordinates)`, `withRing($patchIndex, $ringIndex, $coordinates)` and
 `withPatch($patchIndex, $coordinates)` with the same deep-copy semantics.
-Every replacement revalidates the complete surface. A local edit that breaks
-adjacency is rejected; use `withArrayOfCoordinates()` to update several faces
-atomically. Editing a shared vertex does not silently move neighbouring faces.
+Surface topology is not checked. Editing a shared vertex does not silently
+move neighbouring faces.
 Empty surfaces reject indexed access and indexed replacements.
 
 `GeometryCollection::withElement(int $elementIndex, SpatialInterface
 $element): static` and `GeographyCollection::withElement(...)` replace one
-element. They validate the replacement against the receiver and deeply copy the
-unchanged elements.
+element implementing `SpatialInterface` and deeply copy the unchanged elements.
 
 All spatial types implement `withSpatialReference(SpatialReference $reference): static`.
 For aggregates, it returns a deep copy whose contained values receive the
 requested reference, so the result remains internally reference-consistent.
 `withSrid(int $srid)` remains as a legacy integer adapter.
 
-The constructors use these same validation paths. Aggregated values must be
-compatible with the receiving type's family, dimension, and spatial-reference
-rules; invalid coordinates, missing ordinates, incompatible family/dimension/reference, or a
-non-ring polygon boundary cause the corresponding spatial exception.
+Constructors and replacements enforce technical input types and coordinate
+layouts, without functional geometry rules or member compatibility checks.
 
 `getPoints()`, `getRings()`, and the other plural getters return PHP arrays, so
 changing the returned array does not alter the aggregate's membership. Their
@@ -528,7 +451,6 @@ Untrusted values included in exceptions raised by this library are formatted wit
 Control characters, invisible Unicode formatting characters and line separators
 are escaped visibly; invalid UTF-8 bytes are escaped and each formatted value is
 limited to 2,048 characters. This affects diagnostic output only, not coordinate parsing.
-Caller-supplied dimension and family validation messages are formatted as a whole.
 
 Previous exceptions from dependencies retain their original messages and formatting.
 Exceptions constructed directly by application code retain PHP's standard constructor behavior.
@@ -555,21 +477,10 @@ XY, XYZ, XYM and XYZM in both families. Its constructor is:
 public function __construct(array $points, int|SpatialReference $srid = 0);
 ```
 
-Pass defining `PointInterface` values or coordinate tuples, using the same
-family, dimension and complete spatial-reference identity as the curve.
-`[]` creates an empty circular string. A non-empty value requires an odd
-number of at least three non-empty points. The first three points define one
-arc; every subsequent pair adds its intermediate and end points, sharing the
-preceding endpoint. An intermediate point must differ from both endpoints.
-
-These rules follow ISO/IEC CD 13249-3:201x(E), clause 4.2.6 (the available
-2009-01-16 Committee Draft), and clause 7.3.1, Description rules 4–12.
-Consecutive duplicates are rejected as required by clause 7.3.3. Collinear defining points are valid and describe
-a degenerate straight-line arc. Coincident start and end points describe a
-complete circle, with the intermediate point opposite the start across the
-circle's centre. Stored defining points are never replaced by a linear
-approximation. A closed and simple circular string is a circular ring; this
-API does not expose circular simplicity or ring predicates.
+Pass defining `PointInterface` values or coordinate tuples. `[]` creates an
+empty circular string. Odd cardinality, non-empty members and distinct arc
+points are geometric validity rules and are not automatically checked. Stored
+points are never replaced by a linear approximation.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
@@ -588,14 +499,9 @@ methods report `CIRCULARSTRING`, coordinate dimension, family and reference.
 `toArray()` contains the defining coordinate tuples.
 
 `withPoint()` and `withArrayOfCoordinates()` preserve the curve's family,
-dimension and complete reference. Each replacement validates the resulting
-curve; `withArrayOfCoordinates([])` returns an empty curve. Reference changes
-copy every point without transforming coordinates. Invalid point counts,
-empty members and coincident intermediate/endpoints throw
-`InvalidValueException`; dimension, family and reference mismatches retain
-the existing spatial exception contracts. No parsing, serialization strategy,
-linear approximation is performed.
-
+dimension and complete reference. No functional curve validation is performed.
+`withArrayOfCoordinates([])` returns an empty curve. Reference changes copy
+every point without transforming coordinates.
 
 ## Compound curves
 
@@ -616,22 +522,16 @@ $empty = new CompoundCurve([], 4326);
 ```
 
 `new CompoundCurve()` creates an empty XY Geometry value with SRID 0 when
-using the class imported above. Components must report `LINESTRING` or
-`CIRCULARSTRING`; nested compounds and other curve types are not supported.
-Empty components are rejected because they cannot supply connection endpoints.
-Each component retains its own invariants and must match the compound's family,
-coordinate dimension and complete spatial-reference identity. Consecutive
-components must have equal end/start points; discontinuity raises
-`InvalidValueException`. Family, dimension and reference mismatches use the
-existing corresponding spatial exceptions. Valid components are preserved as
-objects without flattening, reversal or linear approximation.
+using the class imported above. Components must implement `CurveInterface`
+and expose numeric point tuples. Family, dimension, reference, component kind,
+non-empty endpoints and continuity are not validated automatically. Components
+are preserved as objects without flattening, reversal or linear approximation.
 
 `getCurves()` and `getElements()` expose the ordered components as
 `CurveInterface[]`. `getCurve($index)` uses wrapping indexes and negative
 indexes from the end; EMPTY indexed access raises `OutOfBoundsException`.
 `getStartPoint()` and `getEndPoint()` expose the outer endpoints. `isClosed()`
-compares those endpoints after construction has enforced intermediate
-continuity. Closure does not claim simplicity; no compound ring or simplicity
+compares those endpoints without checking intermediate continuity. Closure does not claim simplicity; no compound ring or simplicity
 predicate is added. `getType()` returns `GeometryTypeEnum::COMPOUNDCURVE`.
 `toArray()` contains one array of defining coordinate tuples per component;
 use component accessors when interpolation identity is needed. The inherited
@@ -639,12 +539,12 @@ JSON representation uses type `CompoundCurve`, these coordinates, and SRID;
 it is not a GeoJSON or interchange-format implementation.
 
 `withSpatialReference()` deeply copies components and their points and
-revalidates continuity, without transforming coordinates. `withSrid()` is the
+does not transform coordinates or validate continuity. `withSrid()` is the
 legacy integer adapter. Reconstruct a compound from replacement component
 curves to change its path; returned component arrays cannot mutate membership.
 
 The normative basis is ISO/IEC CD 13249-3:201x(E), the available 2009-01-16
 Committee Draft: clauses 4.2.7 and 7.4.1 (component types, continuity and empty
 values), and 7.4.6–7.4.7 (endpoints, including `null` for EMPTY). The library's
-point equality semantics govern continuity as required by Story #25. This
+point equality semantics apply to endpoint predicates; continuity is not enforced. This
 feature adds no serialization, decoding, linearization or factory entry points.

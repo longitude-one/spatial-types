@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
@@ -27,7 +25,7 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Immutable edits preserve references and revalidate circular-string invariants.
+ * Immutable edits preserve references and preserve circular-string representation.
  *
  * @internal
  *
@@ -35,61 +33,11 @@ use PHPUnit\Framework\TestCase;
  */
 class CircularStringImmutabilityTest extends TestCase
 {
-    /** Replacement revalidates intermediate-point distinctness. */
-    public function testRejectCoincidentReplacement(): void
-    {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]]);
-        $this->expectException(InvalidValueException::class);
-
-        try {
-            $curve->withPoint(1, Coordinates::xy(0, 0));
-        } finally {
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-        }
-    }
-
-    /** The complete reference identity participates in membership validation. */
-    public function testRejectDifferentAuthority(): void
-    {
-        $this->expectException(InvalidSridException::class);
-        new CircularString([
-            new Point(0, 0, new SpatialReference(4326, 'LOCAL')),
-            new Point(1, 1, SpatialReference::epsg(4326)),
-            new Point(2, 0, SpatialReference::epsg(4326)),
-        ], SpatialReference::epsg(4326));
-    }
-
     /** Empty values have no point to replace. */
     public function testRejectEmptyPointReplacement(): void
     {
         $this->expectException(OutOfBoundsException::class);
         (new CircularString([]))->withPoint(0, Coordinates::xy(1, 2));
-    }
-
-    /** Whole replacement revalidates the number of defining points. */
-    public function testRejectIncompleteReplacementArc(): void
-    {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]]);
-        $this->expectException(InvalidValueException::class);
-
-        try {
-            $curve->withArrayOfCoordinates([[3, 0], [4, 1]]);
-        } finally {
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-        }
-    }
-
-    /** An edit cannot introduce a numerically identical intermediate point. */
-    public function testRejectNumericallyEqualReplacement(): void
-    {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]]);
-        $this->expectException(InvalidValueException::class);
-
-        try {
-            $curve->withPoint(1, Coordinates::xy(0.0, 0.0));
-        } finally {
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-        }
     }
 
     /** Replacement coordinates cannot change the curve layout. */

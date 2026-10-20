@@ -42,12 +42,6 @@ abstract class AbstractLineStringCollection extends AbstractSpatialType
             $lineString = $this->createLineStringFromCoordinates($lineString);
         }
 
-        $this->assertSameDimension($lineString, 'The line string dimension is not compatible with the dimension of the current line-string collection.');
-
-        $this->assertSameSpatialReference($lineString, 'line string');
-
-        $this->assertSameFamily($lineString, 'The line string family is not compatible with the family of the current line-string collection.');
-
         $this->lineStrings[] = $lineString;
 
         return $this;

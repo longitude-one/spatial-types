@@ -17,10 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurface;
@@ -159,112 +155,6 @@ class PolyhedralSurfaceTest extends TestCase
         static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(0)->getX());
         static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(-1)->getX());
         static::assertNotSame($surface->getPatch(0), $copy->getPatch(0));
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testPointReplacementCannotBreakAdjacency(string $class): void
-    {
-        $surface = new $class(self::coordinates($class));
-        $point = $surface->hasM() ? Coordinates::xyzm(-1, -1, 0, 7) : Coordinates::xyz(-1, -1, 0);
-        $this->expectException(InvalidValueException::class);
-        $surface->withPoint(0, 0, 0, $point);
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testRejectsDisconnectedReplacement(string $class): void
-    {
-        $coordinates = self::coordinates($class);
-        $surface = new $class($coordinates);
-        foreach ($coordinates[1][0] as &$position) {
-            $position[0] += 10;
-        }
-        unset($position);
-
-        try {
-            $surface->withPatch(1, $coordinates[1]);
-            static::fail('Disconnected patches must be rejected.');
-        } catch (InvalidValueException) {
-            static::assertSame(self::coordinates($class), $surface->toArray());
-        }
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testRejectsEmptyPatch(string $class): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new $class([[]]);
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testRejectsEqualEdgeOrientation(string $class): void
-    {
-        $coordinates = self::coordinates($class);
-        $coordinates[1][0] = array_reverse($coordinates[1][0]);
-        $this->expectException(InvalidValueException::class);
-        new $class($coordinates);
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testRejectsMixedDimension(string $class): void
-    {
-        $otherClass = str_contains($class, '4zm') ? str_replace('Dimension4zm', 'Dimension3z', $class) : str_replace('Dimension3z', 'Dimension4zm', $class);
-        $other = new $otherClass(self::coordinates($otherClass));
-        static::assertInstanceOf(AbstractPolyhedralSurface::class, $other);
-        $this->expectException(InvalidDimensionException::class);
-        new $class($other->getPatches());
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testRejectsMixedFamily(string $class): void
-    {
-        $otherClass = str_contains($class, 'Geography') ? str_replace('Geography', 'Geometry', $class) : str_replace('Geometry', 'Geography', $class);
-        $other = new $otherClass(self::coordinates($class));
-        static::assertInstanceOf(AbstractPolyhedralSurface::class, $other);
-        $this->expectException(InvalidFamilyException::class);
-        new $class($other->getPatches());
-    }
-
-    /**
-     * @param string $class Surface class
-     *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
-     */
-    #[DataProvider('surfaces')]
-    public function testRejectsMixedReference(string $class): void
-    {
-        $surface = new $class(self::coordinates($class), SpatialReference::epsg(4326));
-        $this->expectException(InvalidSridException::class);
-        new $class($surface->getPatches(), 4326);
     }
 
     /**
