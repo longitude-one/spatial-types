@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
@@ -48,8 +47,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
      * @param (IndexedPolygon|PolygonInterface)[] $polygons polygons
      * @param int|SpatialReference                $srid     Spatial Reference Identifier
      *
-     * @throws InvalidDimensionException when the point dimension is not compatible with the polygon dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the polygon SRID
+     * @throws InvalidDimensionException when a coordinate tuple does not match the polygon dimension
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
@@ -227,12 +225,6 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
         if (is_array($polygon)) {
             $polygon = $this->createPolygonFromCoordinates($polygon);
         }
-
-        $this->assertSameSpatialReference($polygon, 'polygon');
-
-        $this->assertSameFamily($polygon, 'The polygon family is not compatible with the family of the current multipolygon.');
-
-        $this->assertSameDimension($polygon, 'The polygon is not compatible with the dimension of the current multipolygon.');
 
         $this->polygons[] = $polygon;
 

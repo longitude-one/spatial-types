@@ -25,7 +25,7 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  * A LineString instance has linear interpolation between Point values.
  * Each consecutive pair of Point values defines a line segment.
  * A line is a LineString value with exactly two points.
- * Linear-ring validation is provided by Validator\Constraints\Ring.
+ * Functional linear-ring validation is an explicit consumer operation.
  *
  * The common curve category is represented by CurveInterface.
  */

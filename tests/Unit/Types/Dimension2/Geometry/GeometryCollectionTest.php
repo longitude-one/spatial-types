@@ -17,14 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographicPolygon;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon as GeometricPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as GeometricPoint3D;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -46,38 +41,6 @@ class GeometryCollectionTest extends TestCase
         $geometryCollection = new GeometryCollection(0, [$nestedCollection]);
 
         static::assertSame([$nestedCollection], $geometryCollection->getElements());
-    }
-
-    /**
-     * Test that construction rejects an element with a different dimension.
-     */
-    public function testAddElementWithInvalidDimension(): void
-    {
-        static::expectException(InvalidDimensionException::class);
-        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different dimensions.');
-        new GeometryCollection(0, [new GeometricPoint3D(0, 1, 2)]);
-    }
-
-    /**
-     * Test that construction rejects an element with a different family.
-     */
-    public function testAddElementWithInvalidFamily(): void
-    {
-        static::expectException(InvalidFamilyException::class);
-        static::expectExceptionMessageIsOrContains('Collection cannot contain elements with different families.');
-        new GeometryCollection(0, [new GeographicPolygon([])]);
-    }
-
-    /**
-     * Test that the addElement method throws an exception when developers try to add an element with different SRIDs.
-     */
-    public function testAddElementWithInvalidSrid(): void
-    {
-        static::expectException(InvalidSridException::class);
-        static::expectExceptionMessageIsOrContains('collection member spatial reference is not compatible');
-
-        $polygon = new GeometricPolygon([], 4327);
-        new GeometryCollection(4326, [new GeometricPolygon([], 4326), $polygon]);
     }
 
     /**

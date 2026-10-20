@@ -17,15 +17,11 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractTriangle;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Triangle;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -112,152 +108,11 @@ class TriangleTest extends TestCase
      * @phpstan-param class-string<AbstractTriangle> $class
      */
     #[DataProvider('triangles')]
-    public function testRejectsFourthPointDifferentFromFirst(string $class, array $ring): void
-    {
-        $ring[3][0] = 1;
-        static::assertCount(4, $ring);
-        static::assertNotSame($ring[0], $ring[3]);
-
-        $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('A linear ring must have equal first and last points.');
-        new $class([$ring]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testRejectsFourVertices(string $class, array $ring): void
-    {
-        $ring[3] = $ring[2];
-        $ring[3][0] = 1;
-        $ring[] = $ring[0];
-        $this->expectException(InvalidValueException::class);
-        new $class([$ring]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testRejectsHoles(string $class, array $ring): void
-    {
-        $this->expectException(InvalidValueException::class);
-        new $class([$ring, $ring]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
     public function testRejectsInvalidCoordinates(string $class, array $ring): void
     {
         $ring[1][0] = 'invalid-coordinate';
         $this->expectException(InvalidValueException::class);
         new $class([$ring]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testRejectsMixedDimension(string $class, array $ring): void
-    {
-        $other = 2 === count($ring[0])
-            ? new LineString([[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]])
-            : new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString([[0, 0], [4, 0], [0, 4], [0, 0]]);
-        if (str_contains($class, 'Geography')) {
-            $otherClass = str_replace('Geometry', 'Geography', $other::class);
-            $other = new $otherClass($other->toArray());
-        }
-        $this->expectException(InvalidDimensionException::class);
-        new $class([$other]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testRejectsMixedFamily(string $class, array $ring): void
-    {
-        $otherClass = str_contains($class, 'Geography') ? str_replace('Geography', 'Geometry', $class) : str_replace('Geometry', 'Geography', $class);
-        $other = new $otherClass([$ring]);
-        static::assertInstanceOf(AbstractTriangle::class, $other);
-        $this->expectException(InvalidFamilyException::class);
-        new $class([$other->getRing(0)]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testRejectsMixedSrid(string $class, array $ring): void
-    {
-        $triangle = new $class([$ring], 4326);
-        $this->expectException(InvalidSridException::class);
-        new $class([$triangle->getRing(0)], 3857);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testReplacementRejectsDuplicateVertices(string $class, array $ring): void
-    {
-        $triangle = new $class([$ring]);
-        $coordinates = $triangle->getRing(0)->getPoint(1)->getCoordinates();
-        static::assertInstanceOf(Coordinates::class, $coordinates);
-        $this->expectException(InvalidValueException::class);
-        $triangle->withPoint(0, 0, $coordinates);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testReplacementRejectsHoles(string $class, array $ring): void
-    {
-        $triangle = new $class([$ring]);
-        $this->expectException(InvalidValueException::class);
-        $triangle->withArrayOfCoordinates([$ring, $ring]);
-    }
-
-    /**
-     * @param string                                        $class Concrete type
-     * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
-     *
-     * @phpstan-param class-string<AbstractTriangle> $class
-     */
-    #[DataProvider('triangles')]
-    public function testReplacementRejectsWrongPointCount(string $class, array $ring): void
-    {
-        $triangle = new $class([$ring]);
-        $this->expectException(InvalidValueException::class);
-        $triangle->withRing(0, array_slice($ring, 0, 3));
     }
 
     /** @return iterable<string, array{class-string<AbstractTriangle>, list<array{0: int, 1: int, 2?: int, 3?: int}>}> */

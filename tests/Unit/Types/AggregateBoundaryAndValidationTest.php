@@ -16,13 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as GeographicLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographicPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
@@ -32,7 +27,6 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPoint as ThreeDimensionalMultiPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as ThreeDimensionalPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as ThreeDimensionalPolygon;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -127,77 +121,6 @@ class AggregateBoundaryAndValidationTest extends TestCase
         yield 'multi-polygon point replacement' => [static fn () => (new MultiPolygon([]))->withPoint(0, 0, 0, Coordinates::xy(1, 2))];
 
         yield 'collection element replacement' => [static fn () => (new GeometryCollection())->withElement(0, new Point(1, 2))];
-    }
-
-    /**
-     * A multi-line string rejects line strings from another spatial family.
-     */
-    public function testMultiLineStringRejectsAnIncompatibleFamily(): void
-    {
-        $lineString = new GeographicLineString([
-            new GeographicPoint(1, 2),
-            new GeographicPoint(3, 4),
-        ]);
-
-        self::expectException(InvalidFamilyException::class);
-        self::expectExceptionMessageIsOrContains('line string family is not compatible');
-
-        new MultiLineString([$lineString]);
-    }
-
-    /**
-     * @param \Closure $operation construction that violates one multi-polygon compatibility rule
-     * @param string   $exception expected compatibility exception
-     *
-     * @phpstan-param class-string<\Throwable> $exception
-     */
-    #[DataProvider('provideIncompatiblePolygons')]
-    public function testMultiPolygonRejectsIncompatiblePolygons(\Closure $operation, string $exception): void
-    {
-        self::expectException($exception);
-        $operation();
-    }
-
-    /**
-     * @return \Generator<string, array{0: \Closure, 1: string}, null, void>
-     *
-     * @phpstan-return \Generator<string, array{0: \Closure, 1: class-string<\Throwable>}, null, void>
-     */
-    public static function provideIncompatiblePolygons(): \Generator
-    {
-        $ring = [[0, 0], [1, 1], [2, 2], [0, 0]];
-
-        yield 'different SRID' => [
-            static fn () => new MultiPolygon([new Polygon([$ring], 4327)], 4326),
-            InvalidSridException::class,
-        ];
-
-        yield 'different family' => [
-            static fn () => new MultiPolygon([new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon([$ring])]),
-            InvalidFamilyException::class,
-        ];
-
-        yield 'different dimension' => [
-            static fn () => new MultiPolygon([new ThreeDimensionalPolygon([[[0, 0, 1], [1, 1, 2], [2, 2, 3], [0, 0, 1]]])]),
-            InvalidDimensionException::class,
-        ];
-    }
-
-    /**
-     * A polygon can contain only rings from its own family.
-     */
-    public function testPolygonRejectsAnIncompatibleRingFamily(): void
-    {
-        $ring = new GeographicLineString([
-            new GeographicPoint(1, 2),
-            new GeographicPoint(3, 4),
-            new GeographicPoint(1, 2),
-        ]);
-
-        self::expectException(InvalidFamilyException::class);
-        self::expectExceptionMessageIsOrContains('ring family is not compatible');
-
-        new Polygon([$ring]);
     }
 
     /**

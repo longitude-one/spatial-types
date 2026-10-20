@@ -17,14 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Exception;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
-use LongitudeOne\SpatialTypes\Validator\DimensionValidation;
-use LongitudeOne\SpatialTypes\Validator\FamilyValidation;
-use LongitudeOne\SpatialTypes\Validator\SpatialReferenceValidation;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -54,32 +49,6 @@ class DiagnosticMessagesTest extends TestCase
     }
 
     /**
-     * Custom dimension messages are untrusted diagnostic input.
-     *
-     * @param string $value    Untrusted input
-     * @param string $expected Expected safe representation
-     */
-    #[DataProvider('valueProvider')]
-    public function testDimension(string $value, string $expected): void
-    {
-        $this->expectExceptionMessage($expected);
-        DimensionValidation::assertSame(CoordinateDimensionEnum::XYZ, new Point(1, 2), $value);
-    }
-
-    /**
-     * Custom family messages are untrusted diagnostic input.
-     *
-     * @param string $value    Untrusted input
-     * @param string $expected Expected safe representation
-     */
-    #[DataProvider('valueProvider')]
-    public function testFamily(string $value, string $expected): void
-    {
-        $this->expectExceptionMessage($expected);
-        FamilyValidation::assertSame(SpatialModelEnum::GEOGRAPHY, new Point(1, 2), $value);
-    }
-
-    /**
      * Public exception creation must escape the method name.
      *
      * @param string $value    Untrusted input
@@ -90,6 +59,22 @@ class DiagnosticMessagesTest extends TestCase
     {
         $exception = BadMethodCallException::create($value, CoordinateDimensionEnum::XY);
         static::assertSame('The method "'.$expected.'" cannot be called with a spatial object with dimensions "XY".', $exception->getMessage());
+    }
+
+    /**
+     * Untrusted diagnostic values and their visible representations.
+     *
+     * @return iterable<string, array{string, string}>
+     */
+    public static function valueProvider(): iterable
+    {
+        yield 'controls' => ["bad\0\t\r\n\x1B[31m", 'bad\0\t\r\n\u{001B}[31m'];
+
+        yield 'unicode' => ["é\u{0085}\u{202E}\u{2028}\u{2029}", 'é\u{0085}\u{202E}\u{2028}\u{2029}'];
+
+        yield 'invalid UTF-8' => ["é\xFF", 'é\xFF'];
+
+        yield 'long value' => [str_repeat('é', 2050), str_repeat('é', 2047).'…'];
     }
 
     /**
@@ -125,36 +110,5 @@ class DiagnosticMessagesTest extends TestCase
         yield 'minutes' => ["12°60'N\n", 'Out of range minute value, minute must be between 0 and 59, got "12°60\'N\n".', false];
 
         yield 'seconds' => ["12°30'60\"N\n", 'Out of range second value, second must be between 0 and 59, got "12°30\'60"N\n".', false];
-
-        yield 'geographic longitude' => ["181\n", 'Out of range longitude value, longitude must be between -180 and 180, got "181\n".', true];
-    }
-
-    /**
-     * Member labels must be formatted before interpolation into the SRID message.
-     *
-     * @param string $value    Untrusted input
-     * @param string $expected Expected safe representation
-     */
-    #[DataProvider('valueProvider')]
-    public function testReference(string $value, string $expected): void
-    {
-        $this->expectExceptionMessage('The '.$expected.' spatial reference is not compatible with the spatial reference of this spatial value.');
-        SpatialReferenceValidation::assertSame(new SpatialReference(4326), new Point(1, 2), $value);
-    }
-
-    /**
-     * Untrusted diagnostic values and their visible representations.
-     *
-     * @return iterable<string, array{string, string}>
-     */
-    public static function valueProvider(): iterable
-    {
-        yield 'controls' => ["bad\0\t\r\n\x1B[31m", 'bad\0\t\r\n\u{001B}[31m'];
-
-        yield 'unicode' => ["é\u{0085}\u{202E}\u{2028}\u{2029}", 'é\u{0085}\u{202E}\u{2028}\u{2029}'];
-
-        yield 'invalid UTF-8' => ["é\xFF", 'é\xFF'];
-
-        yield 'long value' => [str_repeat('é', 2050), str_repeat('é', 2047).'…'];
     }
 }

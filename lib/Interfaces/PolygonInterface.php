@@ -53,7 +53,7 @@ interface PolygonInterface extends SpatialInterface
      *
      * The returned polygon preserves this instance's family, dimension, and
      * Spatial Reference Identifier (SRID). Every coordinate tuple must match
-     * this instance's coordinate layout and every ring must be closed.
+     * this instance's coordinate layout; ring closure is not checked.
      *
      * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
      */
@@ -77,7 +77,7 @@ interface PolygonInterface extends SpatialInterface
      *
      * The returned polygon preserves this instance's family, dimension, and
      * Spatial Reference Identifier (SRID). The replacement coordinates must
-     * describe a closed ring using this polygon's coordinate layout.
+     * use this polygon's coordinate layout; ring closure is not checked.
      *
      * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
      * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates

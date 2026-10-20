@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
@@ -33,19 +32,6 @@ use PHPUnit\Framework\TestCase;
  */
 class MultiPointTest extends TestCase
 {
-    /**
-     * Test constructor SRID validation.
-     */
-    public function testConstructorRejectsIncompatibleSrid(): void
-    {
-        $multiPoint = new MultiPoint([new Point(1, 2, 4326), [3, 4]], 4326);
-        static::assertCount(2, $multiPoint->getPoints());
-
-        self::expectException(InvalidSridException::class);
-        self::expectExceptionMessageIsOrContains('The point spatial reference is not compatible');
-        new MultiPoint([new Point(1, 2, 4327)], 4326);
-    }
-
     /**
      * Test the constructor with points.
      */

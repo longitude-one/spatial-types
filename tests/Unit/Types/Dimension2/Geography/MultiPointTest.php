@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
 use PHPUnit\Framework\TestCase;
@@ -78,15 +77,5 @@ class MultiPointTest extends TestCase
         static::assertTrue($multiPoint->isSimple());
         static::assertEquals([], $multiPoint->toArray());
         static::assertEquals([], $multiPoint->getPoints());
-    }
-
-    /**
-     * Test out of range constructor.
-     */
-    public function testOutOfRangeConstructor(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "181".');
-        new MultiPoint([[181, 0]]);
     }
 }

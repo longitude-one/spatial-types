@@ -16,9 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Issue;
 
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
@@ -264,61 +261,5 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertSame('{"type":"MultiPoint","coordinates":[[],[1,2],[]],"srid":4326}', json_encode($multiPoint));
         static::assertSame('{"type":"MultiPoint","coordinates":[[]],"srid":0}', json_encode(new MultiPoint([new Point()])));
         static::assertSame('{"type":"MultiPoint","coordinates":[],"srid":0}', json_encode(new MultiPoint([])));
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyDifferentAuthority(): void
-    {
-        self::expectException(InvalidSridException::class);
-        new MultiPoint([new Point(srid: SpatialReference::epsg(4326))], 4326);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyDifferentSrid(): void
-    {
-        self::expectException(InvalidSridException::class);
-        new MultiPoint([new Point(srid: 4326)]);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyGeographyInGeometry(): void
-    {
-        self::expectException(InvalidFamilyException::class);
-        new MultiPoint([new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point()]);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyGeometryInGeography(): void
-    {
-        self::expectException(InvalidFamilyException::class);
-        new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint([new Point()]);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyXyInXyzm(): void
-    {
-        self::expectException(InvalidDimensionException::class);
-        new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPoint([new Point()]);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyXymInXyz(): void
-    {
-        self::expectException(InvalidDimensionException::class);
-        new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPoint([new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point()]);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyXyzInXy(): void
-    {
-        self::expectException(InvalidDimensionException::class);
-        new MultiPoint([new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point()]);
-    }
-
-    /** Empty points retain compatibility validation. */
-    public function testRejectsEmptyXyzmInXym(): void
-    {
-        self::expectException(InvalidDimensionException::class);
-        new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint([new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point()]);
     }
 }

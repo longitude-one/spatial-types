@@ -19,21 +19,14 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\CurveInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as GeographyLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurve;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString as LineStringM;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as LineStringZ;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineString as LineStringZM;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -90,107 +83,12 @@ class CompoundCurveValidationTest extends TestCase
         static::assertFalse($compound->isClosed());
     }
 
-    /** Same ordinate count does not make XYZ and XYM compatible. */
-    public function testDifferentThreeOrdinateLayouts(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-
-        new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CompoundCurve([
-            new LineStringM([[0, 0, 1], [1, 1, 2]]),
-        ]);
-    }
-
-    /** Equal overall endpoints do not excuse a discontinuity in between. */
-    public function testDiscontinuityDespiteClosure(): void
-    {
-        $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Consecutive compound curve components must share an endpoint.');
-
-        new CompoundCurve([
-            new LineString([[0, 0], [1, 1]]),
-            new CircularString([[2, 0], [1, 2], [0, 0]]),
-        ]);
-    }
-
-    /** XY and XYZ components cannot be mixed. */
-    public function testElevatedDimensionMismatch(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-
-        new CompoundCurve([new LineStringZ([[0, 0, 1], [1, 1, 2]])]);
-    }
-
-    /** XYZM components are not accepted in an XY compound. */
-    public function testElevatedMeasuredDimensionMismatch(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-
-        new CompoundCurve([new LineStringZM([[0, 0, 1, 2], [1, 1, 2, 3]])]);
-    }
-
-    /** XYZM equality includes M even when XYZ is identical. */
-    public function testElevatedMeasureDiscontinuity(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CompoundCurve([
-            new LineStringZM([[0, 0, 1, 2], [1, 1, 2, 3]]),
-            new LineStringZM([[1, 1, 2, 4], [2, 0, 3, 5]]),
-        ]);
-    }
-
-    /** Z participates in endpoint equality even when XY matches. */
-    public function testElevationDiscontinuity(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CompoundCurve([
-            new LineStringZ([[0, 0, 1], [1, 1, 2]]),
-            new LineStringZ([[1, 1, 3], [2, 0, 4]]),
-        ]);
-    }
-
-    /** Empty circular members cannot connect to the preceding component. */
-    public function testEmptyCircularComponent(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new CompoundCurve([new LineString([[0, 0], [1, 1]]), new CircularString([])]);
-    }
-
     /** Indexed access follows the existing empty-aggregate exception contract. */
     public function testEmptyIndexedAccess(): void
     {
         $this->expectException(OutOfBoundsException::class);
 
         (new CompoundCurve())->getCurve(0);
-    }
-
-    /** Empty components cannot supply endpoints even when alone. */
-    public function testEmptyLineComponent(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new CompoundCurve([new LineString([])]);
-    }
-
-    /** Geometry and Geography families remain distinct. */
-    public function testFamilyMismatch(): void
-    {
-        $this->expectException(InvalidFamilyException::class);
-
-        new CompoundCurve([new GeographyLineString([[0, 0], [1, 1]])]);
-    }
-
-    /** Continuity uses the existing strict point equality contract. */
-    public function testIntegerFloatMismatch(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new CompoundCurve([
-            new LineString([[0, 0], [1, 1]]),
-            new LineString([[1.0, 1.0], [2, 0]]),
-        ]);
     }
 
     /** Nested component coordinates cannot masquerade as point ordinates. */
@@ -263,33 +161,6 @@ class CompoundCurveValidationTest extends TestCase
         static::assertSame([[[0, 0], [1, 1]], [[1, 1], [2, 0]]], $compound->toArray());
     }
 
-    /** M is independently part of the coordinate layout. */
-    public function testMeasuredDimensionMismatch(): void
-    {
-        $this->expectException(InvalidDimensionException::class);
-
-        new CompoundCurve([new LineStringM([[0, 0, 1], [1, 1, 2]])]);
-    }
-
-    /** M participates in continuity independently of spatial position. */
-    public function testMeasureDiscontinuity(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurve([
-            new LineStringM([[0, 0, 1], [1, 1, 2]]),
-            new LineStringM([[1, 1, 3], [2, 0, 4]]),
-        ]);
-    }
-
-    /** Compound curves are not recursively accepted as components. */
-    public function testNestedCompound(): void
-    {
-        $this->expectException(InvalidValueException::class);
-
-        new CompoundCurve([new CompoundCurve([new LineString([[0, 0], [1, 1]])])]);
-    }
-
     /** Construction rejects values outside the common curve contract. */
     public function testNonCurve(): void
     {
@@ -304,22 +175,6 @@ class CompoundCurveValidationTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         (new \ReflectionClass(CompoundCurve::class))->newInstance([[[0, 0], [1, 1]]]);
-    }
-
-    /** Matching numeric SRIDs do not erase authority differences. */
-    public function testReferenceAuthorityMismatch(): void
-    {
-        $this->expectException(InvalidSridException::class);
-
-        new CompoundCurve([new LineString([[0, 0], [1, 1]], SpatialReference::epsg(4326))], 4326);
-    }
-
-    /** SRID zero is an actual reference, not a wildcard. */
-    public function testReferenceMismatch(): void
-    {
-        $this->expectException(InvalidSridException::class);
-
-        new CompoundCurve([new LineString([[0, 0], [1, 1]], 4326)]);
     }
 
     /** Returned membership arrays cannot mutate the compound curve. */

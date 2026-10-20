@@ -93,8 +93,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     /**
      * Return a deep copy of this collection with one replacement element.
      *
-     * The replacement is validated through the existing collection membership
-     * rules. Every unchanged element is copied to keep the returned collection
+     * The replacement must implement SpatialInterface. Every unchanged element is copied to keep the returned collection
      * independent from its source.
      *
      * @param int              $elementIndex index of the element to replace; negative indexes count from the end
@@ -151,12 +150,6 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
      */
     protected function addElement(SpatialInterface $spatial): static
     {
-        $this->assertSameDimension($spatial, 'Collection cannot contain elements with different dimensions.');
-
-        $this->assertSameFamily($spatial, 'Collection cannot contain elements with different families.');
-
-        $this->assertSameSpatialReference($spatial, 'collection member');
-
         $this->elements[] = $spatial;
 
         return $this;

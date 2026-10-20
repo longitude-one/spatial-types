@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
@@ -44,7 +42,6 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
      * @param int|SpatialReference                                                                                                                 $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
-     * @throws InvalidSridException      when the point SRID is not compatible with the multiLineStlineString SRID
      * @throws InvalidValueException     when coordinates of the point are invalid
      * @throws MissingValueException     when the point is missing
      */
@@ -202,13 +199,7 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
      */
     protected function addLineString(array|LineStringInterface $lineString): static
     {
-        try {
-            return $this->addLineStringMember($lineString);
-            // @codeCoverageIgnoreStart
-        } catch (InvalidFamilyException $e) {
-            throw new InvalidFamilyException('The line string family is not compatible with the family of the current multilinestring.', $e->getCode(), $e);
-            // @codeCoverageIgnoreEnd
-        }
+        return $this->addLineStringMember($lineString);
     }
 
     /**

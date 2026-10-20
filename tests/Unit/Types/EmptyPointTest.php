@@ -21,7 +21,6 @@ use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -154,17 +153,6 @@ class EmptyPointTest extends TestCase
     public static function provideFamiliesAndDimensions(): \Generator
     {
         yield from self::familiesAndDimensions();
-    }
-
-    /**
-     * Empty points cannot be a component of a line string.
-     */
-    public function testLineStringRejectsAnEmptyPoint(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('cannot contain an empty point');
-
-        new LineString([new GeometryPoint(), new GeometryPoint(), new GeometryPoint(), new GeometryPoint()]);
     }
 
     /**

@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension3m;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
@@ -37,7 +36,6 @@ abstract class AbstractLineString extends ParentLineString implements LineString
      * @param int|SpatialReference                                                             $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a point dimension is incompatible
-     * @throws InvalidSridException      when a point SRID is incompatible
      * @throws InvalidValueException     when point coordinates are invalid
      * @throws MissingValueException     when a point is missing
      */

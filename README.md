@@ -101,11 +101,10 @@ projection remains available through `getSrid()`, while `getSpatialReference()`
 preserves the optional authority (for example `EPSG:4326`). Constructors and
 factories accept either a legacy integer or a `SpatialReference` instance.
 
-All members of an aggregate must have exactly the same spatial reference
-system, including the unnamed reference represented by identifier `0`. It is
-not a wildcard. Use `withSpatialReference()` (or the legacy `withSrid()`) only
-to relabel coordinates; neither method performs a reprojection.
+Supplied members retain their declared references; compatibility is not
+validated automatically. Use `withSpatialReference()` (or the legacy
+`withSrid()`) to relabel a copy and its descendants without reprojection.
 
-See [Spatial reference systems](docs/spatial-reference-systems.md) for the
-strict aggregate rule, its ISO/IEC 13249-3 basis, and the distinction between
-declaring a reference and transforming coordinates.
+See [Spatial reference systems](docs/spatial-reference-systems.md) for reference
+handling, and [Spatial validation](docs/validators.md) for the separation of
+representation from explicit functional validation.

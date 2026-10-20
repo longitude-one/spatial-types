@@ -166,17 +166,6 @@ class FromIndexedArrayFactoryTest extends TestCase
     }
 
     /**
-     * Verifies that a polygon only accepts closed line strings.
-     */
-    public function testCreatePolygonRejectsAnOpenLineString(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('at least 4 points');
-
-        FromIndexedArrayFactory::createPolygon([[[0, 0], [1, 1]]]);
-    }
-
-    /**
      * Verifies that a polygon rejects invalid ring elements.
      */
     public function testCreatePolygonRejectsInvalidElement(): void

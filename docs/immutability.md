@@ -79,8 +79,7 @@ $replacedMultiPolygon = $multiPolygon->withPolygon(0, [
 ```
 
 `GeometryCollection` and `GeographyCollection` use `withElement()` to replace
-one indexed element. The replacement follows the usual family, dimension, and
-SRID compatibility rules, while unchanged elements are deeply copied.
+one indexed element. The replacement must implement `SpatialInterface`; unchanged elements are deeply copied.
 
 ## Why coordinates are immutable
 
@@ -108,8 +107,7 @@ operation being made on it.
 
 Because points are immutable, that operation does not exist. Code that needs
 another location creates another point and explicitly builds the spatial value
-that should contain it. This preserves validation of geography coordinate
-ranges, coordinate dimensions, family, and SRID compatibility.
+that should contain it. The represented value remains separate from functional validity checks.
 
 Changing a spatial reference follows the same value-object rule:
 `withSpatialReference()` produces another spatial value. It does not transform coordinates; a coordinate
@@ -134,8 +132,8 @@ $higherParis = $paris->withCoordinates(
 ```
 
 `withCoordinates()` requires the same dimension as the receiving point. It
-preserves its concrete class, family, and SRID, and still applies geography
-longitude/latitude validation when creating the replacement point.
+preserves its concrete class, family, and SRID. Numeric longitude/latitude
+ranges are not checked.
 
 ## Aggregate types
 
@@ -145,8 +143,7 @@ and `Polygon` (including `Triangle`). `LineString::withPoint()` and
 immutable `Value\Coordinates` value, so a replacement must match the receiver's
 coordinate dimension.
 
-`Polygon::withRing()` selects a ring and requires coordinates forming a
-closed ring. `MultiLineString::withPoint()` selects a line string then a point,
+`Polygon::withRing()` selects a ring from coordinate tuples. `MultiLineString::withPoint()` selects a line string then a point,
 while `MultiLineString::withLineString()` selects one of its line strings.
 Both derive the expected coordinate layout from the receiver.
 
@@ -154,8 +151,7 @@ Both derive the expected coordinate layout from the receiver.
 `MultiPolygon::withRing()` selects a polygon then ring, while
 `MultiPolygon::withPolygon()` replaces an entire polygon. Each operation
 creates a deep copy of every polygon in the collection. `PolyhedralSurface`
-uses patch indexes with `withPoint()`, `withRing()` and `withPatch()`, and
-revalidates the complete surface after each replacement. Its
+uses patch indexes with `withPoint()`, `withRing()` and `withPatch()`. Its
 `withArrayOfCoordinates()` replaces all patches atomically, or returns an empty
 surface for `[]`. Indexed replacements on an empty surface are invalid.
 Neighbouring faces are never changed implicitly when editing a shared vertex.
@@ -172,15 +168,13 @@ See [Instantiable spatial types](instantiable-spatial-types.md#immutability-cont
 for the complete current mutability contract.
 
 
-Circular strings also provide `withArrayOfCoordinates()`; every replacement
-revalidates the odd point count (at least three when non-empty), non-empty
-members and distinct intermediate points. Complete-circle endpoints may
-coincide, and collinear arcs remain valid. Reference replacements preserve the
-defining coordinates and copy the contained points. Editing an endpoint does
-not automatically edit the other end of a closed circular string.
+Circular strings also provide `withArrayOfCoordinates()` without functional
+validity checks. Reference replacements preserve defining coordinates and copy
+the contained points. Editing an endpoint does not automatically edit the
+other end of a closed circular string.
 
-Compound curves retain immutable ordered curve components. Their
-`withSpatialReference()` and legacy `withSrid()` operations deeply copy all
-components and defining points, preserving interpolation and validating
-continuity. Construct a new compound from replacement curves to change its
-path; modifying a returned `getCurves()` array does not affect the original.
+Compound curves retain immutable ordered `CurveInterface` components with
+numeric coordinate tuples. Their `withSpatialReference()` and legacy
+`withSrid()` operations deeply copy components without checking continuity.
+Construct a new compound from replacement curves to change its path; modifying
+a returned `getCurves()` array does not affect the original.

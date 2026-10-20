@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -138,19 +137,6 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
 
             yield sprintf('%s XYZM', $family->value) => [CoordinateDimensionEnum::XYZM, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
         }
-    }
-
-    /**
-     * Verify that every replacement polygon ring remains subject to ring validation.
-     */
-    public function testPolygonWithArrayOfCoordinatesRejectsAnOpenRing(): void
-    {
-        $polygon = FromIndexedArrayFactory::createPolygon([], 4326, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
-
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('at least 4 points');
-
-        $polygon->withArrayOfCoordinates([[[1, 2], [3, 4]]]);
     }
 
     /**

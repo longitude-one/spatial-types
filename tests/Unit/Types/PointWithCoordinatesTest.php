@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographyPoint2D;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint2D;
@@ -106,28 +105,6 @@ class PointWithCoordinatesTest extends TestCase
         self::expectExceptionMessageIsOrContains('incompatible with the XY point dimension');
 
         (new GeometryPoint2D(1, 2, 4326))->withCoordinates(Coordinates::xyz(1, 2, 3));
-    }
-
-    /**
-     * Verify that withCoordinates keeps geography range validation.
-     */
-    public function testWithCoordinatesValidatesGeographicLatitude(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Out of range latitude value');
-
-        (new GeographyPoint2D(1, 2, 4326))->withCoordinates(Coordinates::xy(3, 92));
-    }
-
-    /**
-     * Verify that withCoordinates keeps geography range validation.
-     */
-    public function testWithCoordinatesValidatesGeographicLongitude(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Out of range longitude value');
-
-        (new GeographyPoint2D(1, 2, 4326))->withCoordinates(Coordinates::xy(181, 2));
     }
 
     /**

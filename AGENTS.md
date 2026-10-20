@@ -4,9 +4,9 @@ This file defines the repository-specific development rules and the operating bo
 
 ## Project Structure & Module Organization
 
-This PHP library implements spatial interfaces and immutable geometric and geographic value types, with factories, spatial references, and validation.
+This PHP library implements spatial interfaces and immutable geometric and geographic value types, with factories and spatial references. Functional validation is an explicit consumer concern.
 
-Source lives in `lib/`, using Composer PSR-4 autoloading for `LongitudeOne\SpatialTypes\`. Public contracts live in `Interfaces/`, concrete spatial classes in `Types/`, construction helpers in `Factory/`, spatial references in `Reference/`, coordinate values in `Value/`, and validation in `Validator/`.
+Source lives in `lib/`, using Composer PSR-4 autoloading for `LongitudeOne\SpatialTypes\`. Public contracts live in `Interfaces/`, concrete spatial classes in `Types/`, construction helpers in `Factory/`, spatial references in `Reference/`, coordinate values in `Value/`.
 
 Spatial values are immutable through the public API. Preserve the documented constructor and `with*` contracts. Changing the declared spatial reference does not transform coordinates.
 
@@ -111,7 +111,7 @@ Use `LongitudeOne\Core\Enum\GeometryTypeEnum` for geometry types.
 
 Concrete types live under `LongitudeOne\SpatialTypes\Types`, with `Dimension2` (XY), `Dimension3z` (XYZ), `Dimension3m` (XYM), and `Dimension4zm` (XYZM) namespaces, each containing `Geometry` and `Geography` families.
 
-Pass spatial references and collection elements through the supported constructors or factories, preserving the documented family, dimension, and reference compatibility rules.
+Pass spatial references and collection elements through the supported constructors or factories, preserving technical member typing and coordinate-layout contracts. Functional family, dimension, reference, and geometry validity rules are not checked automatically.
 
 ## Implementation Autonomy
 

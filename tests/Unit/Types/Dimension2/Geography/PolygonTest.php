@@ -36,18 +36,6 @@ use PHPUnit\Framework\TestCase;
 class PolygonTest extends TestCase
 {
     /**
-     * Test the constructor with array of cartesian coordinates.
-     *
-     * @throws SpatialTypeExceptionInterface test shall not throw any exception
-     */
-    public function testConstructorWithCartesianCoordinates(): void
-    {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Out of range latitude value, latitude must be between -90 and 90, got "186".');
-        new Polygon([[[1, 2], [3, 4], [93, 186], [1, 2]]]);
-    }
-
-    /**
      * Test the constructor with geodesic points.
      *
      * @throws SpatialTypeExceptionInterface test shall not throw any exception

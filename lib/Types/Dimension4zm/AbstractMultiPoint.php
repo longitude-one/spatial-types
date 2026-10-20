@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MultiPointInterface;
@@ -36,7 +35,6 @@ abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPoint
      * @param int|SpatialReference                                                                           $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a point has an incompatible dimension
-     * @throws InvalidSridException      when a point has an incompatible SRID
      * @throws InvalidValueException     when point coordinates are invalid
      * @throws MissingValueException     when a point is missing
      */
