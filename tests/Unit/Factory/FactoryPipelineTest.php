@@ -124,13 +124,26 @@ class FactoryPipelineTest extends TestCase
         static::assertSame(6, $fourDimensionalCoordinates->m);
     }
 
+    /** The measure diagnostic describes both permitted ordinate types. */
+    public function testCoordinatesHydratorRejectsNonNumericMeasureWithNullableDiagnostic(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The M coordinate must be a number or null.');
+
+        (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
+            new CoordinatesHydrator(),
+            [1, 2, false],
+            new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM)
+        );
+    }
+
     /**
      * The coordinate hydrator rejects a non-numeric Z or M ordinate before point construction.
      */
     public function testCoordinatesHydratorRejectsNonNumericOptionalOrdinate(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Z coordinate must be a number');
+        self::expectExceptionMessageIsOrContains('The Z coordinate must be a number or null.');
 
         (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
             new CoordinatesHydrator(),

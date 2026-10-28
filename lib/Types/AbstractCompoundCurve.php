@@ -160,8 +160,8 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
             }
             $tuple = [];
             foreach ($point as $ordinate) {
-                if (!is_int($ordinate) && !is_float($ordinate)) {
-                    throw new InvalidValueException('A compound curve component must expose numeric ordinates.');
+                if (null !== $ordinate && !is_int($ordinate) && !is_float($ordinate)) {
+                    throw new InvalidValueException('A compound curve component must expose numeric or null ordinates.');
                 }
                 $tuple[] = $ordinate;
             }

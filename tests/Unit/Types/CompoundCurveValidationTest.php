@@ -83,6 +83,28 @@ class CompoundCurveValidationTest extends TestCase
         static::assertFalse($compound->isClosed());
     }
 
+    /** Booleans are not normalized into numeric component ordinates. */
+    public function testComponentRejectsBooleanOrdinate(): void
+    {
+        $component = static::createStub(CurveInterface::class);
+        $component->method('toArray')->willReturn([[0, false]]);
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
+
+        new CompoundCurve([$component]);
+    }
+
+    /** Strings remain invalid component ordinates when null is accepted. */
+    public function testComponentRejectsNumericStringOrdinate(): void
+    {
+        $component = static::createStub(CurveInterface::class);
+        $component->method('toArray')->willReturn([[0, '2']]);
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
+
+        new CompoundCurve([$component]);
+    }
+
     /** Indexed access follows the existing empty-aggregate exception contract. */
     public function testEmptyIndexedAccess(): void
     {

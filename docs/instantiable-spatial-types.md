@@ -542,9 +542,11 @@ $empty = new CompoundCurve([], 4326);
 
 `new CompoundCurve()` creates an empty XY Geometry value with SRID 0 when
 using the class imported above. Components must implement `CurveInterface`
-and expose point tuples with numeric or null ordinates. Family, dimension, reference, component kind,
-non-empty endpoints and continuity are not validated automatically. Components
-are preserved as objects without flattening, reversal or linear approximation.
+and expose point tuples with numeric or null ordinates. Null entries retain
+their positions through array access and immutable reference copies. Family,
+dimension, reference, component kind, non-empty endpoints and continuity are
+not validated automatically. Components are preserved as objects without
+flattening, reversal or linear approximation.
 
 `getCurves()` and `getElements()` expose the ordered components as
 `CurveInterface[]`. `getCurve($index)` uses wrapping indexes and negative

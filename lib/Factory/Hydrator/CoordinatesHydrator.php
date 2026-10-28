@@ -36,7 +36,7 @@ final class CoordinatesHydrator
      * @param SpatialContext                                                                                      $context     expected dimension and target SRID
      *
      * @throws InvalidDimensionException when the array contains too many coordinates
-     * @throws InvalidValueException     when a Z or M coordinate is not numeric
+     * @throws InvalidValueException     when a Z or M coordinate is neither numeric nor null
      * @throws MissingValueException     when a required coordinate is missing
      */
     public function hydrate(array $coordinates, SpatialContext $context): Coordinates
@@ -64,12 +64,12 @@ final class CoordinatesHydrator
      *
      * @return null|float|int validated coordinate
      *
-     * @throws InvalidValueException when the coordinate is not numeric
+     * @throws InvalidValueException when the coordinate is neither numeric nor null
      */
     private function numericCoordinate(mixed $coordinate, string $name): float|int|null
     {
         if (null !== $coordinate && !is_float($coordinate) && !is_int($coordinate)) {
-            throw new InvalidValueException(sprintf('The %s coordinate must be a number.', $name));
+            throw new InvalidValueException(sprintf('The %s coordinate must be a number or null.', $name));
         }
 
         return $coordinate;
@@ -88,7 +88,7 @@ final class CoordinatesHydrator
      *
      * @return null|float|int the coordinate, or null when absent from the dimension
      *
-     * @throws InvalidValueException when the coordinate is not numeric
+     * @throws InvalidValueException when the coordinate is neither numeric nor null
      */
     private function optionalNumericCoordinate(array $coordinates, ?int $index, string $name): float|int|null
     {
