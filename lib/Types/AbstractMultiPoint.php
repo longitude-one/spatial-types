@@ -36,8 +36,8 @@ abstract class AbstractMultiPoint extends AbstractPointCollection implements Mul
     /**
      * AbstractMultiPoint constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $points points of the multipoint
-     * @param int|SpatialReference                                                                                         $srid   Spatial Reference Identifier
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $points points of the multipoint
+     * @param int|SpatialReference                                                                                                   $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multipoint dimension
      * @throws InvalidValueException     when coordinates of the point are invalid

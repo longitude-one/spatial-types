@@ -78,7 +78,7 @@ abstract class AbstractCollection extends AbstractSpatialType implements Collect
     /**
      * Convert the collection to an array.
      *
-     * @return (float|(float|int|string)[]|(float|int|string)[][]|(float|int|string)[][][]|int|string)[][]
+     * @return (null|float|int|(null|float|int|string)[]|(null|float|int|string)[][]|(null|float|int|string)[][][]|string)[][]
      */
     public function toArray(): array
     {

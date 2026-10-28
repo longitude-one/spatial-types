@@ -32,6 +32,6 @@ interface CompoundCurveInterface extends CurveInterface
     /** @return CurveInterface[] */
     public function getElements(): array;
 
-    /** @return (float|int)[][][] */
+    /** @return (null|float|int)[][][] */
     public function toArray(): array;
 }

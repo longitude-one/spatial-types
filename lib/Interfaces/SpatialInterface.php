@@ -95,7 +95,7 @@ interface SpatialInterface extends \JsonSerializable
      *
      * Use the longitude-one/spatial-writer library to export all data.
      *
-     * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]
+     * @return (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]
      */
     public function toArray(): array;
 

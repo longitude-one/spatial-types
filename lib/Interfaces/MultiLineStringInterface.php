@@ -44,7 +44,7 @@ interface MultiLineStringInterface extends CollectionInterface
     /**
      * Return an array of coordinates.
      *
-     * @return (float|int)[][][]
+     * @return (null|float|int)[][][]
      */
     public function toArray(): array;
 
@@ -55,8 +55,8 @@ interface MultiLineStringInterface extends CollectionInterface
      * dimension, and Spatial Reference Identifier (SRID). Every replacement
      * coordinate tuple must match this instance's coordinate layout.
      *
-     * @param int                                                                                              $lineStringIndex index of the line string to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     * @param int                                                                                                        $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
      */
     public function withLineString(int $lineStringIndex, array $coordinates): static;
 

@@ -41,8 +41,8 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * AbstractPolygon constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
-     * @param int|SpatialReference                                                                                                                 $srid  Spatial Reference Identifier
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $rings rings of the polygon
+     * @param int|SpatialReference                                                                                                                           $srid  Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a coordinate tuple does not match the polygon dimension
      * @throws InvalidValueException     when coordinates of the point are invalid
@@ -96,7 +96,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * Return an array representation of this polygon.
      *
-     * @return (float|int)[][][]
+     * @return (null|float|int)[][][]
      */
     public function toArray(): array
     {
@@ -116,7 +116,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      * (SRID); the existing line-string hydrator creates members from each tuple
      * against that retained context.
      *
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
      */
     public function withArrayOfCoordinates(array $coordinates): static
     {
@@ -166,8 +166,8 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
      * coordinates are created through the polygon's existing family, dimension,
      * and Spatial Reference Identifier (SRID) context without enforcing ring validity.
      *
-     * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
+     * @param int                                                                                                        $ringIndex   index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
      *
      * @throws OutOfBoundsException when the polygon has no rings
      */
@@ -216,7 +216,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * Get the line strings of the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $ring the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the ring
      */
@@ -234,7 +234,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements PolygonInt
     /**
      * Add a ring to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $rings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when an input does not provide a line-string interface or coordinate tuples
      */

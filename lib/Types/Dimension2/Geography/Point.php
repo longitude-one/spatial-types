@@ -52,10 +52,6 @@ class Point extends AbstractPoint implements PointInterface
             return;
         }
 
-        if (null === $x || null === $y) {
-            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
-        }
-
         $this->initializeX($x);
         $this->initializeY($y);
         $this->initializeSpatialReference($srid);
@@ -113,7 +109,7 @@ class Point extends AbstractPoint implements PointInterface
      * Convert this point to an array containing longitude (X) and latitude (Y).
      * The SRID is not exported.
      *
-     * @return array{0 : float|int, 1 : float|int}|array{}
+     * @return array{0 : null|float|int, 1 : null|float|int}|array{}
      */
     public function toArray(): array
     {

@@ -40,12 +40,12 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * The X coordinate or the longitude.
      */
-    protected float|int $x;
+    protected float|int|null $x = null;
 
     /**
      * The Y coordinate or the latitude.
      */
-    protected float|int $y;
+    protected float|int|null $y = null;
 
     /** Whether this point corresponds to the empty set. */
     private bool $empty = false;
@@ -166,7 +166,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
             $point->initializeM($coordinates->getM());
         }
 
-        $point->empty = false;
+        $point->hasOnlyNullCoordinates(...$coordinates->toArray());
 
         return $point;
     }
@@ -209,36 +209,25 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      * Determine whether all coordinates describe an empty point.
      *
      * A point is empty only when every ordinate in its coordinate layout is
-     * null. Supplying only some coordinates would produce an invalid point.
+     * null. Partially supplied coordinates are preserved without validation.
      *
      * @param (null|float|int|string) ...$coordinates Point ordinates
-     *
-     * @throws InvalidValueException when only a subset of ordinates is null
      */
     final protected function hasOnlyNullCoordinates(float|int|string|null ...$coordinates): bool
     {
-        $nullCount = count(array_filter($coordinates, static fn (float|int|string|null $coordinate): bool => null === $coordinate));
-        if (count($coordinates) === $nullCount) {
-            $this->empty = true;
+        $this->empty = count($coordinates) === count(array_filter($coordinates, static fn (float|int|string|null $coordinate): bool => null === $coordinate));
 
-            return true;
-        }
-
-        if (0 !== $nullCount) {
-            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
-        }
-
-        return false;
+        return $this->empty;
     }
 
     /**
      * Set the M coordinate on a point that supports a measure ordinate.
      *
-     * @param float|int $m M coordinate or measure
+     * @param null|float|int $m M coordinate or measure
      *
      * @throws BadMethodCallException when the point has no M ordinate
      */
-    protected function initializeM(float|int $m): static
+    protected function initializeM(float|int|null $m): static
     {
         // @codeCoverageIgnoreStart
         throw new BadMethodCallException(sprintf('The M ordinate "%s" cannot be assigned to a point with the %s dimension.', $m, $this->getDimension()->value));
@@ -248,11 +237,11 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * X setter. (Latitude setter).
      *
-     * @param float|int|string $x the new X
+     * @param null|float|int|string $x the new X
      *
      * @throws InvalidValueException when x is not valid
      */
-    protected function initializeX(float|int|string $x): static
+    protected function initializeX(float|int|string|null $x): static
     {
         $this->x = $this->setCartesianCoordinate($x);
 
@@ -262,11 +251,11 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * Y setter. Longitude Setter.
      *
-     * @param float|int|string $y the new Y value
+     * @param null|float|int|string $y the new Y value
      *
      * @throws InvalidValueException when Y is invalid, not in valid range
      */
-    protected function initializeY(float|int|string $y): static
+    protected function initializeY(float|int|string|null $y): static
     {
         $this->y = $this->setCartesianCoordinate($y);
 
@@ -276,11 +265,11 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
     /**
      * Set the Z coordinate on a point that supports an elevation ordinate.
      *
-     * @param float|int $z Z coordinate or elevation
+     * @param null|float|int $z Z coordinate or elevation
      *
      * @throws BadMethodCallException when the point has no Z ordinate
      */
-    protected function initializeZ(float|int $z): static
+    protected function initializeZ(float|int|null $z): static
     {
         // @codeCoverageIgnoreStart
         throw new BadMethodCallException(sprintf('The Z ordinate "%s" cannot be assigned to a point with the %s dimension.', $z, $this->getDimension()->value));
@@ -291,13 +280,13 @@ abstract class AbstractPoint extends AbstractSpatialType implements PointInterfa
      * Set a cartesian coordinate.
      * Abscissa or ordinate.
      *
-     * @param float|int|string $coordinate the coordinate to set
+     * @param null|float|int|string $coordinate the coordinate to set
      *
      * @throws InvalidValueException when coordinate is invalid, RangeException is never thrown
      */
-    protected function setCartesianCoordinate(float|int|string $coordinate): float|int
+    protected function setCartesianCoordinate(float|int|string|null $coordinate): float|int|null
     {
-        if (is_integer($coordinate) || is_float($coordinate)) {
+        if (null === $coordinate || is_integer($coordinate) || is_float($coordinate)) {
             // We don't check the range of the value.
             return $coordinate;
         }

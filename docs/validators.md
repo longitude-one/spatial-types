@@ -2,12 +2,14 @@
 
 `spatial-types` represents spatial values without automatic functional validation.
 Constructors and immutable replacement methods retain technical typing checks:
-member interfaces, numeric coordinate tuples, required ordinates, and the
-coordinate dimension of a concrete point. EMPTY points still require all
-ordinates to be null together. Indexed operations still reject empty containers.
+member interfaces, numeric or null coordinate ordinates, required tuple indices,
+and the coordinate dimension of a concrete point. Every combination of supplied
+and null point ordinates is representable. Only an all-null point is EMPTY; a
+partial null does not remove an axis or change the dimension. Indexed operations
+still reject empty containers.
 
 Geometry validity is an explicit consumer operation. Functional rules such as
-ring closure, triangle cardinality, geographic numeric ranges, aggregate
+point coordinate completeness, ring closure, triangle cardinality, geographic numeric ranges, aggregate
 family/dimension/reference compatibility, curve continuity and surface topology
 are not enforced by this package.
 

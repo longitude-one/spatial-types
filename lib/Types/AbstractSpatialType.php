@@ -82,7 +82,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Define elements for the JSON serialization.
      *
-     * @return array{type: string, coordinates: (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[], srid: ?int}
+     * @return array{type: string, coordinates: (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]|SpatialInterface[], srid: ?int}
      */
     public function jsonSerialize(): array
     {
@@ -122,7 +122,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Hydrate a line-string tuple collection in this spatial value's context.
      *
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $coordinates Point tuples
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $coordinates Point tuples
      */
     final protected function createLineStringFromCoordinates(array $coordinates): LineStringInterface
     {
@@ -135,7 +135,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Hydrate a point tuple in this spatial value's complete context.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates Point tuple
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates Point tuple
      */
     final protected function createPointFromCoordinates(array $coordinates): PointInterface
     {
@@ -148,7 +148,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Hydrate polygon rings in this spatial value's context.
      *
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings Polygon rings
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings Polygon rings
      */
     final protected function createPolygonFromCoordinates(array $rings): PolygonInterface
     {
@@ -195,7 +195,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Convert any spatial object to its array representation.
      *
-     * @return (float|int)[]|(float|int)[][]|(float|int)[][][]|(float|int)[][][][]|SpatialInterface[]
+     * @return (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]|SpatialInterface[]
      */
     abstract public function toArray(): array;
 }

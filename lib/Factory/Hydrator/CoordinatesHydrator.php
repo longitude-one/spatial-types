@@ -32,8 +32,8 @@ final class CoordinatesHydrator
     /**
      * Hydrate coordinates from an indexed array.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates coordinates
-     * @param SpatialContext                                                                            $context     expected dimension and target SRID
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates coordinates
+     * @param SpatialContext                                                                                      $context     expected dimension and target SRID
      *
      * @throws InvalidDimensionException when the array contains too many coordinates
      * @throws InvalidValueException     when a Z or M coordinate is not numeric
@@ -57,18 +57,18 @@ final class CoordinatesHydrator
     }
 
     /**
-     * Ensure a Z or M coordinate is numeric.
+     * Ensure a Z or M coordinate is numeric or null.
      *
      * @param mixed  $coordinate coordinate to validate
      * @param string $name       coordinate name used in the error message
      *
-     * @return float|int validated coordinate
+     * @return null|float|int validated coordinate
      *
      * @throws InvalidValueException when the coordinate is not numeric
      */
-    private function numericCoordinate(mixed $coordinate, string $name): float|int
+    private function numericCoordinate(mixed $coordinate, string $name): float|int|null
     {
-        if (!is_float($coordinate) && !is_int($coordinate)) {
+        if (null !== $coordinate && !is_float($coordinate) && !is_int($coordinate)) {
             throw new InvalidValueException(sprintf('The %s coordinate must be a number.', $name));
         }
 
@@ -79,7 +79,7 @@ final class CoordinatesHydrator
      * Return an optional Z or M coordinate for the current dimension.
      *
      * A null index means that the dimension does not contain this coordinate.
-     * Otherwise, validate the already-required indexed value as numeric before
+     * Otherwise, validate the already-required indexed value as numeric or null before
      * returning it to the factory DTO.
      *
      * @param array<array-key, mixed> $coordinates coordinates to read
@@ -112,7 +112,7 @@ final class CoordinatesHydrator
         $coordinateNames = ['first', 'second', 'third', 'fourth'];
 
         foreach (range(0, $coordinateCount - 1) as $index) {
-            if (!array_key_exists($index, $coordinates) || null === $coordinates[$index]) {
+            if (!array_key_exists($index, $coordinates)) {
                 throw new MissingValueException(sprintf('The %s coordinate of array is missing.', $coordinateNames[$index] ?? 'unknown'));
             }
         }

@@ -111,7 +111,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
         return [] === $this->curves;
     }
 
-    /** @return (float|int)[][][] */
+    /** @return (null|float|int)[][][] */
     public function toArray(): array
     {
         return array_map(
@@ -149,7 +149,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
      *
      * @param CurveInterface $curve Component whose coordinates are requested
      *
-     * @return (float|int)[][]
+     * @return (null|float|int)[][]
      */
     private function componentCoordinates(CurveInterface $curve): array
     {
