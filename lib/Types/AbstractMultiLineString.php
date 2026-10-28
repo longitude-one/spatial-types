@@ -38,8 +38,8 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
     /**
      * AbstractMultiLineString constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
-     * @param int|SpatialReference                                                                                                                 $srid        Spatial Reference Identifier
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[])[] $lineStrings lineStrings of the multiLineString
+     * @param int|SpatialReference                                                                                                                           $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
      * @throws InvalidValueException     when coordinates of the point are invalid
@@ -102,7 +102,7 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
     /**
      * Return an array representation of the multiLineString.
      *
-     * @return (float|int)[][][]
+     * @return (null|float|int)[][][]
      */
     public function toArray(): array
     {
@@ -121,8 +121,8 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
      * The replacement coordinates are created through the existing family,
      * dimension, and Spatial Reference Identifier (SRID) context.
      *
-     * @param int                                                                                              $lineStringIndex index of the line string to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     * @param int                                                                                                        $lineStringIndex index of the line string to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
      *
      * @throws OutOfBoundsException when the multi-line string has no line strings
      */
@@ -193,7 +193,7 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
     /**
      * Add a line string to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface|PointInterface[] $lineString line string to add
      *
      * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
      */
@@ -205,7 +205,7 @@ abstract class AbstractMultiLineString extends AbstractLineStringCollection impl
     /**
      * Add line strings to the spatial collection.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|LineStringInterface[]|PointInterface[][] $lineStrings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition
      */

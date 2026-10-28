@@ -174,7 +174,20 @@ the contained points. Editing an endpoint does not automatically edit the
 other end of a closed circular string.
 
 Compound curves retain immutable ordered `CurveInterface` components with
-numeric coordinate tuples. Their `withSpatialReference()` and legacy
+numeric or null coordinate tuples. Their `withSpatialReference()` and legacy
 `withSrid()` operations deeply copy components without checking continuity.
 Construct a new compound from replacement curves to change its path; modifying
 a returned `getCurves()` array does not affect the original.
+
+### Null point ordinates
+
+`Coordinates` constructors and `withX()`, `withY()`, `withZ()`, and `withM()`
+accept null for axes supported by the declared dimension. The original value
+is preserved. Replacing point coordinates with an all-null value creates an
+EMPTY copy; partial nulls preserve a non-empty point and its dimension.
+
+```php
+$partial = $paris->withCoordinates(Coordinates::xy(0, null));
+assert([0, null] === $partial->toArray());
+assert(!$partial->isEmpty());
+```

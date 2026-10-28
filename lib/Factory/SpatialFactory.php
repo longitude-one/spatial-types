@@ -65,8 +65,8 @@ final class SpatialFactory
     /**
      * Create a line string from an indexed array.
      *
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points  points
-     * @param SpatialContext                                                                                                  $context family, dimension, and SRID to apply
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points  points
+     * @param SpatialContext                                                                                                            $context family, dimension, and SRID to apply
      */
     public function createLineStringFromIndexedArray(array $points, SpatialContext $context): LineStringInterface
     {
@@ -93,8 +93,8 @@ final class SpatialFactory
     /**
      * Create a point from an indexed array.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates coordinates
-     * @param SpatialContext                                                                                    $context     family, dimension, and SRID to apply
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates coordinates
+     * @param SpatialContext                                                                                              $context     family, dimension, and SRID to apply
      */
     public function createPointFromIndexedArray(array $coordinates, SpatialContext $context): PointInterface
     {
@@ -127,8 +127,8 @@ final class SpatialFactory
     /**
      * Create a polygon from an indexed array.
      *
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings   rings
-     * @param SpatialContext                                                                                                                             $context family, dimension, and SRID to apply
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings   rings
+     * @param SpatialContext                                                                                                                                       $context family, dimension, and SRID to apply
      */
     public function createPolygonFromIndexedArray(array $rings, SpatialContext $context): PolygonInterface
     {

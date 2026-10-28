@@ -32,7 +32,7 @@ abstract class AbstractLineStringCollection extends AbstractSpatialType
     protected array $lineStrings = [];
 
     /**
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface $lineString Line string or its point tuples
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface $lineString Line string or its point tuples
      *
      * @throws SpatialTypeExceptionInterface When the member is incompatible
      */
@@ -48,7 +48,7 @@ abstract class AbstractLineStringCollection extends AbstractSpatialType
     }
 
     /**
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>>|LineStringInterface[] $lineStrings Line strings or their point tuples
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>>|LineStringInterface[] $lineStrings Line strings or their point tuples
      */
     protected function addLineStringMembers(array $lineStrings): static
     {

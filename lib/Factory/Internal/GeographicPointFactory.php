@@ -30,7 +30,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point as Point4Dzm;
  *
  * @internal
  */
-final class GeographicPointFactory extends AbstractPointFactory
+final class GeographicPointFactory implements PointFactoryInterface
 {
     /**
      * Create a geographic point.
@@ -42,9 +42,9 @@ final class GeographicPointFactory extends AbstractPointFactory
     {
         return match ($context->dimension) {
             CoordinateDimensionEnum::XY => new Point2D($coordinates->x, $coordinates->y, $context->reference),
-            CoordinateDimensionEnum::XYM => new Point3Dm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->m, 'third'), $context->reference),
-            CoordinateDimensionEnum::XYZ => new Point3Dz($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), $context->reference),
-            CoordinateDimensionEnum::XYZM => new Point4Dzm($coordinates->x, $coordinates->y, self::requiredCoordinate($coordinates->z, 'third'), self::requiredCoordinate($coordinates->m, 'fourth'), $context->reference),
+            CoordinateDimensionEnum::XYM => new Point3Dm($coordinates->x, $coordinates->y, $coordinates->m, $context->reference),
+            CoordinateDimensionEnum::XYZ => new Point3Dz($coordinates->x, $coordinates->y, $coordinates->z, $context->reference),
+            CoordinateDimensionEnum::XYZM => new Point4Dzm($coordinates->x, $coordinates->y, $coordinates->z, $coordinates->m, $context->reference),
         };
     }
 

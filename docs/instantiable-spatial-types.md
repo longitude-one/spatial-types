@@ -175,12 +175,14 @@ new Point($x, $y, $z, $m, int|SpatialReference $srid = 0);         // Dimension4
 ```
 
 `$x` and `$y` accept `int`, `float`, or a coordinate string accepted by the
-geo-parser. `$z` and `$m` accept `int|float`. For Geography, `$x` means
+geo-parser. `$z` and `$m` accept `int|float|null`. For Geography, `$x` means
 longitude and `$y` means latitude.
 
 Each coordinate parameter is nullable. Omitting every ordinate (or passing
-`null` for every ordinate) creates an empty point; incomplete tuples are
-invalid. This preserves the selected coordinate layout and optional SRID:
+`null` for every ordinate) creates an empty point. Any combination of supplied
+and null ordinates is preserved. A partially supplied point is not EMPTY, and
+zero is a supplied value. Null ordinates do not change the declared dimension.
+This preserves the selected coordinate layout and optional SRID:
 
 ```php
 $emptyPoint = new Point(srid: 4326);
@@ -189,8 +191,10 @@ assert([] === $emptyPoint->toArray());
 ```
 
 `FromIndexedArrayFactory::createPoint([])` creates the same empty point in its
-requested family, dimension, and spatial-reference context. Empty points cannot
-be added to point-defined aggregates such as `LineString` or `MultiPoint`.
+requested family, dimension, and spatial-reference context. A full-length tuple
+containing only nulls also creates an EMPTY point. Indexed tuples must still
+contain every index declared by the requested dimension; an explicit null is
+different from an absent index.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
@@ -198,17 +202,32 @@ use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
 $point = new Point(2.3522, 48.8566, 35, 4326); // longitude, latitude, elevation
 ```
 
+```php
+$partialPoint = new Point(0, null, null, 4326); // XYZ Geography
+assert(!$partialPoint->isEmpty());
+assert([0, null, null] === $partialPoint->toArray());
+assert($partialPoint->hasZ()); // The Z axis exists even when its value is null.
+```
+
+Representing these states does not establish geometric conformity with
+ISO/IEC 13249-3 or OGC requirements. Request coordinate-completeness validation
+explicitly through `spatial-validator`; this library does not invoke it or
+depend on it. See [Validation](validators.md).
+
 ### Immutable point coordinates
 
 `LongitudeOne\SpatialTypes\Value\Coordinates` is a public immutable value
-object for normalized numeric point coordinates. Its named constructors encode
+object for numeric or null point coordinates. Its named constructors encode
 the coordinate dimension: `Coordinates::xy()`, `Coordinates::xym()`,
 `Coordinates::xyz()`, and `Coordinates::xyzm()`.
 
 `PointInterface::getCoordinates()` returns this value object.
 `PointInterface::withCoordinates(Coordinates $coordinates)` returns a new point
 of the same concrete class and SRID. The supplied coordinates must have the
-same dimension as the point; numeric geographic ranges are not validated.
+same dimension as the point. Its accessors and `toArray()` retain null values
+for axes in that dimension; reading or replacing an axis outside the dimension
+still throws `InvalidDimensionException`. All-null replacement coordinates
+produce an EMPTY point, whose `toArray()` is `[]` and `getCoordinates()` is null.
 
 ```php
 use LongitudeOne\SpatialTypes\Value\Coordinates;
@@ -523,9 +542,11 @@ $empty = new CompoundCurve([], 4326);
 
 `new CompoundCurve()` creates an empty XY Geometry value with SRID 0 when
 using the class imported above. Components must implement `CurveInterface`
-and expose numeric point tuples. Family, dimension, reference, component kind,
-non-empty endpoints and continuity are not validated automatically. Components
-are preserved as objects without flattening, reversal or linear approximation.
+and expose point tuples with numeric or null ordinates. Null entries retain
+their positions through array access and immutable reference copies. Family,
+dimension, reference, component kind, non-empty endpoints and continuity are
+not validated automatically. Components are preserved as objects without
+flattening, reversal or linear approximation.
 
 `getCurves()` and `getElements()` expose the ordered components as
 `CurveInterface[]`. `getCurve($index)` uses wrapping indexes and negative

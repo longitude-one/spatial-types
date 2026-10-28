@@ -29,7 +29,7 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
 /**
  * Abstract multi-polygon class.
  *
- * @phpstan-type IndexedCoordinates array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}
+ * @phpstan-type IndexedCoordinates array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}
  * @phpstan-type IndexedPolygon array<array<IndexedCoordinates>>
  *
  * @internal this class provides common behaviour for geometry and geography multi-polygons
@@ -112,7 +112,7 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Return an array representation of this multi-polygon.
      *
-     * @return (float|int)[][][][]
+     * @return (null|float|int)[][][][]
      */
     public function toArray(): array
     {
@@ -147,8 +147,8 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Return a deep copy of this multi-polygon with one replacement polygon.
      *
-     * @param int                                                                                                     $polygonIndex index of the polygon to replace; negative indexes count from the end
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
+     * @param int                                                                                                               $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
      *
      * @throws OutOfBoundsException when the multi-polygon has no polygons
      */
@@ -168,9 +168,9 @@ abstract class AbstractMultiPolygon extends AbstractSpatialType implements Multi
     /**
      * Return a deep copy of this multi-polygon with one replacement ring.
      *
-     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
-     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     * @param int                                                                                                        $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                                        $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
      *
      * @throws OutOfBoundsException when the multi-polygon has no polygons
      */

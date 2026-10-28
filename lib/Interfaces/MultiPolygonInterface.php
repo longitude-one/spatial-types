@@ -44,7 +44,7 @@ interface MultiPolygonInterface extends CollectionInterface
     /**
      * Return an array of coordinates.
      *
-     * @return (float|int)[][][][]
+     * @return (null|float|int)[][][][]
      */
     public function toArray(): array;
 
@@ -61,17 +61,17 @@ interface MultiPolygonInterface extends CollectionInterface
     /**
      * Return a new multi-polygon with one replacement polygon.
      *
-     * @param int                                                                                                     $polygonIndex index of the polygon to replace; negative indexes count from the end
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
+     * @param int                                                                                                               $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates  replacement polygon coordinates
      */
     public function withPolygon(int $polygonIndex, array $coordinates): static;
 
     /**
      * Return a new multi-polygon with one replacement ring.
      *
-     * @param int                                                                                              $polygonIndex index of the polygon to replace; negative indexes count from the end
-     * @param int                                                                                              $ringIndex    index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
+     * @param int                                                                                                        $polygonIndex index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                                        $ringIndex    index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates  replacement ring coordinates
      */
     public function withRing(int $polygonIndex, int $ringIndex, array $coordinates): static;
 }

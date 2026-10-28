@@ -26,8 +26,8 @@ use LongitudeOne\SpatialTypes\Types\AbstractLineString as ParentLineString;
 abstract class AbstractLineString extends ParentLineString implements LineStringInterface
 {
     /**
-     * @param (array{0: float|int|string, 1: float|int|string, 2: float|int, 3: float|int}|PointInterface)[] $points points of the line string
-     * @param int|SpatialReference                                                                           $srid   Spatial Reference Identifier
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2: null|float|int, 3: null|float|int}|PointInterface)[] $points points of the line string
+     * @param int|SpatialReference                                                                                               $srid   Spatial Reference Identifier
      */
     public function __construct(array $points, int|SpatialReference $srid = 0)
     {

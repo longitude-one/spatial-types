@@ -33,7 +33,7 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * The M coordinate.
      */
-    protected float|int $m;
+    protected float|int|null $m = null;
 
     /**
      * @param null|float|int|string $x    X coordinate
@@ -49,10 +49,6 @@ class Point extends AbstractPoint implements PointInterface
             $this->initializeSpatialReference($srid);
 
             return;
-        }
-
-        if (null === $x || null === $y || null === $m) {
-            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
         }
 
         $this->initializeX($x);
@@ -102,7 +98,7 @@ class Point extends AbstractPoint implements PointInterface
     }
 
     /**
-     * @return array{0: float|int, 1: float|int, 2: float|int}|array{}
+     * @return array{0: null|float|int, 1: null|float|int, 2: null|float|int}|array{}
      */
     public function toArray(): array
     {
@@ -116,9 +112,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Set the M coordinate.
      *
-     * @param float|int $m M coordinate
+     * @param null|float|int $m M coordinate
      */
-    protected function initializeM(float|int $m): static
+    protected function initializeM(float|int|null $m): static
     {
         $this->m = $m;
 

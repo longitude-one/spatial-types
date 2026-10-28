@@ -24,14 +24,14 @@ namespace LongitudeOne\SpatialTypes\Factory;
 final readonly class Coordinates
 {
     /**
-     * @param float|int|string $x X coordinate or longitude
-     * @param float|int|string $y Y coordinate or latitude
-     * @param null|float|int   $z Z coordinate or elevation
-     * @param null|float|int   $m M coordinate or measure
+     * @param null|float|int|string $x X coordinate or longitude
+     * @param null|float|int|string $y Y coordinate or latitude
+     * @param null|float|int        $z Z coordinate or elevation
+     * @param null|float|int        $m M coordinate or measure
      */
     public function __construct(
-        public float|int|string $x,
-        public float|int|string $y,
+        public float|int|string|null $x,
+        public float|int|string|null $y,
         public float|int|null $z = null,
         public float|int|null $m = null
     ) {

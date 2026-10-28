@@ -52,7 +52,7 @@ interface MultiPointInterface extends CollectionInterface
     /**
      * Return an array of coordinates.
      *
-     * @return (float|int)[][]
+     * @return (null|float|int)[][]
      */
     public function toArray(): array;
 

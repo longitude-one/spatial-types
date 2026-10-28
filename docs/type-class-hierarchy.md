@@ -44,5 +44,5 @@ extend `CurveInterface`, which exposes nullable start/end points and closure
 in addition to `SpatialInterface`. Circular strings have their own point
 storage; they are not line strings and do not inherit point-set
 simplicity checks. Compound curves retain ordered `CurveInterface` components
-and require curve interfaces and numeric point tuples; functional compatibility
+and require curve interfaces and point tuples with numeric or null ordinates; functional compatibility
 and endpoint continuity are not checked.

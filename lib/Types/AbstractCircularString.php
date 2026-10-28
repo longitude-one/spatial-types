@@ -37,8 +37,8 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     protected array $points = [];
 
     /**
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Defining points or tuples
-     * @param int|SpatialReference                                                                                            $srid   Spatial reference
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Defining points or tuples
+     * @param int|SpatialReference                                                                                                      $srid   Spatial reference
      */
     final public function __construct(array $points, int|SpatialReference $srid = 0)
     {
@@ -105,7 +105,7 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     }
 
     /**
-     * @return (float|int)[][]
+     * @return (null|float|int)[][]
      */
     public function toArray(): array
     {
@@ -116,7 +116,7 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     }
 
     /**
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates Replacement tuples
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates Replacement tuples
      */
     public function withArrayOfCoordinates(array $coordinates): static
     {
@@ -155,7 +155,7 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     }
 
     /**
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
      *
      * @throws InvalidDimensionException When a coordinate tuple has an incompatible layout
      * @throws InvalidValueException     When coordinates are invalid
@@ -173,7 +173,7 @@ abstract class AbstractCircularString extends AbstractSpatialType implements Cir
     }
 
     /**
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Points or tuples to add
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Points or tuples to add
      */
     protected function addPoints(array $points): static
     {

@@ -111,7 +111,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
         return [] === $this->curves;
     }
 
-    /** @return (float|int)[][][] */
+    /** @return (null|float|int)[][][] */
     public function toArray(): array
     {
         return array_map(
@@ -149,7 +149,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
      *
      * @param CurveInterface $curve Component whose coordinates are requested
      *
-     * @return (float|int)[][]
+     * @return (null|float|int)[][]
      */
     private function componentCoordinates(CurveInterface $curve): array
     {
@@ -160,8 +160,8 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Comp
             }
             $tuple = [];
             foreach ($point as $ordinate) {
-                if (!is_int($ordinate) && !is_float($ordinate)) {
-                    throw new InvalidValueException('A compound curve component must expose numeric ordinates.');
+                if (null !== $ordinate && !is_int($ordinate) && !is_float($ordinate)) {
+                    throw new InvalidValueException('A compound curve component must expose numeric or null ordinates.');
                 }
                 $tuple[] = $ordinate;
             }

@@ -34,10 +34,10 @@ class FromIndexedArrayFactory
     /**
      * Create a line string from an indexed array.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $indexedArray indexed array
-     * @param int|SpatialReference                                                                                         $srid         SRID
-     * @param SpatialModelEnum                                                                                             $family       family
-     * @param CoordinateDimensionEnum                                                                                      $dimension    dimension
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $indexedArray indexed array
+     * @param int|SpatialReference                                                                                                   $srid         SRID
+     * @param SpatialModelEnum                                                                                                       $family       family
+     * @param CoordinateDimensionEnum                                                                                                $dimension    dimension
      *
      * @throws SpatialTypeExceptionInterface when the point or line string cannot be created
      */
@@ -49,10 +49,10 @@ class FromIndexedArrayFactory
     /**
      * Create a point from an array of coordinates.
      *
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates   array of coordinates; an empty array creates an empty point
-     * @param int|SpatialReference                                                                              $srid          SRID
-     * @param SpatialModelEnum                                                                                  $family        family
-     * @param CoordinateDimensionEnum                                                                           $dimensionEnum dimension
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates   array of coordinates; an empty array creates an empty point
+     * @param int|SpatialReference                                                                                        $srid          SRID
+     * @param SpatialModelEnum                                                                                            $family        family
+     * @param CoordinateDimensionEnum                                                                                     $dimensionEnum dimension
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
      */
@@ -64,10 +64,10 @@ class FromIndexedArrayFactory
     /**
      * Create a polygon from an indexed array of closed line strings.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface)[] $indexedArray indexed array of rings
-     * @param int|SpatialReference                                                                                                $srid         SRID
-     * @param SpatialModelEnum                                                                                                    $family       family
-     * @param CoordinateDimensionEnum                                                                                             $dimension    dimension
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface)[] $indexedArray indexed array of rings
+     * @param int|SpatialReference                                                                                                          $srid         SRID
+     * @param SpatialModelEnum                                                                                                              $family       family
+     * @param CoordinateDimensionEnum                                                                                                       $dimension    dimension
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of a line string or the polygon
      */

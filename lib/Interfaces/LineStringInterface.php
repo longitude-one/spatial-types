@@ -69,7 +69,7 @@ interface LineStringInterface extends CurveInterface
     /**
      * Return an array of coordinates.
      *
-     * @return (float|int)[][]
+     * @return (null|float|int)[][]
      */
     public function toArray(): array;
 
@@ -80,7 +80,7 @@ interface LineStringInterface extends CurveInterface
      * and Spatial Reference Identifier (SRID). Each tuple must therefore match
      * this instance's coordinate layout: XY, XYM, XYZ, or XYZM.
      *
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
      */
     public function withArrayOfCoordinates(array $coordinates): static;
 

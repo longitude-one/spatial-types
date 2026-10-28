@@ -26,9 +26,9 @@ use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 class Point extends AbstractPoint implements PointInterface
 {
-    protected float|int $m;
+    protected float|int|null $m = null;
 
-    protected float|int $z;
+    protected float|int|null $z = null;
 
     /**
      * Create a four-dimensional geographic point.
@@ -50,10 +50,6 @@ class Point extends AbstractPoint implements PointInterface
             $this->initializeSpatialReference($srid);
 
             return;
-        }
-
-        if (null === $x || null === $y || null === $z || null === $m) {
-            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
         }
 
         $this->initializeX($x);
@@ -106,7 +102,7 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Convert the point to its ordered longitude-latitude-Z-M coordinates; the SRID is omitted.
      *
-     * @return array{0: float|int, 1: float|int, 2: float|int, 3: float|int}|array{}
+     * @return array{0: null|float|int, 1: null|float|int, 2: null|float|int, 3: null|float|int}|array{}
      */
     public function toArray(): array
     {
@@ -120,9 +116,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Set the M (measure) coordinate.
      *
-     * @param float|int $m M (measure) coordinate
+     * @param null|float|int $m M (measure) coordinate
      */
-    protected function initializeM(float|int $m): static
+    protected function initializeM(float|int|null $m): static
     {
         $this->m = $m;
 
@@ -132,9 +128,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Set the Z (elevation) coordinate.
      *
-     * @param float|int $z Z (elevation) coordinate
+     * @param null|float|int $z Z (elevation) coordinate
      */
-    protected function initializeZ(float|int $z): static
+    protected function initializeZ(float|int|null $z): static
     {
         $this->z = $z;
 

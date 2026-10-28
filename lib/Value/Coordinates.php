@@ -23,14 +23,14 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
  * Immutable, normalized ordinates of a point.
  *
  * Unlike the internal Factory\Coordinates input DTO, this value object only
- * accepts numeric ordinates and always carries its coordinate dimension.
+ * accepts numeric or null ordinates and always carries its coordinate dimension.
  */
 final readonly class Coordinates
 {
     /**
      * @param CoordinateDimensionEnum $dimension coordinate layout represented by these ordinates
-     * @param float|int               $x         X coordinate or longitude
-     * @param float|int               $y         Y coordinate or latitude
+     * @param null|float|int          $x         X coordinate or longitude
+     * @param null|float|int          $y         Y coordinate or latitude
      * @param null|float|int          $z         Z coordinate or elevation
      * @param null|float|int          $m         M coordinate or measure
      *
@@ -38,12 +38,12 @@ final readonly class Coordinates
      */
     public function __construct(
         public CoordinateDimensionEnum $dimension,
-        public float|int $x,
-        public float|int $y,
+        public float|int|null $x,
+        public float|int|null $y,
         public float|int|null $z = null,
         public float|int|null $m = null
     ) {
-        if ($dimension->hasZ() !== (null !== $z) || $dimension->hasM() !== (null !== $m)) {
+        if ((!$dimension->hasZ() && null !== $z) || (!$dimension->hasM() && null !== $m)) {
             throw new InvalidDimensionException(sprintf('The supplied ordinates do not match the %s coordinate dimension.', $dimension->value));
         }
     }
@@ -51,10 +51,10 @@ final readonly class Coordinates
     /**
      * Create a two-dimensional XY coordinate value.
      *
-     * @param float|int $x X coordinate or longitude
-     * @param float|int $y Y coordinate or latitude
+     * @param null|float|int $x X coordinate or longitude
+     * @param null|float|int $y Y coordinate or latitude
      */
-    public static function xy(float|int $x, float|int $y): self
+    public static function xy(float|int|null $x, float|int|null $y): self
     {
         return new self(CoordinateDimensionEnum::XY, $x, $y);
     }
@@ -62,11 +62,11 @@ final readonly class Coordinates
     /**
      * Create a three-dimensional XYM coordinate value.
      *
-     * @param float|int $x X coordinate or longitude
-     * @param float|int $y Y coordinate or latitude
-     * @param float|int $m M coordinate or measure
+     * @param null|float|int $x X coordinate or longitude
+     * @param null|float|int $y Y coordinate or latitude
+     * @param null|float|int $m M coordinate or measure
      */
-    public static function xym(float|int $x, float|int $y, float|int $m): self
+    public static function xym(float|int|null $x, float|int|null $y, float|int|null $m): self
     {
         return new self(CoordinateDimensionEnum::XYM, $x, $y, null, $m);
     }
@@ -74,11 +74,11 @@ final readonly class Coordinates
     /**
      * Create a three-dimensional XYZ coordinate value.
      *
-     * @param float|int $x X coordinate or longitude
-     * @param float|int $y Y coordinate or latitude
-     * @param float|int $z Z coordinate or elevation
+     * @param null|float|int $x X coordinate or longitude
+     * @param null|float|int $y Y coordinate or latitude
+     * @param null|float|int $z Z coordinate or elevation
      */
-    public static function xyz(float|int $x, float|int $y, float|int $z): self
+    public static function xyz(float|int|null $x, float|int|null $y, float|int|null $z): self
     {
         return new self(CoordinateDimensionEnum::XYZ, $x, $y, $z);
     }
@@ -86,12 +86,12 @@ final readonly class Coordinates
     /**
      * Create a four-dimensional XYZM coordinate value.
      *
-     * @param float|int $x X coordinate or longitude
-     * @param float|int $y Y coordinate or latitude
-     * @param float|int $z Z coordinate or elevation
-     * @param float|int $m M coordinate or measure
+     * @param null|float|int $x X coordinate or longitude
+     * @param null|float|int $y Y coordinate or latitude
+     * @param null|float|int $z Z coordinate or elevation
+     * @param null|float|int $m M coordinate or measure
      */
-    public static function xyzm(float|int $x, float|int $y, float|int $z, float|int $m): self
+    public static function xyzm(float|int|null $x, float|int|null $y, float|int|null $z, float|int|null $m): self
     {
         return new self(CoordinateDimensionEnum::XYZM, $x, $y, $z, $m);
     }
@@ -101,9 +101,9 @@ final readonly class Coordinates
      *
      * @throws InvalidDimensionException when the coordinate value has no M ordinate
      */
-    public function getM(): float|int
+    public function getM(): float|int|null
     {
-        if (null === $this->m) {
+        if (!$this->dimension->hasM()) {
             throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no M ordinate.', $this->dimension->value));
         }
 
@@ -115,9 +115,9 @@ final readonly class Coordinates
      *
      * @throws InvalidDimensionException when the coordinate value has no Z ordinate
      */
-    public function getZ(): float|int
+    public function getZ(): float|int|null
     {
-        if (null === $this->z) {
+        if (!$this->dimension->hasZ()) {
             throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no Z ordinate.', $this->dimension->value));
         }
 
@@ -127,7 +127,7 @@ final readonly class Coordinates
     /**
      * Return the ordinates in the order defined by the coordinate dimension.
      *
-     * @return array{0: float|int, 1: float|int, 2: float|int, 3: float|int}|array{0: float|int, 1: float|int, 2: float|int}|array{0: float|int, 1: float|int}
+     * @return array{0: null|float|int, 1: null|float|int, 2: null|float|int, 3: null|float|int}|array{0: null|float|int, 1: null|float|int, 2: null|float|int}|array{0: null|float|int, 1: null|float|int}
      */
     public function toArray(): array
     {
@@ -142,11 +142,11 @@ final readonly class Coordinates
     /**
      * Return a copy with a different M coordinate.
      *
-     * @param float|int $m M coordinate or measure
+     * @param null|float|int $m M coordinate or measure
      *
      * @throws InvalidDimensionException when the coordinate value has no M ordinate
      */
-    public function withM(float|int $m): self
+    public function withM(float|int|null $m): self
     {
         if (!$this->dimension->hasM()) {
             throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no M ordinate.', $this->dimension->value));
@@ -158,9 +158,9 @@ final readonly class Coordinates
     /**
      * Return a copy with a different X coordinate.
      *
-     * @param float|int $x X coordinate or longitude
+     * @param null|float|int $x X coordinate or longitude
      */
-    public function withX(float|int $x): self
+    public function withX(float|int|null $x): self
     {
         return new self($this->dimension, $x, $this->y, $this->z, $this->m);
     }
@@ -168,9 +168,9 @@ final readonly class Coordinates
     /**
      * Return a copy with a different Y coordinate.
      *
-     * @param float|int $y Y coordinate or latitude
+     * @param null|float|int $y Y coordinate or latitude
      */
-    public function withY(float|int $y): self
+    public function withY(float|int|null $y): self
     {
         return new self($this->dimension, $this->x, $y, $this->z, $this->m);
     }
@@ -178,11 +178,11 @@ final readonly class Coordinates
     /**
      * Return a copy with a different Z coordinate.
      *
-     * @param float|int $z Z coordinate or elevation
+     * @param null|float|int $z Z coordinate or elevation
      *
      * @throws InvalidDimensionException when the coordinate value has no Z ordinate
      */
-    public function withZ(float|int $z): self
+    public function withZ(float|int|null $z): self
     {
         if (!$this->dimension->hasZ()) {
             throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no Z ordinate.', $this->dimension->value));

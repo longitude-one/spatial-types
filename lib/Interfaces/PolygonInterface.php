@@ -44,7 +44,7 @@ interface PolygonInterface extends SpatialInterface
     /**
      * Return an array of coordinates.
      *
-     * @return (float|int)[][][]
+     * @return (null|float|int)[][][]
      */
     public function toArray(): array;
 
@@ -55,7 +55,7 @@ interface PolygonInterface extends SpatialInterface
      * Spatial Reference Identifier (SRID). Every coordinate tuple must match
      * this instance's coordinate layout; ring closure is not checked.
      *
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
      */
     public function withArrayOfCoordinates(array $coordinates): static;
 
@@ -79,8 +79,8 @@ interface PolygonInterface extends SpatialInterface
      * Spatial Reference Identifier (SRID). The replacement coordinates must
      * use this polygon's coordinate layout; ring closure is not checked.
      *
-     * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
+     * @param int                                                                                                        $ringIndex   index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
      */
     public function withRing(int $ringIndex, array $coordinates): static;
 }

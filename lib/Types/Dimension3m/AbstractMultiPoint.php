@@ -32,8 +32,8 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPoint as ParentMultiPoint;
 abstract class AbstractMultiPoint extends ParentMultiPoint implements MultiPointInterface
 {
     /**
-     * @param (array{0: float|int|string, 1: float|int|string, 2: float|int}|PointInterface)[] $points points of the multipoint
-     * @param int|SpatialReference                                                             $srid   Spatial Reference Identifier
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2: null|float|int}|PointInterface)[] $points points of the multipoint
+     * @param int|SpatialReference                                                                            $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a point dimension is incompatible
      * @throws InvalidValueException     when point coordinates are invalid

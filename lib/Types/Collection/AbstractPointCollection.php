@@ -80,7 +80,7 @@ abstract class AbstractPointCollection extends AbstractSpatialType
     }
 
     /**
-     * @return (float|int)[][]
+     * @return (null|float|int)[][]
      */
     public function toArray(): array
     {
@@ -91,7 +91,7 @@ abstract class AbstractPointCollection extends AbstractSpatialType
     }
 
     /**
-     * @param array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
+     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface $point Point or coordinate tuple to add
      *
      * @throws InvalidDimensionException When a coordinate tuple has an incompatible layout
      * @throws InvalidValueException     When coordinates are invalid
@@ -109,7 +109,7 @@ abstract class AbstractPointCollection extends AbstractSpatialType
     }
 
     /**
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Points or tuples to add
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points Points or tuples to add
      */
     protected function addPoints(array $points): static
     {

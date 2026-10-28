@@ -31,8 +31,8 @@ abstract class AbstractLineString extends ParentLineString implements LineString
     /**
      * AbstractLineString constructor.
      *
-     * @param (array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int}|PointInterface)[] $points points of the line string
-     * @param int|SpatialReference                                                                    $srid   Spatial Reference Identifier
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int}|PointInterface)[] $points points of the line string
+     * @param int|SpatialReference                                                                              $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a coordinate tuple does not match the line string dimension
      * @throws InvalidValueException     when coordinates of the point are invalid

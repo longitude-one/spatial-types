@@ -33,7 +33,7 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * The Z coordinate or the elevation.
      */
-    protected float|int $z;
+    protected float|int|null $z = null;
 
     /**
      * New point constructor.
@@ -57,10 +57,6 @@ class Point extends AbstractPoint implements PointInterface
             $this->initializeSpatialReference($srid);
 
             return;
-        }
-
-        if (null === $x || null === $y || null === $z) {
-            throw new InvalidValueException('All point coordinates must be provided, or all must be null for an empty point.');
         }
 
         $this->initializeX($x);
@@ -120,7 +116,7 @@ class Point extends AbstractPoint implements PointInterface
      * Convert this point to an array containing X, Y, and Z coordinates.
      * The SRID is not exported.
      *
-     * @return array{0 : float|int, 1 : float|int, 2 : float|int}|array{}
+     * @return array{0 : null|float|int, 1 : null|float|int, 2 : null|float|int}|array{}
      */
     public function toArray(): array
     {
@@ -134,9 +130,9 @@ class Point extends AbstractPoint implements PointInterface
     /**
      * Set the Z coordinate (elevation).
      *
-     * @param float|int $z Z (elevation) coordinate
+     * @param null|float|int $z Z (elevation) coordinate
      */
-    protected function initializeZ(float|int $z): static
+    protected function initializeZ(float|int|null $z): static
     {
         $this->z = $z;
 

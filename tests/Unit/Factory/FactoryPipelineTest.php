@@ -20,7 +20,6 @@ use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Factory\Coordinates;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\FamilyFactories;
@@ -50,7 +49,6 @@ use PHPUnit\Framework\TestCase;
  * @covers \LongitudeOne\SpatialTypes\Factory\FamilyFactories
  * @covers \LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator
  * @covers \LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator
- * @covers \LongitudeOne\SpatialTypes\Factory\Internal\AbstractPointFactory
  * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactory
  * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry
  */
@@ -126,13 +124,26 @@ class FactoryPipelineTest extends TestCase
         static::assertSame(6, $fourDimensionalCoordinates->m);
     }
 
+    /** The measure diagnostic describes both permitted ordinate types. */
+    public function testCoordinatesHydratorRejectsNonNumericMeasureWithNullableDiagnostic(): void
+    {
+        self::expectException(InvalidValueException::class);
+        self::expectExceptionMessageIsOrContains('The M coordinate must be a number or null.');
+
+        (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
+            new CoordinatesHydrator(),
+            [1, 2, false],
+            new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM)
+        );
+    }
+
     /**
      * The coordinate hydrator rejects a non-numeric Z or M ordinate before point construction.
      */
     public function testCoordinatesHydratorRejectsNonNumericOptionalOrdinate(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('Z coordinate must be a number');
+        self::expectExceptionMessageIsOrContains('The Z coordinate must be a number or null.');
 
         (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
             new CoordinatesHydrator(),
@@ -196,17 +207,18 @@ class FactoryPipelineTest extends TestCase
     }
 
     /**
-     * A point factory requires every ordinate declared by its dimension.
+     * A point factory preserves null ordinates in the declared dimension.
      */
-    public function testPointFactoryRejectsMissingRequiredOrdinate(): void
+    public function testPointFactoryPreservesNullOrdinate(): void
     {
-        self::expectException(MissingValueException::class);
-        self::expectExceptionMessageIsOrContains('third coordinate is missing');
-
-        (new GeometricPointFactory())->create(
+        $point = (new GeometricPointFactory())->create(
             new Coordinates(1, 2),
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
         );
+
+        static::assertFalse($point->isEmpty());
+        static::assertSame([1, 2, null], $point->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
     }
 
     /**

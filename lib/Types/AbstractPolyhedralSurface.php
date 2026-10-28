@@ -29,7 +29,7 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
 /**
  * Abstract polyhedral surface class.
  *
- * @phpstan-type IndexedCoordinates array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}
+ * @phpstan-type IndexedCoordinates array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}
  * @phpstan-type IndexedPolygon array<array<IndexedCoordinates>>
  *
  * @internal this class provides common behaviour for geometry and geography polyhedral surfaces
@@ -110,7 +110,7 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     /**
      * Return an array representation of this polyhedral surface.
      *
-     * @return (float|int)[][][][]
+     * @return (null|float|int)[][][][]
      */
     public function toArray(): array
     {
@@ -141,8 +141,8 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     /**
      * Return a deep copy of this polyhedral surface with one replacement polygon.
      *
-     * @param int                                                                                                     $patchIndex  index of the polygon to replace; negative indexes count from the end
-     * @param array<array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement polygon coordinates
+     * @param int                                                                                                               $patchIndex  index of the polygon to replace; negative indexes count from the end
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement polygon coordinates
      *
      * @throws OutOfBoundsException  when the polyhedral surface has no patches
      * @throws InvalidValueException when the replacement violates surface constraints
@@ -184,9 +184,9 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     /**
      * Return a deep copy of this polyhedral surface with one replacement ring.
      *
-     * @param int                                                                                              $patchIndex  index of the polygon to replace; negative indexes count from the end
-     * @param int                                                                                              $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: float|int|string, 1: float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
+     * @param int                                                                                                        $patchIndex  index of the polygon to replace; negative indexes count from the end
+     * @param int                                                                                                        $ringIndex   index of the ring to replace; negative indexes count from the end
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
      *
      * @throws OutOfBoundsException  when the polyhedral surface has no patches
      * @throws InvalidValueException when the replacement violates surface constraints

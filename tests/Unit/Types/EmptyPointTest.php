@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint;
@@ -156,14 +155,14 @@ class EmptyPointTest extends TestCase
     }
 
     /**
-     * Point constructors reject an incomplete coordinate tuple.
+     * Point constructors preserve an incomplete coordinate tuple.
      */
-    public function testPointConstructorRejectsPartialCoordinates(): void
+    public function testPointConstructorPreservesPartialCoordinates(): void
     {
-        self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('All point coordinates must be provided');
+        $point = new GeometryPoint(null, 2);
 
-        new GeometryPoint(null, 2);
+        static::assertFalse($point->isEmpty());
+        static::assertSame([null, 2], $point->toArray());
     }
 
     /**
