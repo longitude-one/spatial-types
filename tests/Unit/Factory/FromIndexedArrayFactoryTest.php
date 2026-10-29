@@ -22,8 +22,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString as GeometricLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometricPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable as GeometricLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometricPoint;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -66,7 +66,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreateLineStringRejectsInvalidElement(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing PointInterface or array of coordinates.');
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing ImmutablePointInterface or array of coordinates.');
 
         // @phpstan-ignore-next-line
         FromIndexedArrayFactory::createLineString(['not a point']);
@@ -171,7 +171,7 @@ class FromIndexedArrayFactoryTest extends TestCase
     public function testCreatePolygonRejectsInvalidElement(): void
     {
         self::expectException(InvalidValueException::class);
-        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing LineStringInterface or array of PointInterface or "array of array of coordinates".');
+        self::expectExceptionMessageIsOrContains('The array must contain only objects implementing ImmutableLineStringInterface or array of ImmutablePointInterface or "array of array of coordinates".');
 
         // @phpstan-ignore-next-line
         FromIndexedArrayFactory::createPolygon(['not a line string']);

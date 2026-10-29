@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Boundary;
 
 use LongitudeOne\SpatialTypes\Collection\LineStringCollection;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 
 /**
  * Polygon boundary: one exterior ring followed by zero or more interior rings.
@@ -29,7 +29,7 @@ final class PolygonBoundary
     private LineStringCollection $rings;
 
     /**
-     * @param LineStringInterface[] $rings Boundary rings, exterior first
+     * @param ImmutableLineStringInterface[] $rings Boundary rings, exterior first
      */
     public function __construct(array $rings = [])
     {
@@ -39,9 +39,9 @@ final class PolygonBoundary
     /**
      * Add a boundary ring.
      *
-     * @param LineStringInterface $ring Ring to add
+     * @param ImmutableLineStringInterface $ring Ring to add
      */
-    public function addRing(LineStringInterface $ring): void
+    public function addRing(ImmutableLineStringInterface $ring): void
     {
         $this->rings->add($ring);
     }
@@ -63,12 +63,12 @@ final class PolygonBoundary
      *
      * @param int $index Requested index
      */
-    public function ringAt(int $index): LineStringInterface
+    public function ringAt(int $index): ImmutableLineStringInterface
     {
         return $this->rings->at($index);
     }
 
-    /** @return LineStringInterface[] */
+    /** @return ImmutableLineStringInterface[] */
     public function rings(): array
     {
         return $this->rings->all();

@@ -19,10 +19,10 @@ namespace LongitudeOne\SpatialTypes\Tests\Issue;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as GeographyPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometryPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable as GeographyPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable as GeometryPoint;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +31,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
  */
 class PartiallyNullXYMPointTest extends TestCase
 {
@@ -142,9 +142,9 @@ class PartiallyNullXYMPointTest extends TestCase
     /** Shared aggregate constructors and replacements preserve null ordinates. */
     public function testGeographyAggregatePathsPreserveNullOrdinates(): void
     {
-        $line = new LineString([[0, null, 3], [null, 2, null]], 4326);
+        $line = new LineStringImmutable([[0, null, 3], [null, 2, null]], 4326);
         $replacement = $line->withPoint(1, Coordinates::xym(null, null, 4));
-        $multiPoint = new MultiPoint([[0, null, 3], [null, 2, null]], 4326);
+        $multiPoint = new MultiPointImmutable([[0, null, 3], [null, 2, null]], 4326);
 
         static::assertSame([[0, null, 3], [null, 2, null]], $line->toArray());
         static::assertSame([[0, null, 3], [null, null, 4]], $replacement->toArray());

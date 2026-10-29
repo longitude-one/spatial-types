@@ -102,14 +102,14 @@ class ConcreteTypeContractTest extends TestCase
     private static function createSpatialTypes(string $dimension, SpatialModelEnum $family, array $coordinates, array $otherCoordinates): array
     {
         $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
-        $collectionClass = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\%sCollection', $dimension, $familyNamespace, $familyNamespace);
+        $collectionClass = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\%sCollectionImmutable', $dimension, $familyNamespace, $familyNamespace);
         $namespace = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\\', $dimension, $familyNamespace);
-        $pointClass = $namespace.'Point';
-        $lineStringClass = $namespace.'LineString';
-        $multiPointClass = $namespace.'MultiPoint';
-        $multiLineStringClass = $namespace.'MultiLineString';
-        $polygonClass = $namespace.'Polygon';
-        $multiPolygonClass = $namespace.'MultiPolygon';
+        $pointClass = $namespace.'PointImmutable';
+        $lineStringClass = $namespace.'LineStringImmutable';
+        $multiPointClass = $namespace.'MultiPointImmutable';
+        $multiLineStringClass = $namespace.'MultiLineStringImmutable';
+        $polygonClass = $namespace.'PolygonImmutable';
+        $multiPolygonClass = $namespace.'MultiPolygonImmutable';
 
         $pointArguments = [...$coordinates, 4326];
         $otherPointArguments = [...$otherCoordinates, 4326];

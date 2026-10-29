@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Factory\Hydrator;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 
 /**
  * Hydrates spatial components from nested indexed arrays.
@@ -42,10 +42,10 @@ final class SpatialArrayHydrator
     /**
      * Hydrate the points of a line string.
      *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $points  points
-     * @param SpatialContext                                                                                                            $context family, dimension, and SRID expected for every point
+     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface> $points  points
+     * @param SpatialContext                                                                                                                     $context family, dimension, and SRID expected for every point
      *
-     * @return PointInterface[]
+     * @return ImmutablePointInterface[]
      *
      * @throws InvalidValueException when a point has an unsupported representation
      */
@@ -53,11 +53,11 @@ final class SpatialArrayHydrator
     {
         $hydratedPoints = [];
         foreach ($points as $point) {
-            if (!is_array($point) && !$point instanceof PointInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing PointInterface or array of coordinates.');
+            if (!is_array($point) && !$point instanceof ImmutablePointInterface) {
+                throw new InvalidValueException('The array must contain only objects implementing ImmutablePointInterface or array of coordinates.');
             }
 
-            if ($point instanceof PointInterface) {
+            if ($point instanceof ImmutablePointInterface) {
                 $hydratedPoints[] = $point;
 
                 continue;
@@ -81,10 +81,10 @@ final class SpatialArrayHydrator
     /**
      * Hydrate the rings of a polygon.
      *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings   rings
-     * @param SpatialContext                                                                                                                                       $context family, dimension, and SRID expected for every ring
+     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings   rings
+     * @param SpatialContext                                                                                                                                                         $context family, dimension, and SRID expected for every ring
      *
-     * @return LineStringInterface[]
+     * @return ImmutableLineStringInterface[]
      *
      * @throws InvalidValueException when a ring has an unsupported representation
      */
@@ -92,11 +92,11 @@ final class SpatialArrayHydrator
     {
         $lineStrings = [];
         foreach ($rings as $ring) {
-            if (!is_array($ring) && !$ring instanceof LineStringInterface) {
-                throw new InvalidValueException('The array must contain only objects implementing LineStringInterface or array of PointInterface or "array of array of coordinates".');
+            if (!is_array($ring) && !$ring instanceof ImmutableLineStringInterface) {
+                throw new InvalidValueException('The array must contain only objects implementing ImmutableLineStringInterface or array of ImmutablePointInterface or "array of array of coordinates".');
             }
 
-            if ($ring instanceof LineStringInterface) {
+            if ($ring instanceof ImmutableLineStringInterface) {
                 $lineStrings[] = $ring;
 
                 continue;

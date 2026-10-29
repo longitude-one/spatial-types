@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 
 /**
  * Creates polygons for a spatial family.
@@ -30,8 +30,8 @@ interface PolygonFactoryInterface
     /**
      * Create a polygon.
      *
-     * @param LineStringInterface[] $rings   exterior ring followed by optional interior rings
-     * @param SpatialContext        $context family, dimension, and SRID to apply
+     * @param ImmutableLineStringInterface[] $rings   exterior ring followed by optional interior rings
+     * @param SpatialContext                 $context family, dimension, and SRID to apply
      */
-    public function create(array $rings, SpatialContext $context): PolygonInterface;
+    public function create(array $rings, SpatialContext $context): ImmutablePolygonInterface;
 }

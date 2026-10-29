@@ -16,10 +16,10 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Issue;
 
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygon as GeographicMultiPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Polygon as GeographicPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable as GeographicMultiPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolygonImmutable as GeographicPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolygonImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -81,13 +81,13 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
     /** Coordinate arrays preserve empty members before, between and after polygons. */
     public function testGeometryCoordinateArrays(): void
     {
-        $single = new MultiPolygon([[]], 4326);
-        $mixed = new MultiPolygon([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], 4326);
+        $single = new MultiPolygonImmutable([[]], 4326);
+        $mixed = new MultiPolygonImmutable([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], 4326);
 
         static::assertCount(1, $single->getElements());
         static::assertSame([$single->getPolygon(0)], $single->getElements());
         static::assertSame([$single->getPolygon(0)], $single->getPolygons());
-        static::assertInstanceOf(Polygon::class, $single->getPolygon(0));
+        static::assertInstanceOf(PolygonImmutable::class, $single->getPolygon(0));
         static::assertTrue($single->getPolygon(0)->isEmpty());
         static::assertFalse($single->isEmpty());
         static::assertSame([[]], $single->toArray());
@@ -105,9 +105,9 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
     /** An empty polygon remains one member, distinct from a zero-member collection. */
     public function testGeometryObjectMember(): void
     {
-        $polygon = new Polygon([], 4326);
-        $single = new MultiPolygon([$polygon], 4326);
-        $zero = new MultiPolygon([], 4326);
+        $polygon = new PolygonImmutable([], 4326);
+        $single = new MultiPolygonImmutable([$polygon], 4326);
+        $zero = new MultiPolygonImmutable([], 4326);
 
         static::assertCount(1, $single->getElements());
         static::assertSame([$polygon], $single->getElements());

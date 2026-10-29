@@ -19,8 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
@@ -37,13 +36,13 @@ class CircularStringImmutabilityTest extends TestCase
     public function testRejectEmptyPointReplacement(): void
     {
         $this->expectException(OutOfBoundsException::class);
-        (new CircularString([]))->withPoint(0, Coordinates::xy(1, 2));
+        (new CircularStringImmutable([]))->withPoint(0, Coordinates::xy(1, 2));
     }
 
     /** Replacement coordinates cannot change the curve layout. */
     public function testRejectWrongReplacementDimension(): void
     {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]]);
+        $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]]);
         $this->expectException(InvalidDimensionException::class);
 
         try {
@@ -56,7 +55,7 @@ class CircularStringImmutabilityTest extends TestCase
     /** Whole replacement supports empty and non-empty values. */
     public function testReplaceCoordinates(): void
     {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
+        $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
         $replacement = $curve->withArrayOfCoordinates([[3, 0], [4, 1], [5, 0]]);
         $empty = $curve->withArrayOfCoordinates([]);
 
@@ -71,7 +70,7 @@ class CircularStringImmutabilityTest extends TestCase
     /** Reference changes retain empty values. */
     public function testReplaceEmptyReference(): void
     {
-        $curve = new CircularString([], 4326);
+        $curve = new CircularStringImmutable([], 4326);
         $replacement = $curve->withSrid(2154);
 
         static::assertSame([], $replacement->getPoints());
@@ -82,7 +81,7 @@ class CircularStringImmutabilityTest extends TestCase
     /** Indexed replacement copies points and retains the full reference identity. */
     public function testReplacePoint(): void
     {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
+        $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
         $replacement = $curve->withPoint(-2, Coordinates::xy(1, 2));
 
         static::assertNotSame($curve, $replacement);
@@ -97,7 +96,7 @@ class CircularStringImmutabilityTest extends TestCase
     /** A reference edit recursively changes declarations without transforming coordinates. */
     public function testReplaceSpatialReference(): void
     {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
+        $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
         $reference = SpatialReference::epsg(2154);
         $replacement = $curve->withSpatialReference($reference);
 
@@ -114,7 +113,7 @@ class CircularStringImmutabilityTest extends TestCase
     /** The legacy integer adapter also copies every defining point. */
     public function testReplaceSrid(): void
     {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0]], 4326);
+        $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], 4326);
         $replacement = $curve->withSrid(2154);
 
         static::assertSame(2154, $replacement->getSrid());

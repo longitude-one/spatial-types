@@ -20,7 +20,7 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PolygonImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,9 +29,9 @@ use PHPUnit\Framework\TestCase;
  * @internal
  *
  * @covers \LongitudeOne\SpatialTypes\Boundary\PolygonBoundary
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PolygonImmutable
  */
 class PolygonTest extends TestCase
 {
@@ -44,7 +44,7 @@ class PolygonTest extends TestCase
     {
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('g');
-        new Polygon([[['240W', '340S'], ['45W', '45N'], ['45W', '90N'], ['240W', '340S']]]);
+        new PolygonImmutable([[['240W', '340S'], ['45W', '45N'], ['45W', '90N'], ['240W', '340S']]]);
     }
 
     /**
@@ -52,7 +52,7 @@ class PolygonTest extends TestCase
      */
     public function testGetDimension(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
         static::assertFalse($polygon->hasZ());
         static::assertFalse($polygon->hasM());
         $ring = $polygon->getRing(0);
@@ -70,7 +70,7 @@ class PolygonTest extends TestCase
     public function testGetFamily(): void
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
         static::assertSame($expected, $polygon->getFamily());
         $ring = $polygon->getRing(0);
         static::assertSame($expected, $ring->getFamily());
@@ -84,7 +84,7 @@ class PolygonTest extends TestCase
      */
     public function testGetType(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
         static::assertSame(GeometryTypeEnum::POLYGON, $polygon->getType());
     }
 
@@ -93,9 +93,9 @@ class PolygonTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
+        $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
         static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":0}', json_encode($polygon));
-        $polygon = new Polygon([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
+        $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
         static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
     }
 }

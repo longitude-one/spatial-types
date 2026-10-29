@@ -34,8 +34,8 @@ use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPolygonFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Factory\SpatialFactory;
 use LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -195,14 +195,14 @@ class FactoryPipelineTest extends TestCase
             static function (SpatialFactory $factory): void {
                 (new \ReflectionMethod($factory, 'createLineString'))->invoke($factory, [new \stdClass()], new SpatialContext());
             },
-            'objects implementing PointInterface',
+            'objects implementing ImmutablePointInterface',
         ];
 
         yield 'polygon contains an unsupported typed value' => [
             static function (SpatialFactory $factory): void {
                 (new \ReflectionMethod($factory, 'createPolygon'))->invoke($factory, [new \stdClass()], new SpatialContext());
             },
-            'objects implementing LineStringInterface',
+            'objects implementing ImmutableLineStringInterface',
         ];
     }
 
@@ -250,9 +250,9 @@ class FactoryPipelineTest extends TestCase
     {
         $factory = self::createFactory();
         $context = new SpatialContext(2154, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XY);
-        $firstPoint = new Point(0, 0, 2154);
-        $secondPoint = new Point(1, 1, 2154);
-        $ring = new LineString([$firstPoint, $secondPoint, new Point(0, 1, 2154), $firstPoint], 2154);
+        $firstPoint = new PointImmutable(0, 0, 2154);
+        $secondPoint = new PointImmutable(1, 1, 2154);
+        $ring = new LineStringImmutable([$firstPoint, $secondPoint, new PointImmutable(0, 1, 2154), $firstPoint], 2154);
 
         $point = $factory->createPoint(new Coordinates(2, 3), $context);
         $lineString = $factory->createLineString([$firstPoint, $secondPoint], $context);

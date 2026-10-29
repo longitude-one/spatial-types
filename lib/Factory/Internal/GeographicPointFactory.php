@@ -19,11 +19,11 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\Coordinates;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as Point2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as Point3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as Point3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point as Point4Dzm;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable as Point2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable as Point3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable as Point3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable as Point4Dzm;
 
 /**
  * Creates geographic points.
@@ -38,7 +38,7 @@ final class GeographicPointFactory implements PointFactoryInterface
      * @param Coordinates    $coordinates normalized longitude, latitude, Z, and M values
      * @param SpatialContext $context     family, dimension, and SRID to apply
      */
-    public function create(Coordinates $coordinates, SpatialContext $context): PointInterface
+    public function create(Coordinates $coordinates, SpatialContext $context): ImmutablePointInterface
     {
         return match ($context->dimension) {
             CoordinateDimensionEnum::XY => new Point2D($coordinates->x, $coordinates->y, $context->reference),
@@ -53,7 +53,7 @@ final class GeographicPointFactory implements PointFactoryInterface
      *
      * @param SpatialContext $context family, dimension, and SRID to apply
      */
-    public function createEmpty(SpatialContext $context): PointInterface
+    public function createEmpty(SpatialContext $context): ImmutablePointInterface
     {
         return match ($context->dimension) {
             CoordinateDimensionEnum::XY => new Point2D(srid: $context->reference),

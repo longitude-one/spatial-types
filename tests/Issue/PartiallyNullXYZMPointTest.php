@@ -19,9 +19,9 @@ namespace LongitudeOne\SpatialTypes\Tests\Issue;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point as GeographyPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point as GeometryPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable as GeographyPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable as GeometryPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolygonImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
  */
 class PartiallyNullXYZMPointTest extends TestCase
 {
@@ -901,7 +901,7 @@ class PartiallyNullXYZMPointTest extends TestCase
     /** Shared polygon hydration and replacement preserve partially supplied points. */
     public function testGeometryPolygonPathsPreserveNullOrdinates(): void
     {
-        $polygon = new Polygon([[[0, null, 3, null], [null, 2, null, 4], [0, null, 3, null]]], 3857);
+        $polygon = new PolygonImmutable([[[0, null, 3, null], [null, 2, null, 4], [0, null, 3, null]]], 3857);
         $replacement = $polygon->withPoint(0, 1, Coordinates::xyzm(null, null, 5, null));
 
         static::assertSame([[[0, null, 3, null], [null, 2, null, 4], [0, null, 3, null]]], $polygon->toArray());

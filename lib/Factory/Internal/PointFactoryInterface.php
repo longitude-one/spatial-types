@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\SpatialTypes\Factory\Coordinates;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 
 /**
  * Creates points for a spatial family.
@@ -33,12 +33,12 @@ interface PointFactoryInterface
      * @param Coordinates    $coordinates normalized X, Y, Z, and M values
      * @param SpatialContext $context     family, dimension, and SRID to apply
      */
-    public function create(Coordinates $coordinates, SpatialContext $context): PointInterface;
+    public function create(Coordinates $coordinates, SpatialContext $context): ImmutablePointInterface;
 
     /**
      * Create an empty point in the supplied context.
      *
      * @param SpatialContext $context family, dimension, and SRID to apply
      */
-    public function createEmpty(SpatialContext $context): PointInterface;
+    public function createEmpty(SpatialContext $context): ImmutablePointInterface;
 }

@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 
 /**
  * Creates line strings for a spatial family.
@@ -30,8 +30,8 @@ interface LineStringFactoryInterface
     /**
      * Create a line string.
      *
-     * @param PointInterface[] $points  points composing the line string
-     * @param SpatialContext   $context family, dimension, and SRID to apply
+     * @param ImmutablePointInterface[] $points  points composing the line string
+     * @param SpatialContext            $context family, dimension, and SRID to apply
      */
-    public function create(array $points, SpatialContext $context): LineStringInterface;
+    public function create(array $points, SpatialContext $context): ImmutableLineStringInterface;
 }

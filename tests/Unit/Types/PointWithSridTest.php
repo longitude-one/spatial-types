@@ -16,44 +16,44 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographyPoint2D;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as GeographyPoint3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometryPoint3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as GeographyPoint3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as GeometryPoint3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point as GeographyPoint4Dzm;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point as GeometryPoint4Dzm;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable as GeographyPoint2D;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometryPoint2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable as GeographyPoint3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable as GeometryPoint3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable as GeographyPoint3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable as GeometryPoint3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable as GeographyPoint4Dzm;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable as GeometryPoint4Dzm;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
  */
 class PointWithSridTest extends TestCase
 {
     /**
      * Verify that withSrid returns a distinct point without changing its ordinates.
      *
-     * @param PointInterface $point Point to copy
+     * @param ImmutablePointInterface $point Point to copy
      */
     #[DataProvider('providePoints')]
-    public function testWithSrid(PointInterface $point): void
+    public function testWithSrid(ImmutablePointInterface $point): void
     {
         $pointWithSrid = $point->withSrid(2154);
 
         static::assertNotSame($point, $pointWithSrid);
-        static::assertSame($point::class, $pointWithSrid::class);
+        static::assertSame($point::class, (new \ReflectionClass($pointWithSrid))->getName());
         static::assertSame($point->toArray(), $pointWithSrid->toArray());
         static::assertSame(4326, $point->getSrid());
         static::assertSame(2154, $pointWithSrid->getSrid());
     }
 
     /**
-     * @return \Generator<string, array{0: PointInterface}, null, void>
+     * @return \Generator<string, array{0: ImmutablePointInterface}, null, void>
      */
     public static function providePoints(): \Generator
     {

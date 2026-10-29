@@ -18,15 +18,15 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographyPoint2D;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as GeographyPoint3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometryPoint3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point as GeographyPoint3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point as GeometryPoint3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point as GeographyPoint4Dzm;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point as GeometryPoint4Dzm;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable as GeographyPoint2D;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometryPoint2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable as GeographyPoint3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable as GeometryPoint3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable as GeographyPoint3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable as GeometryPoint3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable as GeographyPoint4Dzm;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable as GeometryPoint4Dzm;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
  */
 class PointWithCoordinatesTest extends TestCase
 {
@@ -57,17 +57,17 @@ class PointWithCoordinatesTest extends TestCase
     /**
      * Verify that withCoordinates returns a distinct point with the same SRID and type.
      *
-     * @param Coordinates    $coordinates replacement coordinates
-     * @param PointInterface $point       point to copy
+     * @param Coordinates             $coordinates replacement coordinates
+     * @param ImmutablePointInterface $point       point to copy
      */
     #[DataProvider('providePointsAndCoordinates')]
-    public function testWithCoordinates(Coordinates $coordinates, PointInterface $point): void
+    public function testWithCoordinates(Coordinates $coordinates, ImmutablePointInterface $point): void
     {
         $originalCoordinates = $point->getCoordinates();
         $pointWithCoordinates = $point->withCoordinates($coordinates);
 
         static::assertNotSame($point, $pointWithCoordinates);
-        static::assertSame($point::class, $pointWithCoordinates::class);
+        static::assertSame($point::class, (new \ReflectionClass($pointWithCoordinates))->getName());
         static::assertSame(4326, $point->getSrid());
         static::assertSame(4326, $pointWithCoordinates->getSrid());
         static::assertEquals($originalCoordinates, $point->getCoordinates());
@@ -75,7 +75,7 @@ class PointWithCoordinatesTest extends TestCase
     }
 
     /**
-     * @return \Generator<string, array{0: Coordinates, 1: PointInterface}, null, void>
+     * @return \Generator<string, array{0: Coordinates, 1: ImmutablePointInterface}, null, void>
      */
     public static function providePointsAndCoordinates(): \Generator
     {

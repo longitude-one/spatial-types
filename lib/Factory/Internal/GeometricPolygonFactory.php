@@ -18,12 +18,12 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon as Polygon2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Polygon as Polygon3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Polygon as Polygon3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Polygon as Polygon4Dzm;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PolygonImmutable as Polygon2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PolygonImmutable as Polygon3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PolygonImmutable as Polygon3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolygonImmutable as Polygon4Dzm;
 
 /**
  * Creates geometric polygons.
@@ -35,10 +35,10 @@ final class GeometricPolygonFactory implements PolygonFactoryInterface
     /**
      * Create a geometric polygon.
      *
-     * @param LineStringInterface[] $rings   exterior ring followed by optional interior rings
-     * @param SpatialContext        $context family, dimension, and SRID to apply
+     * @param ImmutableLineStringInterface[] $rings   exterior ring followed by optional interior rings
+     * @param SpatialContext                 $context family, dimension, and SRID to apply
      */
-    public function create(array $rings, SpatialContext $context): PolygonInterface
+    public function create(array $rings, SpatialContext $context): ImmutablePolygonInterface
     {
         return match ($context->dimension) {
             CoordinateDimensionEnum::XY => new Polygon2D($rings, $context->reference),

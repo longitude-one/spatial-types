@@ -17,10 +17,10 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Issue;
 
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineString as GeographicLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineString as GeographicMultiLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineStringImmutable as GeographicLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable as GeographicMultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -140,12 +140,12 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
     /** Coordinate arrays create empty members in the receiving context. */
     public function testGeometryCoordinateArrays(): void
     {
-        $mixed = new MultiLineString([[], [[1, 2, 3, 7], [4, 5, 6, 8]], [], [[7, 8, 9, 10], [11, 12, 13, 14]], []], 4326);
-        $single = new MultiLineString([[]], 4326);
+        $mixed = new MultiLineStringImmutable([[], [[1, 2, 3, 7], [4, 5, 6, 8]], [], [[7, 8, 9, 10], [11, 12, 13, 14]], []], 4326);
+        $single = new MultiLineStringImmutable([[]], 4326);
 
         static::assertSame([[], [[1, 2, 3, 7], [4, 5, 6, 8]], [], [[7, 8, 9, 10], [11, 12, 13, 14]], []], $mixed->toArray());
         static::assertCount(5, $mixed->getElements());
-        static::assertInstanceOf(LineString::class, $mixed->getLineString(0));
+        static::assertInstanceOf(LineStringImmutable::class, $mixed->getLineString(0));
         static::assertSame([], $mixed->getLineString(0)->toArray());
         static::assertSame([], $mixed->getLineString(2)->toArray());
         static::assertSame([], $mixed->getLineString(4)->toArray());
@@ -159,7 +159,7 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
     /** Replacement keeps untouched empty members and can empty or fill a member. */
     public function testGeometryLineStringReplacement(): void
     {
-        $original = new MultiLineString([[], [[1, 2, 3, 7], [4, 5, 6, 8]], []], 4326);
+        $original = new MultiLineStringImmutable([[], [[1, 2, 3, 7], [4, 5, 6, 8]], []], 4326);
         $emptied = $original->withLineString(1, []);
         $filled = $original->withLineString(-1, [[1, 2, 3, 7], [4, 5, 6, 8]]);
 
@@ -173,7 +173,7 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
         static::assertNotSame($original->getLineString(2), $emptied->getLineString(2));
         static::assertNotSame($original->getLineString(1), $filled->getLineString(1));
         static::assertNotSame($original->getLineString(1)->getPoint(0), $filled->getLineString(1)->getPoint(0));
-        static::assertInstanceOf(LineString::class, $emptied->getLineString(1));
+        static::assertInstanceOf(LineStringImmutable::class, $emptied->getLineString(1));
         static::assertSame(4326, $emptied->getLineString(1)->getSrid());
         static::assertTrue($emptied->getLineString(1)->hasZ());
         static::assertTrue($emptied->getLineString(1)->hasM());
@@ -182,12 +182,12 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
     /** Object members retain their count, order and accessors. */
     public function testGeometryObjectMembers(): void
     {
-        $empty = new LineString([], 4326);
-        $line = new LineString([[1, 2, 3, 7], [4, 5, 6, 8]], 4326);
-        $otherLine = new LineString([[7, 8, 9, 10], [11, 12, 13, 14]], 4326);
-        $mixed = new MultiLineString([$empty, $line, new LineString([], 4326), $otherLine, $empty], 4326);
-        $single = new MultiLineString([$empty], 4326);
-        $zero = new MultiLineString([], 4326);
+        $empty = new LineStringImmutable([], 4326);
+        $line = new LineStringImmutable([[1, 2, 3, 7], [4, 5, 6, 8]], 4326);
+        $otherLine = new LineStringImmutable([[7, 8, 9, 10], [11, 12, 13, 14]], 4326);
+        $mixed = new MultiLineStringImmutable([$empty, $line, new LineStringImmutable([], 4326), $otherLine, $empty], 4326);
+        $single = new MultiLineStringImmutable([$empty], 4326);
+        $zero = new MultiLineStringImmutable([], 4326);
 
         static::assertSame([[], [[1, 2, 3, 7], [4, 5, 6, 8]], [], [[7, 8, 9, 10], [11, 12, 13, 14]], []], $mixed->toArray());
         static::assertCount(5, $mixed->getElements());
@@ -212,7 +212,7 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
     /** Reference copies preserve empty positions, ordinates and the source graph. */
     public function testGeometryReferenceCopies(): void
     {
-        $original = new MultiLineString([[], [[1, 2, 3, 7], [4, 5, 6, 8]], []], 4326);
+        $original = new MultiLineStringImmutable([[], [[1, 2, 3, 7], [4, 5, 6, 8]], []], 4326);
         $reference = SpatialReference::epsg(2154);
         $referenced = $original->withSpatialReference($reference);
         $renumbered = $original->withSrid(3857);
@@ -236,8 +236,8 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
         static::assertNotSame($original->getLineString(2), $renumbered->getLineString(2));
         static::assertNotSame($original->getLineString(1)->getPoint(0), $referenced->getLineString(1)->getPoint(0));
         static::assertNotSame($original->getLineString(1)->getPoint(0), $renumbered->getLineString(1)->getPoint(0));
-        static::assertInstanceOf(LineString::class, $referenced->getLineString(0));
-        static::assertInstanceOf(LineString::class, $renumbered->getLineString(2));
+        static::assertInstanceOf(LineStringImmutable::class, $referenced->getLineString(0));
+        static::assertInstanceOf(LineStringImmutable::class, $renumbered->getLineString(2));
         static::assertTrue($referenced->getLineString(0)->hasZ());
         static::assertTrue($renumbered->getLineString(2)->hasM());
     }

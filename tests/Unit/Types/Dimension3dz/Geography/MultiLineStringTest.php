@@ -20,7 +20,7 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,10 +28,10 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineString
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollection
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineString
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable
  */
 class MultiLineStringTest extends TestCase
 {
@@ -44,7 +44,7 @@ class MultiLineStringTest extends TestCase
     {
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "240W".');
-        new MultiLineString([[['240W', '340S', 0], ['45W', '45N', -1], ['45W', '90N', 42.195]]]);
+        new MultiLineStringImmutable([[['240W', '340S', 0], ['45W', '45N', -1], ['45W', '90N', 42.195]]]);
     }
 
     /**
@@ -52,7 +52,7 @@ class MultiLineStringTest extends TestCase
      */
     public function testGetDimension(): void
     {
-        $multiLineString = new MultiLineString([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
+        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
         static::assertTrue($multiLineString->hasZ());
         static::assertFalse($multiLineString->hasM());
         $ring = $multiLineString->getLineString(0);
@@ -70,7 +70,7 @@ class MultiLineStringTest extends TestCase
     public function testGetFamily(): void
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
-        $multiLineString = new MultiLineString([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
+        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
         static::assertSame($expected, $multiLineString->getFamily());
         $ring = $multiLineString->getLineString(0);
         static::assertSame($expected, $ring->getFamily());
@@ -84,7 +84,7 @@ class MultiLineStringTest extends TestCase
      */
     public function testGetType(): void
     {
-        $multiLineString = new MultiLineString([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
+        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
         static::assertSame(GeometryTypeEnum::MULTILINESTRING, $multiLineString->getType());
     }
 
@@ -93,10 +93,10 @@ class MultiLineStringTest extends TestCase
      */
     public function testIsEmpty(): void
     {
-        $multiLineString = new MultiLineString([]);
+        $multiLineString = new MultiLineStringImmutable([]);
         static::assertTrue($multiLineString->isEmpty());
 
-        $multiLineString = new MultiLineString([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
+        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
         static::assertFalse($multiLineString->isEmpty());
     }
 
@@ -105,9 +105,9 @@ class MultiLineStringTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        $multiLineString = new MultiLineString([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
+        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
         static::assertSame('{"type":"MultiLineString","coordinates":[[[1,2,-3],[3,4,5],[3,6,42.195],[1,2,-3]]],"srid":0}', json_encode($multiLineString));
-        $multiLineString = new MultiLineString([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]], 4326);
+        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]], 4326);
         static::assertSame('{"type":"MultiLineString","coordinates":[[[1,2,-3],[3,4,5],[3,6,42.195],[1,2,-3]]],"srid":4326}', json_encode($multiLineString));
     }
 }

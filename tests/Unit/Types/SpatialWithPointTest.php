@@ -26,8 +26,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineString
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
  */
 class SpatialWithPointTest extends TestCase
 {
@@ -52,7 +52,7 @@ class SpatialWithPointTest extends TestCase
         $replacement = $lineString->withPoint(1, Coordinates::xym(7, 8, 9));
 
         static::assertNotSame($lineString, $replacement);
-        static::assertSame($lineString::class, $replacement::class);
+        static::assertSame($lineString::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[1, 2, 3], [4, 5, 6]], $lineString->toArray());
         static::assertSame([[1, 2, 3], [7, 8, 9]], $replacement->toArray());
@@ -72,7 +72,7 @@ class SpatialWithPointTest extends TestCase
         $replacement = $polygon->withPoint(0, 0, Coordinates::xy(-1, -1));
 
         static::assertNotSame($polygon, $replacement);
-        static::assertSame($polygon::class, $replacement::class);
+        static::assertSame($polygon::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $polygon->toArray());
         static::assertSame([[[-1, -1], [10, 0], [0, 10], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $replacement->toArray());

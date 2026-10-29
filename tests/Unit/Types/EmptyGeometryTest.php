@@ -54,19 +54,19 @@ class EmptyGeometryTest extends TestCase
         foreach (['Dimension2', 'Dimension3m', 'Dimension3z', 'Dimension4zm'] as $dimension) {
             $namespace = sprintf('LongitudeOne\SpatialTypes\Types\%s\Geometry\\', $dimension);
 
-            yield $dimension.' Point' => [new ($namespace.'Point')(), GeometryTypeEnum::POINT];
+            yield $dimension.' Point' => [new ($namespace.'PointImmutable')(), GeometryTypeEnum::POINT];
 
-            yield $dimension.' LineString' => [new ($namespace.'LineString')([]), GeometryTypeEnum::LINESTRING];
+            yield $dimension.' LineString' => [new ($namespace.'LineStringImmutable')([]), GeometryTypeEnum::LINESTRING];
 
-            yield $dimension.' Polygon' => [new ($namespace.'Polygon')([]), GeometryTypeEnum::POLYGON];
+            yield $dimension.' Polygon' => [new ($namespace.'PolygonImmutable')([]), GeometryTypeEnum::POLYGON];
 
-            yield $dimension.' MultiPoint' => [new ($namespace.'MultiPoint')([]), GeometryTypeEnum::MULTIPOINT];
+            yield $dimension.' MultiPoint' => [new ($namespace.'MultiPointImmutable')([]), GeometryTypeEnum::MULTIPOINT];
 
-            yield $dimension.' MultiLineString' => [new ($namespace.'MultiLineString')([]), GeometryTypeEnum::MULTILINESTRING];
+            yield $dimension.' MultiLineString' => [new ($namespace.'MultiLineStringImmutable')([]), GeometryTypeEnum::MULTILINESTRING];
 
-            yield $dimension.' MultiPolygon' => [new ($namespace.'MultiPolygon')([]), GeometryTypeEnum::MULTIPOLYGON];
+            yield $dimension.' MultiPolygon' => [new ($namespace.'MultiPolygonImmutable')([]), GeometryTypeEnum::MULTIPOLYGON];
 
-            yield $dimension.' GeometryCollection' => [new ($namespace.'GeometryCollection')(), GeometryTypeEnum::GEOMETRYCOLLECTION];
+            yield $dimension.' GeometryCollection' => [new ($namespace.'GeometryCollectionImmutable')(), GeometryTypeEnum::GEOMETRYCOLLECTION];
         }
     }
 }

@@ -17,14 +17,14 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineString
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
  */
 class SpatialWithLineStringTest extends TestCase
 {
@@ -33,14 +33,14 @@ class SpatialWithLineStringTest extends TestCase
      */
     public function testMultiLineStringWithLineStringReturnsAnIndependentCopy(): void
     {
-        $multiLineString = new MultiLineString([
+        $multiLineString = new MultiLineStringImmutable([
             [[0, 0], [1, 1]],
             [[2, 2], [3, 3]],
         ], 2154);
         $replacement = $multiLineString->withLineString(-1, [[4, 4], [5, 5]]);
 
         static::assertNotSame($multiLineString, $replacement);
-        static::assertSame($multiLineString::class, $replacement::class);
+        static::assertSame($multiLineString::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
         static::assertSame([[[0, 0], [1, 1]], [[4, 4], [5, 5]]], $replacement->toArray());
@@ -60,7 +60,7 @@ class SpatialWithLineStringTest extends TestCase
         $replacement = $polygon->withRing(0, [[-1, -1], [11, -1], [-1, 11], [-1, -1]]);
 
         static::assertNotSame($polygon, $replacement);
-        static::assertSame($polygon::class, $replacement::class);
+        static::assertSame($polygon::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $polygon->toArray());
         static::assertSame([[[-1, -1], [11, -1], [-1, 11], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $replacement->toArray());

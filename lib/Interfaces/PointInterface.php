@@ -76,14 +76,4 @@ interface PointInterface extends SpatialInterface
      * @return (null|float|int)[]
      */
     public function toArray(): array;
-
-    /**
-     * Return a new point with the supplied normalized coordinates.
-     *
-     * The coordinates must use the same dimension as this point. The point's
-     * family and Spatial Reference Identifier (SRID) are preserved.
-     *
-     * @param Coordinates $coordinates replacement coordinates
-     */
-    public function withCoordinates(Coordinates $coordinates): static;
 }

@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineString
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
  */
 class MultiLineStringWithPointTest extends TestCase
 {
@@ -32,14 +32,14 @@ class MultiLineStringWithPointTest extends TestCase
      */
     public function testWithPointReturnsAnIndependentCopy(): void
     {
-        $multiLineString = new MultiLineString([
+        $multiLineString = new MultiLineStringImmutable([
             [[0, 0], [1, 1]],
             [[2, 2], [3, 3]],
         ], 2154);
         $replacement = $multiLineString->withPoint(-1, -1, Coordinates::xy(4, 4));
 
         static::assertNotSame($multiLineString, $replacement);
-        static::assertSame($multiLineString::class, $replacement::class);
+        static::assertSame($multiLineString::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
         static::assertSame([[[0, 0], [1, 1]], [[2, 2], [4, 4]]], $replacement->toArray());

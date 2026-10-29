@@ -18,12 +18,12 @@ namespace LongitudeOne\SpatialTypes\Factory\Internal;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString as LineString2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString as LineString3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineString as LineString3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineString as LineString4Dzm;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable as LineString2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable as LineString3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineStringImmutable as LineString3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineStringImmutable as LineString4Dzm;
 
 /**
  * Creates geometric line strings.
@@ -35,10 +35,10 @@ final class GeometricLineStringFactory implements LineStringFactoryInterface
     /**
      * Create a geometric line string.
      *
-     * @param PointInterface[] $points  points composing the line string
-     * @param SpatialContext   $context family, dimension, and SRID to apply
+     * @param ImmutablePointInterface[] $points  points composing the line string
+     * @param SpatialContext            $context family, dimension, and SRID to apply
      */
-    public function create(array $points, SpatialContext $context): LineStringInterface
+    public function create(array $points, SpatialContext $context): ImmutableLineStringInterface
     {
         return match ($context->dimension) {
             CoordinateDimensionEnum::XY => new LineString2D($points, $context->reference),

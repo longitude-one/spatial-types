@@ -19,9 +19,9 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\CurveInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -36,7 +36,7 @@ class CircularStringValidationTest extends TestCase
     /** Collinear defining points remain a valid degenerate arc. */
     public function testCollinearArc(): void
     {
-        $curve = new CircularString([[0, 0], [1, 0], [2, 0]]);
+        $curve = new CircularStringImmutable([[0, 0], [1, 0], [2, 0]]);
 
         static::assertSame([[0, 0], [1, 0], [2, 0]], $curve->toArray());
     }
@@ -44,7 +44,7 @@ class CircularStringValidationTest extends TestCase
     /** A repeated endpoint defines a complete circle. */
     public function testCompleteCircle(): void
     {
-        $curve = new CircularString([new Point(1, 0), new Point(-1, 0), new Point(1, 0)]);
+        $curve = new CircularStringImmutable([new PointImmutable(1, 0), new PointImmutable(-1, 0), new PointImmutable(1, 0)]);
 
         static::assertSame([[1, 0], [-1, 0], [1, 0]], $curve->toArray());
         static::assertTrue($curve->getPoint(0)->equalsTo($curve->getPoint(-1)));
@@ -54,19 +54,19 @@ class CircularStringValidationTest extends TestCase
     public function testEmptyPointAccess(): void
     {
         $this->expectException(OutOfBoundsException::class);
-        (new CircularString([]))->getPoint(0);
+        (new CircularStringImmutable([]))->getPoint(0);
     }
 
     /** Line strings share the approved curve category. */
     public function testLineStringIsCurve(): void
     {
-        static::assertContains(CurveInterface::class, class_implements(new LineString([[0, 0], [1, 1]])));
+        static::assertContains(CurveInterface::class, class_implements(new LineStringImmutable([[0, 0], [1, 1]])));
     }
 
     /** Two arcs share their connecting endpoint without duplicating it. */
     public function testMultipleArcs(): void
     {
-        $curve = new CircularString([[0, 0], [1, 1], [2, 0], [3, -1], [4, 0]]);
+        $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0], [3, -1], [4, 0]]);
 
         static::assertSame([[0, 0], [1, 1], [2, 0], [3, -1], [4, 0]], $curve->toArray());
         static::assertCount(5, $curve->getPoints());
@@ -76,6 +76,6 @@ class CircularStringValidationTest extends TestCase
     public function testRejectInvalidMember(): void
     {
         $this->expectException(InvalidValueException::class);
-        (new \ReflectionClass(CircularString::class))->newInstance([false, [1, 1], [2, 0]]);
+        (new \ReflectionClass(CircularStringImmutable::class))->newInstance([false, [1, 1], [2, 0]]);
     }
 }

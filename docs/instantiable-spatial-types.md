@@ -122,11 +122,11 @@ handling and [Spatial validation](validators.md) for explicit functional checks.
 
 ## Class catalogue
 
-All classes in the following matrix are concrete and instantiable. The class
+All classes in the following matrix are final, concrete and immutable. The class
 name is composed from the dimension, family, and type:
 
 ```php
-LongitudeOne\SpatialTypes\Types\<dimension>\<family>\<type>
+LongitudeOne\SpatialTypes\Types\<dimension>\<family>\<type>Immutable
 ```
 
 | Dimension         | Namespace segment | Coordinates  |
@@ -140,21 +140,23 @@ For each dimension, both `Geometry` and `Geography` provide:
 
 | Type                     | Geometry class                  | Geography class                   |
 | ------------------------ | ------------------------------- | --------------------------------- |
-| Point                    | `…\Geometry\Point`              | `…\Geography\Point`               |
-| Line string              | `…\Geometry\LineString`         | `…\Geography\LineString`          |
-| Polygon                  | `…\Geometry\Polygon`            | `…\Geography\Polygon`             |
-| Triangle                 | `…\Geometry\Triangle`           | `…\Geography\Triangle`            |
-| Multi-point              | `…\Geometry\MultiPoint`         | `…\Geography\MultiPoint`          |
-| Multi-line string        | `…\Geometry\MultiLineString`    | `…\Geography\MultiLineString`     |
-| Multi-polygon            | `…\Geometry\MultiPolygon`       | `…\Geography\MultiPolygon`        |
-| Heterogeneous collection | `…\Geometry\GeometryCollection` | `…\Geography\GeographyCollection` |
+| Point                    | `…\Geometry\PointImmutable`              | `…\Geography\PointImmutable`               |
+| Line string              | `…\Geometry\LineStringImmutable`         | `…\Geography\LineStringImmutable`          |
+| Circular string          | `…\Geometry\CircularStringImmutable` | `…\Geography\CircularStringImmutable` |
+| Compound curve           | `…\Geometry\CompoundCurveImmutable` | `…\Geography\CompoundCurveImmutable` |
+| Polygon                  | `…\Geometry\PolygonImmutable`            | `…\Geography\PolygonImmutable`             |
+| Triangle                 | `…\Geometry\TriangleImmutable`           | `…\Geography\TriangleImmutable`            |
+| Multi-point              | `…\Geometry\MultiPointImmutable`         | `…\Geography\MultiPointImmutable`          |
+| Multi-line string        | `…\Geometry\MultiLineStringImmutable`    | `…\Geography\MultiLineStringImmutable`     |
+| Multi-polygon            | `…\Geometry\MultiPolygonImmutable`       | `…\Geography\MultiPolygonImmutable`        |
+| Heterogeneous collection | `…\Geometry\GeometryCollectionImmutable` | `…\Geography\GeographyCollectionImmutable` |
 
 `PolyhedralSurface` is additionally available in `Dimension3z` and
 `Dimension4zm`, in both families. Its faces require Z; XY and XYM variants are
 not provided. It is a surface, not a heterogeneous collection or a solid.
 
 For example, a four-dimensional geographic polygon is
-`LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Polygon`.
+`LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolygonImmutable`.
 
 `AbstractSpatialType` and the other `Abstract*` classes are internal base
 classes, not part of the instantiable API.
@@ -168,10 +170,10 @@ the unnamed reference identified by `0` in every constructor.
 ### Point
 
 ```php
-new Point($x, $y, int|SpatialReference $srid = 0);                 // Dimension2
-new Point($x, $y, $z, int|SpatialReference $srid = 0);             // Dimension3z
-new Point($x, $y, $m, int|SpatialReference $srid = 0);             // Dimension3m
-new Point($x, $y, $z, $m, int|SpatialReference $srid = 0);         // Dimension4zm
+new PointImmutable($x, $y, int|SpatialReference $srid = 0);                 // Dimension2
+new PointImmutable($x, $y, $z, int|SpatialReference $srid = 0);             // Dimension3z
+new PointImmutable($x, $y, $m, int|SpatialReference $srid = 0);             // Dimension3m
+new PointImmutable($x, $y, $z, $m, int|SpatialReference $srid = 0);         // Dimension4zm
 ```
 
 `$x` and `$y` accept `int`, `float`, or a coordinate string accepted by the
@@ -185,7 +187,7 @@ zero is a supplied value. Null ordinates do not change the declared dimension.
 This preserves the selected coordinate layout and optional SRID:
 
 ```php
-$emptyPoint = new Point(srid: 4326);
+$emptyPoint = new PointImmutable(srid: 4326);
 assert($emptyPoint->isEmpty());
 assert([] === $emptyPoint->toArray());
 ```
@@ -197,13 +199,13 @@ contain every index declared by the requested dimension; an explicit null is
 different from an absent index.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable;
 
-$point = new Point(2.3522, 48.8566, 35, 4326); // longitude, latitude, elevation
+$point = new PointImmutable(2.3522, 48.8566, 35, 4326); // longitude, latitude, elevation
 ```
 
 ```php
-$partialPoint = new Point(0, null, null, 4326); // XYZ Geography
+$partialPoint = new PointImmutable(0, null, null, 4326); // XYZ Geography
 assert(!$partialPoint->isEmpty());
 assert([0, null, null] === $partialPoint->toArray());
 assert($partialPoint->hasZ()); // The Z axis exists even when its value is null.
@@ -238,8 +240,8 @@ $higherPoint = $point->withCoordinates(Coordinates::xyz(2.3522, 48.8566, 42));
 ### Point-based types
 
 ```php
-new LineString(array $points, int|SpatialReference $srid = 0);
-new MultiPoint(array $points, int|SpatialReference $srid = 0);
+new LineStringImmutable(array $points, int|SpatialReference $srid = 0);
+new MultiPointImmutable(array $points, int|SpatialReference $srid = 0);
 ```
 
 `$points` may contain instances of `PointInterface` or coordinate tuples for
@@ -247,29 +249,29 @@ the selected dimension, for example `[[0, 0], [1, 1]]` for `XY` or
 `[[0, 0, 12, 3], [1, 1, 15, 4]]` for `XYZM`.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
 
-$lineString = new LineString([[0, 0], [2, 1], [5, 1]], 3857);
+$lineString = new LineStringImmutable([[0, 0], [2, 1], [5, 1]], 3857);
 ```
 
 ### Ring-, line-, and polygon-based types
 
 ```php
-new Polygon(array $rings, int|SpatialReference $srid = 0);
-new Triangle(array $rings, int|SpatialReference $srid = 0);
-new MultiLineString(array $lineStrings, int|SpatialReference $srid = 0);
-new MultiPolygon(array $polygons, int|SpatialReference $srid = 0);
-new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0);
+new PolygonImmutable(array $rings, int|SpatialReference $srid = 0);
+new TriangleImmutable(array $rings, int|SpatialReference $srid = 0);
+new MultiLineStringImmutable(array $lineStrings, int|SpatialReference $srid = 0);
+new MultiPolygonImmutable(array $polygons, int|SpatialReference $srid = 0);
+new PolyhedralSurfaceImmutable(array $patches = [], int|SpatialReference $srid = 0);
 ```
 
-- A polygon ring is a `LineStringInterface` or an array of point tuples.
+- A polygon ring is an `ImmutableLineStringInterface` or an array of point tuples.
 - A triangle uses the same ring representation as a polygon. Cardinality,
   closure and absence of holes are not enforced; `[]` is an empty triangle.
-- A multi-line-string element is a `LineStringInterface` or point-tuple array.
+- A multi-line-string element is an `ImmutableLineStringInterface` or point-tuple array.
   `[]` as an element creates an empty line string in the aggregate's context.
-- A multi-polygon element is a `PolygonInterface` or an array of rings.
+- A multi-polygon element is an `ImmutablePolygonInterface` or an array of rings.
   Empty member polygons retain their positions.
-- A polyhedral-surface patch is a `PolygonInterface` (including a triangle)
+- A polyhedral-surface patch is an `ImmutablePolygonInterface` (including a triangle)
   or an array of rings. Empty patches, disconnected faces and non-planar faces
   can be represented. `[]` creates a surface with zero patches.
 
@@ -278,21 +280,21 @@ and geometric validity are explicit consumer concerns. Coordinate tuples are
 hydrated in the receiving aggregate's family, dimension and reference.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PolygonImmutable;
 
-$polygon = new Polygon([
+$polygon = new PolygonImmutable([
     [[0, 0], [4, 0], [4, 3], [0, 0]],
 ], 3857);
 ```
 
-`new MultiLineString([])` has zero members, whereas
-`new MultiLineString([[]])` has one empty member. `getElements()`,
+`new MultiLineStringImmutable([])` has zero members, whereas
+`new MultiLineStringImmutable([[]])` has one empty member. `getElements()`,
 `getLineStrings()`, `getLineString()` and `toArray()` preserve this distinction.
-The current `MultiLineString::isEmpty()` checks whether it has zero members;
+The current `MultiLineStringImmutable::isEmpty()` checks whether it has zero members;
 inspect the member arrays when the distinction matters.
 
-`new MultiPolygon([])` has zero members and `isEmpty()` returns `true`.
-`new MultiPolygon([[]])` and `new MultiPolygon([new Polygon([])])` each
+`new MultiPolygonImmutable([])` has zero members and `isEmpty()` returns `true`.
+`new MultiPolygonImmutable([[]])` and `new MultiPolygonImmutable([new PolygonImmutable([])])` each
 contain one empty polygon and `isEmpty()` returns `false`. `getElements()`,
 `getPolygons()` and `getPolygon()` expose that member, whose own `isEmpty()`
 returns `true`. `toArray()` preserves the distinction as `[]` versus `[[]]`;
@@ -309,13 +311,13 @@ See [empty MultiLineString interoperability](empty-multilinestring-interoperabil
 for the WKT/WKB verification and the current WKT parser limitation.
 
 `TriangleInterface` extends `PolygonInterface`. All eight dimension/family
-combinations provide a concrete `Triangle`:
+combinations provide a concrete `TriangleImmutable`:
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Triangle;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\TriangleImmutable;
 
-$triangle = new Triangle([[[0, 0], [4, 0], [0, 4], [0, 0]]], 3857);
-$empty = new Triangle([]);
+$triangle = new TriangleImmutable([[[0, 0], [4, 0], [0, 4], [0, 0]]], 3857);
+$empty = new TriangleImmutable([]);
 ```
 
 Triangle cardinality and closure are functional validity rules and are no
@@ -330,18 +332,18 @@ conversion routines are not currently exposed.
 ### Heterogeneous collections
 
 ```php
-new GeometryCollection(int|SpatialReference $srid = 0, array $elements = []);
-new GeographyCollection(int|SpatialReference $srid = 0, array $elements = []);
+new GeometryCollectionImmutable(int|SpatialReference $srid = 0, array $elements = []);
+new GeographyCollectionImmutable(int|SpatialReference $srid = 0, array $elements = []);
 ```
 
 Collections accept their initial elements in their constructor. They accept any
 spatial type implementing `SpatialInterface`, including nested collections.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 
-$collection = new GeometryCollection(3857, [new Point(0, 0, 3857)]);
+$collection = new GeometryCollectionImmutable(3857, [new PointImmutable(0, 0, 3857)]);
 ```
 
 ## Observing spatial values
@@ -413,30 +415,30 @@ accepts arrays of rings. The receiving aggregate determines whether tuples are
 XY, XYM, XYZ, or XYZM. For `PolyhedralSurface`, replacement coordinates are
 arrays of patches and use XYZ or XYZM; `[]` returns an empty surface.
 
-`LineString::withPoint(int $pointIndex, Coordinates $coordinates): static`
+`LineStringImmutable::withPoint(int $pointIndex, Coordinates $coordinates): static`
 returns a deep copy with one replacement point. For polygons,
-`Polygon::withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static`
+`PolygonImmutable::withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static`
 uses a ring index followed by a point index. Replacing either endpoint of a
 ring updates both endpoints to preserve its closure. Both methods retain the
 family, dimension, and SRID of the receiving aggregate.
 
-`MultiPoint::withPoint(int $pointIndex, Coordinates $coordinates): static`
+`MultiPointImmutable::withPoint(int $pointIndex, Coordinates $coordinates): static`
 returns a deep copy with one replacement point and preserves the receiving
 multi-point's family, dimension, and SRID.
 
-`Polygon::withRing(int $ringIndex, array $coordinates): static` replaces
-one ring. `MultiLineString::withLineString(int $lineStringIndex, array
+`PolygonImmutable::withRing(int $ringIndex, array $coordinates): static` replaces
+one ring. `MultiLineStringImmutable::withLineString(int $lineStringIndex, array
 $coordinates): static` replaces one line string. Both return deep copies and
 derive the expected XY, XYM, XYZ, or XYZM layout from the receiving aggregate.
 
-`MultiLineString::withPoint(int $lineStringIndex, int $pointIndex, Coordinates
+`MultiLineStringImmutable::withPoint(int $lineStringIndex, int $pointIndex, Coordinates
 $coordinates): static` replaces one point in one line string and returns a deep
 copy.
 
-`MultiPolygon::withPoint(int $polygonIndex, int $ringIndex, int $pointIndex,
+`MultiPolygonImmutable::withPoint(int $polygonIndex, int $ringIndex, int $pointIndex,
 Coordinates $coordinates): static` replaces one point.
-`MultiPolygon::withRing(int $polygonIndex, int $ringIndex, array
-$coordinates): static` replaces one ring, and `MultiPolygon::withPolygon(int
+`MultiPolygonImmutable::withRing(int $polygonIndex, int $ringIndex, array
+$coordinates): static` replaces one ring, and `MultiPolygonImmutable::withPolygon(int
 $polygonIndex, array $coordinates): static` replaces one polygon. All three
 methods return deep copies and preserve family, dimension, and SRID.
 `PolyhedralSurface` provides `withPoint($patchIndex, $ringIndex, $pointIndex,
@@ -446,8 +448,8 @@ Surface topology is not checked. Editing a shared vertex does not silently
 move neighbouring faces.
 Empty surfaces reject indexed access and indexed replacements.
 
-`GeometryCollection::withElement(int $elementIndex, SpatialInterface
-$element): static` and `GeographyCollection::withElement(...)` replace one
+`GeometryCollectionImmutable::withElement(int $elementIndex, SpatialInterface
+$element): static` and `GeographyCollectionImmutable::withElement(...)` replace one
 element implementing `SpatialInterface` and deeply copy the unchanged elements.
 
 All spatial types implement `withSpatialReference(SpatialReference $reference): static`.
@@ -489,7 +491,7 @@ This is an approved breaking change before 1.0.0: third-party implementations
 of these curve interfaces must implement the three common methods. Existing
 concrete line-string closure behavior is preserved.
 
-`Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CircularString` supports
+`Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CircularStringImmutable` supports
 XY, XYZ, XYM and XYZM in both families. Its constructor is:
 
 ```php
@@ -502,12 +504,12 @@ points are geometric validity rules and are not automatically checked. Stored
 points are never replaced by a linear approximation.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
-$arc = new CircularString([[0, 0], [1, 1], [2, 0]], 4326);
-$circle = new CircularString([[1, 0], [-1, 0], [1, 0]], 4326);
-$empty = new CircularString([], 4326);
+$arc = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], 4326);
+$circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]], 4326);
+$empty = new CircularStringImmutable([], 4326);
 $replacement = $arc->withPoint(1, Coordinates::xy(1, 2));
 ```
 
@@ -524,24 +526,24 @@ every point without transforming coordinates.
 
 ## Compound curves
 
-`Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CompoundCurve` implements
+`Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CompoundCurveImmutable` implements
 `CompoundCurveInterface` in XY, XYZ, XYM and XYZM. Construct it with ordered
 `CurveInterface` components and an optional integer or `SpatialReference`:
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurve;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurveImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
 
-$curve = new CompoundCurve([
-    new LineString([[0, 0], [1, 1]], 4326),
-    new CircularString([[1, 1], [2, 2], [3, 1]], 4326),
+$curve = new CompoundCurveImmutable([
+    new LineStringImmutable([[0, 0], [1, 1]], 4326),
+    new CircularStringImmutable([[1, 1], [2, 2], [3, 1]], 4326),
 ], 4326);
-$empty = new CompoundCurve([], 4326);
+$empty = new CompoundCurveImmutable([], 4326);
 ```
 
-`new CompoundCurve()` creates an empty XY Geometry value with SRID 0 when
-using the class imported above. Components must implement `CurveInterface`
+`new CompoundCurveImmutable()` creates an empty XY Geometry value with SRID 0 when
+using the class imported above. Components must implement `ImmutableCurveInterface`
 and expose point tuples with numeric or null ordinates. Null entries retain
 their positions through array access and immutable reference copies. Family,
 dimension, reference, component kind, non-empty endpoints and continuity are

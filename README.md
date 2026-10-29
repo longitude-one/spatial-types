@@ -25,18 +25,23 @@ composer require longitude-one/spatial-types
 
 ## Usage
 
-```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+Concrete spatial classes now have an `Immutable` suffix and are final. Update
+imports and constructor calls to the new names; former names have no aliases.
+Read-only interfaces remain shared. See [Immutability](docs/immutability.md#read-copy-and-mutation-contracts)
+for the separate immutable and mutable contracts and the staged mutable rollout.
 
-$point = new Point(1, 2);
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
+
+$point = new PointImmutable(1, 2);
 echo $point->getX(); // 1
 echo $point->getY(); // 2
 
-$lineString = new LineString([
-    new Point(1, 2, 4326),
-    new Point(3, 4, 4326),
-    new Point(5, 6, 4326),
+$lineString = new LineStringImmutable([
+    new PointImmutable(1, 2, 4326),
+    new PointImmutable(3, 4, 4326),
+    new PointImmutable(5, 6, 4326),
 ], 4326);
 $lineString->getSrid(); // 4326
 ```
@@ -56,18 +61,18 @@ classes, see [Type class hierarchy](docs/type-class-hierarchy.md).
 
 ```text
 AbstractSpatialType
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Point
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineString
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CircularString
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CompoundCurve
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Triangle
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPoint
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineString
-├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygon
-├── Dimension{3z,4zm}\{Geometry,Geography}\PolyhedralSurface
-├── Dimension{2,3m,3z,4zm}\Geometry\GeometryCollection
-└── Dimension{2,3m,3z,4zm}\Geography\GeographyCollection
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\PointImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineStringImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\PolygonImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CircularStringImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CompoundCurveImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\TriangleImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPointImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineStringImmutable
+├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygonImmutable
+├── Dimension{3z,4zm}\{Geometry,Geography}\PolyhedralSurfaceImmutable
+├── Dimension{2,3m,3z,4zm}\Geometry\GeometryCollectionImmutable
+└── Dimension{2,3m,3z,4zm}\Geography\GeographyCollectionImmutable
 ```
 
 ### Types not yet available
@@ -85,7 +90,7 @@ the public API. Use `withCoordinates()` with an immutable `Value\Coordinates`
 value to represent another location, or `withSpatialReference()` to associate
 the same coordinates with another declared reference. Both return new objects.
 
-`LineString`, `Polygon`, `Triangle`, and `PolyhedralSurface` also provide
+`LineStringImmutable`, `PolygonImmutable`, `TriangleImmutable`, and `PolyhedralSurfaceImmutable` also provide
 `withArrayOfCoordinates()` to create a new instance with replacement
 coordinates. This preserves their family, dimension, and SRID without changing
 the source object.

@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-use LongitudeOne\SpatialTypes\Value\Coordinates;
-
 /**
  * Polygon interface.
  *
@@ -47,40 +45,4 @@ interface PolygonInterface extends SpatialInterface
      * @return (null|float|int)[][][]
      */
     public function toArray(): array;
-
-    /**
-     * Return a new polygon with replacement ring coordinates.
-     *
-     * The returned polygon preserves this instance's family, dimension, and
-     * Spatial Reference Identifier (SRID). Every coordinate tuple must match
-     * this instance's coordinate layout; ring closure is not checked.
-     *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
-     */
-    public function withArrayOfCoordinates(array $coordinates): static;
-
-    /**
-     * Return a new polygon with one replacement point in a ring.
-     *
-     * The returned polygon preserves this instance's family, dimension, and
-     * Spatial Reference Identifier (SRID). A replacement of the first or last
-     * point of a ring is applied to both endpoints to preserve ring closure.
-     *
-     * @param int         $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
-     * @param Coordinates $coordinates replacement point coordinates
-     */
-    public function withPoint(int $ringIndex, int $pointIndex, Coordinates $coordinates): static;
-
-    /**
-     * Return a new polygon with one replacement ring.
-     *
-     * The returned polygon preserves this instance's family, dimension, and
-     * Spatial Reference Identifier (SRID). The replacement coordinates must
-     * use this polygon's coordinate layout; ring closure is not checked.
-     *
-     * @param int                                                                                                        $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
-     */
-    public function withRing(int $ringIndex, array $coordinates): static;
 }
