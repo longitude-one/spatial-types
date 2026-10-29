@@ -102,8 +102,10 @@ Mutable `Point` classes are available directly under each dimension namespace.
 See [mutable points](instantiable-spatial-types.md#mutable-points) for constructors
 and in-place operations. Mutable `LineString` and `CircularString` classes are also available directly under
 each dimension namespace. See [mutable paths](instantiable-spatial-types.md#mutable-line-strings-and-circular-strings)
-for point ownership, propagation and arc indexing. Other mutable aggregates arrive
-in later Stories of Epic #38.
+for point ownership, propagation and arc indexing. Mutable `CompoundCurve` classes also retain mutable curves and their points by
+reference. See [mutable compound curves](instantiable-spatial-types.md#mutable-compound-curves)
+for component editing and recursive context propagation. Other mutable aggregates
+arrive in later Stories of Epic #38.
 Existing factories create the explicitly named immutable classes and expose
 immutable return contracts.
 

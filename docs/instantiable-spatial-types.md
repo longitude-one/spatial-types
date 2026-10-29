@@ -711,3 +711,69 @@ throws `OutOfBoundsException` otherwise. Arc helpers check only this sequence
 structure. They do not validate circle geometry, coordinate completeness or
 continuity, close the path, repair points, or enforce geometric minimum counts.
 Null ordinates, EMPTY points and incomplete point sequences remain representable.
+
+## Mutable compound curves
+
+`Types\Dimension2\CompoundCurve`, `Types\Dimension3z\CompoundCurve`,
+`Types\Dimension3m\CompoundCurve` and `Types\Dimension4zm\CompoundCurve`
+implement `MutableCompoundCurveInterface`. Their constructor is
+`__construct(array $curves = [], int|SpatialReference $srid = 0,
+SpatialModelEnum $family = SpatialModelEnum::GEOMETRY)`.
+
+Only `MutableLineStringInterface` and `MutableCircularStringInterface` components
+are accepted. Coordinate arrays, immutable curves and nested compound curves are
+rejected without conversion. Components retain their own declared layout,
+family and reference; compatibility and geometric continuity require explicit
+validation. Incomplete and empty component sequences remain representable.
+
+| Operation | Behavior |
+| --- | --- |
+| `addCurve($curve)` | Append a component |
+| `insertCurve($index, $curve)` | Insert before an index; the component count appends |
+| `setCurve($index, $curve)` | Replace an existing component |
+| `removeCurve($index)` | Remove an existing component and reindex |
+| `setCurves($curves)` | Replace the entire ordered sequence atomically |
+| `getCurve($index)` | Read an existing component |
+| `getCurves()`, `getElements()` | Return the ordered component instances |
+
+All indices are zero-based. Negative indices and missing components raise
+`OutOfBoundsException`; indexed access does not wrap. Invalid component arrays
+raise `InvalidValueException`, while incompatible typed mutation arguments raise
+PHP `TypeError`. Failures preserve membership and supplied components.
+Successful mutations return the receiver as `static` for chaining. No `with…`
+methods or dimension setter are exposed.
+
+```php
+use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Types\Dimension2\CircularString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\CompoundCurve;
+use LongitudeOne\SpatialTypes\Types\Dimension2\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Point;
+
+$point = new Point(0, null, 4326);
+$line = new LineString([$point], 4326);
+$arc = new CircularString([[10, 0], [11, 1], [12, 0]], 4326);
+$path = new CompoundCurve([$line], 4326);
+$other = new CompoundCurve([$line], 4326);
+$path->addCurve($arc)->insertCurve(1, $line)->removeCurve(1);
+
+assert($path->getCurve(0) === $line);
+$point->setY(2); // Both paths now expose the changed point.
+$path->setSrid(2154); // Updates both curves and all their points in place.
+assert($other->getCurve(0)->getSrid() === 2154);
+assert($other->getSrid() === 4326);
+$path->setFamily(SpatialModelEnum::GEOGRAPHY, false); // Only this compound changes.
+```
+
+Construction, insertion and replacement retain the supplied instances without
+cloning. Getters expose those instances; editing a component or its points is
+visible to every owner. Modifying the returned PHP membership array itself does
+not change the compound.
+
+`setSrid()`, `setSpatialReference()` and `setFamily()` accept a second boolean
+`$propagate` argument, defaulting to `true`. Propagation updates existing
+components and their points recursively, including instances shared by other
+owners. Passing `false` updates only the receiver. No context setter recalculates
+coordinates, changes the compound's spatial type or changes its layout.
+`toArray()` preserves component boundaries and their defining point tuples;
+circular components are never flattened or approximated.
