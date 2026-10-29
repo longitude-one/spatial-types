@@ -5,10 +5,10 @@ as immutable makes that reuse safe and makes a value's location explicit.
 
 ## Current contract
 
-Every currently available concrete spatial class has an `Immutable` suffix and
-is final and immutable through the public API. Former concrete names are removed,
+Concrete immutable spatial classes have an `Immutable` suffix and
+are final and immutable through the public API. Former concrete names are removed,
 without deprecated aliases. `Value\Coordinates` and `Reference\SpatialReference`
-remain immutable auxiliary values with their existing names. Its coordinates, spatial reference,
+remain immutable auxiliary values with their existing names. An immutable object's coordinates, spatial reference,
 and aggregate membership are set by its constructor, and it has no public
 setter or membership mutator. `getCoordinates()` returns an immutable
 `Value\Coordinates` value. `withCoordinates()` creates a distinct point with
@@ -98,9 +98,10 @@ returning `static`. These metadata operations must preserve ordinates. Neither
 variant has a dimension setter. Immutable concrete namespaces fix the family
 and dimension; `withSpatialReference()` and `withSrid()` preserve them.
 
-Concrete mutable classes and detailed type-specific editing methods arrive in
-the following Stories of Epic #38. They are not available in this change. Existing
-factories currently create the explicitly named immutable classes and expose
+Mutable `Point` classes are available directly under each dimension namespace.
+See [mutable points](instantiable-spatial-types.md#mutable-points) for constructors
+and in-place operations. Mutable aggregates arrive in later Stories of Epic #38.
+Existing factories create the explicitly named immutable classes and expose
 immutable return contracts.
 
 Immutable aggregate constructors and replacement paths accept only immutable
@@ -139,7 +140,7 @@ multi-line string would both change as an indirect side effect. A caller that
 only holds `$multiLine` could therefore observe a geometry change without any
 operation being made on it.
 
-Because points are immutable, that operation does not exist. Code that needs
+Because these points are immutable, that operation does not exist. Code that needs
 another location creates another point and explicitly builds the spatial value
 that should contain it. The represented value remains separate from functional validity checks.
 

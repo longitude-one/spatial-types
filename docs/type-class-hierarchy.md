@@ -6,8 +6,11 @@ one branch for each listed coordinate dimension and `{Geometry, Geography}` one
 concrete class for each spatial model.
 
 `AbstractSpatialTypeImmutable` extends the read-only `AbstractSpatialType` base.
-The following hierarchy contains only immutable implementation bases; future mutable
-classes do not inherit their copy operations.
+The following hierarchy contains immutable implementation bases. Mutable points
+extend `AbstractSpatialType` through `AbstractPoint`, with concrete
+`Dimension{2,3m,3z,4zm}\Point` classes. `PointBehaviorTrait` shares point reads,
+coordinate initialization and parsing between `AbstractPoint` and
+`AbstractPointImmutable`; mutable points do not inherit copy operations.
 
 ```text
 AbstractSpatialTypeImmutable
