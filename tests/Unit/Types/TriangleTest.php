@@ -20,8 +20,8 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\AbstractTriangle;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Triangle;
+use LongitudeOne\SpatialTypes\Types\AbstractTriangleImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\TriangleImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractTriangle
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractTriangleImmutable
  */
 class TriangleTest extends TestCase
 {
@@ -37,7 +37,7 @@ class TriangleTest extends TestCase
      * @param string                                        $class Concrete type
      * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
      *
-     * @phpstan-param class-string<AbstractTriangle> $class
+     * @phpstan-param class-string<AbstractTriangleImmutable> $class
      */
     #[DataProvider('triangles')]
     public function testConstructionAndCopies(string $class, array $ring): void
@@ -57,7 +57,7 @@ class TriangleTest extends TestCase
 
         $copies = [$triangle->withRing(-1, $ring), $triangle->withArrayOfCoordinates([$ring]), $triangle->withSrid(3857), $triangle->withSpatialReference(SpatialReference::epsg(4326))];
         foreach ($copies as $copy) {
-            static::assertSame($class, $copy::class);
+            static::assertSame($class, (new \ReflectionClass($copy))->getName());
             static::assertSame($triangle->getFamily(), $copy->getFamily());
             static::assertTrue($triangle->hasSameDimension($copy));
             static::assertSame([$ring], $copy->toArray());
@@ -77,7 +77,7 @@ class TriangleTest extends TestCase
      * @param string                                        $class Concrete type
      * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
      *
-     * @phpstan-param class-string<AbstractTriangle> $class
+     * @phpstan-param class-string<AbstractTriangleImmutable> $class
      */
     #[DataProvider('triangles')]
     public function testPointReplacementPreservesClosure(string $class, array $ring): void
@@ -92,7 +92,7 @@ class TriangleTest extends TestCase
         static::assertInstanceOf(Coordinates::class, $coordinates);
         foreach ([0, -1] as $index) {
             $copy = $triangle->withPoint(0, $index, $coordinates);
-            static::assertSame($class, $copy::class);
+            static::assertSame($class, (new \ReflectionClass($copy))->getName());
             static::assertSame([$replacementRing], $copy->toArray());
             static::assertSame([$ring], $triangle->toArray());
             static::assertSame(4326, $copy->getSrid());
@@ -105,7 +105,7 @@ class TriangleTest extends TestCase
      * @param string                                        $class Concrete type
      * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
      *
-     * @phpstan-param class-string<AbstractTriangle> $class
+     * @phpstan-param class-string<AbstractTriangleImmutable> $class
      */
     #[DataProvider('triangles')]
     public function testRejectsInvalidCoordinates(string $class, array $ring): void
@@ -115,23 +115,23 @@ class TriangleTest extends TestCase
         new $class([$ring]);
     }
 
-    /** @return iterable<string, array{class-string<AbstractTriangle>, list<array{0: int, 1: int, 2?: int, 3?: int}>}> */
+    /** @return iterable<string, array{class-string<AbstractTriangleImmutable>, list<array{0: int, 1: int, 2?: int, 3?: int}>}> */
     public static function triangles(): iterable
     {
-        yield 'Dimension2 Geometry' => [Triangle::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
+        yield 'Dimension2 Geometry' => [TriangleImmutable::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
 
-        yield 'Dimension2 Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Triangle::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
+        yield 'Dimension2 Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\TriangleImmutable::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
 
-        yield 'Dimension3m Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Triangle::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
+        yield 'Dimension3m Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\TriangleImmutable::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
 
-        yield 'Dimension3m Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Triangle::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
+        yield 'Dimension3m Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\TriangleImmutable::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
 
-        yield 'Dimension3z Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Triangle::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
+        yield 'Dimension3z Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\TriangleImmutable::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
 
-        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Triangle::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
+        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\TriangleImmutable::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
 
-        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Triangle::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
+        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\TriangleImmutable::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
 
-        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Triangle::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
+        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\TriangleImmutable::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
     }
 }

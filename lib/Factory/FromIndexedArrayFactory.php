@@ -19,9 +19,9 @@ namespace LongitudeOne\SpatialTypes\Factory;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /**
@@ -34,14 +34,14 @@ class FromIndexedArrayFactory
     /**
      * Create a line string from an indexed array.
      *
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface)[] $indexedArray indexed array
-     * @param int|SpatialReference                                                                                                   $srid         SRID
-     * @param SpatialModelEnum                                                                                                       $family       family
-     * @param CoordinateDimensionEnum                                                                                                $dimension    dimension
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface)[] $indexedArray indexed array
+     * @param int|SpatialReference                                                                                                            $srid         SRID
+     * @param SpatialModelEnum                                                                                                                $family       family
+     * @param CoordinateDimensionEnum                                                                                                         $dimension    dimension
      *
      * @throws SpatialTypeExceptionInterface when the point or line string cannot be created
      */
-    public static function createLineString(array $indexedArray, int|SpatialReference $srid = 0, SpatialModelEnum $family = SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum $dimension = CoordinateDimensionEnum::XY): LineStringInterface
+    public static function createLineString(array $indexedArray, int|SpatialReference $srid = 0, SpatialModelEnum $family = SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum $dimension = CoordinateDimensionEnum::XY): ImmutableLineStringInterface
     {
         return DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray($indexedArray, new SpatialContext($srid, $family, $dimension));
     }
@@ -56,7 +56,7 @@ class FromIndexedArrayFactory
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of the point
      */
-    public static function createPoint(array $coordinates, int|SpatialReference $srid = 0, SpatialModelEnum $family = SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum $dimensionEnum = CoordinateDimensionEnum::XY): PointInterface
+    public static function createPoint(array $coordinates, int|SpatialReference $srid = 0, SpatialModelEnum $family = SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum $dimensionEnum = CoordinateDimensionEnum::XY): ImmutablePointInterface
     {
         return DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray($coordinates, new SpatialContext($srid, $family, $dimensionEnum));
     }
@@ -64,14 +64,14 @@ class FromIndexedArrayFactory
     /**
      * Create a polygon from an indexed array of closed line strings.
      *
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|LineStringInterface)[] $indexedArray indexed array of rings
-     * @param int|SpatialReference                                                                                                          $srid         SRID
-     * @param SpatialModelEnum                                                                                                              $family       family
-     * @param CoordinateDimensionEnum                                                                                                       $dimension    dimension
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|ImmutableLineStringInterface)[] $indexedArray indexed array of rings
+     * @param int|SpatialReference                                                                                                                   $srid         SRID
+     * @param SpatialModelEnum                                                                                                                       $family       family
+     * @param CoordinateDimensionEnum                                                                                                                $dimension    dimension
      *
      * @throws SpatialTypeExceptionInterface when something goes wrong during the creation of a line string or the polygon
      */
-    public static function createPolygon(array $indexedArray, int|SpatialReference $srid = 0, SpatialModelEnum $family = SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum $dimension = CoordinateDimensionEnum::XY): PolygonInterface
+    public static function createPolygon(array $indexedArray, int|SpatialReference $srid = 0, SpatialModelEnum $family = SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum $dimension = CoordinateDimensionEnum::XY): ImmutablePolygonInterface
     {
         return DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray($indexedArray, new SpatialContext($srid, $family, $dimension));
     }

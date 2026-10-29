@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Issue\Issue1;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,8 +25,8 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollection
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable
  */
 class CollectionTest extends TestCase
 {
@@ -37,9 +37,9 @@ class CollectionTest extends TestCase
      */
     public function testCollectionCanContainAnotherCollection(): void
     {
-        $point = new Point(1, 2, 4326);
-        $nestedCollection = new GeometryCollection(4326, [$point]);
-        $collection = new GeometryCollection(4326, [$nestedCollection]);
+        $point = new PointImmutable(1, 2, 4326);
+        $nestedCollection = new GeometryCollectionImmutable(4326, [$point]);
+        $collection = new GeometryCollectionImmutable(4326, [$nestedCollection]);
 
         static::assertSame([$nestedCollection], $collection->getElements());
         static::assertSame([$point], $nestedCollection->getElements());

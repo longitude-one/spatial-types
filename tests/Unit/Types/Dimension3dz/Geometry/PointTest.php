@@ -20,23 +20,23 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable
  */
 class PointTest extends TestCase
 {
     /**
      * Point instance.
      */
-    private Point $point;
+    private PointImmutable $point;
 
     /**
      * Set up the point instance.
@@ -46,7 +46,7 @@ class PointTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->point = new Point(1, 2, 3);
+        $this->point = new PointImmutable(1, 2, 3);
     }
 
     /**
@@ -54,23 +54,23 @@ class PointTest extends TestCase
      */
     public function testEqualsTo(): void
     {
-        $point = new Point(1, 2, 3);
+        $point = new PointImmutable(1, 2, 3);
         static::assertTrue($this->point->equalsTo($point));
         static::assertTrue($point->equalsTo($this->point));
 
-        $point = new Point(1, 2, 3, 4326);
+        $point = new PointImmutable(1, 2, 3, 4326);
         static::assertFalse($this->point->equalsTo($point));
         static::assertFalse($point->equalsTo($this->point));
 
-        $this->point = new Point(1, 2, 3, 4326);
+        $this->point = new PointImmutable(1, 2, 3, 4326);
         static::assertTrue($this->point->equalsTo($point));
         static::assertTrue($point->equalsTo($this->point));
 
-        $point = new Point(3, 2, 3, 4326);
+        $point = new PointImmutable(3, 2, 3, 4326);
         static::assertFalse($this->point->equalsTo($point));
         static::assertFalse($point->equalsTo($this->point));
 
-        $point = new Point(1, 3, 3, 4326);
+        $point = new PointImmutable(1, 3, 3, 4326);
         static::assertFalse($this->point->equalsTo($point));
         static::assertFalse($point->equalsTo($this->point));
     }
@@ -105,7 +105,7 @@ class PointTest extends TestCase
     public function testGetM(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point::getM" cannot be called with a spatial object with dimensions "XYZ".');
+        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable::getM" cannot be called with a spatial object with dimensions "XYZ".');
         $this->point->getM();
     }
 
@@ -163,7 +163,7 @@ class PointTest extends TestCase
     public function testJsonSerialize(): void
     {
         static::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":0}', json_encode($this->point));
-        $this->point = new Point(1, 2, 3, 4326);
+        $this->point = new PointImmutable(1, 2, 3, 4326);
         static::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":4326}', json_encode($this->point));
     }
 
@@ -180,12 +180,12 @@ class PointTest extends TestCase
     public function testOutOfRange(string $longitude, string $latitude, string $expectedMessage): void
     {
         // No exception
-        new Point(181, 91, 0);
-        new Point('181', '91', 0);
+        new PointImmutable(181, 91, 0);
+        new PointImmutable('181', '91', 0);
 
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains($expectedMessage);
-        new Point($longitude, $latitude, 0);
+        new PointImmutable($longitude, $latitude, 0);
     }
 
     /**

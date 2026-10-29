@@ -29,8 +29,8 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
  * the type, spatial reference identifier (SRID), and coordinate-dimension
  * information required by the concrete spatial types.
  *
- * Operations prefixed with {@see with} return a new instance and never alter
- * the instance on which they are called.
+ * This common contract exposes read operations only. Copy operations belong
+ * to ImmutableSpatialInterface; mutation belongs to MutableSpatialInterface.
  */
 interface SpatialInterface extends \JsonSerializable
 {
@@ -98,22 +98,4 @@ interface SpatialInterface extends \JsonSerializable
      * @return (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]
      */
     public function toArray(): array;
-
-    /**
-     * Return a copy declared in another spatial reference without transforming
-     * its coordinates. Use a coordinate transformation service for reprojection.
-     *
-     * @param SpatialReference $reference Target spatial reference
-     */
-    public function withSpatialReference(SpatialReference $reference): static;
-
-    /**
-     * Return a new spatial object with the given Spatial Reference Identifier (SRID).
-     *
-     * Coordinates, family, and dimension are preserved. For aggregate spatial
-     * objects, every contained spatial object receives the requested SRID.
-     *
-     * @param int $srid Spatial Reference Identifier
-     */
-    public function withSrid(int $srid): static;
 }

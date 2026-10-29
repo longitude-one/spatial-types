@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Issue;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographyPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable as GeographyPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometryPoint;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
  */
 class PartiallyNullXYPointTest extends TestCase
 {

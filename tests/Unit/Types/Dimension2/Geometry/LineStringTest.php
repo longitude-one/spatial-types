@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,9 +26,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineString
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable
  */
 class LineStringTest extends TestCase
 {
@@ -37,13 +37,13 @@ class LineStringTest extends TestCase
      */
     public function testConstructorWithCartesianPoints(): void
     {
-        $lineString = new LineString([new Point(1, 2), new Point(3, 4)]);
+        $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
         static::assertCount(2, $lineString->getPoints());
         static::assertFalse($lineString->isClosed());
         static::assertTrue($lineString->isLine());
         static::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
 
-        $lineString = new LineString([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
+        $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4), new PointImmutable(1, 2)]);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isClosed());
         static::assertTrue($lineString->isLine());
@@ -55,13 +55,13 @@ class LineStringTest extends TestCase
      */
     public function testConstructorWithGeodesicPoints(): void
     {
-        $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326)], 4326);
+        $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
         static::assertCount(2, $lineString->getPoints());
         static::assertFalse($lineString->isClosed());
         static::assertTrue($lineString->isLine());
         static::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
 
-        $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326), new Point('40W', '40S', 4326)], 4326);
+        $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326), new PointImmutable('40W', '40S', 4326)], 4326);
         static::assertCount(3, $lineString->getPoints());
         static::assertTrue($lineString->isLine());
         static::assertTrue($lineString->isClosed());
@@ -73,7 +73,7 @@ class LineStringTest extends TestCase
      */
     public function testEmptyConstructor(): void
     {
-        $lineString = new LineString([]);
+        $lineString = new LineStringImmutable([]);
         static::assertEmpty($lineString->getPoints());
         static::assertFalse($lineString->isClosed());
         static::assertFalse($lineString->isLine());
@@ -86,7 +86,7 @@ class LineStringTest extends TestCase
      */
     public function testGetElements(): void
     {
-        $lineString = new LineString([new Point(1, 2, 4326), new Point(3, 4, 4326)], 4326);
+        $lineString = new LineStringImmutable([new PointImmutable(1, 2, 4326), new PointImmutable(3, 4, 4326)], 4326);
         static::assertSame($lineString->getElements(), $lineString->getPoints());
     }
 
@@ -95,7 +95,7 @@ class LineStringTest extends TestCase
      */
     public function testGetPoint(): void
     {
-        $lineString = new LineString([new Point(1, 2), new Point(3, 4)]);
+        $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
         static::assertCount(2, $lineString->getPoints());
         static::assertSame(1, $lineString->getPoint(0)->getX());
         static::assertSame(3, $lineString->getPoint(1)->getX());
@@ -110,7 +110,7 @@ class LineStringTest extends TestCase
 
         self::expectException(OutOfBoundsException::class);
         self::expectExceptionMessageIsOrContains('The current collection of points is empty.');
-        (new LineString([]))->getPoint(0);
+        (new LineStringImmutable([]))->getPoint(0);
     }
 
     /**
@@ -118,9 +118,9 @@ class LineStringTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        $lineString = new LineString([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326)], 4326);
+        $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
         static::assertSame('{"type":"LineString","coordinates":[[-40,-40],[-45,45]],"srid":4326}', json_encode($lineString));
-        $lineString = new LineString([new Point(1, 2), new Point(3, 4)]);
+        $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
         static::assertSame('{"type":"LineString","coordinates":[[1,2],[3,4]],"srid":0}', json_encode($lineString));
     }
 }

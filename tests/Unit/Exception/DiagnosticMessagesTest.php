@@ -19,7 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Exception;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +40,7 @@ class DiagnosticMessagesTest extends TestCase
     public function testCoordinate(string $value, string $expected): void
     {
         try {
-            new Point($value, 0);
+            new PointImmutable($value, 0);
             static::fail('An invalid coordinate must be rejected.');
         } catch (SpatialTypeExceptionInterface $exception) {
             static::assertSame('Invalid coordinate value, got "'.$expected.'".', $exception->getMessage());
@@ -88,7 +88,7 @@ class DiagnosticMessagesTest extends TestCase
     public function testRange(string $value, string $expected, bool $geographic): void
     {
         try {
-            $pointClass = $geographic ? \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point::class : Point::class;
+            $pointClass = $geographic ? \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable::class : PointImmutable::class;
             new $pointClass($value, 0);
             static::fail('An out-of-range coordinate must be rejected.');
         } catch (SpatialTypeExceptionInterface $exception) {

@@ -5,7 +5,10 @@ as immutable makes that reuse safe and makes a value's location explicit.
 
 ## Current contract
 
-Every spatial type is immutable through the public API. Its coordinates, spatial reference,
+Every currently available concrete spatial class has an `Immutable` suffix and
+is final and immutable through the public API. Former concrete names are removed,
+without deprecated aliases. `Value\Coordinates` and `Reference\SpatialReference`
+remain immutable auxiliary values with their existing names. Its coordinates, spatial reference,
 and aggregate membership are set by its constructor, and it has no public
 setter or membership mutator. `getCoordinates()` returns an immutable
 `Value\Coordinates` value. `withCoordinates()` creates a distinct point with
@@ -13,11 +16,11 @@ replacement coordinates, while `withSpatialReference()` creates a distinct point
 same coordinates and a different declared spatial reference.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
-$paris = new Point(2.3522, 48.8566, 4326);
+$paris = new PointImmutable(2.3522, 48.8566, 4326);
 $movedParis = $paris->withCoordinates(Coordinates::xy(2.3600, 48.8566));
 $parisInLambert93 = $paris->withSpatialReference(SpatialReference::epsg(2154));
 $parisInLambert93 = $parisInLambert93->withCoordinates(
@@ -30,16 +33,16 @@ point is part of an aggregate. `withSpatialReference()` only changes the
 declared reference; it never converts ordinates. The Lambert 93 values in the
 example must be calculated by an external coordinate transformer.
 
-`LineString`, `CircularString`, `MultiPoint`, and `Polygon` provide an equally immutable
+`LineStringImmutable`, `CircularStringImmutable`, `MultiPointImmutable`, and `PolygonImmutable` provide an equally immutable
 point-replacement operation. `withPoint()` returns a deep copy: the source
 aggregate, its rings, and its points remain unchanged.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable;
 
-$line = new LineString([[1, 2, 10], [3, 4, 20]], 2154);
-$multiPoint = new MultiPoint([[1, 2, 10], [3, 4, 20]], 2154);
+$line = new LineStringImmutable([[1, 2, 10], [3, 4, 20]], 2154);
+$multiPoint = new MultiPointImmutable([[1, 2, 10], [3, 4, 20]], 2154);
 $movedLine = $line->withPoint(1, Coordinates::xym(5, 6, 30));
 $movedMultiPoint = $multiPoint->withPoint(0, Coordinates::xym(5, 6, 30));
 ```
@@ -53,7 +56,7 @@ $movedExterior = $polygon->withPoint(0, 0, Coordinates::xym(5, 6, 30));
 $movedHole = $polygon->withPoint(1, -1, Coordinates::xym(7, 8, 40));
 ```
 
-`Polygon::withRing()` and `MultiLineString::withLineString()` replace a
+`PolygonImmutable::withRing()` and `MultiLineStringImmutable::withLineString()` replace a
 complete ring or line string from coordinate tuples. They also return deep
 copies and preserve the source aggregate's family, dimension, and SRID.
 
@@ -65,7 +68,7 @@ $updatedMultiLine = $multiLine->withLineString(1, [[5, 6], [7, 8]]);
 $movedMultiLinePoint = $multiLine->withPoint(1, 0, Coordinates::xy(5, 6));
 ```
 
-`MultiPolygon` follows the same rule at every nesting level:
+`MultiPolygonImmutable` follows the same rule at every nesting level:
 `withPoint()` selects a polygon, ring, and point; `withRing()` selects a
 polygon and ring; and `withPolygon()` selects a polygon. Every method returns a
 deep copy and preserves the family, dimension, and SRID.
@@ -78,8 +81,39 @@ $replacedMultiPolygon = $multiPolygon->withPolygon(0, [
 ]);
 ```
 
-`GeometryCollection` and `GeographyCollection` use `withElement()` to replace
-one indexed element. The replacement must implement `SpatialInterface`; unchanged elements are deeply copied.
+`GeometryCollectionImmutable` and `GeographyCollectionImmutable` use `withElement()` to replace
+one indexed element. The replacement must implement `ImmutableSpatialInterface`; unchanged elements are deeply copied.
+
+## Read, copy and mutation contracts
+
+| Contract | Operations |
+| --- | --- |
+| `SpatialInterface` and type interfaces such as `PointInterface` | Read coordinates, metadata and members |
+| `ImmutableSpatialInterface` and `Immutable<Type>Interface` | Read operations and the applicable `with…` operations |
+| `MutableSpatialInterface` and `Mutable<Type>Interface` | Read operations and mutation contracts; no `with…` operations |
+
+`MutableSpatialInterface` declares `setFamily(SpatialModelEnum $family)`,
+`setSpatialReference(SpatialReference $reference)` and `setSrid(int $srid)`, all
+returning `static`. These metadata operations must preserve ordinates. Neither
+variant has a dimension setter. Immutable concrete namespaces fix the family
+and dimension; `withSpatialReference()` and `withSrid()` preserve them.
+
+Concrete mutable classes and detailed type-specific editing methods arrive in
+the following Stories of Epic #38. They are not available in this change. Existing
+factories currently create the explicitly named immutable classes and expose
+immutable return contracts.
+
+Immutable aggregate constructors and replacement paths accept only immutable
+spatial components. Immutable component getters retain that contract: for example,
+`ImmutablePolygonInterface::getRing()` returns `ImmutableLineStringInterface`,
+and a ring's `getPoint()` returns `ImmutablePointInterface`.
+
+Coordinate arrays remain supported and create immutable descendants. Mutable
+objects, including mutable descendants inside a supplied custom aggregate, are
+rejected without conversion or modification of the source or supplied objects.
+Invalid array members raise `InvalidValueException`; incompatible typed
+arguments can raise PHP `TypeError`. This ownership check does not validate
+geometry, family, coordinate-dimension or reference compatibility.
 
 ## Why coordinates are immutable
 
@@ -87,16 +121,16 @@ Consider a point used by a line string, where that line string is then used by
 a multi-line string:
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 
-$point = new Point(2.3522, 48.8566, 4326);
-$line = new LineString([
+$point = new PointImmutable(2.3522, 48.8566, 4326);
+$line = new LineStringImmutable([
     $point,
-    new Point(2.3600, 48.8600, 4326),
+    new PointImmutable(2.3600, 48.8600, 4326),
 ], 4326);
-$multiLine = new MultiLineString([$line], 4326);
+$multiLine = new MultiLineStringImmutable([$line], 4326);
 ```
 
 `$point` is referenced by `$line`, and `$line` is referenced by `$multiLine`.
@@ -122,10 +156,10 @@ and factory concern because it depends on the point family. The value carries
 its dimension, so it cannot represent an `XY` point with a Z or M ordinate.
 
 ```php
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
-$paris = new Point(2.3522, 48.8566, 28, 12, 4326);
+$paris = new PointImmutable(2.3522, 48.8566, 28, 12, 4326);
 $higherParis = $paris->withCoordinates(
     Coordinates::xyzm(2.3522, 48.8566, 42, 12)
 );
@@ -137,26 +171,26 @@ ranges are not checked.
 
 ## Aggregate types
 
-The coordinate-replacement API applies to `Point`, `LineString`, `MultiPoint`,
-and `Polygon` (including `Triangle`). `LineString::withPoint()` and
-`MultiPoint::withPoint()` select a point; `Polygon::withPoint()` selects a ring then a point. All use the
+The coordinate-replacement API applies to `PointImmutable`, `LineStringImmutable`, `MultiPointImmutable`,
+and `PolygonImmutable` (including `TriangleImmutable`). `LineStringImmutable::withPoint()` and
+`MultiPointImmutable::withPoint()` select a point; `PolygonImmutable::withPoint()` selects a ring then a point. All use the
 immutable `Value\Coordinates` value, so a replacement must match the receiver's
 coordinate dimension.
 
-`Polygon::withRing()` selects a ring from coordinate tuples. `MultiLineString::withPoint()` selects a line string then a point,
-while `MultiLineString::withLineString()` selects one of its line strings.
+`PolygonImmutable::withRing()` selects a ring from coordinate tuples. `MultiLineStringImmutable::withPoint()` selects a line string then a point,
+while `MultiLineStringImmutable::withLineString()` selects one of its line strings.
 Both derive the expected coordinate layout from the receiver.
 
-`MultiPolygon::withPoint()` selects a polygon, ring, then point.
-`MultiPolygon::withRing()` selects a polygon then ring, while
-`MultiPolygon::withPolygon()` replaces an entire polygon. Each operation
-creates a deep copy of every polygon in the collection. `PolyhedralSurface`
+`MultiPolygonImmutable::withPoint()` selects a polygon, ring, then point.
+`MultiPolygonImmutable::withRing()` selects a polygon then ring, while
+`MultiPolygonImmutable::withPolygon()` replaces an entire polygon. Each operation
+creates a deep copy of every polygon in the collection. `PolyhedralSurfaceImmutable`
 uses patch indexes with `withPoint()`, `withRing()` and `withPatch()`. Its
 `withArrayOfCoordinates()` replaces all patches atomically, or returns an empty
 surface for `[]`. Indexed replacements on an empty surface are invalid.
 Neighbouring faces are never changed implicitly when editing a shared vertex.
 
-`GeometryCollection::withElement()` and `GeographyCollection::withElement()`
+`GeometryCollectionImmutable::withElement()` and `GeographyCollectionImmutable::withElement()`
 replace one element and deeply copy every unchanged element.
 
 Aggregate membership is fixed at construction. Their plural getters return PHP
@@ -173,7 +207,7 @@ validity checks. Reference replacements preserve defining coordinates and copy
 the contained points. Editing an endpoint does not automatically edit the
 other end of a closed circular string.
 
-Compound curves retain immutable ordered `CurveInterface` components with
+Compound curves retain immutable ordered `ImmutableCurveInterface` components with
 numeric or null coordinate tuples. Their `withSpatialReference()` and legacy
 `withSrid()` operations deeply copy components without checking continuity.
 Construct a new compound from replacement curves to change its path; modifying

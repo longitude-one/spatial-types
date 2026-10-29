@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurface;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PolyhedralSurface;
+use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurfaceImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PolyhedralSurfaceImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurface
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurfaceImmutable
  *
  * @phpstan-type Position array{int, int, int, 3?: int}
  * @phpstan-type Patches list<list<list<Position>>>
@@ -60,7 +60,7 @@ class PolyhedralSurfaceTest extends TestCase
     /**
      * @param string $class Surface class
      *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
+     * @phpstan-param class-string<AbstractPolyhedralSurfaceImmutable> $class
      */
     #[DataProvider('surfaces')]
     public function testEmptySurface(string $class): void
@@ -73,7 +73,7 @@ class PolyhedralSurfaceTest extends TestCase
         static::assertSame([], $surface->toArray());
         static::assertSame(['type' => 'PolyhedralSurface', 'coordinates' => [], 'srid' => 0], $surface->jsonSerialize());
         $copy = $surface->withSpatialReference(SpatialReference::epsg(4326));
-        static::assertSame($class, $copy::class);
+        static::assertSame($class, (new \ReflectionClass($copy))->getName());
         static::assertTrue($copy->isEmpty());
         static::assertSame(4326, $copy->getSrid());
         static::assertSame(0, $surface->getSrid());
@@ -85,7 +85,7 @@ class PolyhedralSurfaceTest extends TestCase
     /**
      * @param string $class Surface class
      *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
+     * @phpstan-param class-string<AbstractPolyhedralSurfaceImmutable> $class
      */
     #[DataProvider('surfaces')]
     public function testEmptySurfaceCannotReplacePatch(string $class): void
@@ -98,7 +98,7 @@ class PolyhedralSurfaceTest extends TestCase
     /**
      * @param string $class Surface class
      *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
+     * @phpstan-param class-string<AbstractPolyhedralSurfaceImmutable> $class
      */
     #[DataProvider('surfaces')]
     public function testOpenSurfaceAndIndependentCopies(string $class): void
@@ -120,7 +120,7 @@ class PolyhedralSurfaceTest extends TestCase
             $surface->withSpatialReference(SpatialReference::epsg(4326)),
         ];
         foreach ($copies as $copy) {
-            static::assertSame($class, $copy::class);
+            static::assertSame($class, (new \ReflectionClass($copy))->getName());
             static::assertSame($surface->getFamily(), $copy->getFamily());
             static::assertTrue($surface->hasSameDimension($copy));
             static::assertSame($coordinates, $copy->toArray());
@@ -141,7 +141,7 @@ class PolyhedralSurfaceTest extends TestCase
     /**
      * @param string $class Surface class
      *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
+     * @phpstan-param class-string<AbstractPolyhedralSurfaceImmutable> $class
      */
     #[DataProvider('surfaces')]
     public function testPointReplacementAndSinglePatch(string $class): void
@@ -150,7 +150,7 @@ class PolyhedralSurfaceTest extends TestCase
         $surface = new $class([$coordinates[0]], 4326);
         $point = $surface->hasM() ? Coordinates::xyzm(-1, 0, 0, 7) : Coordinates::xyz(-1, 0, 0);
         $copy = $surface->withPoint(0, -1, 0, $point);
-        static::assertSame($class, $copy::class);
+        static::assertSame($class, (new \ReflectionClass($copy))->getName());
         static::assertSame([$coordinates[0]], $surface->toArray());
         static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(0)->getX());
         static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(-1)->getX());
@@ -160,7 +160,7 @@ class PolyhedralSurfaceTest extends TestCase
     /**
      * @param string $class Surface class
      *
-     * @phpstan-param class-string<AbstractPolyhedralSurface> $class
+     * @phpstan-param class-string<AbstractPolyhedralSurfaceImmutable> $class
      */
     #[DataProvider('surfaces')]
     public function testReplacementsPreserveReferenceAuthority(string $class): void
@@ -176,15 +176,15 @@ class PolyhedralSurfaceTest extends TestCase
         }
     }
 
-    /** @return iterable<string, array{class-string<AbstractPolyhedralSurface>}> */
+    /** @return iterable<string, array{class-string<AbstractPolyhedralSurfaceImmutable>}> */
     public static function surfaces(): iterable
     {
-        yield 'Dimension3z Geometry' => [PolyhedralSurface::class];
+        yield 'Dimension3z Geometry' => [PolyhedralSurfaceImmutable::class];
 
-        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolyhedralSurface::class];
+        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolyhedralSurfaceImmutable::class];
 
-        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolyhedralSurface::class];
+        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolyhedralSurfaceImmutable::class];
 
-        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurface::class];
+        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurfaceImmutable::class];
     }
 }

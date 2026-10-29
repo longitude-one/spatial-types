@@ -22,9 +22,9 @@ use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\CompoundCurveInterface;
 use LongitudeOne\SpatialTypes\Interfaces\CurveInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CircularString;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurve;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CircularStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,9 +39,9 @@ class CompoundCurveTest extends TestCase
     /** Empty compounds and component curves expose the common empty contract. */
     public function testEmptyCurves(): void
     {
-        $compound = new CompoundCurve([], 4326);
-        $line = new LineString([], 4326);
-        $circular = new CircularString([], 4326);
+        $compound = new CompoundCurveImmutable([], 4326);
+        $line = new LineStringImmutable([], 4326);
+        $circular = new CircularStringImmutable([], 4326);
 
         static::assertTrue($compound->isEmpty());
         static::assertNull($compound->getStartPoint());
@@ -63,9 +63,9 @@ class CompoundCurveTest extends TestCase
     /** Mixed interpolation, order and closure survive through public contracts. */
     public function testMixedClosedCurve(): void
     {
-        $circular = new CircularString([[0, 0, 6], [1, 1, 7], [2, 0, 8]], 4326);
-        $line = new LineString([[2, 0, 8], [0, 0, 6]], 4326);
-        $compound = new CompoundCurve([$circular, $line], 4326);
+        $circular = new CircularStringImmutable([[0, 0, 6], [1, 1, 7], [2, 0, 8]], 4326);
+        $line = new LineStringImmutable([[2, 0, 8], [0, 0, 6]], 4326);
+        $compound = new CompoundCurveImmutable([$circular, $line], 4326);
 
         static::assertContains(CompoundCurveInterface::class, class_implements($compound));
         static::assertContains(CurveInterface::class, class_implements($compound));
@@ -91,13 +91,13 @@ class CompoundCurveTest extends TestCase
     /** Reference changes deeply copy components and preserve defining ordinates. */
     public function testReferenceReplacement(): void
     {
-        $compound = new CompoundCurve([
-            new CircularString([[0, 0, 6], [1, 1, 7], [2, 0, 8]], SpatialReference::epsg(4326)),
-            new LineString([[2, 0, 8], [0, 0, 6]], SpatialReference::epsg(4326)),
+        $compound = new CompoundCurveImmutable([
+            new CircularStringImmutable([[0, 0, 6], [1, 1, 7], [2, 0, 8]], SpatialReference::epsg(4326)),
+            new LineStringImmutable([[2, 0, 8], [0, 0, 6]], SpatialReference::epsg(4326)),
         ], SpatialReference::epsg(4326));
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
 
-        static::assertSame(CompoundCurve::class, $copy::class);
+        static::assertSame(CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
         static::assertSame(4326, $compound->getSrid());
         static::assertSame(4326, $compound->getCurve(0)->getSrid());
         static::assertSame(3857, $copy->getSrid());
@@ -108,8 +108,8 @@ class CompoundCurveTest extends TestCase
         static::assertNotSame($compound->getStartPoint(), $copy->getStartPoint());
         static::assertSame([[[0, 0, 6], [1, 1, 7], [2, 0, 8]], [[2, 0, 8], [0, 0, 6]]], $compound->toArray());
         static::assertSame([[[0, 0, 6], [1, 1, 7], [2, 0, 8]], [[2, 0, 8], [0, 0, 6]]], $copy->toArray());
-        static::assertInstanceOf(CircularString::class, $copy->getCurve(0));
-        static::assertInstanceOf(LineString::class, $copy->getCurve(1));
+        static::assertInstanceOf(CircularStringImmutable::class, $copy->getCurve(0));
+        static::assertInstanceOf(LineStringImmutable::class, $copy->getCurve(1));
         static::assertTrue($copy->isClosed());
     }
 }

@@ -16,23 +16,23 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable
  */
 class MultiPolygonWithReplacementTest extends TestCase
 {
     /**
      * Create a valid two-dimensional multi-polygon with an exterior ring and a contained hole.
      */
-    private static function createMultiPolygon(): MultiPolygon
+    private static function createMultiPolygon(): MultiPolygonImmutable
     {
-        return new MultiPolygon([
+        return new MultiPolygonImmutable([
             [
                 [[0, 0], [10, 0], [0, 10], [0, 0]],
                 [[1, 1], [2, 1], [1, 2], [1, 1]],
@@ -52,7 +52,7 @@ class MultiPolygonWithReplacementTest extends TestCase
         $replacement = $multiPolygon->withPoint(0, 0, 0, Coordinates::xy(-1, -1));
 
         static::assertNotSame($multiPolygon, $replacement);
-        static::assertSame($multiPolygon::class, $replacement::class);
+        static::assertSame($multiPolygon::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
         static::assertSame([[[[-1, -1], [10, 0], [0, 10], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $replacement->toArray());

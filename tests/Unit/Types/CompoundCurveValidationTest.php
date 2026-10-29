@@ -21,12 +21,12 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Interfaces\CurveInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableCurveInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurve;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurveImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,31 +41,31 @@ class CompoundCurveValidationTest extends TestCase
     /** Multiple arcs preserve their separate circular-string components. */
     public function testCircularComponents(): void
     {
-        $compound = new CompoundCurve([
-            new CircularString([[0, 0], [1, 1], [2, 0]]),
-            new CircularString([[2, 0], [3, -1], [4, 0]]),
+        $compound = new CompoundCurveImmutable([
+            new CircularStringImmutable([[0, 0], [1, 1], [2, 0]]),
+            new CircularStringImmutable([[2, 0], [3, -1], [4, 0]]),
         ]);
 
         static::assertFalse($compound->isClosed());
-        static::assertInstanceOf(CircularString::class, $compound->getCurve(0));
-        static::assertInstanceOf(CircularString::class, $compound->getCurve(1));
+        static::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(0));
+        static::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(1));
         static::assertSame([[[0, 0], [1, 1], [2, 0]], [[2, 0], [3, -1], [4, 0]]], $compound->toArray());
     }
 
     /** A closed line exposes the same endpoints as its point accessors. */
     public function testClosedLineEndpoints(): void
     {
-        $line = new LineString([[0, 0], [1, 1], [0, 0]]);
+        $line = new LineStringImmutable([[0, 0], [1, 1], [0, 0]]);
 
         static::assertTrue($line->isClosed());
         static::assertSame($line->getPoint(0), $line->getStartPoint());
         static::assertSame($line->getPoint(-1), $line->getEndPoint());
     }
 
-    /** Components need only the common curve contract, not concrete interfaces. */
+    /** Components need only the immutable curve contract, not concrete interfaces. */
     public function testCommonCurveImplementation(): void
     {
-        $component = static::createStub(CurveInterface::class);
+        $component = static::createStub(ImmutableCurveInterface::class);
         $component->method('getType')->willReturn(GeometryTypeEnum::LINESTRING);
         $component->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $component->method('hasZ')->willReturn(false);
@@ -73,10 +73,10 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('getFamily')->willReturn(SpatialModelEnum::GEOMETRY);
         $component->method('getSpatialReference')->willReturn(SpatialReference::fromSrid(0));
         $component->method('isEmpty')->willReturn(false);
-        $component->method('getStartPoint')->willReturn(new Point(0, 0));
-        $component->method('getEndPoint')->willReturn(new Point(1, 1));
+        $component->method('getStartPoint')->willReturn(new PointImmutable(0, 0));
+        $component->method('getEndPoint')->willReturn(new PointImmutable(1, 1));
         $component->method('toArray')->willReturn([[0, 0], [1, 1]]);
-        $compound = new CompoundCurve([$component]);
+        $compound = new CompoundCurveImmutable([$component]);
 
         static::assertSame($component, $compound->getCurve(0));
         static::assertSame([[[0, 0], [1, 1]]], $compound->toArray());
@@ -86,23 +86,23 @@ class CompoundCurveValidationTest extends TestCase
     /** Booleans are not normalized into numeric component ordinates. */
     public function testComponentRejectsBooleanOrdinate(): void
     {
-        $component = static::createStub(CurveInterface::class);
+        $component = static::createStub(ImmutableCurveInterface::class);
         $component->method('toArray')->willReturn([[0, false]]);
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
 
-        new CompoundCurve([$component]);
+        new CompoundCurveImmutable([$component]);
     }
 
     /** Strings remain invalid component ordinates when null is accepted. */
     public function testComponentRejectsNumericStringOrdinate(): void
     {
-        $component = static::createStub(CurveInterface::class);
+        $component = static::createStub(ImmutableCurveInterface::class);
         $component->method('toArray')->willReturn([[0, '2']]);
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
 
-        new CompoundCurve([$component]);
+        new CompoundCurveImmutable([$component]);
     }
 
     /** Indexed access follows the existing empty-aggregate exception contract. */
@@ -110,13 +110,13 @@ class CompoundCurveValidationTest extends TestCase
     {
         $this->expectException(OutOfBoundsException::class);
 
-        (new CompoundCurve())->getCurve(0);
+        (new CompoundCurveImmutable())->getCurve(0);
     }
 
     /** Nested component coordinates cannot masquerade as point ordinates. */
     public function testInvalidComponentOrdinate(): void
     {
-        $component = static::createStub(CurveInterface::class);
+        $component = static::createStub(ImmutableCurveInterface::class);
         $component->method('getType')->willReturn(GeometryTypeEnum::LINESTRING);
         $component->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $component->method('hasZ')->willReturn(false);
@@ -124,18 +124,18 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('getFamily')->willReturn(SpatialModelEnum::GEOMETRY);
         $component->method('getSpatialReference')->willReturn(SpatialReference::fromSrid(0));
         $component->method('isEmpty')->willReturn(false);
-        $component->method('getStartPoint')->willReturn(new Point(0, 0));
-        $component->method('getEndPoint')->willReturn(new Point(1, 1));
+        $component->method('getStartPoint')->willReturn(new PointImmutable(0, 0));
+        $component->method('getEndPoint')->willReturn(new PointImmutable(1, 1));
         $component->method('toArray')->willReturn([[[0, 0]], [[1, 1]]]);
         $this->expectException(InvalidValueException::class);
 
-        new CompoundCurve([$component]);
+        new CompoundCurveImmutable([$component]);
     }
 
     /** A component violating its tuple representation is rejected on construction. */
     public function testInvalidComponentTuple(): void
     {
-        $component = static::createStub(CurveInterface::class);
+        $component = static::createStub(ImmutableCurveInterface::class);
         $component->method('getType')->willReturn(GeometryTypeEnum::LINESTRING);
         $component->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $component->method('hasZ')->willReturn(false);
@@ -143,18 +143,18 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('getFamily')->willReturn(SpatialModelEnum::GEOMETRY);
         $component->method('getSpatialReference')->willReturn(SpatialReference::fromSrid(0));
         $component->method('isEmpty')->willReturn(false);
-        $component->method('getStartPoint')->willReturn(new Point(0, 0));
-        $component->method('getEndPoint')->willReturn(new Point(1, 1));
+        $component->method('getStartPoint')->willReturn(new PointImmutable(0, 0));
+        $component->method('getEndPoint')->willReturn(new PointImmutable(1, 1));
         $component->method('toArray')->willReturn([0, 1]);
         $this->expectException(InvalidValueException::class);
 
-        new CompoundCurve([$component]);
+        new CompoundCurveImmutable([$component]);
     }
 
     /** Legacy reference changes copy both component endpoints. */
     public function testLegacyReferenceReplacement(): void
     {
-        $compound = new CompoundCurve([new LineString([[0, 0], [1, 1]])]);
+        $compound = new CompoundCurveImmutable([new LineStringImmutable([[0, 0], [1, 1]])]);
         $copy = $compound->withSrid(4326);
 
         static::assertSame(0, $compound->getSrid());
@@ -172,9 +172,9 @@ class CompoundCurveValidationTest extends TestCase
     /** An ordered sequence of line strings is an open compound curve. */
     public function testLinearComponents(): void
     {
-        $compound = new CompoundCurve([
-            new LineString([[0, 0], [1, 1]]),
-            new LineString([[1, 1], [2, 0]]),
+        $compound = new CompoundCurveImmutable([
+            new LineStringImmutable([[0, 0], [1, 1]]),
+            new LineStringImmutable([[1, 1], [2, 0]]),
         ]);
 
         static::assertFalse($compound->isClosed());
@@ -188,7 +188,7 @@ class CompoundCurveValidationTest extends TestCase
     {
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(CompoundCurve::class))->newInstance([new Point(0, 0)]);
+        (new \ReflectionClass(CompoundCurveImmutable::class))->newInstance([new PointImmutable(0, 0)]);
     }
 
     /** Coordinate tuples do not implicitly select a component interpolation. */
@@ -196,16 +196,16 @@ class CompoundCurveValidationTest extends TestCase
     {
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(CompoundCurve::class))->newInstance([[[0, 0], [1, 1]]]);
+        (new \ReflectionClass(CompoundCurveImmutable::class))->newInstance([[[0, 0], [1, 1]]]);
     }
 
     /** Returned membership arrays cannot mutate the compound curve. */
     public function testReturnedArrayIsIndependent(): void
     {
-        $line = new LineString([[0, 0], [1, 1]]);
-        $compound = new CompoundCurve([$line]);
+        $line = new LineStringImmutable([[0, 0], [1, 1]]);
+        $compound = new CompoundCurveImmutable([$line]);
         $curves = $compound->getCurves();
-        $curves[] = new LineString([[1, 1], [2, 2]]);
+        $curves[] = new LineStringImmutable([[1, 1], [2, 2]]);
 
         static::assertCount(2, $curves);
         static::assertSame([$line], $compound->getCurves());
@@ -214,8 +214,8 @@ class CompoundCurveValidationTest extends TestCase
     /** A complete circle forms a closed single-component compound. */
     public function testSingleClosedComponent(): void
     {
-        $circle = new CircularString([[1, 0], [-1, 0], [1, 0]]);
-        $compound = new CompoundCurve([$circle]);
+        $circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]]);
+        $compound = new CompoundCurveImmutable([$circle]);
 
         static::assertTrue($circle->isClosed());
         static::assertTrue($compound->isClosed());

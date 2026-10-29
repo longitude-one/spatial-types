@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-use LongitudeOne\SpatialTypes\Value\Coordinates;
-
 /**
  * Defining points of a circularly interpolated curve.
  *
@@ -61,27 +59,4 @@ interface CircularStringInterface extends CurveInterface
      * @return (null|float|int)[][]
      */
     public function toArray(): array;
-
-    /**
-     * Return a new circular string with replacement coordinates.
-     *
-     * The returned circular string preserves this instance's family, dimension,
-     * and Spatial Reference Identifier (SRID). Each tuple must therefore match
-     * this instance's coordinate layout: XY, XYM, XYZ, or XYZM.
-     *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
-     */
-    public function withArrayOfCoordinates(array $coordinates): static;
-
-    /**
-     * Return a new circular string with one replacement point.
-     *
-     * The returned circular string preserves this instance's family, dimension,
-     * and Spatial Reference Identifier (SRID). The coordinate dimension must
-     * match the point selected by the index.
-     *
-     * @param int         $pointIndex  index of the point to replace; negative indexes count from the end
-     * @param Coordinates $coordinates replacement point coordinates
-     */
-    public function withPoint(int $pointIndex, Coordinates $coordinates): static;
 }

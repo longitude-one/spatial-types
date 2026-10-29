@@ -27,8 +27,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineString
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
  */
 class SpatialWithArrayOfCoordinatesTest extends TestCase
 {
@@ -51,7 +51,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         CoordinateDimensionEnum $dimension
     ): void {
         static::assertNotSame($lineString, $replacement);
-        static::assertSame($lineString::class, $replacement::class);
+        static::assertSame($lineString::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame($family, $replacement->getFamily());
         static::assertSame(4326, $replacement->getSrid());
         static::assertSame($dimension->hasM(), $replacement->hasM());
@@ -113,7 +113,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         $replacement = $polygon->withArrayOfCoordinates([$replacementCoordinates]);
 
         static::assertNotSame($polygon, $replacement);
-        static::assertSame($polygon::class, $replacement::class);
+        static::assertSame($polygon::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame($family, $replacement->getFamily());
         static::assertSame(4326, $replacement->getSrid());
         static::assertSame([$initialCoordinates], $polygon->toArray());
@@ -150,13 +150,13 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         $polygonClone = $polygon->withArrayOfCoordinates([[[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]]);
 
         static::assertNotSame($lineString, $lineStringClone);
-        static::assertSame($lineString::class, $lineStringClone::class);
+        static::assertSame($lineString::class, (new \ReflectionClass($lineStringClone))->getName());
         static::assertSame(2154, $lineStringClone->getSrid());
         static::assertNotSame($lineString->getPoint(0), $lineStringClone->getPoint(0));
         static::assertSame([[1, 2, 3], [4, 5, 6]], $lineString->toArray());
 
         static::assertNotSame($polygon, $polygonClone);
-        static::assertSame($polygon::class, $polygonClone::class);
+        static::assertSame($polygon::class, (new \ReflectionClass($polygonClone))->getName());
         static::assertSame(2154, $polygonClone->getSrid());
         static::assertNotSame($polygon->getRing(0), $polygonClone->getRing(0));
         static::assertNotSame($polygon->getRing(0)->getPoint(0), $polygonClone->getRing(0)->getPoint(0));

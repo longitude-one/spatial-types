@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Issue;
 
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
@@ -34,11 +34,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension2 Geography. */
     public function testDimension2GeographyPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point(1, 2, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable(1, 2, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2], [], [1, 2], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -59,11 +59,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension2 Geometry. */
     public function testDimension2GeometryPreservesEmptyMembers(): void
     {
-        $empty = new Point(srid: 4326);
-        $point = new Point(1, 2, srid: 4326);
-        $multiPoint = new MultiPoint([$empty, $point, new Point(srid: 4326), $point, $empty], 4326);
-        $single = new MultiPoint([$empty], 4326);
-        $zero = new MultiPoint([], 4326);
+        $empty = new PointImmutable(srid: 4326);
+        $point = new PointImmutable(1, 2, srid: 4326);
+        $multiPoint = new MultiPointImmutable([$empty, $point, new PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new MultiPointImmutable([$empty], 4326);
+        $zero = new MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2], [], [1, 2], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -84,11 +84,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension3m Geography. */
     public function testDimension3mGeographyPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point(1, 2, 4, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable(1, 2, 4, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2, 4], [], [1, 2, 4], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -109,11 +109,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension3m Geometry. */
     public function testDimension3mGeometryPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point(1, 2, 4, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable(1, 2, 4, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2, 4], [], [1, 2, 4], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -134,11 +134,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension3z Geography. */
     public function testDimension3zGeographyPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point(1, 2, 3, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable(1, 2, 3, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2, 3], [], [1, 2, 3], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -159,11 +159,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension3z Geometry. */
     public function testDimension3zGeometryPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point(1, 2, 3, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(1, 2, 3, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2, 3], [], [1, 2, 3], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -184,11 +184,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension4zm Geography. */
     public function testDimension4zmGeographyPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point(1, 2, 3, 4, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable(1, 2, 3, 4, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2, 3, 4], [], [1, 2, 3, 4], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -209,11 +209,11 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Preserve empty members in Dimension4zm Geometry. */
     public function testDimension4zmGeometryPreservesEmptyMembers(): void
     {
-        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point(srid: 4326);
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point(1, 2, 3, 4, srid: 4326);
-        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPoint([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point(srid: 4326), $point, $empty], 4326);
-        $single = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPoint([$empty], 4326);
-        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPoint([], 4326);
+        $empty = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable(srid: 4326);
+        $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable(1, 2, 3, 4, srid: 4326);
+        $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable([$empty, $point, new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable(srid: 4326), $point, $empty], 4326);
+        $single = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable([$empty], 4326);
+        $zero = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable([], 4326);
 
         static::assertSame([[], [1, 2, 3, 4], [], [1, 2, 3, 4], []], $multiPoint->toArray());
         static::assertCount(5, $multiPoint->getElements());
@@ -234,7 +234,7 @@ class EmptyMultiPointMembersTest extends TestCase
     /** Immutable copies preserve empty members and the original. */
     public function testImmutableCopiesPreserveEmptyMembers(): void
     {
-        $original = new MultiPoint([new Point(srid: 4326), new Point(1, 2, 4326), new Point(srid: 4326)], 4326);
+        $original = new MultiPointImmutable([new PointImmutable(srid: 4326), new PointImmutable(1, 2, 4326), new PointImmutable(srid: 4326)], 4326);
         $reference = SpatialReference::epsg(2154);
         $declared = $original->withSpatialReference($reference);
         $renumbered = $original->withSrid(2154);
@@ -256,10 +256,10 @@ class EmptyMultiPointMembersTest extends TestCase
     /** The library JSON export retains member positions. */
     public function testJsonSerializationPreservesEmptyMembers(): void
     {
-        $multiPoint = new MultiPoint([new Point(srid: 4326), new Point(1, 2, 4326), new Point(srid: 4326)], 4326);
+        $multiPoint = new MultiPointImmutable([new PointImmutable(srid: 4326), new PointImmutable(1, 2, 4326), new PointImmutable(srid: 4326)], 4326);
 
         static::assertSame('{"type":"MultiPoint","coordinates":[[],[1,2],[]],"srid":4326}', json_encode($multiPoint));
-        static::assertSame('{"type":"MultiPoint","coordinates":[[]],"srid":0}', json_encode(new MultiPoint([new Point()])));
-        static::assertSame('{"type":"MultiPoint","coordinates":[],"srid":0}', json_encode(new MultiPoint([])));
+        static::assertSame('{"type":"MultiPoint","coordinates":[[]],"srid":0}', json_encode(new MultiPointImmutable([new PointImmutable()])));
+        static::assertSame('{"type":"MultiPoint","coordinates":[],"srid":0}', json_encode(new MultiPointImmutable([])));
     }
 }

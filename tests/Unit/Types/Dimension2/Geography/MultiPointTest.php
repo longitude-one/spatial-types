@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,9 +25,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPoint
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable
  */
 class MultiPointTest extends TestCase
 {
@@ -36,13 +36,13 @@ class MultiPointTest extends TestCase
      */
     public function testConstructorWithCartesianPoints(): void
     {
-        $multiPoint = new MultiPoint([new Point(1, 2), new Point(3, 4)]);
+        $multiPoint = new MultiPointImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
         static::assertCount(2, $multiPoint->getPoints());
         static::assertTrue($multiPoint->isSimple());
         static::assertFalse($multiPoint->isEmpty());
         static::assertEquals([[1, 2], [3, 4]], $multiPoint->toArray());
 
-        $multiPoint = new MultiPoint([new Point(1, 2), new Point(3, 4), new Point(1, 2)]);
+        $multiPoint = new MultiPointImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4), new PointImmutable(1, 2)]);
         static::assertCount(3, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isSimple());
         static::assertEquals([[1, 2], [3, 4], [1, 2]], $multiPoint->toArray());
@@ -53,13 +53,13 @@ class MultiPointTest extends TestCase
      */
     public function testConstructorWithGeodesicPoints(): void
     {
-        $multiPoint = new MultiPoint([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326)], 4326);
+        $multiPoint = new MultiPointImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
         static::assertCount(2, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isEmpty());
         static::assertTrue($multiPoint->isSimple());
         static::assertEquals([[-40, -40], [-45, 45]], $multiPoint->toArray());
 
-        $multiPoint = new MultiPoint([new Point('40W', '40S', 4326), new Point('45W', '45N', 4326), new Point('40W', '40S', 4326)], 4326);
+        $multiPoint = new MultiPointImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326), new PointImmutable('40W', '40S', 4326)], 4326);
         static::assertCount(3, $multiPoint->getPoints());
         static::assertFalse($multiPoint->isSimple());
         static::assertFalse($multiPoint->isEmpty());
@@ -71,7 +71,7 @@ class MultiPointTest extends TestCase
      */
     public function testEmptyConstructor(): void
     {
-        $multiPoint = new MultiPoint([]);
+        $multiPoint = new MultiPointImmutable([]);
         static::assertEmpty($multiPoint->getPoints());
         static::assertTrue($multiPoint->isEmpty());
         static::assertTrue($multiPoint->isSimple());

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Collection;
 
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 
 /**
  * Collection of line strings used by multi-line strings.
@@ -26,11 +26,11 @@ use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
  */
 final class LineStringCollection
 {
-    /** @var LineStringInterface[] */
+    /** @var ImmutableLineStringInterface[] */
     private array $lineStrings = [];
 
     /**
-     * @param LineStringInterface[] $lineStrings Line strings in this collection
+     * @param ImmutableLineStringInterface[] $lineStrings Line strings in this collection
      */
     public function __construct(array $lineStrings = [])
     {
@@ -42,14 +42,14 @@ final class LineStringCollection
     /**
      * Add a line string.
      *
-     * @param LineStringInterface $lineString Line string to add
+     * @param ImmutableLineStringInterface $lineString Line string to add
      */
-    public function add(LineStringInterface $lineString): void
+    public function add(ImmutableLineStringInterface $lineString): void
     {
         $this->lineStrings[] = $lineString;
     }
 
-    /** @return LineStringInterface[] */
+    /** @return ImmutableLineStringInterface[] */
     public function all(): array
     {
         return $this->lineStrings;
@@ -60,7 +60,7 @@ final class LineStringCollection
      *
      * @param int $index Requested index
      */
-    public function at(int $index): LineStringInterface
+    public function at(int $index): ImmutableLineStringInterface
     {
         if ([] === $this->lineStrings) {
             throw new OutOfBoundsException('The current collection of line strings is empty.');
@@ -84,7 +84,7 @@ final class LineStringCollection
     }
 
     /**
-     * @param LineStringInterface[] $lineStrings Replacement line strings
+     * @param ImmutableLineStringInterface[] $lineStrings Replacement line strings
      */
     public function replace(array $lineStrings): void
     {

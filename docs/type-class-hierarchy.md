@@ -5,44 +5,48 @@ file layout. `{Dimension2, Dimension3m, Dimension3z, Dimension4zm}` represents
 one branch for each listed coordinate dimension and `{Geometry, Geography}` one
 concrete class for each spatial model.
 
+`AbstractSpatialTypeImmutable` extends the read-only `AbstractSpatialType` base.
+The following hierarchy contains only immutable implementation bases; future mutable
+classes do not inherit their copy operations.
+
 ```text
-AbstractSpatialType
-├── AbstractCompoundCurve
-│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CompoundCurve
-├── AbstractCircularString
-│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CircularString
-├── AbstractPoint
-│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Point
-├── AbstractPolygon
-│   ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Polygon
-│   └── AbstractTriangle
-│       └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\Triangle
-├── AbstractPolyhedralSurface
-│   └── Dimension{3z,4zm}\{Geometry,Geography}\PolyhedralSurface
-├── AbstractMultiPolygon
-│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygon
-├── AbstractCollection
-│   ├── Dimension2\AbstractCollection
-│   │   ├── Dimension2\Geometry\GeometryCollection
-│   │   └── Dimension2\Geography\GeographyCollection
-│   └── Dimension{3m,3z,4zm}\{Geometry\GeometryCollection,Geography\GeographyCollection}
-├── Collection\AbstractPointCollection
-│   ├── AbstractLineString
-│   │   └── Dimension{2,3m,3z,4zm}\AbstractLineString
-│   │       └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineString
-│   └── AbstractMultiPoint
-│       └── Dimension{2,3m,3z,4zm}\AbstractMultiPoint
-│           └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPoint
-└── Collection\AbstractLineStringCollection
-    └── AbstractMultiLineString
-        └── Dimension{2,3m,3z,4zm}\AbstractMultiLineString
-            └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineString
+AbstractSpatialTypeImmutable
+├── AbstractCompoundCurveImmutable
+│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CompoundCurveImmutable
+├── AbstractCircularStringImmutable
+│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\CircularStringImmutable
+├── AbstractPointImmutable
+│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\PointImmutable
+├── AbstractPolygonImmutable
+│   ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\PolygonImmutable
+│   └── AbstractTriangleImmutable
+│       └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\TriangleImmutable
+├── AbstractPolyhedralSurfaceImmutable
+│   └── Dimension{3z,4zm}\{Geometry,Geography}\PolyhedralSurfaceImmutable
+├── AbstractMultiPolygonImmutable
+│   └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPolygonImmutable
+├── AbstractCollectionImmutable
+│   ├── Dimension2\AbstractCollectionImmutable
+│   │   ├── Dimension2\Geometry\GeometryCollectionImmutable
+│   │   └── Dimension2\Geography\GeographyCollectionImmutable
+│   └── Dimension{3m,3z,4zm}\{Geometry\GeometryCollectionImmutable,Geography\GeographyCollectionImmutable}
+├── Collection\AbstractPointCollectionImmutable
+│   ├── AbstractLineStringImmutable
+│   │   └── Dimension{2,3m,3z,4zm}\AbstractLineStringImmutable
+│   │       └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\LineStringImmutable
+│   └── AbstractMultiPointImmutable
+│       └── Dimension{2,3m,3z,4zm}\AbstractMultiPointImmutable
+│           └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiPointImmutable
+└── Collection\AbstractLineStringCollectionImmutable
+    └── AbstractMultiLineStringImmutable
+        └── Dimension{2,3m,3z,4zm}\AbstractMultiLineStringImmutable
+            └── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\MultiLineStringImmutable
 ```
 
 `LineStringInterface`, `CircularStringInterface` and `CompoundCurveInterface`
 extend `CurveInterface`, which exposes nullable start/end points and closure
 in addition to `SpatialInterface`. Circular strings have their own point
 storage; they are not line strings and do not inherit point-set
-simplicity checks. Compound curves retain ordered `CurveInterface` components
+simplicity checks. Compound curves retain ordered `ImmutableCurveInterface` components
 and require curve interfaces and point tuples with numeric or null ordinates; functional compatibility
 and endpoint continuity are not checked.

@@ -19,11 +19,6 @@ namespace LongitudeOne\SpatialTypes\Types;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
@@ -91,71 +86,6 @@ abstract class AbstractSpatialType implements SpatialInterface
             'coordinates' => $this->toArray(),
             'srid' => $this->getSrid(),
         ];
-    }
-
-    /**
-     * Return a copy declared with the supplied spatial reference.
-     *
-     * @param SpatialReference $reference Target spatial reference
-     */
-    public function withSpatialReference(SpatialReference $reference): static
-    {
-        $spatial = clone $this;
-        $spatial->spatialReference = $reference;
-
-        return $spatial;
-    }
-
-    /**
-     * Return a copy of this spatial object with the given Spatial Reference Identifier (SRID).
-     *
-     * Aggregate spatial types override this method to copy their contained
-     * elements with the same SRID.
-     *
-     * @param int $srid Spatial Reference Identifier
-     */
-    public function withSrid(int $srid): static
-    {
-        return $this->withSpatialReference(SpatialReference::fromSrid($srid));
-    }
-
-    /**
-     * Hydrate a line-string tuple collection in this spatial value's context.
-     *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface> $coordinates Point tuples
-     */
-    final protected function createLineStringFromCoordinates(array $coordinates): LineStringInterface
-    {
-        return DefaultSpatialFactoryFactory::create()->createLineStringFromIndexedArray(
-            $coordinates,
-            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
-        );
-    }
-
-    /**
-     * Hydrate a point tuple in this spatial value's complete context.
-     *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates Point tuple
-     */
-    final protected function createPointFromCoordinates(array $coordinates): PointInterface
-    {
-        return DefaultSpatialFactoryFactory::create()->createPointFromIndexedArray(
-            $coordinates,
-            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
-        );
-    }
-
-    /**
-     * Hydrate polygon rings in this spatial value's context.
-     *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|PointInterface>|LineStringInterface> $rings Polygon rings
-     */
-    final protected function createPolygonFromCoordinates(array $rings): PolygonInterface
-    {
-        return DefaultSpatialFactoryFactory::create()->createPolygonFromIndexedArray(
-            $rings,
-            new SpatialContext($this->getSpatialReference(), $this->getFamily(), $this->getDimension())
-        );
     }
 
     /**

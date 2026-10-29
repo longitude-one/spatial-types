@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,7 +31,7 @@ class SridDefaultTest extends TestCase
      */
     public function testSpatialObjectsUseTheUnnamedReference(): void
     {
-        $point = new Point(1, 2);
+        $point = new PointImmutable(1, 2);
 
         static::assertSame(0, $point->getSrid());
         static::assertSame(0, $point->getSpatialReference()->srid());

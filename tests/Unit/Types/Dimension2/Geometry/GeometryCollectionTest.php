@@ -17,16 +17,16 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geometry;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon as GeometricPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PolygonImmutable as GeometricPolygon;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollection
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable
  */
 class GeometryCollectionTest extends TestCase
 {
@@ -37,8 +37,8 @@ class GeometryCollectionTest extends TestCase
      */
     public function testAddElementWithGeometryCollection(): void
     {
-        $nestedCollection = new GeometryCollection();
-        $geometryCollection = new GeometryCollection(0, [$nestedCollection]);
+        $nestedCollection = new GeometryCollectionImmutable();
+        $geometryCollection = new GeometryCollectionImmutable(0, [$nestedCollection]);
 
         static::assertSame([$nestedCollection], $geometryCollection->getElements());
     }
@@ -49,7 +49,7 @@ class GeometryCollectionTest extends TestCase
     public function testGetElements(): void
     {
         $polygon = new GeometricPolygon([]);
-        $geometryCollection = new GeometryCollection(0, [$polygon]);
+        $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
         static::assertSame([$polygon], $geometryCollection->getElements());
     }
 
@@ -58,7 +58,7 @@ class GeometryCollectionTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, (new GeometryCollection())->getType());
+        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, (new GeometryCollectionImmutable())->getType());
     }
 
     /**
@@ -67,7 +67,7 @@ class GeometryCollectionTest extends TestCase
     public function testHasElement(): void
     {
         $polygon = new GeometricPolygon([]);
-        $geometryCollection = new GeometryCollection(0, [$polygon]);
+        $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
         static::assertTrue($geometryCollection->hasElement($polygon));
     }
 
@@ -77,8 +77,8 @@ class GeometryCollectionTest extends TestCase
     public function testIsEmpty(): void
     {
         $polygon = new GeometricPolygon([]);
-        static::assertTrue((new GeometryCollection())->isEmpty());
-        $geometryCollection = new GeometryCollection(0, [$polygon]);
+        static::assertTrue((new GeometryCollectionImmutable())->isEmpty());
+        $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
         static::assertFalse($geometryCollection->isEmpty());
     }
 
@@ -88,8 +88,8 @@ class GeometryCollectionTest extends TestCase
     public function testToArray(): void
     {
         $polygon = new GeometricPolygon([], 4326);
-        static::assertSame([], (new GeometryCollection())->toArray());
-        $geometryCollection = new GeometryCollection(4326, [$polygon, new Point(1, 2, 4326)]);
+        static::assertSame([], (new GeometryCollectionImmutable())->toArray());
+        $geometryCollection = new GeometryCollectionImmutable(4326, [$polygon, new PointImmutable(1, 2, 4326)]);
         static::assertSame([[], [1, 2]], $geometryCollection->toArray());
     }
 }

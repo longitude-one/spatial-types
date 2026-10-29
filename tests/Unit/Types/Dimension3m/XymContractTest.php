@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension3m;
 
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\Point as GeographicPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\Point as GeometricPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable as GeographicPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable as GeometricPoint;
 use PHPUnit\Framework\TestCase;
 
 /**

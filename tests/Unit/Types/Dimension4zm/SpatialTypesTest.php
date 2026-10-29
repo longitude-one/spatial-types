@@ -17,20 +17,20 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension4zm;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineString as GeographicLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineString as GeographicMultiLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPoint as GeographicMultiPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygon as GeographicMultiPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Point as GeographicPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\Polygon as GeographicPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineString as GeometricLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineString as GeometricMultiLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPoint as GeometricMultiPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygon as GeometricMultiPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Point as GeometricPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\Polygon as GeometricPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineStringImmutable as GeographicLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable as GeographicMultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable as GeographicMultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable as GeographicMultiPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable as GeographicPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolygonImmutable as GeographicPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineStringImmutable as GeometricLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable as GeometricMultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable as GeometricMultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable as GeometricMultiPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable as GeometricPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolygonImmutable as GeometricPolygon;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -59,7 +59,7 @@ class SpatialTypesTest extends TestCase
         static::assertSame([$lineString], (new GeographicMultiLineString([$lineString]))->getElements());
         static::assertSame([$polygon], (new GeographicMultiPolygon([$polygon]))->getElements());
 
-        $collection = new GeographyCollection(0, [$polygon]);
+        $collection = new GeographyCollectionImmutable(0, [$polygon]);
         static::assertSame([$polygon], $collection->getElements());
     }
 
@@ -84,7 +84,7 @@ class SpatialTypesTest extends TestCase
         static::assertSame([$lineString], (new GeometricMultiLineString([$lineString]))->getElements());
         static::assertSame([$polygon], (new GeometricMultiPolygon([$polygon]))->getElements());
 
-        $collection = new GeometryCollection(0, [$polygon]);
+        $collection = new GeometryCollectionImmutable(0, [$polygon]);
         static::assertSame([$polygon], $collection->getElements());
     }
 }

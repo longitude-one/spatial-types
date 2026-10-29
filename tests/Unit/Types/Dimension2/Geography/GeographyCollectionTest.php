@@ -17,16 +17,16 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Polygon as GeographicPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PolygonImmutable as GeographicPolygon;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollection
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollection
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollectionImmutable
  */
 class GeographyCollectionTest extends TestCase
 {
@@ -37,8 +37,8 @@ class GeographyCollectionTest extends TestCase
      */
     public function testAddElementWithGeographyCollection(): void
     {
-        $nestedCollection = new GeographyCollection();
-        $geographyCollection = new GeographyCollection(0, [$nestedCollection]);
+        $nestedCollection = new GeographyCollectionImmutable();
+        $geographyCollection = new GeographyCollectionImmutable(0, [$nestedCollection]);
 
         static::assertSame([$nestedCollection], $geographyCollection->getElements());
     }
@@ -49,7 +49,7 @@ class GeographyCollectionTest extends TestCase
     public function testGetElements(): void
     {
         $polygon = new GeographicPolygon([]);
-        $geographyCollection = new GeographyCollection(0, [$polygon]);
+        $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
         static::assertSame([$polygon], $geographyCollection->getElements());
     }
 
@@ -58,7 +58,7 @@ class GeographyCollectionTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, (new GeographyCollection())->getType());
+        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, (new GeographyCollectionImmutable())->getType());
     }
 
     /**
@@ -67,7 +67,7 @@ class GeographyCollectionTest extends TestCase
     public function testHasElement(): void
     {
         $polygon = new GeographicPolygon([]);
-        $geographyCollection = new GeographyCollection(0, [$polygon]);
+        $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
         static::assertTrue($geographyCollection->hasElement($polygon));
     }
 
@@ -77,8 +77,8 @@ class GeographyCollectionTest extends TestCase
     public function testIsEmpty(): void
     {
         $polygon = new GeographicPolygon([]);
-        static::assertTrue((new GeographyCollection())->isEmpty());
-        $geographyCollection = new GeographyCollection(0, [$polygon]);
+        static::assertTrue((new GeographyCollectionImmutable())->isEmpty());
+        $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
         static::assertFalse($geographyCollection->isEmpty());
     }
 
@@ -88,8 +88,8 @@ class GeographyCollectionTest extends TestCase
     public function testToArray(): void
     {
         $polygon = new GeographicPolygon([], 4326);
-        static::assertSame([], (new GeographyCollection())->toArray());
-        $geographyCollection = new GeographyCollection(4326, [$polygon, new Point(1, 2, 4326)]);
+        static::assertSame([], (new GeographyCollectionImmutable())->toArray());
+        $geographyCollection = new GeographyCollectionImmutable(4326, [$polygon, new PointImmutable(1, 2, 4326)]);
         static::assertSame([[], [1, 2]], $geographyCollection->toArray());
     }
 }

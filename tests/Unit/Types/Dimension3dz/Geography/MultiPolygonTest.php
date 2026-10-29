@@ -20,7 +20,7 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygon;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,9 +28,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygon
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable
  */
 class MultiPolygonTest extends TestCase
 {
@@ -45,7 +45,7 @@ class MultiPolygonTest extends TestCase
     {
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('Out of range longitude value, longitude must be between -180 and 180, got "240W".');
-        new MultiPolygon([[[['240W', '340S', 3], ['45W', '45N', 4], ['45W', '90N', 42.195], ['240W', '340S']]]]);
+        new MultiPolygonImmutable([[[['240W', '340S', 3], ['45W', '45N', 4], ['45W', '90N', 42.195], ['240W', '340S']]]]);
     }
 
     /**
@@ -53,7 +53,7 @@ class MultiPolygonTest extends TestCase
      */
     public function testGetDimension(): void
     {
-        $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE);
+        $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
         static::assertTrue($multiPolygon->hasZ());
         static::assertFalse($multiPolygon->hasM());
         $polygon = $multiPolygon->getPolygon(0);
@@ -71,7 +71,7 @@ class MultiPolygonTest extends TestCase
     public function testGetFamily(): void
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
-        $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE);
+        $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
         static::assertSame($expected, $multiPolygon->getFamily());
         $polygon = $multiPolygon->getPolygon(0);
         static::assertSame($expected, $polygon->getFamily());
@@ -85,7 +85,7 @@ class MultiPolygonTest extends TestCase
      */
     public function testGetType(): void
     {
-        $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE);
+        $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
         static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $multiPolygon->getType());
     }
 
@@ -94,9 +94,9 @@ class MultiPolygonTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE);
+        $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
         static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":0}', json_encode($multiPolygon));
-        $multiPolygon = new MultiPolygon(self::DEFAULT_COORDINATE, 4326);
+        $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE, 4326);
         static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":4326}', json_encode($multiPolygon));
     }
 }

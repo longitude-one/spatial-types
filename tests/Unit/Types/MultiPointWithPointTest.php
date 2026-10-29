@@ -17,14 +17,14 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPointImmutable
  */
 class MultiPointWithPointTest extends TestCase
 {
@@ -33,7 +33,7 @@ class MultiPointWithPointTest extends TestCase
      */
     public function testWithPointRejectsAnotherDimension(): void
     {
-        $multiPoint = new MultiPoint([[1, 2, 3]], 2154);
+        $multiPoint = new MultiPointImmutable([[1, 2, 3]], 2154);
 
         self::expectException(InvalidDimensionException::class);
 
@@ -45,11 +45,11 @@ class MultiPointWithPointTest extends TestCase
      */
     public function testWithPointReturnsAnIndependentCopy(): void
     {
-        $multiPoint = new MultiPoint([[1, 2, 3], [4, 5, 6]], 2154);
+        $multiPoint = new MultiPointImmutable([[1, 2, 3], [4, 5, 6]], 2154);
         $replacement = $multiPoint->withPoint(-1, Coordinates::xym(7, 8, 9));
 
         static::assertNotSame($multiPoint, $replacement);
-        static::assertSame($multiPoint::class, $replacement::class);
+        static::assertSame($multiPoint::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertTrue($replacement->hasM());
         static::assertFalse($replacement->hasZ());

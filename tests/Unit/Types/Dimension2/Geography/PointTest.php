@@ -19,7 +19,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types\Dimension2\Geography;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,16 +27,16 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable
  */
 class PointTest extends TestCase
 {
     /**
      * Point instance.
      */
-    private Point $point;
+    private PointImmutable $point;
 
     /**
      * Set up the point instance.
@@ -44,7 +44,7 @@ class PointTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->point = new Point('1.1W', '45.1N');
+        $this->point = new PointImmutable('1.1W', '45.1N');
     }
 
     /**
@@ -52,7 +52,7 @@ class PointTest extends TestCase
      */
     public function testConstructsLatitude(): void
     {
-        static::assertSame(45.1, (new Point(-1.1, '45.1N'))->getY());
+        static::assertSame(45.1, (new PointImmutable(-1.1, '45.1N'))->getY());
     }
 
     /**
@@ -60,7 +60,7 @@ class PointTest extends TestCase
      */
     public function testConstructsLongitude(): void
     {
-        static::assertSame(-1.1, (new Point('1.1W', 45.1))->getX());
+        static::assertSame(-1.1, (new PointImmutable('1.1W', 45.1))->getX());
     }
 
     /**
@@ -93,7 +93,7 @@ class PointTest extends TestCase
     public function testGetM(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point::getM" cannot be called with a spatial object with dimensions "XY".');
+        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable::getM" cannot be called with a spatial object with dimensions "XY".');
         $this->point->getM();
     }
 
@@ -127,7 +127,7 @@ class PointTest extends TestCase
     public function testGetZ(): void
     {
         self::expectException(BadMethodCallException::class);
-        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point::getZ" cannot be called with a spatial object with dimensions "XY".');
+        self::expectExceptionMessageIsOrContains('The method "LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable::getZ" cannot be called with a spatial object with dimensions "XY".');
         $this->point->getZ();
     }
 
@@ -153,7 +153,7 @@ class PointTest extends TestCase
     public function testJsonSerialize(): void
     {
         static::assertSame('{"type":"Point","coordinates":[-1.1,45.1],"srid":0}', json_encode($this->point));
-        $this->point = new Point(-1.1, 45.1, 4326);
+        $this->point = new PointImmutable(-1.1, 45.1, 4326);
         static::assertSame('{"type":"Point","coordinates":[-1.1,45.1],"srid":4326}', json_encode($this->point));
     }
 

@@ -16,33 +16,33 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineString as GeographyLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point as GeographyPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString as GeometryLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineStringImmutable as GeographyLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable as GeographyPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable as GeometryLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometryPoint;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineString
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable
  */
 class LineStringWithSridTest extends TestCase
 {
     /**
      * Verify that withSrid copies the line string and every one of its points.
      *
-     * @param LineStringInterface $lineString line string to copy
+     * @param ImmutableLineStringInterface $lineString line string to copy
      */
     #[DataProvider('provideLineStrings')]
-    public function testWithSridPreservesInternalSridConsistency(LineStringInterface $lineString): void
+    public function testWithSridPreservesInternalSridConsistency(ImmutableLineStringInterface $lineString): void
     {
         $lineStringWithSrid = $lineString->withSrid(2154);
 
         static::assertNotSame($lineString, $lineStringWithSrid);
-        static::assertSame($lineString::class, $lineStringWithSrid::class);
+        static::assertSame($lineString::class, (new \ReflectionClass($lineStringWithSrid))->getName());
         static::assertSame($lineString->toArray(), $lineStringWithSrid->toArray());
         static::assertSame(4326, $lineString->getSrid());
         static::assertSame(2154, $lineStringWithSrid->getSrid());
@@ -57,7 +57,7 @@ class LineStringWithSridTest extends TestCase
     }
 
     /**
-     * @return \Generator<string, array{0: LineStringInterface}, null, void>
+     * @return \Generator<string, array{0: ImmutableLineStringInterface}, null, void>
      */
     public static function provideLineStrings(): \Generator
     {

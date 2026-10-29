@@ -18,8 +18,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Issue;
 
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,8 +34,8 @@ class EmptyMultiLineStringValidationTest extends TestCase
     /** A zero-member collection and a single empty member survive reference copies. */
     public function testReferenceCopiesDistinguishZeroAndOneMember(): void
     {
-        $zero = new MultiLineString([], 4326);
-        $single = new MultiLineString([new LineString([], 4326)], 4326);
+        $zero = new MultiLineStringImmutable([], 4326);
+        $single = new MultiLineStringImmutable([new LineStringImmutable([], 4326)], 4326);
         $reference = SpatialReference::epsg(2154);
 
         static::assertSame([], $zero->withSpatialReference($reference)->getElements());
@@ -49,7 +49,7 @@ class EmptyMultiLineStringValidationTest extends TestCase
     public function testReplacementPreservesReferenceAuthority(): void
     {
         $reference = SpatialReference::epsg(4326);
-        $original = new MultiLineString([[], [[1, 2], [3, 4]], []], $reference);
+        $original = new MultiLineStringImmutable([[], [[1, 2], [3, 4]], []], $reference);
         $replacement = $original->withLineString(1, []);
 
         static::assertSame([[], [], []], $replacement->toArray());
@@ -65,7 +65,7 @@ class EmptyMultiLineStringValidationTest extends TestCase
     /** There is no indexed member in a zero-member collection. */
     public function testZeroMemberAccessIsRejected(): void
     {
-        $zero = new MultiLineString([]);
+        $zero = new MultiLineStringImmutable([]);
         $this->expectException(OutOfBoundsException::class);
 
         $zero->getLineString(0);
@@ -74,7 +74,7 @@ class EmptyMultiLineStringValidationTest extends TestCase
     /** Replacing a member cannot append to a zero-member collection. */
     public function testZeroMemberReplacementIsRejected(): void
     {
-        $zero = new MultiLineString([]);
+        $zero = new MultiLineStringImmutable([]);
         $this->expectException(OutOfBoundsException::class);
 
         $zero->withLineString(0, []);

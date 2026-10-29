@@ -33,10 +33,10 @@ the target `SpatialReference`.
 
 ```php
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
-$paris = new Point(2.3522, 48.8566, SpatialReference::epsg(4326));
+$paris = new PointImmutable(2.3522, 48.8566, SpatialReference::epsg(4326));
 $lambert93 = $paris->withSpatialReference(SpatialReference::epsg(2154));
 $lambert93 = $lambert93->withCoordinates(Coordinates::xy(652469.0227, 6862035.2594));
 ```

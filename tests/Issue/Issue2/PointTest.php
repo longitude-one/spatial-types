@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Issue\Issue2;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,9 +24,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialType
- * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\Point
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable
  */
 class PointTest extends TestCase
 {
@@ -35,7 +35,7 @@ class PointTest extends TestCase
      */
     public function testConstructsNegativeSouthLatitude(): void
     {
-        static::assertSame(-40, (new Point(0, '-40S'))->getLatitude());
+        static::assertSame(-40, (new PointImmutable(0, '-40S'))->getLatitude());
     }
 
     /**
@@ -43,6 +43,6 @@ class PointTest extends TestCase
      */
     public function testConstructsNegativeWestLongitude(): void
     {
-        static::assertSame(-40, (new Point('-40W', 0))->getLongitude());
+        static::assertSame(-40, (new PointImmutable('-40W', 0))->getLongitude());
     }
 }

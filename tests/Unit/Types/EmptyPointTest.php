@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
-use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point as GeometryPoint;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometryPoint;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -30,30 +30,30 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPoint
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
  */
 class EmptyPointTest extends TestCase
 {
     /**
      * @param object $point Configured point instance
      *
-     * @throws \LogicException when a configured concrete class does not implement PointInterface
+     * @throws \LogicException when a configured concrete class does not implement ImmutablePointInterface
      */
-    private static function asPoint(object $point): PointInterface
+    private static function asPoint(object $point): ImmutablePointInterface
     {
-        if (!$point instanceof PointInterface) {
-            throw new \LogicException('Configured point class does not implement PointInterface.');
+        if (!$point instanceof ImmutablePointInterface) {
+            throw new \LogicException('Configured point class does not implement ImmutablePointInterface.');
         }
 
         return $point;
     }
 
     /**
-     * @param PointInterface $point Configured point
+     * @param ImmutablePointInterface $point Configured point
      *
      * @throws \LogicException when a configured concrete class does not expose a known dimension
      */
-    private static function dimensionFromPoint(PointInterface $point): CoordinateDimensionEnum
+    private static function dimensionFromPoint(ImmutablePointInterface $point): CoordinateDimensionEnum
     {
         return match ([$point->hasZ(), $point->hasM()]) {
             [false, false] => CoordinateDimensionEnum::XY,
@@ -94,10 +94,10 @@ class EmptyPointTest extends TestCase
     /**
      * Empty points preserve their dimension, family, and spatial reference.
      *
-     * @param PointInterface $point Empty point
+     * @param ImmutablePointInterface $point Empty point
      */
     #[DataProvider('provideEmptyPoints')]
-    public function testEmptyPointCanBeCreated(PointInterface $point): void
+    public function testEmptyPointCanBeCreated(ImmutablePointInterface $point): void
     {
         static::assertTrue($point->isEmpty());
         static::assertSame(4326, $point->getSrid());
@@ -118,13 +118,13 @@ class EmptyPointTest extends TestCase
     }
 
     /**
-     * @return \Generator<string, array{0: PointInterface}>
+     * @return \Generator<string, array{0: ImmutablePointInterface}>
      */
     public static function provideEmptyPoints(): \Generator
     {
         foreach (self::familiesAndDimensions() as $name => [$family, $dimension]) {
             $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
-            $class = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\Point', self::dimensionNamespace($dimension), $familyNamespace);
+            $class = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\PointImmutable', self::dimensionNamespace($dimension), $familyNamespace);
 
             yield $name => [self::asPoint(new $class(srid: 4326))];
         }
@@ -168,11 +168,11 @@ class EmptyPointTest extends TestCase
     /**
      * A coordinate tuple produces a non-empty copy of an empty point.
      *
-     * @param PointInterface $point       Empty point
-     * @param Coordinates    $coordinates Replacement coordinates
+     * @param ImmutablePointInterface $point       Empty point
+     * @param Coordinates             $coordinates Replacement coordinates
      */
     #[DataProvider('provideEmptyPointsAndCoordinates')]
-    public function testWithCoordinatesCreatesNonEmptyPoint(PointInterface $point, Coordinates $coordinates): void
+    public function testWithCoordinatesCreatesNonEmptyPoint(ImmutablePointInterface $point, Coordinates $coordinates): void
     {
         $replacement = $point->withCoordinates($coordinates);
 
@@ -182,7 +182,7 @@ class EmptyPointTest extends TestCase
     }
 
     /**
-     * @return \Generator<string, array{0: PointInterface, 1: Coordinates}>
+     * @return \Generator<string, array{0: ImmutablePointInterface, 1: Coordinates}>
      */
     public static function provideEmptyPointsAndCoordinates(): \Generator
     {

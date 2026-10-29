@@ -17,25 +17,25 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineString;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPoint;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygon;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PolygonImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollection
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineString
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygon
- * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollection
- * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractPointCollection
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractPointCollectionImmutable
  */
 class AggregateImmutabilityTest extends TestCase
 {
@@ -68,21 +68,21 @@ class AggregateImmutabilityTest extends TestCase
      */
     public static function provideAggregates(): \Generator
     {
-        $lineString = new LineString([[0, 0], [1, 1]]);
-        $ring = new LineString([[0, 0], [1, 0], [0, 1], [0, 0]]);
-        $polygon = new Polygon([$ring]);
+        $lineString = new LineStringImmutable([[0, 0], [1, 1]]);
+        $ring = new LineStringImmutable([[0, 0], [1, 0], [0, 1], [0, 0]]);
+        $polygon = new PolygonImmutable([$ring]);
 
         yield 'line string' => [$lineString];
 
-        yield 'multi-point' => [new MultiPoint([[0, 0], [1, 1]])];
+        yield 'multi-point' => [new MultiPointImmutable([[0, 0], [1, 1]])];
 
         yield 'polygon' => [$polygon];
 
-        yield 'multi-line string' => [new MultiLineString([$lineString])];
+        yield 'multi-line string' => [new MultiLineStringImmutable([$lineString])];
 
-        yield 'multi-polygon' => [new MultiPolygon([$polygon])];
+        yield 'multi-polygon' => [new MultiPolygonImmutable([$polygon])];
 
-        yield 'collection' => [new GeometryCollection(0, [$lineString, $polygon])];
+        yield 'collection' => [new GeometryCollectionImmutable(0, [$lineString, $polygon])];
     }
 
     /**
@@ -90,8 +90,8 @@ class AggregateImmutabilityTest extends TestCase
      */
     public function testCollectionReceivesItsElementsAtConstruction(): void
     {
-        $point = new Point(1, 2, 2154);
-        $collection = new GeometryCollection(2154, [$point]);
+        $point = new PointImmutable(1, 2, 2154);
+        $collection = new GeometryCollectionImmutable(2154, [$point]);
 
         static::assertSame([$point], $collection->getElements());
         static::assertSame([[1, 2]], $collection->toArray());

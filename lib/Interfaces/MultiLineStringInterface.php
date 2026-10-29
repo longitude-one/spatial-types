@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-use LongitudeOne\SpatialTypes\Value\Coordinates;
-
 /**
  * Multi-line string interface.
  *
@@ -47,25 +45,4 @@ interface MultiLineStringInterface extends CollectionInterface
      * @return (null|float|int)[][][]
      */
     public function toArray(): array;
-
-    /**
-     * Return a new multi-line string with one replacement line string.
-     *
-     * The returned multi-line string preserves this instance's family,
-     * dimension, and Spatial Reference Identifier (SRID). Every replacement
-     * coordinate tuple must match this instance's coordinate layout.
-     *
-     * @param int                                                                                                        $lineStringIndex index of the line string to replace; negative indexes count from the end
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
-     */
-    public function withLineString(int $lineStringIndex, array $coordinates): static;
-
-    /**
-     * Return a new multi-line string with one replacement point.
-     *
-     * @param int         $lineStringIndex index of the line string to replace; negative indexes count from the end
-     * @param int         $pointIndex      index of the point to replace; negative indexes count from the end
-     * @param Coordinates $coordinates     replacement point coordinates
-     */
-    public function withPoint(int $lineStringIndex, int $pointIndex, Coordinates $coordinates): static;
 }

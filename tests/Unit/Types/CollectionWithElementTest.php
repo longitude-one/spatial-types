@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollection;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollection
+ * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
  */
 class CollectionWithElementTest extends TestCase
 {
@@ -32,14 +32,14 @@ class CollectionWithElementTest extends TestCase
      */
     public function testWithElementReturnsAnIndependentCopy(): void
     {
-        $firstPoint = new Point(1, 2, 2154);
-        $secondPoint = new Point(3, 4, 2154);
-        $collection = new GeometryCollection(2154, [$firstPoint, $secondPoint]);
+        $firstPoint = new PointImmutable(1, 2, 2154);
+        $secondPoint = new PointImmutable(3, 4, 2154);
+        $collection = new GeometryCollectionImmutable(2154, [$firstPoint, $secondPoint]);
 
-        $replacement = $collection->withElement(-1, new Point(5, 6, 2154));
+        $replacement = $collection->withElement(-1, new PointImmutable(5, 6, 2154));
 
         static::assertNotSame($collection, $replacement);
-        static::assertSame($collection::class, $replacement::class);
+        static::assertSame($collection::class, (new \ReflectionClass($replacement))->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[1, 2], [3, 4]], $collection->toArray());
         static::assertSame([[1, 2], [5, 6]], $replacement->toArray());
