@@ -246,3 +246,22 @@ Their declared-context setters accept a second `$propagate` argument, defaulting
 to `true`. Propagation edits all contained points in place, so other paths sharing
 those points observe the updated point metadata. Passing `false` updates only the
 receiving path. Ordinates never change during a declared-context update.
+
+### Mutable aggregate ownership
+
+Mutable multi-points, multi-line strings, multi-polygons and `SpatialCollection`
+retain supplied members and descendants by reference. Their common
+`getElement()`/`getElements()` methods expose those same instances.
+`setElement()` replaces one membership entry; editing a retained object is
+visible through every aggregate referencing it. Complete `setElements()`
+replacement checks all inputs before changing membership.
+
+These aggregates reject immutable spatial components recursively. Containment
+cycles are also rejected atomically; repeated members and shared descendants
+remain supported when their references form an acyclic graph. Coordinate
+arrays supported by the multi-object constructors and `setElements()` create
+mutable descendants. The three context setters propagate through all members
+by default; `false` changes only the receiver. Propagation modifies shared
+instances without recalculating coordinates. See the
+[aggregate API reference](instantiable-spatial-types.md#mutable-multi-objects-and-spatial-collections)
+for signatures and examples.

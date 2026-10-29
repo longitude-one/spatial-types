@@ -941,3 +941,107 @@ EMPTY or incomplete patches, open rings and null ordinates remain representable.
 Mutation does not enforce face validity, adjacency, closure or manifold rules.
 ISO/IEC CD 13249-3:201x(E), clause 8.5.1, defines polyhedral-surface validity;
 this representation API leaves its evaluation to explicit spatial-validator use.
+
+## Mutable multi-objects and spatial collections
+
+`MultiPoint`, `MultiLineString`, `MultiPolygon` and `SpatialCollection` are
+available directly under each of `Types\Dimension2`, `Types\Dimension3z`,
+`Types\Dimension3m` and `Types\Dimension4zm`. All four use this constructor:
+
+```php
+new MultiPoint(array $elements = [], int|SpatialReference $srid = 0,
+    SpatialModelEnum $family = SpatialModelEnum::GEOMETRY);
+```
+
+| Mutable aggregate | Accepted members | Coordinate-array input |
+| --- | --- | --- |
+| `MultiPoint` | `MutablePointInterface` | Point tuples |
+| `MultiLineString` | `MutableLineStringInterface` | Arrays of points or tuples |
+| `MultiPolygon` | `MutablePolygonInterface` | Arrays of rings, points or tuples |
+| `SpatialCollection` | `MutableSpatialInterface`, including nested collections | Not accepted: arrays do not identify member types |
+
+Construction and `setElements()` support the listed coordinate arrays. Arrays
+create mutable descendants in the receiver's current layout, family and
+reference. Supplied spatial objects retain their own context, layout and
+identity. Immutable members and immutable descendants are rejected without
+conversion or cloning. A mutable triangle implements `MutablePolygonInterface`
+and can therefore be retained by a mutable multi-polygon.
+
+`SpatialCollection` is the family-independent mutable counterpart of
+`GeometryCollectionImmutable` and `GeographyCollectionImmutable`. Changing its
+family preserves both its concrete class and its instance identity.
+
+| Operation, common to all four kinds | Result |
+| --- | --- |
+| `addElement($element)` | Append a mutable member |
+| `insertElement($index, $element)` | Insert before an index; the member count appends |
+| `setElement($index, $element)` | Replace one existing member |
+| `removeElement($index)` | Remove one existing member and reindex |
+| `setElements($elements)` | Replace complete ordered membership atomically; `[]` empties it |
+| `getElement($index)`, `getElements()` | Expose the retained mutable instances |
+
+`MultiPoint::getPoints()`, `MultiLineString::getLineStrings()` and
+`MultiPolygon::getPolygons()` also expose the retained instances. Single-member
+mutations take mutable spatial objects; coordinate arrays are accepted by the
+constructor and complete replacement. Indices start at zero. Access,
+replacement and removal require existing members; insertion accepts indices
+from zero through the count. Invalid addressing raises `OutOfBoundsException`.
+Wrong mutable member kinds, invalid membership arrays and immutable descendants
+raise `InvalidValueException`; immutable arguments to typed single-member
+mutators raise PHP `TypeError`. Technical input or addressing failures preserve
+membership and referenced descendants, including late failures during complete
+replacement. Successful mutations return the receiver as `static`.
+
+Containment must be acyclic. Construction and every member-mutation path reject
+already cyclic member graphs or a new direct/indirect reference back to the
+receiver with `InvalidValueException` and the message
+`Mutable aggregate members must not form reference cycles.` The failure changes
+neither membership nor the context of any referenced instance. This is a
+technical object-graph restriction, independent of geometric validation.
+Repeated members and shared descendants in an acyclic graph remain supported.
+
+```php
+use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Types\Dimension2\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\MultiLineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\MultiPoint;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\SpatialCollection;
+
+$point = new Point(0, null, 4326);
+$points = new MultiPoint([$point], 4326);
+$line = new LineString([$point], 4326);
+$lines = new MultiLineString([$line], 4326);
+$collection = new SpatialCollection([$points, $lines], 4326);
+
+$points->addElement(new Point(3, 4))->insertElement(1, $point);
+$point->setX(7); // Both occurrences in $points and the point in $line change.
+assert($point === $points->getElement(0));
+assert([[[7, null]]] === $lines->toArray());
+
+$collection->setFamily(SpatialModelEnum::GEOGRAPHY, false); // Only this collection.
+$collection->setSrid(2154); // Nested aggregates, their members and all points.
+assert(2154 === $point->getSrid());
+assert([7, null] === $point->toArray()); // Coordinates are unchanged.
+```
+
+`setSrid()`, `setSpatialReference()` and `setFamily()` each accept
+`bool $propagate = true`. By default changes reach all descendants recursively,
+including points in compound curves and polyhedral surfaces held by a
+`SpatialCollection`. Propagation updates existing shared instances and is visible
+to other owners of those instances. Passing `false` updates only the receiver.
+Membership arrays returned by getters are PHP array values: editing that array
+does not edit membership, while editing a returned spatial object does.
+
+`toArray()` preserves member boundaries, including nested collection boundaries.
+Complete coordinate replacement creates new mutable descendants and detaches the
+previous members from this receiver without modifying their other owners.
+Spatial type and coordinate layout remain fixed. Mutable aggregates expose no
+`with…` operations or dimension setter.
+
+EMPTY members, incomplete ordinates, duplicate points, open rings and other
+geometrically invalid representable data are retained. Editing does not validate,
+repair, transform or convert dimensions. ISO/IEC CD 13249-3:201x(E), clause 9.1.1,
+defines the collection model and its validity requirements, including shared
+spatial references. This representation API leaves those functional checks to
+explicit [spatial-validator](validators.md) use.

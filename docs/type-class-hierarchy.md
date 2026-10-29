@@ -114,3 +114,27 @@ AbstractSpatialType
 addressing. The base retains patches and their mutable descendants by reference.
 Coordinate arrays create mutable polygons in the fixed XYZ or XYZM layout;
 immutable surface implementations and their copy contracts remain separate.
+
+Mutable multi-objects and heterogeneous collections share ordered membership:
+
+```text
+AbstractSpatialType
+└── AbstractMutableCollection
+    ├── AbstractMultiPoint
+    │   └── Dimension{2,3m,3z,4zm}\MultiPoint
+    ├── AbstractMultiLineString
+    │   └── Dimension{2,3m,3z,4zm}\MultiLineString
+    ├── AbstractMultiPolygon
+    │   └── Dimension{2,3m,3z,4zm}\MultiPolygon
+    └── AbstractSpatialCollection
+        └── Dimension{2,3m,3z,4zm}\SpatialCollection
+```
+
+`MutableCollectionInterface` provides ordered member editing and recursive
+context propagation. Each `MutableMulti<Type>Interface` refines member reads to
+the corresponding mutable type. `SpatialCollection` accepts mutable spatial
+objects, including nested collections, through `MutableSpatialInterface`.
+`MutableComponentGuard` rejects immutable descendants without geometric checks.
+Mutable implementations remain independent of immutable classes and expose no
+copy operations. The public operations and ownership rules are documented in
+[mutable multi-objects and spatial collections](instantiable-spatial-types.md#mutable-multi-objects-and-spatial-collections).
