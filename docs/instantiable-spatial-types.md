@@ -325,7 +325,7 @@ longer enforced by constructors or immutable replacements.
 
 Triangles provide the polygon accessors and immutable replacement methods.
 Copies preserve the concrete triangle class. `getType()` returns `GeometryTypeEnum::TRIANGLE`; JSON uses
-`TriangleImmutable` with the same nested coordinate representation as polygons.
+`Triangle` with the same nested coordinate representation as polygons.
 Triangle factory entry points, SQL/MM visibility attributes and text/binary/GML
 conversion routines are not currently exposed.
 
