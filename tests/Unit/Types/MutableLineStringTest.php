@@ -347,6 +347,18 @@ class MutableLineStringTest extends TestCase
         }
     }
 
+    /** A three-point path is not a line even when its endpoints agree. */
+    public function testThreePointClosureDoesNotImplyLine(): void
+    {
+        $path = new LineString([[0, 0], [1, 1], [2, 0]]);
+        static::assertFalse($path->isLine());
+        static::assertFalse($path->isClosed());
+        static::assertSame($path, $path->setPoint(2, new Point(0, 0)));
+        static::assertFalse($path->isLine());
+        static::assertTrue($path->isClosed());
+        static::assertSame([[0, 0], [1, 1], [0, 0]], $path->toArray());
+    }
+
     /** Tuple parsing uses the mutable point constructor. */
     public function testTupleParsingUsesPointConstructor(): void
     {

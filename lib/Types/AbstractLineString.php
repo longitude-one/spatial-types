@@ -35,12 +35,12 @@ abstract class AbstractLineString extends AbstractPointSequence implements Mutab
     /** Whether a line has equal endpoints. */
     public function isClosed(): bool
     {
-        return $this->isLine() && parent::isClosed();
+        return count($this->points) >= 2 && parent::isClosed();
     }
 
-    /** Whether a line has at least two defining points. */
+    /** Whether this path has exactly two defining points. */
     public function isLine(): bool
     {
-        return count($this->points) >= 2;
+        return 2 === count($this->points);
     }
 }
