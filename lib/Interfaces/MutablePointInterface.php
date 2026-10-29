@@ -30,4 +30,7 @@ interface MutablePointInterface extends MutableSpatialInterface, PointInterface
 
     /** @param null|float|int $z Elevation ordinate; the layout must contain Z */
     public function setZ(float|int|null $z): static;
+
+    /** @return (null|float|int)[] */
+    public function toArray(): array;
 }
