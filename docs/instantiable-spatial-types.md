@@ -856,3 +856,88 @@ geometry. ISO/IEC CD 13249-3:201x(E), clauses 8.3.1 and 8.4.1, define the polygo
 and triangle models; representing a value does not establish conformity with
 those geometric definitions. Request functional checks through
 [spatial-validator](validators.md) explicitly.
+
+
+## Mutable polyhedral surfaces
+
+`Types\Dimension3z\PolyhedralSurface` (XYZ) and
+`Types\Dimension4zm\PolyhedralSurface` (XYZM) implement
+`MutablePolyhedralSurfaceInterface`. XY and XYM surfaces are not introduced.
+
+```php
+new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0,
+    SpatialModelEnum $family = SpatialModelEnum::GEOMETRY);
+```
+
+Each patch is a `MutablePolygonInterface` or an array of rings, using the
+[mutable polygon input contract](#mutable-polygons-and-triangles).
+Arrays create mutable polygons, rings and points in the surface's layout,
+family and reference. Supplied components retain their own context and identity;
+immutable patches, rings and points are rejected without conversion, including
+immutable descendants exposed by custom mutable components.
+
+| Operation | Effect |
+| --- | --- |
+| `addPatch($patch)` | Append a mutable polygon |
+| `insertPatch($index, $patch)` | Insert before a patch; the patch count appends |
+| `removePatch($index)` | Remove an existing patch and reindex |
+| `setPatch($index, $patch)` | Replace one existing patch |
+| `addRing($patchIndex, $ring)` | Append a ring in an existing patch |
+| `insertRing($patchIndex, $ringIndex, $ring)` | Insert a ring; the addressed patch's ring count appends |
+| `removeRing($patchIndex, $ringIndex)` | Remove an existing ring from a patch |
+| `setRing($patchIndex, $ringIndex, $ring)` | Replace one existing ring |
+| `setPoint($patchIndex, $ringIndex, $pointIndex, $point)` | Replace one point in an existing ring |
+| `setArrayOfCoordinates($coordinates)` | Replace the complete patch sequence from coordinates; `[]` empties it |
+| `getPatch($index)`, `getPatches()`, `getElements()` | Expose the retained mutable patches |
+
+Every successful mutation returns the receiver as `static`. Indices start at
+zero at each nesting level; access, replacement and removal require existing
+elements. Negative or out-of-range indices raise `OutOfBoundsException`.
+Failed addressing and technical input checks leave the surface and shared
+descendants unchanged, including a late invalid coordinate in full replacement.
+
+```php
+use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\PolyhedralSurface;
+
+$vertex = new Point(0, null, 5, 4326);
+$equalVertex = new Point(0, null, 5, 4326);
+$first = new Polygon([new LineString([$vertex, $equalVertex], 4326)], 4326);
+$second = new Polygon([new LineString([$vertex], 4326)], 4326);
+$surface = new PolyhedralSurface([$first, $second], 4326);
+$otherOwner = new PolyhedralSurface([$second], 4326);
+
+$vertex->setX(7);
+assert([[[[7, null, 5], [0, null, 5]]], [[[7, null, 5]]]] === $surface->toArray());
+assert([[[[7, null, 5]]]] === $otherOwner->toArray());
+assert($first === $surface->getPatch(0));
+assert($vertex === $surface->getPatch(1)->getRing(0)->getPoint(0));
+
+$surface->setFamily(SpatialModelEnum::GEOGRAPHY, false); // Only the surface.
+$surface->setSrid(2154); // Surface, patches, rings and points.
+assert(2154 === $otherOwner->getPatch(0)->getSrid());
+assert(4326 === $otherOwner->getSrid());
+```
+
+Construction, insertion and replacement never clone supplied components.
+Editing one shared point changes every occurrence of that instance; distinct
+points with equal coordinates remain independent. Replacing a point at one
+address only changes that ring entry. No vertex detection, merging,
+synchronization or neighbouring-patch repair occurs. Complete coordinate
+replacement creates new descendants and leaves previous components and their
+other owners unchanged.
+
+`setSrid()`, `setSpatialReference()` and `setFamily()` each accept
+`bool $propagate = true`. By default they update the receiver and all patches,
+rings and points in place; `false` updates only the receiver. Ordinates never
+change. Spatial type and layout stay fixed, and mutable surfaces expose neither
+`with…` methods nor a dimension setter. Immutable counterparts retain their
+separate copy contracts and reject mutable components.
+
+EMPTY or incomplete patches, open rings and null ordinates remain representable.
+Mutation does not enforce face validity, adjacency, closure or manifold rules.
+ISO/IEC CD 13249-3:201x(E), clause 8.5.1, defines polyhedral-surface validity;
+this representation API leaves its evaluation to explicit spatial-validator use.

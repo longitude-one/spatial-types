@@ -76,4 +76,7 @@ interface MutablePolygonInterface extends MutableSpatialInterface, PolygonInterf
      * @param bool $propagate Whether to update rings and their points
      */
     public function setSrid(int $srid, bool $propagate = true): static;
+
+    /** @return (null|float|int)[][][] */
+    public function toArray(): array;
 }
