@@ -25,10 +25,12 @@ composer require longitude-one/spatial-types
 
 ## Usage
 
-Concrete spatial classes now have an `Immutable` suffix and are final. Update
+Concrete immutable spatial classes have an `Immutable` suffix and are final. Update
 imports and constructor calls to the new names; former names have no aliases.
 Read-only interfaces remain shared. See [Immutability](docs/immutability.md#read-copy-and-mutation-contracts)
-for the separate immutable and mutable contracts and the staged mutable rollout.
+for the separate immutable and mutable contracts.
+[Public spatial factories](docs/public-factories.md) create either representation
+through one shared mode, which defaults to immutable.
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
@@ -84,7 +86,7 @@ for the complete coverage matrix.
 
 ## Immutability
 
-Spatial values are immutable and safe to share: their coordinates, SRID, and
+Immutable spatial values are safe to share: their coordinates, SRID, and
 aggregate membership are set at construction time and never changed through
 the public API. Use `withCoordinates()` with an immutable `Value\Coordinates`
 value to represent another location, or `withSpatialReference()` to associate

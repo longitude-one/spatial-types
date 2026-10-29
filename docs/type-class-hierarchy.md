@@ -138,3 +138,11 @@ objects, including nested collections, through `MutableSpatialInterface`.
 Mutable implementations remain independent of immutable classes and expose no
 copy operations. The public operations and ownership rules are documented in
 [mutable multi-objects and spatial collections](instantiable-spatial-types.md#mutable-multi-objects-and-spatial-collections).
+
+## Factory selection
+
+[Public type-specific factories](public-factories.md) parallel the dimension,
+family and type namespaces under `Factory`. Their shared static mode selects
+the immutable or mutable concrete implementation without changing this
+inheritance hierarchy. The immutable default and subsequent mode switches
+apply across all consumers in the same execution.

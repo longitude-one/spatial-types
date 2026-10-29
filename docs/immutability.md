@@ -108,10 +108,11 @@ for component editing and recursive context propagation. Mutable `Polygon` and `
 see [mutable surfaces](instantiable-spatial-types.md#mutable-polygons-and-triangles)
 for ring editing and failure atomicity. Mutable `PolyhedralSurface` classes in XYZ and XYZM retain polygon patches, rings
 and points by reference; see [mutable polyhedral surfaces](instantiable-spatial-types.md#mutable-polyhedral-surfaces)
-for patch editing, shared vertices and propagation. Other mutable aggregates
-arrive in later Stories of Epic #38.
-Existing factories create the explicitly named immutable classes and expose
-immutable return contracts.
+for patch editing, shared vertices and propagation. Mutable multi-objects and
+spatial collections are also available; see [aggregate ownership](#mutable-aggregate-ownership).
+[Public factories](public-factories.md) select either representation through the
+shared `SpatialFactory` mode, which defaults to immutable. Changing that mode
+does not alter previously created values or direct-constructor behavior.
 
 Immutable aggregate constructors and replacement paths accept only immutable
 spatial components. Immutable component getters retain that contract: for example,

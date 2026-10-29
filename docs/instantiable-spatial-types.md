@@ -163,6 +163,9 @@ classes, not part of the instantiable API.
 
 ## Direct construction
 
+For construction through a shared mutable/immutable selection, see
+[public spatial factories](public-factories.md).
+
 The selected namespace determines both the coordinate dimension and family.
 The optional `$srid` argument accepts `int|SpatialReference` and defaults to
 the unnamed reference identified by `0` in every constructor.
@@ -264,7 +267,8 @@ A previously obtained `Coordinates` value remains an immutable snapshot.
 Family and declared-reference setters preserve every ordinate without coordinate
 transformation. Geometric validation remains explicit in the consumer. Mutable
 points cannot be inserted into immutable aggregates and are not implicitly
-converted. Factories continue to create immutable types.
+converted. [Public factories](public-factories.md) create either representation
+according to their shared global mode, initially immutable.
 
 ### Immutable point coordinates
 
@@ -376,8 +380,9 @@ longer enforced by constructors or immutable replacements.
 Triangles provide the polygon accessors and immutable replacement methods.
 Copies preserve the concrete triangle class. `getType()` returns `GeometryTypeEnum::TRIANGLE`; JSON uses
 `Triangle` with the same nested coordinate representation as polygons.
-Triangle factory entry points, SQL/MM visibility attributes and text/binary/GML
-conversion routines are not currently exposed.
+`TriangleFactory::create()` is available in every dimension/family namespace;
+see [public factories](public-factories.md). SQL/MM visibility attributes and
+text/binary/GML conversion routines are not currently exposed.
 
 ### Heterogeneous collections
 
@@ -622,7 +627,9 @@ The normative basis is ISO/IEC CD 13249-3:201x(E), the available 2009-01-16
 Committee Draft: clauses 4.2.7 and 7.4.1 (component types, continuity and empty
 values), and 7.4.6–7.4.7 (endpoints, including `null` for EMPTY). The library's
 point equality semantics apply to endpoint predicates; continuity is not enforced. This
-feature adds no serialization, decoding, linearization or factory entry points.
+type provides no serialization, decoding or linearization.
+`CompoundCurveFactory::create()` accepts explicit supported curve components;
+see [public factories](public-factories.md).
 
 ## Mutable line strings and circular strings
 
