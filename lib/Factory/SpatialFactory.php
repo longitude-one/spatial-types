@@ -25,13 +25,17 @@ use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 
 /**
- * Creates spatial types using injected constructors and hydrators.
+ * Selects the shared output mode for public type-specific factories.
  *
- * @internal this factory supports aggregate constructors that accept arrays
+ * Instance methods support internal immutable aggregate hydration.
  */
 final class SpatialFactory
 {
+    private static bool $mutable = false;
+
     /**
+     * @internal constructor injection supports immutable aggregate hydration
+     *
      * @param SpatialFactoryRegistry $factoryRegistry      registry of constructors
      * @param CoordinatesHydrator    $coordinatesHydrator  hydrator for point coordinates
      * @param SpatialArrayHydrator   $spatialArrayHydrator hydrator for nested spatial arrays
@@ -43,8 +47,28 @@ final class SpatialFactory
     ) {
     }
 
+    /** Select immutable output for subsequent public type-specific factory calls. */
+    public static function immutable(): void
+    {
+        self::$mutable = false;
+    }
+
+    /** Report whether public type-specific factories currently create mutable objects. */
+    public static function isMutable(): bool
+    {
+        return self::$mutable;
+    }
+
+    /** Select mutable output for subsequent public type-specific factory calls. */
+    public static function mutable(): void
+    {
+        self::$mutable = true;
+    }
+
     /**
      * Create a line string from typed points.
+     *
+     * @internal used by immutable aggregate constructors
      *
      * @param ImmutablePointInterface[] $points  points composing the line string
      * @param SpatialContext            $context family, dimension, and SRID to apply
@@ -65,6 +89,8 @@ final class SpatialFactory
     /**
      * Create a line string from an indexed array.
      *
+     * @internal used by immutable aggregate constructors
+     *
      * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface> $points  points
      * @param SpatialContext                                                                                                                     $context family, dimension, and SRID to apply
      */
@@ -75,6 +101,8 @@ final class SpatialFactory
 
     /**
      * Create a point from typed coordinates.
+     *
+     * @internal used by immutable aggregate constructors
      *
      * @param Coordinates    $coordinates normalized X, Y, Z, and M values
      * @param SpatialContext $context     family, dimension, and SRID to apply
@@ -93,6 +121,8 @@ final class SpatialFactory
     /**
      * Create a point from an indexed array.
      *
+     * @internal used by immutable aggregate constructors
+     *
      * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates coordinates
      * @param SpatialContext                                                                                              $context     family, dimension, and SRID to apply
      */
@@ -107,6 +137,8 @@ final class SpatialFactory
 
     /**
      * Create a polygon from typed line strings.
+     *
+     * @internal used by immutable aggregate constructors
      *
      * @param ImmutableLineStringInterface[] $lineStrings line strings that form polygon rings
      * @param SpatialContext                 $context     family, dimension, and SRID to apply
@@ -126,6 +158,8 @@ final class SpatialFactory
 
     /**
      * Create a polygon from an indexed array.
+     *
+     * @internal used by immutable aggregate constructors
      *
      * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings   rings
      * @param SpatialContext                                                                                                                                                         $context family, dimension, and SRID to apply
