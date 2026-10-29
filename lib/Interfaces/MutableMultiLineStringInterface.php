@@ -16,7 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-/** Mutable multilinestring contract; type-specific editing is introduced separately. */
+/** Mutable MultiLineString membership.
+ * @extends MutableCollectionInterface<MutableLineStringInterface, array<array{0: null|float|int|string, 1: null|float|int|string, 2?: null|float|int, 3?: null|float|int}|\LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface>>
+ */
 interface MutableMultiLineStringInterface extends MultiLineStringInterface, MutableCollectionInterface
 {
+    /** @return list<MutableLineStringInterface> */
+    public function getElements(): array;
+
+    /** @return list<MutableLineStringInterface> */
+    public function getLineStrings(): array;
 }

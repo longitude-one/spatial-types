@@ -16,7 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-/** Mutable multipolygon contract; type-specific editing is introduced separately. */
+/** Mutable MultiPolygon membership.
+ * @extends MutableCollectionInterface<MutablePolygonInterface, array<array<array{0: null|float|int|string, 1: null|float|int|string, 2?: null|float|int, 3?: null|float|int}|\LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface>|\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface>>
+ */
 interface MutableMultiPolygonInterface extends MultiPolygonInterface, MutableCollectionInterface
 {
+    /** @return list<MutablePolygonInterface> */
+    public function getElements(): array;
+
+    /** @return list<MutablePolygonInterface> */
+    public function getPolygons(): array;
 }

@@ -16,7 +16,14 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-/** Mutable multipoint contract; type-specific editing is introduced separately. */
+/** Mutable MultiPoint membership.
+ * @extends MutableCollectionInterface<MutablePointInterface, array{0: null|float|int|string, 1: null|float|int|string, 2?: null|float|int, 3?: null|float|int}>
+ */
 interface MutableMultiPointInterface extends MultiPointInterface, MutableCollectionInterface
 {
+    /** @return list<MutablePointInterface> */
+    public function getElements(): array;
+
+    /** @return list<MutablePointInterface> */
+    public function getPoints(): array;
 }
