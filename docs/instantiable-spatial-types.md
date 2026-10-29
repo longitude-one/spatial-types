@@ -216,6 +216,56 @@ ISO/IEC 13249-3 or OGC requirements. Request coordinate-completeness validation
 explicitly through `spatial-validator`; this library does not invoke it or
 depend on it. See [Validation](validators.md).
 
+### Mutable points
+
+Mutable points live directly in the dimension namespace:
+
+| Layout | Class | Constructor ordinates |
+| --- | --- | --- |
+| XY | `Types\Dimension2\Point` | X, Y |
+| XYZ | `Types\Dimension3z\Point` | X, Y, Z |
+| XYM | `Types\Dimension3m\Point` | X, Y, M |
+| XYZM | `Types\Dimension4zm\Point` | X, Y, Z, M |
+
+All ordinates default to `null`. Each constructor ends with
+`int|SpatialReference $srid = 0` and
+`SpatialModelEnum $family = SpatialModelEnum::GEOMETRY`.
+The family is instance state: the same class supports Geometry and Geography.
+
+```php
+use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Point;
+
+$point = new Point(0, null, null, 4326);
+$samePoint = $point->setX("2°30'E")
+    ->setY(48.5)
+    ->setZ(35)
+    ->setFamily(SpatialModelEnum::GEOGRAPHY)
+    ->setSpatialReference(SpatialReference::epsg(2154));
+assert($samePoint === $point);
+assert([2.5, 48.5, 35] === $point->toArray());
+```
+
+`MutablePointInterface` exposes `setX()`, `setY()`, `setZ()` and `setM()`;
+`MutableSpatialInterface` provides `setFamily()`, `setSpatialReference()` and
+`setSrid()`. Every successful setter returns the same instance as `static`.
+X/Y accept `float|int|string|null` and use the constructor's geo-parser path
+for strings. Z/M accept `float|int|null`, without string parsing.
+Rejected technical or parsing input leaves the receiver unchanged.
+
+Calling a Z/M setter for an axis outside the declared layout throws
+`LongitudeOne\SpatialTypes\Exception\BadMethodCallException`, even for `null`.
+Type and dimension remain fixed; there is no dimension setter or `with…` method.
+Supported axes accept null independently: `[0, null]` is not EMPTY. All-null
+ordinates produce EMPTY, with `toArray() === []` and `getCoordinates() === null`.
+A previously obtained `Coordinates` value remains an immutable snapshot.
+
+Family and declared-reference setters preserve every ordinate without coordinate
+transformation. Geometric validation remains explicit in the consumer. Mutable
+points cannot be inserted into immutable aggregates and are not implicitly
+converted. Factories continue to create immutable types.
+
 ### Immutable point coordinates
 
 `LongitudeOne\SpatialTypes\Value\Coordinates` is a public immutable value
@@ -403,7 +453,7 @@ Functional validity checks belong to explicit consumer validation; see
 
 ## Immutability contract
 
-Every spatial type is immutable through the public API: construction sets its
+Every spatial type with the `Immutable` suffix is immutable through the public API: construction sets its
 ordinates, SRID, and aggregate membership, and no public mutator exists.
 `withCoordinates(Coordinates $coordinates): static` returns a point with
 replacement coordinates of the same dimension; `withSpatialReference(SpatialReference $reference): static`

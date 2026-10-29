@@ -16,7 +16,18 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-/** Mutable point contract; type-specific editing is introduced separately. */
+/** In-place point editing; unavailable Z/M axes reject even null values. */
 interface MutablePointInterface extends MutableSpatialInterface, PointInterface
 {
+    /** @param null|float|int $m Measure ordinate; the layout must contain M */
+    public function setM(float|int|null $m): static;
+
+    /** @param null|float|int|string $x X ordinate; strings use constructor parsing */
+    public function setX(float|int|string|null $x): static;
+
+    /** @param null|float|int|string $y Y ordinate; strings use constructor parsing */
+    public function setY(float|int|string|null $y): static;
+
+    /** @param null|float|int $z Elevation ordinate; the layout must contain Z */
+    public function setZ(float|int|null $z): static;
 }

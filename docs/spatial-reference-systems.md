@@ -27,6 +27,10 @@ checked explicitly by consumers. See [Spatial validation](validators.md).
 reference. It does not change coordinates and therefore does not perform a
 coordinate transformation. `withSrid()` is the legacy integer equivalent.
 
+Mutable points provide `setSpatialReference()`, `setSrid()` and `setFamily()`
+for changing the declared context on the same instance. These setters return
+that instance and preserve every ordinate, including null values.
+
 To obtain a valid value in a different SRS, calculate new coordinates with an
 external transformer, then create or update a value with those coordinates and
 the target `SpatialReference`.
