@@ -100,7 +100,10 @@ and dimension; `withSpatialReference()` and `withSrid()` preserve them.
 
 Mutable `Point` classes are available directly under each dimension namespace.
 See [mutable points](instantiable-spatial-types.md#mutable-points) for constructors
-and in-place operations. Mutable aggregates arrive in later Stories of Epic #38.
+and in-place operations. Mutable `LineString` and `CircularString` classes are also available directly under
+each dimension namespace. See [mutable paths](instantiable-spatial-types.md#mutable-line-strings-and-circular-strings)
+for point ownership, propagation and arc indexing. Other mutable aggregates arrive
+in later Stories of Epic #38.
 Existing factories create the explicitly named immutable classes and expose
 immutable return contracts.
 
@@ -202,7 +205,6 @@ creates a deep copy whose descendants all receive the requested reference.
 See [Instantiable spatial types](instantiable-spatial-types.md#immutability-contract)
 for the complete current mutability contract.
 
-
 Circular strings also provide `withArrayOfCoordinates()` without functional
 validity checks. Reference replacements preserve defining coordinates and copy
 the contained points. Editing an endpoint does not automatically edit the
@@ -226,3 +228,15 @@ $partial = $paris->withCoordinates(Coordinates::xy(0, null));
 assert([0, null] === $partial->toArray());
 assert(!$partial->isEmpty());
 ```
+
+### Mutable path ownership
+
+Mutable line strings and circular strings reject immutable point components
+without conversion. Supplied mutable points are retained by reference on
+construction, insertion and replacement; getters expose those same instances.
+Mutating a shared point is observable through every path containing it.
+
+Their declared-context setters accept a second `$propagate` argument, defaulting
+to `true`. Propagation edits all contained points in place, so other paths sharing
+those points observe the updated point metadata. Passing `false` updates only the
+receiving path. Ordinates never change during a declared-context update.

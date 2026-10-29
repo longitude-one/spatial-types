@@ -39,7 +39,7 @@ interface LineStringInterface extends CurveInterface
     /**
      * Return a point from the line string.
      *
-     * @param int $index index of the point. -1 is the last point. -2 is the penultimate point, etc.
+     * @param int $index index of the point; immutable variants wrap negative indices, mutable variants require an existing zero-based index
      */
     public function getPoint(int $index): PointInterface;
 

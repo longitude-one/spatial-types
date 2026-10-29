@@ -623,3 +623,91 @@ Committee Draft: clauses 4.2.7 and 7.4.1 (component types, continuity and empty
 values), and 7.4.6–7.4.7 (endpoints, including `null` for EMPTY). The library's
 point equality semantics apply to endpoint predicates; continuity is not enforced. This
 feature adds no serialization, decoding, linearization or factory entry points.
+
+## Mutable line strings and circular strings
+
+`Types\Dimension2`, `Types\Dimension3z`, `Types\Dimension3m` and
+`Types\Dimension4zm` each provide `LineString` and `CircularString`. They implement
+`MutableLineStringInterface` and `MutableCircularStringInterface` respectively.
+Their constructor is `__construct(array $points, int|SpatialReference $srid = 0,
+SpatialModelEnum $family = SpatialModelEnum::GEOMETRY)`. The coordinate layout and
+spatial type remain fixed; the declared family is instance state.
+
+Supply mutable point objects or indexed coordinate tuples in the selected layout.
+Tuples create mutable points using the line's declared family and reference,
+including the existing X/Y coordinate-string parser. Numeric and null Z/M values
+follow the corresponding point constructor. Immutable point objects are rejected
+without conversion. Supplied mutable points keep their identity, ordinates,
+family and reference; construction and membership edits do not synchronize them.
+Functional compatibility and geometric validity remain consumer concerns.
+
+| Operation | Effect |
+| --- | --- |
+| `addPoint($point)` | Append the supplied mutable point |
+| `insertPoint($index, $point)` | Insert before the zero-based index; the point count appends |
+| `setPoint($index, $point)` | Replace an existing point |
+| `removePoint($index)` | Remove an existing point and reindex the remaining points |
+| `setArrayOfCoordinates($tuples)` | Replace all points with newly constructed mutable points |
+| `getPoint($index)` | Return the same mutable point instance at an existing index |
+| `getPoints()` / `getElements()` | Return an ordered array of the same mutable point instances |
+
+Indexed access, replacement and removal require an existing non-negative index;
+invalid addressing throws `OutOfBoundsException`. Unlike the immutable variants,
+mutable paths do not wrap indices or accept negative indices. Failed membership,
+coordinate or arc edits preserve the path and all referenced points. All mutation
+methods return the receiver with return type `static`; there are no `with…`
+methods or dimension setter.
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Point;
+
+$shared = new Point(0, null, 4326);
+$first = new LineString([$shared], 4326);
+$second = new LineString([$shared], 4326);
+$first->addPoint(new Point(2, 3))->insertPoint(1, new Point(1, null));
+$shared->setY(4); // Both lines now expose [0, 4] for their first point.
+$first->setSrid(2154); // Updates the shared point, also observed through $second.
+$first->setSrid(3857, false); // Updates only $first's declared reference.
+```
+
+`setSrid($srid, $propagate = true)`,
+`setSpatialReference($reference, $propagate = true)` and
+`setFamily($family, $propagate = true)` change the path's declared context.
+By default they also update every contained point, including shared instances in
+other paths. Passing `false` changes only the receiver. None of these operations
+transforms ordinates or updates the metadata of another containing path.
+Returned point arrays cannot change membership, but their mutable points remain shared.
+
+### Circular arc indexing
+
+General point editing is available even for EMPTY or incomplete circular paths.
+`setOrigin($point)` inserts the first point into an empty circular string or
+replaces only its existing first point. `appendArc($passingPoint,
+$destinationPoint)` appends two points after an origin followed by zero or more
+complete pairs. Without an origin or after an incomplete pair, it throws
+`InvalidValueException` without mutation.
+
+| Arc index | Origin point index | Passing point index | Destination point index |
+| --- | --- | --- | --- |
+| `0` | `0` | `1` | `2` |
+| `1` | `2` | `3` | `4` |
+| `i` | `2 * i` | `2 * i + 1` | `2 * i + 2` |
+
+```php
+use LongitudeOne\SpatialTypes\Types\Dimension2\CircularString;
+
+$path = new CircularString([]);
+$path->setOrigin(new Point(0, 0))
+    ->appendArc(new Point(1, 1), new Point(2, 0))
+    ->appendArc(new Point(3, -1), new Point(4, 0));
+$path->replaceArc(0, new Point(1, 2), new Point(2, 1));
+// Point 0 is retained; points 1 and 2 are replaced.
+// Point 2 is also the origin of arc 1, whose points 3 and 4 are retained.
+```
+
+`replaceArc()` requires all three positions of the addressed arc to exist and
+throws `OutOfBoundsException` otherwise. Arc helpers check only this sequence
+structure. They do not validate circle geometry, coordinate completeness or
+continuity, close the path, repair points, or enforce geometric minimum counts.
+Null ordinates, EMPTY points and incomplete point sequences remain representable.

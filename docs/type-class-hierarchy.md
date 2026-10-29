@@ -53,3 +53,22 @@ storage; they are not line strings and do not inherit point-set
 simplicity checks. Compound curves retain ordered `ImmutableCurveInterface` components
 and require curve interfaces and point tuples with numeric or null ordinates; functional compatibility
 and endpoint continuity are not checked.
+
+Mutable point-defined paths extend the read-only spatial base independently of
+immutable implementations:
+
+```text
+AbstractSpatialType
+└── AbstractPointSequence
+    ├── AbstractLineString
+    │   └── Dimension{2,3m,3z,4zm}\LineString
+    └── AbstractCircularString
+        └── Dimension{2,3m,3z,4zm}\CircularString
+```
+
+`PointSequenceEditingTrait` shares ordered membership editing between the two
+mutable path bases. These paths contain only `MutablePointInterface` instances;
+coordinate tuples create mutable points, and immutable components are rejected.
+Their interfaces refine the common read methods to return mutable points and
+expose type-specific mutation, including optional context propagation. The common
+interfaces remain read-only, and mutable paths expose no copy operations.
