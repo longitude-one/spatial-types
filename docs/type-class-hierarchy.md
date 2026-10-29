@@ -72,3 +72,15 @@ coordinate tuples create mutable points, and immutable components are rejected.
 Their interfaces refine the common read methods to return mutable points and
 expose type-specific mutation, including optional context propagation. The common
 interfaces remain read-only, and mutable paths expose no copy operations.
+
+Mutable compound curves use a separate base:
+
+```text
+AbstractSpatialType
+└── AbstractCompoundCurve
+    └── Dimension{2,3m,3z,4zm}\CompoundCurve
+```
+
+`MutableCompoundCurveInterface` refines component getters to mutable line-string
+or circular-string interfaces and exposes ordered membership editing. Immutable
+compound curves retain their separate immutable base and copy contracts.

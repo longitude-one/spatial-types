@@ -47,3 +47,11 @@ $lambert93 = $lambert93->withCoordinates(Coordinates::xy(652469.0227, 6862035.25
 
 The Lambert 93 ordinates in this example must be calculated by that external
 transformer; this library intentionally does not provide it.
+
+Mutable line strings and circular strings propagate declared-context updates to
+contained points by default. Mutable compound curves recursively propagate to
+all components and their points. Their `setSrid()`, `setSpatialReference()` and
+`setFamily()` methods accept `$propagate = false` to change only the receiver.
+Propagation changes shared instances, so their other owners observe the updated
+member context while retaining their own aggregate context. Coordinates are
+never recalculated.
