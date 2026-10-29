@@ -256,7 +256,9 @@ retain supplied members and descendants by reference. Their common
 visible through every aggregate referencing it. Complete `setElements()`
 replacement checks all inputs before changing membership.
 
-These aggregates reject immutable spatial components recursively. Coordinate
+These aggregates reject immutable spatial components recursively. Containment
+cycles are also rejected atomically; repeated members and shared descendants
+remain supported when their references form an acyclic graph. Coordinate
 arrays supported by the multi-object constructors and `setElements()` create
 mutable descendants. The three context setters propagate through all members
 by default; `false` changes only the receiver. Propagation modifies shared

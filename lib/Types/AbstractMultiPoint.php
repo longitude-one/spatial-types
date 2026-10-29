@@ -71,7 +71,7 @@ abstract class AbstractMultiPoint extends AbstractMutableCollection implements M
         if (!$element instanceof MutablePointInterface) {
             throw new InvalidValueException('Mutable MultiPoint members must be mutable Point objects or coordinate arrays.');
         }
-        MutableComponentGuard::check($element);
+        MutableComponentGuard::check($element, $this);
 
         return $element;
     }

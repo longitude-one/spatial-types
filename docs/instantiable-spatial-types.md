@@ -992,6 +992,14 @@ mutators raise PHP `TypeError`. Technical input or addressing failures preserve
 membership and referenced descendants, including late failures during complete
 replacement. Successful mutations return the receiver as `static`.
 
+Containment must be acyclic. Construction and every member-mutation path reject
+already cyclic member graphs or a new direct/indirect reference back to the
+receiver with `InvalidValueException` and the message
+`Mutable aggregate members must not form reference cycles.` The failure changes
+neither membership nor the context of any referenced instance. This is a
+technical object-graph restriction, independent of geometric validation.
+Repeated members and shared descendants in an acyclic graph remain supported.
+
 ```php
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Types\Dimension2\LineString;

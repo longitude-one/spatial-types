@@ -47,7 +47,7 @@ abstract class AbstractSpatialCollection extends AbstractMutableCollection
         if (!$element instanceof MutableSpatialInterface) {
             throw new InvalidValueException('Mutable spatial collections require mutable spatial objects.');
         }
-        MutableComponentGuard::check($element);
+        MutableComponentGuard::check($element, $this);
 
         return $element;
     }

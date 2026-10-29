@@ -63,7 +63,7 @@ abstract class AbstractMultiPolygon extends AbstractMutableCollection implements
         if (!$element instanceof MutablePolygonInterface) {
             throw new InvalidValueException('Mutable MultiPolygon members must be mutable Polygon objects or coordinate arrays.');
         }
-        MutableComponentGuard::check($element);
+        MutableComponentGuard::check($element, $this);
 
         return $element;
     }

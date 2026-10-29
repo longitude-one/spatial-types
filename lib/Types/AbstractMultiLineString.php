@@ -62,7 +62,7 @@ abstract class AbstractMultiLineString extends AbstractMutableCollection impleme
         if (!$element instanceof MutableLineStringInterface) {
             throw new InvalidValueException('Mutable MultiLineString members must be mutable LineString objects or coordinate arrays.');
         }
-        MutableComponentGuard::check($element);
+        MutableComponentGuard::check($element, $this);
 
         return $element;
     }
