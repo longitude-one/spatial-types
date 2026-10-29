@@ -84,3 +84,18 @@ AbstractSpatialType
 `MutableCompoundCurveInterface` refines component getters to mutable line-string
 or circular-string interfaces and exposes ordered membership editing. Immutable
 compound curves retain their separate immutable base and copy contracts.
+
+Mutable polygons and triangles share ring storage and editing in a separate base:
+
+```text
+AbstractSpatialType
+└── AbstractPolygon
+    ├── Dimension{2,3m,3z,4zm}\Polygon
+    └── Dimension{2,3m,3z,4zm}\Triangle
+```
+
+`MutablePolygonInterface` refines ring accessors to `MutableLineStringInterface`
+and provides ring editing and ring-then-point replacement. `MutableTriangleInterface`
+adds the distinct triangle type contract. Both concrete variants retain mutable
+rings and points by reference and expose no immutable copy operations. Their
+layout and spatial type are fixed; geometric validity remains explicit.
