@@ -49,7 +49,8 @@ The Lambert 93 ordinates in this example must be calculated by that external
 transformer; this library intentionally does not provide it.
 
 Mutable line strings and circular strings propagate declared-context updates to
-contained points by default. Mutable compound curves recursively propagate to
+contained points by default. Mutable polygons and triangles recursively propagate to rings and their points.
+Mutable compound curves recursively propagate to
 all components and their points. Their `setSrid()`, `setSpatialReference()` and
 `setFamily()` methods accept `$propagate = false` to change only the receiver.
 Propagation changes shared instances, so their other owners observe the updated

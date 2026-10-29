@@ -777,3 +777,82 @@ owners. Passing `false` updates only the receiver. No context setter recalculate
 coordinates, changes the compound's spatial type or changes its layout.
 `toArray()` preserves component boundaries and their defining point tuples;
 circular components are never flattened or approximated.
+
+## Mutable polygons and triangles
+
+`Polygon` and `Triangle` are available directly in `Types\Dimension2`,
+`Types\Dimension3z`, `Types\Dimension3m`, and `Types\Dimension4zm`.
+Both constructors have the same signature:
+
+```php
+new Polygon(array $rings, int|SpatialReference $srid = 0,
+    SpatialModelEnum $family = SpatialModelEnum::GEOMETRY);
+new Triangle(array $rings, int|SpatialReference $srid = 0,
+    SpatialModelEnum $family = SpatialModelEnum::GEOMETRY);
+```
+
+Each input ring is a `MutableLineStringInterface` or an array of mutable points
+and coordinate tuples. Arrays create mutable line strings and points using the
+surface's current layout, family and reference. Supplied spatial objects retain
+their own context and identity. Immutable rings and points are rejected without
+conversion, including immutable points exposed by a custom ring.
+
+| Operation | Effect |
+| --- | --- |
+| `addRing($ring)` | Append a mutable line string |
+| `insertRing($index, $ring)` | Insert before the addressed ring; the count appends |
+| `removeRing($index)` | Remove an existing ring and reindex |
+| `setRing($index, $ring)` | Replace one existing ring |
+| `setPoint($ringIndex, $pointIndex, $point)` | Replace one point in an existing ring |
+| `setArrayOfCoordinates($coordinates)` | Replace all rings from coordinate tuples |
+| `getRing($index)`, `getRings()`, `getElements()` | Return the retained mutable ring instances |
+
+All successful mutations return the receiver as `static`. Ring and point indices
+start at zero; access, replacement and removal require an existing element.
+Negative indices and indices beyond the addressed sequence are rejected with
+`OutOfBoundsException`. Failed addressing or technical input checks leave the
+surface and shared descendants unchanged, including a late invalid tuple during
+complete coordinate replacement.
+
+```php
+use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Types\Dimension2\LineString;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Point;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Polygon;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Triangle;
+
+$ring = new LineString([[0, null], [3, 4]], 4326);
+$polygon = new Polygon([$ring], 4326);
+$triangle = new Triangle([$ring], 4326);
+$replacement = new Point(7, null, 4326);
+
+$samePolygon = $polygon->setPoint(0, 0, $replacement);
+assert($polygon === $samePolygon);
+assert($replacement === $triangle->getRing(0)->getPoint(0));
+assert([[[7, null], [3, 4]]] === $triangle->toArray());
+
+$polygon->setFamily(SpatialModelEnum::GEOGRAPHY, false); // Only the polygon.
+$polygon->setSrid(2154); // Polygon, shared ring and every point.
+assert(2154 === $triangle->getRing(0)->getSrid());
+assert(4326 === $triangle->getSrid());
+```
+
+Construction, insertion and replacement retain supplied components without
+cloning; getters expose the same instances. Changes to a shared ring or point
+are visible in every surface containing it. Coordinate replacement creates new
+descendants and leaves the previous rings and their other owners unchanged.
+
+`setSrid()`, `setSpatialReference()` and `setFamily()` each accept a second
+`bool $propagate = true` parameter. By default they update all rings and points
+recursively; `false` updates only the receiver. No ordinates are recalculated.
+The instance's spatial type and coordinate layout remain fixed. Mutable surfaces
+have no `with…` methods or dimension setter; immutable counterparts keep their
+copy-producing operations and reject mutable components.
+
+Open or incomplete rings, EMPTY rings, null ordinates and triangles with extra
+points or rings remain representable. Editing preserves the supplied order and
+does not close rings, synchronize endpoints, enforce orientation or validate
+geometry. ISO/IEC CD 13249-3:201x(E), clauses 8.3.1 and 8.4.1, define the polygon
+and triangle models; representing a value does not establish conformity with
+those geometric definitions. Request functional checks through
+[spatial-validator](validators.md) explicitly.

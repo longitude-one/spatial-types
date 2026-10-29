@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Interfaces;
 
-/** Mutable triangle contract; type-specific editing is introduced separately. */
+/** Mutable triangle contract with inherited ordered ring and point editing. */
 interface MutableTriangleInterface extends MutablePolygonInterface, TriangleInterface
 {
 }
