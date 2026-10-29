@@ -27,7 +27,7 @@ interface PolyhedralSurfaceInterface extends SpatialInterface
     public function getElements(): array;
 
     /**
-     * Return a patch using wrapped indexes, with negative indexes from the end.
+     * Return a patch by index; indexing conventions are defined by the variant.
      *
      * @param int $index Patch index
      */

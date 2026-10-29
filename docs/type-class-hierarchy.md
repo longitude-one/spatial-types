@@ -99,3 +99,18 @@ and provides ring editing and ring-then-point replacement. `MutableTriangleInter
 adds the distinct triangle type contract. Both concrete variants retain mutable
 rings and points by reference and expose no immutable copy operations. Their
 layout and spatial type are fixed; geometric validity remains explicit.
+
+
+Mutable polyhedral surfaces use a separate patch-owning base:
+
+```text
+AbstractSpatialType
+└── AbstractPolyhedralSurface
+    └── Dimension{3z,4zm}\PolyhedralSurface
+```
+
+`MutablePolyhedralSurfaceInterface` refines patch accessors to
+`MutablePolygonInterface` and exposes patch editing plus patch-then-ring-then-point
+addressing. The base retains patches and their mutable descendants by reference.
+Coordinate arrays create mutable polygons in the fixed XYZ or XYZM layout;
+immutable surface implementations and their copy contracts remain separate.
