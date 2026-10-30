@@ -4,6 +4,8 @@ Use a type-specific static factory to create a supported spatial object in the
 current mutable or immutable mode. Select the mode once for the execution;
 all public type-specific factories and their consumers share it.
 Direct constructors remain available and do not consult this setting.
+For local configuration and progressive assembly, use the
+[reusable spatial builder](spatial-builder.md).
 
 ## Select the shared mode
 
