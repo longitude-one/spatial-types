@@ -14,8 +14,9 @@ longer describe this package.
 
 ### Approved changes since the original review
 
-GitHub reports the six blocking dependencies of #26 closed: #20, #24, #25,
-#36, #38 and #57. Story #26 is `In progress`; its parent Epic #23 is open.
+At the start of resumption, GitHub reported the six existing blocking
+dependencies of #26 closed: #20, #24, #25, #36, #38 and #57. Story #26 was
+`In progress`; its parent Epic #23 was open.
 No pull request existed for this audit branch at the start of resumption.
 
 | Approved work | Consequence for this review |
@@ -42,7 +43,10 @@ The twelve unsupported types listed in the historical scope remain excluded.
 
 The following matrix records the **representation boundary**, not an assertion
 that every represented value satisfies the corresponding geometry definition.
-Implementation paths are relative to `lib/`; tests are under `tests/`.
+Implementation paths are relative to `lib/`; a bare implementation filename
+is under `Internal/Types/`. Test paths are relative to `tests/`; a bare test
+filename or `Dimension*` test path is under `Unit/Types/`. Braces enumerate
+the named variants, including an empty alternative for the mutable base.
 
 | Spatial type | Reviewed requirement / ownership | Normative reference | Current implementation | Automated evidence | Status and remaining limit |
 | --- | --- | --- | --- | --- | --- |
