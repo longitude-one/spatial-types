@@ -45,6 +45,40 @@ trait PointBehaviorTrait
     private bool $empty = false;
 
     /**
+     * Compare a mixed numeric pair without rounding the integer to binary64.
+     *
+     * @param int   $integer  the integer ordinate
+     * @param float $floating the floating-point ordinate
+     */
+    private static function integerEqualsFloat(int $integer, float $floating): bool
+    {
+        // The exclusive upper bound is exact even when PHP_INT_MAX rounds up as a float.
+        return $floating >= PHP_INT_MIN
+            && $floating < -(float) PHP_INT_MIN
+            && floor($floating) === $floating
+            && (int) $floating === $integer;
+    }
+
+    /**
+     * Compare numeric ordinates without coercing missing values to zero.
+     *
+     * @param null|float|int $first  the first ordinate
+     * @param null|float|int $second the second ordinate
+     */
+    private static function ordinatesEqual(float|int|null $first, float|int|null $second): bool
+    {
+        if (is_int($first) && is_float($second)) {
+            return self::integerEqualsFloat($first, $second);
+        }
+
+        if (is_float($first) && is_int($second)) {
+            return self::integerEqualsFloat($second, $first);
+        }
+
+        return $first === $second;
+    }
+
+    /**
      * Is the current point equal to another point?
      *
      * @param PointInterface $point the point to compare
@@ -59,15 +93,15 @@ trait PointBehaviorTrait
             return $this->isEmpty() && $point->isEmpty();
         }
 
-        if ($point->getX() !== $this->getX() || $point->getY() !== $this->getY()) {
+        if (!self::ordinatesEqual($point->getX(), $this->getX()) || !self::ordinatesEqual($point->getY(), $this->getY())) {
             return false;
         }
 
-        if ($point->hasM() && $this->hasM() && $this->getM() !== $point->getM()) {
+        if ($point->hasM() && $this->hasM() && !self::ordinatesEqual($this->getM(), $point->getM())) {
             return false;
         }
 
-        if ($point->hasZ() && $this->hasZ() && $this->getZ() !== $point->getZ()) {
+        if ($point->hasZ() && $this->hasZ() && !self::ordinatesEqual($this->getZ(), $point->getZ())) {
             return false;
         }
 

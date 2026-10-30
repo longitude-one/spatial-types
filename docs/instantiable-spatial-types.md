@@ -432,7 +432,11 @@ for Geography values. `getZ()` is available only for `XYZ`/`XYZM` points and
 and `getCoordinates()` return `null`; `toArray()` returns `[]`.
 
 `equalsTo(PointInterface $other): bool` compares the concrete point class,
-family, SRID, coordinate layout, and all applicable ordinates. `toArray()`
+family, SRID, coordinate layout, and all applicable ordinates. Equivalent
+integer/float values compare equal; null remains distinct from zero, and no
+approximate tolerance is used. Coordinates and their stored PHP types remain
+unchanged. See [numeric representation equality](numeric-point-equality.md)
+for examples and the Story #26 audit evidence. `toArray()`
 returns one tuple in the layout's order.
 
 ### Aggregate getters and predicates
@@ -567,8 +571,8 @@ contract implemented by `LineStringInterface`, `CircularStringInterface` and
 `CompoundCurveInterface`. It provides `getStartPoint(): ?PointInterface`,
 `getEndPoint(): ?PointInterface` and `isClosed(): bool`. Empty curves return
 `null` endpoints and are not closed. Endpoint equality uses the existing
-`PointInterface::equalsTo()` semantics, including all ordinates and their PHP
-numeric types; no tolerance or coordinate normalization is introduced.
+`PointInterface::equalsTo()` semantics, including all ordinates with integer/float numeric equivalence;
+null stays distinct from zero. No tolerance or coordinate normalization is introduced.
 
 This is an approved breaking change before 1.0.0: third-party implementations
 of these curve interfaces must implement the three common methods. Existing
