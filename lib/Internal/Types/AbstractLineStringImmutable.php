@@ -57,17 +57,17 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
      */
     public function isClosed(): bool
     {
-        return $this->isLine() && $this->points[0]->equalsTo($this->points[count($this->points) - 1]);
+        return count($this->points) >= 2 && $this->points[0]->equalsTo($this->points[count($this->points) - 1]);
     }
 
     /**
      * Is this line string a line?
      *
-     * A line is composed of at least two points.
+     * A line is composed of exactly two points.
      */
     public function isLine(): bool
     {
-        return count($this->points) >= 2;
+        return 2 === count($this->points);
     }
 
     /**
