@@ -45,6 +45,21 @@ trait PointBehaviorTrait
     private bool $empty = false;
 
     /**
+     * Compare numeric ordinates without coercing missing values to zero.
+     *
+     * @param null|float|int $first  the first ordinate
+     * @param null|float|int $second the second ordinate
+     */
+    private static function ordinatesEqual(float|int|null $first, float|int|null $second): bool
+    {
+        if (null === $first || null === $second) {
+            return $first === $second;
+        }
+
+        return $first == $second;
+    }
+
+    /**
      * Is the current point equal to another point?
      *
      * @param PointInterface $point the point to compare
@@ -59,15 +74,15 @@ trait PointBehaviorTrait
             return $this->isEmpty() && $point->isEmpty();
         }
 
-        if ($point->getX() !== $this->getX() || $point->getY() !== $this->getY()) {
+        if (!self::ordinatesEqual($point->getX(), $this->getX()) || !self::ordinatesEqual($point->getY(), $this->getY())) {
             return false;
         }
 
-        if ($point->hasM() && $this->hasM() && $this->getM() !== $point->getM()) {
+        if ($point->hasM() && $this->hasM() && !self::ordinatesEqual($this->getM(), $point->getM())) {
             return false;
         }
 
-        if ($point->hasZ() && $this->hasZ() && $this->getZ() !== $point->getZ()) {
+        if ($point->hasZ() && $this->hasZ() && !self::ordinatesEqual($this->getZ(), $point->getZ())) {
             return false;
         }
 
