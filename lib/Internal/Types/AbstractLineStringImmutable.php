@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Internal\Types;
 
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
@@ -68,6 +69,18 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
     public function isLine(): bool
     {
         return 2 === count($this->points);
+    }
+
+    /** Detect proper interior crossings of complete, compatible XY segments. */
+    public function isSimple(): bool
+    {
+        if (!parent::isSimple()) {
+            return false;
+        }
+
+        $positions = $this->completeXyPositions();
+
+        return null === $positions || !$this->hasProperCrossing($positions);
     }
 
     /**
@@ -161,6 +174,50 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
     }
 
     /**
+     * Keep unresolved partial-position, dimensional and context semantics unchanged.
+     *
+     * @return null|list<array{float|int, float|int}>
+     */
+    private function completeXyPositions(): ?array
+    {
+        if (CoordinateDimensionEnum::XY !== $this->getDimension()) {
+            return null;
+        }
+
+        $positions = [];
+        foreach ($this->points as $point) {
+            $x = $point->getX();
+            $y = $point->getY();
+            if (null === $x || null === $y || !is_finite($x) || !is_finite($y)) {
+                return null;
+            }
+            if ($point->getDimension() !== $this->getDimension() || $point->getFamily() !== $this->getFamily()
+                || !$point->getSpatialReference()->equals($this->getSpatialReference())) {
+                return null;
+            }
+
+            $positions[] = [$x, $y];
+        }
+
+        return $positions;
+    }
+
+    /** @param list<array{float|int, float|int}> $positions Complete XY positions */
+    private function hasProperCrossing(array $positions): bool
+    {
+        $segmentCount = count($positions) - 1;
+        for ($first = 0; $first < $segmentCount; ++$first) {
+            for ($second = $first + 2; $second < $segmentCount; ++$second) {
+                if ($this->segmentsCross($positions[$first], $positions[$first + 1], $positions[$second], $positions[$second + 1])) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Normalize a point index according to the line-string accessor convention.
      *
      * @param int $pointIndex point index to normalize
@@ -177,5 +234,48 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
         $pointIndex %= $pointCount;
 
         return $pointIndex < 0 ? $pointCount + $pointIndex : $pointIndex;
+    }
+
+    /**
+     * @param float|int $first  First orientation
+     * @param float|int $second Second orientation
+     */
+    private function oppositeSides(float|int $first, float|int $second): bool
+    {
+        return ($first < 0 && $second > 0) || ($first > 0 && $second < 0);
+    }
+
+    /**
+     * @param array{float|int, float|int} $start      First segment start
+     * @param array{float|int, float|int} $end        First segment end
+     * @param array{float|int, float|int} $otherStart Second segment start
+     * @param array{float|int, float|int} $otherEnd   Second segment end
+     */
+    private function segmentsCross(array $start, array $end, array $otherStart, array $otherEnd): bool
+    {
+        $scaleX = max(abs($start[0]), abs($end[0]), abs($otherStart[0]), abs($otherEnd[0]));
+        $scaleY = max(abs($start[1]), abs($end[1]), abs($otherStart[1]), abs($otherEnd[1]));
+        if (0 >= $scaleX || 0 >= $scaleY) {
+            return false;
+        }
+
+        $start = [$start[0] / $scaleX, $start[1] / $scaleY];
+        $end = [$end[0] / $scaleX, $end[1] / $scaleY];
+        $otherStart = [$otherStart[0] / $scaleX, $otherStart[1] / $scaleY];
+        $otherEnd = [$otherEnd[0] / $scaleX, $otherEnd[1] / $scaleY];
+
+        return $this->oppositeSides($this->side($start, $end, $otherStart), $this->side($start, $end, $otherEnd))
+            && $this->oppositeSides($this->side($otherStart, $otherEnd, $start), $this->side($otherStart, $otherEnd, $end));
+    }
+
+    /**
+     * @param array{float|int, float|int} $start Segment start
+     * @param array{float|int, float|int} $end   Segment end
+     * @param array{float|int, float|int} $point Position being compared
+     */
+    private function side(array $start, array $end, array $point): float|int
+    {
+        return ($end[0] - $start[0]) * ($point[1] - $start[1])
+            - ($end[1] - $start[1]) * ($point[0] - $start[0]);
     }
 }
