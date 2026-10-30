@@ -1,5 +1,111 @@
 # Normative conformance review for 1.0.0
 
+## Resumption on 2026-10-30
+
+The current implementation baseline is
+`dbd6d1c` (the merge of public/internal API Story #57). The audit branch
+`dfae978` adds only the historical report below. This resumption is an audit;
+it changes no runtime behavior, supported API or implementation-status result.
+
+**Disposition: the audit remains incomplete and blocks contract stabilization.**
+The historical matrix below must not be used as a current conformance claim.
+In particular, its `Validator/` paths and automatic rejection assertions no
+longer describe this package.
+
+### Approved changes since the original review
+
+GitHub reports the six blocking dependencies of #26 closed: #20, #24, #25,
+#36, #38 and #57. Story #26 is `In progress`; its parent Epic #23 is open.
+No pull request existed for this audit branch at the start of resumption.
+
+| Approved work | Consequence for this review |
+| --- | --- |
+| [#33](https://github.com/longitude-one/spatial-types/issues/33) | Functional validation, including equivalent inline checks, was removed. `spatial-types` does not invoke or depend on `spatial-validator`. |
+| [#36](https://github.com/longitude-one/spatial-types/issues/36) | Partial-null positions are representable; only all-null point ordinates mean EMPTY. This is a representation contract, not proof of normative validity. |
+| [#38](https://github.com/longitude-one/spatial-types/issues/38) and #39–#46 | Both mutable and immutable representations are now in scope. Immutable concrete names end in `Immutable`; mutable classes live directly under each dimension namespace. |
+| [#55](https://github.com/longitude-one/spatial-types/issues/55) | Public factories/builders add construction paths; they do not establish geometric validity. |
+| [#57](https://github.com/longitude-one/spatial-types/issues/57) | Shared abstract implementations now live under `Internal/`. Public interfaces and concrete types remain the audit targets. |
+
+The repository's current [validation contract](validators.md) is authoritative
+for ownership. Requirements for geometric validity remain normative, but their
+automatic enforcement is outside this package under #33. Conversely, a public
+predicate exposed by this package still needs a correct, explicit contract.
+Moving validators does not establish correctness of `isSimple()` or `isClosed()`.
+
+### Current inventory and evidence
+
+`SpatialTypeImplementationStatus::isFullyImplemented()` still reports eleven
+types. The scope includes immutable Geometry and Geography variants and mutable
+variants with either family as instance metadata. The applicable layouts are
+XY, XYZ, XYM and XYZM, except PolyhedralSurface has XYZ and XYZM only.
+The twelve unsupported types listed in the historical scope remain excluded.
+
+The following matrix records the **representation boundary**, not an assertion
+that every represented value satisfies the corresponding geometry definition.
+Implementation paths are relative to `lib/`; tests are under `tests/`.
+
+| Spatial type | Reviewed requirement / ownership | Normative reference | Current implementation | Automated evidence | Status and remaining limit |
+| --- | --- | --- | --- | --- | --- |
+| All eleven | Concrete identity, instantiability and fixed coordinate layout | ISO 4.2.3–19; 4.2.1.6 | `Implementation/SpatialTypeImplementationStatus.php`; `Types/Dimension*`; common interfaces | `Unit/Implementation/SpatialTypeImplementationStatusTest.php`; `Unit/Types/ConcreteTypeContractTest.php`; `SpatialVariantContractTest.php` | Conformant for the stated type/layout inventory. This does not certify functional validity. |
+| All eleven | SRS assignment retains ordinates; transformation is external | ISO 5.1.5 versus 5.1.6 | `Internal/Types/AbstractSpatialTypeImmutable.php`; concrete mutable context methods | `Unit/Types/SpatialWithSridTest.php`; `MutablePointSequenceContextTest.php`; `MutablePolygonContextTest.php`; `MutablePolyhedralSurfaceContextTest.php`; `MutableMultiObjectContextTest.php` | Conformant for declared-reference replacement/propagation. Assignment does not transform coordinates. |
+| Point | Position storage, Z/M preservation and EMPTY representation | ISO 4.2.3; 4.2.1.6; 6.1.1 | `Types/PointBehaviorTrait.php`; `Value/Coordinates.php`; `Internal/Types/AbstractPoint{,Immutable}.php` | `Unit/Types/EmptyPointTest.php`; `Issue/PartiallyNull{XY,XYZ,XYM,XYZM}PointTest.php`; `Unit/Types/Dimension{2,3z,3m,4zm}/PointTest.php` | Conformant for storage under #36. Coordinate completeness enforcement: Not applicable to this package. |
+| LineString | Ordered defining points; line classification | ISO 4.2.5; 7.2.1, Description 7–8; OGC 6.1.7.1 | `Internal/Types/AbstractLineString{,Immutable}.php` | `Unit/Types/MutableLineStringTest.php`; `Dimension2/Geometry/LineStringTest.php` | Non-conformant: immutable `isLine()` accepts more than two points; mutable does not (R1). Existing immutable tests preserve the defect. |
+| CircularString | Ordered arc control points; retain circular representation | ISO 4.2.6; 7.3.1 | `Internal/Types/AbstractCircularString{,Immutable}.php` | `Unit/Types/CircularStringValidationTest.php`; `MutableCircularStringTest.php`; dimension/family CircularString tests | Conformant for control-point storage. Odd cardinality and valid arcs are explicit validation concerns under #33. |
+| CompoundCurve | Ordered line/circular component representation; no linearization | ISO 4.2.7; 7.4.1 | `Internal/Types/AbstractCompoundCurve{,Immutable}.php` | `Unit/Types/CompoundCurveValidationTest.php`; `MutableCompoundCurveTest.php`; `Issue/PartiallyNullCompoundCurveTest.php` | Conformant for ordered supported component storage. Continuity and compatible context enforcement: Not applicable here. |
+| Polygon | Exterior first, then interior boundary sequences | ISO 4.2.10; 8.3.1 | `Internal/Boundary/PolygonBoundary.php`; `Internal/Types/AbstractPolygon{,Immutable}.php` | `Unit/Types/AggregateBoundaryAndValidationTest.php`; `MutablePolygonTest.php`; `MutablePolygonLayoutTest.php` | Conformant for storage/order. Closure, simplicity, planarity and hole topology enforcement: Not applicable here. |
+| Triangle | Distinct triangle identity and polygon boundary representation | ISO 4.2.11; 8.4.1; OGC 6.1.11.1 | `Types/Dimension*/Triangle.php`; `Types/Dimension*/{Geometry,Geography}/TriangleImmutable.php` | `Unit/Types/TriangleTest.php`; `MutablePolygonLayoutTest.php`; `RepresentationWithoutValidationTest.php::testXymTriangleStoresOpenBoundariesAndHoles()` | Conformant for identity/storage. Cardinality, holes and non-collinearity enforcement: Not applicable here. |
+| PolyhedralSurface | Ordered polygon patch storage in layouts containing Z | ISO 4.2.12; 8.5.1 | `Internal/Types/AbstractPolyhedralSurface{,Immutable}.php`; XYZ/XYZM concrete types | `Unit/Types/PolyhedralSurfaceTest.php`; `MutablePolyhedralSurfaceTest.php`; `RepresentationWithoutValidationTest.php` surface cases | Conformant for patch representation. Connectivity, planarity, manifold and closed-surface validation are external. Historical F4 remains a source conflict for validation, not justification to reject representations here. |
+| GeometryCollection | Heterogeneous and nested spatial member storage | ISO 4.2.14; 9.1.1 | `Internal/Types/AbstractCollectionImmutable.php`; `AbstractSpatialCollection.php` | `Issue/Issue1/CollectionTest.php`; `Unit/Types/RepresentationWithoutValidationTest.php::testMembershipDoesNotEnforceFamilyDimensionOrReference()`; `MutableMultiObjectTest.php`; `MutableSpatialCollectionCycleTest.php` | Conformant for storage. Historical mixed-layout/family rejection F6 is superseded by #33. Cycle rejection protects the PHP ownership graph. |
+| MultiPoint | Point membership and geometric simplicity | ISO 4.2.15; 5.1.8; 9.2.1; OGC 6.1.5 | `Internal/Types/Collection/AbstractPointCollectionImmutable.php`; `AbstractMultiPoint.php`; `Types/PointBehaviorTrait.php` | `Issue/EmptyMultiPointMembersTest.php`; `Unit/Types/MutableMultiObjectTest.php::testSimplicity()`; dimension/family MultiPoint tests | Conformant for member storage; Non-conformant for immutable repeated-instance simplicity (R2). Numeric/Z/M/class-dependent equality needs a predicate mapping decision (R3). |
+| MultiLineString | LineString member representation; preserve EMPTY members | ISO 4.2.17; 9.4.1 | `Internal/Types/AbstractMultiLineString{,Immutable}.php` | `Issue/EmptyMultiLineStringDimension{2,3z,3m,4zm}Test.php`; `Unit/Types/MutableMultiObjectTest.php` | Conformant for storage. Member well-formedness enforcement: Not applicable here. |
+| MultiPolygon | Polygon member representation; preserve EMPTY members | ISO 4.2.19; 9.6.1 | `Internal/Types/AbstractMultiPolygon{,Immutable}.php` | `Issue/EmptyMultiPolygonDimension{2,3z,3m,4zm}Test.php`; `Unit/Types/MutableMultiObjectTest.php` | Conformant for storage. Disjoint interiors and permitted boundary contacts are external validation concerns. |
+| Curves, MultiPoint | Correct public geometric predicates | ISO 4.2.1.6; 5.1.8; 7.1.6–7; OGC 6.1.5–7 | Equality trait and curve/multi-point bases above | Existing tests cover ordinary cases; complete normative regressions are missing | Normative ambiguity about mapping the PHP predicates to ISO XY/3D operations; R2/R3 prevent a conformance claim. |
+| Aggregates | EMPTY set versus zero stored members | ISO 5.1.7; 9.1.1, Description 6–7 | Aggregate `isEmpty()` implementations | EMPTY-member tests retain members and assert cardinality-based non-emptiness | Normative ambiguity: R4. Approved storage preservation alone does not determine the public predicate. |
+| All eleven | Encoding/decoding, transformations, SQL routine completeness | ISO 5.1.6, 5.1.46–58; clause 20; ISO 19136 | Other components | No package-local verification required | Not applicable. No full SQL/MM implementation conformance is claimed. |
+
+### Reproduced findings and decisions required
+
+The ISO clauses below were re-inspected directly in the local
+**ISO/IEC CD 13249-3:201x(E)** PDF, dated 2009-01-16. The supplied OGC
+06-103r4 transcription was consulted independently for clauses 6.1.5–7
+and 6.1.12.1. Neither source is inferred from database behavior.
+
+The following observations were executed against `dfae978` on 2026-10-30.
+They are diagnostics, not newly introduced tests certifying current behavior.
+Each finding blocks this audit's final baseline; no runtime fix is included.
+
+| ID | Reproduction / observed result | Expected behavior or decision |
+| --- | --- | --- |
+| R1 | Three-point `LineStringImmutable([[0,0],[1,1],[2,2]])->isLine()` is `true`; the mutable equivalent is `false`. | ISO 4.2.5 and 7.2.1 Description 8, and OGC 6.1.7.1 agree on exactly two points. A separate correction must preserve closure as an independent endpoint predicate; simply narrowing `isLine()` would also break immutable `isClosed()`. No normative conflict was found for line cardinality. |
+| R2 | `MultiPointImmutable([$p, $p])->isSimple()` is `true` for `$p = new PointImmutable(1,2)`; mutable returns `false`. Immutable crossing `[[0,0],[2,2],[0,2],[2,0]]` LineString reports simple. | Repeated member positions count even when the same object is reused. A curve's simplicity requires segment reasoning, not only distinct stored point objects (ISO 5.1.8; OGC 6.1.5–6). Correction and normative regression tests must be tracked separately. Mutable LineString does not expose `isSimple()`. |
+| R3 | `PointImmutable(1,2)->equalsTo(new PointImmutable(1.0,2.0))` is `false`. Equality also considers concrete PHP class, family, dimension, SRID and every Z/M ordinate; curve closure and MultiPoint simplicity delegate to it. | API/Normative Gate: decide whether `equalsTo()` is representation equality or spatial equality, and explicitly map each dependent predicate. ISO 4.2.1.6 and 5.1.8 ignore Z/M for ordinary spatial operations; 7.1.6 ignores Z while 7.1.7 provides a separate 3D closure. Preserve numeric equivalence and define behavior on partial/EMPTY positions and differing contexts. |
+| R4 | A mutable or immutable MultiPoint containing only one EMPTY Point reports `isEmpty() === false`. Other aggregate implementations also use stored-member count. | API/Normative Gate: define EMPTY for represented aggregates versus geometric empty-set semantics (ISO 5.1.7), including all-EMPTY nested members and invalid structures. Retaining EMPTY members is compatible with either a separate cardinality operation or a geometric predicate; the approved storage contract does not settle this choice. |
+| R5 | Direct full-text ISO 19107/19111 evidence and complete per-layout/per-family predicate regressions are still absent. | Record the limits of the available sources. Do not claim an exhaustive normative baseline until delegated requirements are verified and the predicate regressions for the chosen contracts exist. |
+
+R1 is tracked by [Story #59](https://github.com/longitude-one/spatial-types/issues/59);
+R2 is tracked by [Story #60](https://github.com/longitude-one/spatial-types/issues/60).
+These findings are not approved implementation work. R3 and R4 require
+Alexandre's decision before finalizing the dependent correction contracts.
+No existing behavior is reclassified as an intentional divergence.
+
+### Disposition of historical findings
+
+| Historical ID | Current disposition |
+| --- | --- |
+| F1, F2, F3, F5 | Automatic geometric rejection is outside this package under #33. No equivalent checks may be reintroduced by this audit. Their validation requirements remain relevant to `spatial-validator`. |
+| F4 | Surface validity enforcement is external under #33; the ISO/OGC closure difference is preserved as historical normative evidence, not silently arbitrated. |
+| F6 | Functional family/layout compatibility rejection was removed under #33; mixed immutable membership is now explicitly tested. |
+| F7 | Still open as R4; the public EMPTY contract remains relevant. |
+| F8 | Still open as R2/R3. The mutable and immutable implementations now differ. |
+| F9 | Continuity enforcement is external; the public equality/closure mapping remains open as R3. |
+| F10 | Still open as R5. |
+
+## Historical audit snapshot — 2026-10-16
+
+The following material is retained for traceability against its original
+baseline. Its implementation paths, validation ownership and test mappings
+are historical and are superseded by the resumption assessment above.
+
 Audit for [Story #26](https://github.com/longitude-one/spatial-types/issues/26),
 2026-10-16, baseline `ceaee5d142c77fc3922ab50c762fa6648fea0e30`.
 **Result: blocking findings remain; this is not a release conformance claim.**
