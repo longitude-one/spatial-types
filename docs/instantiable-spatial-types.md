@@ -458,6 +458,25 @@ points, so a closed path with three or more points is not a line.
 Functional validity checks belong to explicit consumer validation; see
 [Spatial validation](validators.md).
 
+## Simplicity correction scope
+
+A MultiPoint containing the same complete, non-empty Point instance at two
+member positions is not simple, for both mutable and immutable variants.
+Calling `isSimple()` does not change the members or their shared identity.
+
+Immutable XY line strings also detect proper interior crossings between
+non-adjacent segments when all defining positions are complete, finite and
+share the line string's family, dimension and spatial reference. For example,
+`[[0, 0], [2, 2], [0, 2], [2, 0]]` is not simple. A contact only at the
+first/last endpoint is not a proper interior crossing.
+
+These are the two corrections approved in Story #60. They do not establish
+a complete normative simplicity implementation. Existing equality-based
+results for distinct points and closing endpoints remain unchanged, as do
+higher-dimensional crossings, partial/EMPTY positions and inconsistent
+contexts. The broader equality and XY/3D predicate mapping remains under
+review in Story #26. Mutable LineString does not expose `isSimple()`.
+
 ## Immutability contract
 
 Every spatial type with the `Immutable` suffix is immutable through the public API: construction sets its
