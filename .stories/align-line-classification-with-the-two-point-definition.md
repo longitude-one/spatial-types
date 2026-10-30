@@ -17,8 +17,10 @@ The immutable closure implementation currently calls `isLine()`, so a
 classification correction must preserve independent closure behavior.
 
 This finding blocks the 1.0.0 normative baseline and public-contract
-stabilization. It proposes a public behavior correction; the API/compatibility
-decision must be approved before implementation. It is not Ready by creation.
+stabilization. On 2026-10-30, Alexandre explicitly approved the correction:
+both mutable and immutable three-point line strings must return false because
+a line contains exactly two points. This records the API/compatibility decision
+for R1; it does not resolve the separate R3/R4 contracts.
 
 ## Acceptance Criteria
 
@@ -41,4 +43,4 @@ The project's common Definition of Done applies.
 - [ ] `composer quality` passes.
 - [ ] Explicit regressions cover XY, XYZ, XYM and XYZM, both families, both mutability variants, and a closed line string with more than two points.
 - [ ] Public documentation and the #26 conformance matrix reflect the approved contract and final verification.
-- [ ] The API and compatibility implications are approved and recorded before implementation.
+- [x] The API and compatibility correction was explicitly approved by Alexandre on 2026-10-30 and recorded above.

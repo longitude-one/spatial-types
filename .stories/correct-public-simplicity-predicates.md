@@ -19,23 +19,28 @@ Ordinary ISO spatial operations ignore Z/M under clause 4.2.1.6; ISO 5.1.9
 defines a separate 3D simplicity operation. Existing `equalsTo()` also tests
 PHP class, context, strict numeric types and all ordinates.
 
-This finding blocks the 1.0.0 normative baseline. The mapping of PHP
-`isSimple()` to XY or 3D semantics, numeric equality, and behavior on
-EMPTY/partial positions must be approved through the API/Normative Gate
-(audit R3). This Story records a finding; it is not Ready by creation.
+This finding blocks the 1.0.0 normative baseline. On 2026-10-30, Alexandre
+explicitly approved false for the two cited R2 scenarios: the repeated same
+non-empty Point instance in an immutable MultiPoint, and the crossing XY
+immutable LineString above. This Story is limited to those corrections and
+their regressions. Mutable MultiPoint already returns false for the repeated
+instance and must retain that result.
+
+The wider mapping of PHP predicates to XY/3D semantics, numeric equality and
+EMPTY/partial-position behavior remains audit R3/R4. Those unresolved contracts
+must not be silently decided as part of these two corrections.
 
 ## Acceptance Criteria
 
 - [ ] Repeating a complete non-empty point at two MultiPoint member positions produces a non-simple result, including when both positions refer to the same PHP object.
 - [ ] The crossing XY LineString from Context produces a non-simple result.
-- [ ] Curve simplicity accounts for interior segment intersections and the permitted coincidence of start/end points.
-- [ ] All exposed simplicity predicates follow the approved numeric, dimensional, context and EMPTY/partial-position contract, independently of PHP object identity or mutability.
+- [ ] The crossing correction preserves existing results for ordinary non-crossing XY line strings and does not classify the permitted first/last endpoint contact alone as an interior segment crossing.
 - [ ] Predicate evaluation preserves coordinates, membership, context and shared objects.
 
 ## Constraints
 
 - Use ISO/IEC CD 13249-3:201x(E), clauses 4.2.1.6 and 5.1.8–9, and supporting OGC 06-103r4, clauses 6.1.5–6.1.6.
-- Resolve audit R3's API/Normative Gate before defining the remaining dimensional and invalid-representation expectations.
+- Preserve all behavior outside the two approved corrections, including unresolved equality, higher-dimensional crossing and EMPTY/partial-position contracts from R3/R4.
 - Do not add constructor validation or a dependency on `spatial-validator`.
 - Do not extend the mutable LineString public API as an incidental correction.
 
@@ -45,6 +50,7 @@ The project's common Definition of Done applies.
 
 - [ ] `composer test-local` passes.
 - [ ] `composer quality` passes.
-- [ ] Explicit regressions cover same-instance and distinct-instance duplicates, numeric equivalence, crossing segments, closed simple curves, XY/XYZ/XYM/XYZM, both families and all applicable mutability variants.
+- [ ] Explicit regressions reproduce both approved scenarios exactly, cover repeated-instance membership in XY/XYZ/XYM/XYZM and both families, and verify the already-correct mutable MultiPoint result.
+- [ ] XY curve regressions distinguish interior crossings from permitted first/last endpoint contact and preserve coordinates and members; pre-existing duplicate-endpoint equality behavior is not silently changed.
 - [ ] Gate decisions and missing-coverage disposition are recorded in #26's conformance matrix.
-- [ ] Public predicate documentation describes the approved dimensional and invalid-representation behavior.
+- [ ] Documentation describes the two approved corrections without claiming resolution of R3/R4.
