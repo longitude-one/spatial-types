@@ -1,7 +1,5 @@
 {
-    "LongitudeOne\\SpatialTypes\\Boundary\\PolygonBoundary": "internal",
     "LongitudeOne\\SpatialTypes\\Builder\\SpatialBuilder": "public",
-    "LongitudeOne\\SpatialTypes\\Collection\\LineStringCollection": "internal",
     "LongitudeOne\\SpatialTypes\\Exception\\BadMethodCallException": "public",
     "LongitudeOne\\SpatialTypes\\Exception\\InvalidDimensionException": "public",
     "LongitudeOne\\SpatialTypes\\Exception\\InvalidFamilyException": "public",
@@ -144,6 +142,7 @@
     "LongitudeOne\\SpatialTypes\\Interfaces\\PolyhedralSurfaceInterface": "public",
     "LongitudeOne\\SpatialTypes\\Interfaces\\SpatialInterface": "public",
     "LongitudeOne\\SpatialTypes\\Interfaces\\TriangleInterface": "public",
+    "LongitudeOne\\SpatialTypes\\Internal\\Boundary\\PolygonBoundary": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\BuilderAdditionTrait": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\BuilderBuildTrait": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\BuilderConfigurationTrait": "internal",
@@ -153,6 +152,7 @@
     "LongitudeOne\\SpatialTypes\\Internal\\BuilderMoreSelectionTrait": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\BuilderSelectionTrait": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\BuilderTypes": "internal",
+    "LongitudeOne\\SpatialTypes\\Internal\\Collection\\LineStringCollection": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\Factory\\GeographicLineStringFactory": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\Factory\\GeographicPointFactory": "internal",
     "LongitudeOne\\SpatialTypes\\Internal\\Factory\\GeographicPolygonFactory": "internal",

@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Collection;
+namespace LongitudeOne\SpatialTypes\Internal\Collection;
 
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;

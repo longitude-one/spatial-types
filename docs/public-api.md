@@ -48,7 +48,7 @@ See [instantiable spatial types](instantiable-spatial-types.md),
 | Factory pipeline | `Factory\Coordinates`, `Factory\DefaultSpatialFactoryFactory`, `Factory\DefaultSpatialFactoryRegistryFactory`, `Factory\FamilyFactories`, `Factory\FromIndexedArrayFactory`, `Factory\SpatialContext` and `Factory\SpatialFactoryRegistry` |
 | Factory hydrators | `Internal\Factory\Hydrator\CoordinatesHydrator` and `Internal\Factory\Hydrator\SpatialArrayHydrator` |
 | Aggregate hydration | `Factory\SpatialFactory` constructor and every `create*` instance method |
-| Supporting collections | `Boundary\PolygonBoundary` and `Collection\LineStringCollection` |
+| Supporting collections | `Internal\Boundary\PolygonBoundary` and `Internal\Collection\LineStringCollection` |
 
 `Factory\Coordinates` is an internal data-transfer object; the public coordinate
 value is `Value\Coordinates`.
@@ -66,6 +66,10 @@ The two hydrators formerly under `Factory\Hydrator` now live under
 `Internal\Factory\Hydrator`, alongside the other factory helpers under
 `Internal\Factory`.
 The old hydrator namespace has no aliases.
+
+`Boundary\PolygonBoundary` and `Collection\LineStringCollection` have also moved
+under `Internal\Boundary` and `Internal\Collection`, respectively. Their old
+namespaces have no aliases; internal imports must use the new names.
 
 ## Evolution and compatibility
 

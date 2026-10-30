@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Boundary\PolygonBoundary
+ * @covers \LongitudeOne\SpatialTypes\Internal\Boundary\PolygonBoundary
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
  * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
  * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolygonImmutable

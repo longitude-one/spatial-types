@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Types;
 
-use LongitudeOne\SpatialTypes\Boundary\PolygonBoundary;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
@@ -25,6 +24,7 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
+use LongitudeOne\SpatialTypes\Internal\Boundary\PolygonBoundary;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 

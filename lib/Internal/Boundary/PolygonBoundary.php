@@ -14,10 +14,10 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Boundary;
+namespace LongitudeOne\SpatialTypes\Internal\Boundary;
 
-use LongitudeOne\SpatialTypes\Collection\LineStringCollection;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Internal\Collection\LineStringCollection;
 
 /**
  * Polygon boundary: one exterior ring followed by zero or more interior rings.
