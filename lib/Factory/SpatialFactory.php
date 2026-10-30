@@ -21,8 +21,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
-use LongitudeOne\SpatialTypes\Internal\Factor\Hydrator\CoordinatesHydrator;
-use LongitudeOne\SpatialTypes\Internal\Factor\Hydrator\SpatialArrayHydrator;
+use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\CoordinatesHydrator;
+use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\SpatialArrayHydrator;
 
 /**
  * Selects the shared output mode for public type-specific factories.

@@ -46,7 +46,7 @@ See [instantiable spatial types](instantiable-spatial-types.md),
 | Builder helpers | The builder traits and `Internal\BuilderTypes` |
 | Factory helpers | All symbols under `Internal\Factory`, including `PointFactoryInterface`, `LineStringFactoryInterface` and `PolygonFactoryInterface` |
 | Factory pipeline | `Factory\Coordinates`, `Factory\DefaultSpatialFactoryFactory`, `Factory\DefaultSpatialFactoryRegistryFactory`, `Factory\FamilyFactories`, `Factory\FromIndexedArrayFactory`, `Factory\SpatialContext` and `Factory\SpatialFactoryRegistry` |
-| Factory hydrators | `Internal\Factor\Hydrator\CoordinatesHydrator` and `Internal\Factor\Hydrator\SpatialArrayHydrator` |
+| Factory hydrators | `Internal\Factory\Hydrator\CoordinatesHydrator` and `Internal\Factory\Hydrator\SpatialArrayHydrator` |
 | Aggregate hydration | `Factory\SpatialFactory` constructor and every `create*` instance method |
 | Supporting collections | `Boundary\PolygonBoundary` and `Collection\LineStringCollection` |
 
@@ -63,8 +63,8 @@ namespace has no aliases. The move changes internal symbol names, without
 changing the public factory signatures or spatial behavior.
 
 The two hydrators formerly under `Factory\Hydrator` now live under
-`Internal\Factor\Hydrator`. `Factor` is the chosen namespace segment for these
-hydrators; the other factory helpers remain under `Internal\Factory`.
+`Internal\Factory\Hydrator`, alongside the other factory helpers under
+`Internal\Factory`.
 The old hydrator namespace has no aliases.
 
 ## Evolution and compatibility
