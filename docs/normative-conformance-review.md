@@ -1,8 +1,69 @@
 # Normative conformance review for 1.0.0
 
-## Resumption on 2026-10-30
+## Post-integration resumption — 2026-10-30
 
-The current implementation baseline is
+The implementation baseline is now `66b792a7d258c99abbed2aff59644db6c40e48e1`.
+GitHub confirms that #62 merged as `cd49e51` at 17:43:08 UTC and #63 merged
+as `66b792a` at 18:04:06 UTC. Stories #59 and #60 are closed. All eight native
+blocking dependencies of #26 are closed; #26 remains open, with Project status
+`In review` and draft audit PR #61. Dependency closure does not resolve the
+remaining API/Normative Gates.
+
+| Finding | Current disposition | Verification on the integrated branch |
+| --- | --- | --- |
+| R1 / #59 | Resolved for the approved exact-two-point classification; independent endpoint closure is preserved. | `tests/Issue/LineClassificationTest.php` |
+| R2 / #60 | Resolved for repeated complete non-empty Point instances and proper interior crossings of complete finite homogeneous XY paths. This is not a general simplicity certification. | `tests/Issue/RepeatedMultiPointInstanceTest.php`; `tests/Issue/XyLineStringCrossingTest.php` |
+| R3 | Representation equality and numeric equivalence decided below; strict numeric comparison still needs a separate correction. Dependent geometric predicate mapping remains open. | `Types/PointBehaviorTrait.php::equalsTo()` currently distinguishes integer and float ordinates. |
+| R4 | Collection all-EMPTY semantics confirmed below; current cardinality-based implementations need a separate correction. | Existing EMPTY-member tests and documentation preserve the contrary current result and must be updated with that correction. |
+| R5 | Missing supporting ISO sources accepted as a non-blocking evidence limitation by Alexandre. Final approved behavioral contracts still need regression coverage. | ISO 19107/19111 conformance has not been independently verified. |
+
+The three integrated R1/R2 regression files pass on PHP 8.5.11:
+**49 tests, 371 assertions** (`vendor/bin/phpunit --no-coverage` with the three
+paths above). `composer test-local` also passes: **1,182 tests, 18,908
+assertions**, with 99.38% line coverage. `git diff --check` passes. Quality
+checks were not repeated for this documentation-only update; earlier quality
+results remain historical evidence. No runtime source or test was changed
+during this resumption.
+The audit remains incomplete and cannot yet support contract stabilization.
+The pre-integration observations below are retained as dated evidence; their
+R1/R2 failures and proposed-integration statuses no longer describe this baseline.
+
+### Product Owner decisions — 2026-10-30
+
+These decisions were supplied explicitly by Alexandre during this resumption.
+They supersede the corresponding pending questions in the dated material below;
+they do not silently correct runtime behavior.
+
+| Subject | Approved contract | Audit consequence |
+| --- | --- | --- |
+| R3: `equalsTo()` | Representation equality, with numerically equivalent integer/float ordinates (`1` and `1.0`). Different SRIDs, Geometry/Geography families or declared dimensions remain unequal, including when additional Z/M ordinates are null or zero. | The strict ordinate comparisons in `lib/Types/PointBehaviorTrait.php` contradict numeric equivalence. A separate correction and explicit four-layout regressions are required. Null must remain distinct from numeric zero; the decision does not authorize coercing missing ordinates. |
+| R4: collections | A collection containing only EMPTY members remains EMPTY. Empty members and their positions remain stored; a mixed collection with a non-EMPTY member is not EMPTY. | Cardinality-based collection `isEmpty()` implementations require a separate correction and regressions for zero members, all-EMPTY members, mixed members, nested collections and mutable child transitions. This decision concerns collection semantics; it does not by itself define EMPTY for invalid polygon boundaries or other non-collection structures. |
+| R5: unavailable supporting sources | Ignore the missing ISO 19107/19111 full texts as a blocking task because the sources are unavailable. | Accepted non-blocking limitation, not proof that those standards were verified and not an exemption from tests for approved behavior. |
+
+The earlier all-EMPTY decision mentioned by Alexandre has not been located in
+the repository documentation or the inspected GitHub work items. Epic #14 and
+Stories #8–10 establish preservation and observable member cardinality. The
+current documentation in `instantiable-spatial-types.md` instead explicitly
+reports cardinality-based `isEmpty()` results. The present confirmation is
+recorded as the authority for the correction; no historical approval link is
+invented. Runtime and usage documentation must be corrected together in the
+follow-up work item, without deleting EMPTY members.
+
+Representation equality does not automatically define geometric closure or
+simplicity. The remaining R3 decision is the public predicates' XY versus 3D
+mapping (including Z/M handling and higher-dimensional crossings), and their
+behavior on partial positions or incompatible represented contexts. The
+`instanceof static` concrete-class condition also remains an existing behavior,
+not an additional decision supplied here. No choice on those points is inferred
+from numeric equivalence or reference/family/dimension comparisons.
+
+The two required implementation corrections above remain outside this audit's
+runtime scope and need traceable follow-up work items. No new issue was created
+or runtime change applied by this documentation-only resumption.
+
+## Pre-integration resumption on 2026-10-30
+
+The implementation baseline at that resumption was
 `dbd6d1c` (the merge of public/internal API Story #57). The audit branch
 `dfae978` adds only the historical report below. This resumption is an audit;
 it changes no runtime behavior, supported API or implementation-status result.
@@ -41,7 +102,7 @@ variants with either family as instance metadata. The applicable layouts are
 XY, XYZ, XYM and XYZM, except PolyhedralSurface has XYZ and XYZM only.
 The twelve unsupported types listed in the historical scope remain excluded.
 
-The following matrix records the **representation boundary**, not an assertion
+The following pre-integration matrix records the **representation boundary**, not an assertion
 that every represented value satisfies the corresponding geometry definition.
 Implementation paths are relative to `lib/`; a bare implementation filename
 is under `Internal/Types/`. Test paths are relative to `tests/`; a bare test
@@ -94,7 +155,7 @@ but are not integrated into the audited main-branch baseline. R3 and R4 still
 require Alexandre's decision for the wider predicate contracts.
 No existing behavior is reclassified as an intentional divergence.
 
-### Approved correction evidence before integration
+### Historical approved correction evidence before integration
 
 These implementation PRs are separate from the audit. Their runtime changes
 have not been merged; R1/R2 remain open against the audited main-branch
