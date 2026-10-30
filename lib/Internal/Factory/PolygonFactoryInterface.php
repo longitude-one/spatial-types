@@ -14,24 +14,24 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory\Internal;
+namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
-use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 
 /**
- * Creates line strings for a spatial family.
+ * Creates polygons for a spatial family.
  *
  * @internal
  */
-interface LineStringFactoryInterface
+interface PolygonFactoryInterface
 {
     /**
-     * Create a line string.
+     * Create a polygon.
      *
-     * @param ImmutablePointInterface[] $points  points composing the line string
-     * @param SpatialContext            $context family, dimension, and SRID to apply
+     * @param ImmutableLineStringInterface[] $rings   exterior ring followed by optional interior rings
+     * @param SpatialContext                 $context family, dimension, and SRID to apply
      */
-    public function create(array $points, SpatialContext $context): ImmutableLineStringInterface;
+    public function create(array $rings, SpatialContext $context): ImmutablePolygonInterface;
 }

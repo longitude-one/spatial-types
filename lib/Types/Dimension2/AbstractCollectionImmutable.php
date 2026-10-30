@@ -21,6 +21,11 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableCollectionInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable as ParentCollection;
 
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractCollectionImmutable extends ParentCollection implements ImmutableCollectionInterface
 {
     /**

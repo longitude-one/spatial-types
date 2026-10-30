@@ -26,6 +26,11 @@ use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiPointImmutable as ParentMultiPoint;
 
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractMultiPointImmutable extends ParentMultiPoint implements ImmutableMultiPointInterface
 {
     /**

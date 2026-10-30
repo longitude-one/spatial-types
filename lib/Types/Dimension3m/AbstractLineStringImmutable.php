@@ -29,6 +29,11 @@ use LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable as ParentLineStr
 /**
  * Base class for three-dimensional line strings with a measure coordinate.
  */
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractLineStringImmutable extends ParentLineString implements ImmutableLineStringInterface
 {
     /**

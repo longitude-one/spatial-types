@@ -24,6 +24,11 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable as ParentMu
 /**
  * Base class for multi-line strings using the XYM layout.
  */
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractMultiLineStringImmutable extends ParentMultiLineString implements ImmutableMultiLineStringInterface
 {
     /**

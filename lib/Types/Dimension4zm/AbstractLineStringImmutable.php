@@ -23,6 +23,11 @@ use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable as ParentLineString;
 
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractLineStringImmutable extends ParentLineString implements ImmutableLineStringInterface
 {
     /**

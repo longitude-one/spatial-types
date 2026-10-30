@@ -21,6 +21,11 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable as ParentMultiLineString;
 
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractMultiLineStringImmutable extends ParentMultiLineString implements ImmutableMultiLineStringInterface
 {
     /**

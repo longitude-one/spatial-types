@@ -19,12 +19,12 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
 use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryRegistryFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeographicLineStringFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPointFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeographicPolygonFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeometricLineStringFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPointFactory;
-use LongitudeOne\SpatialTypes\Factory\Internal\GeometricPolygonFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\GeographicLineStringFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPointFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPolygonFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\GeometricLineStringFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\GeometricPointFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\GeometricPolygonFactory;
 use PHPUnit\Framework\TestCase;
 
 /**

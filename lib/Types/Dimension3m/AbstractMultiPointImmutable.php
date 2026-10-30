@@ -29,6 +29,11 @@ use LongitudeOne\SpatialTypes\Types\AbstractMultiPointImmutable as ParentMultiPo
 /**
  * Base class for multi-points using the XYM layout.
  */
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
 abstract class AbstractMultiPointImmutable extends ParentMultiPoint implements ImmutableMultiPointInterface
 {
     /**

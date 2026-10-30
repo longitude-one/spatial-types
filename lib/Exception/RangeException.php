@@ -21,7 +21,7 @@ namespace LongitudeOne\SpatialTypes\Exception;
  *
  * This exception is thrown when a geodesic coordinate is out of range.
  *
- * @internal the library uses this exception internally and is always caught to throw a more explicit InvalidValueException
+ * Coordinate parsing catches this exception to throw a more explicit InvalidValueException.
  */
 final class RangeException extends \Exception implements SpatialTypeExceptionInterface
 {

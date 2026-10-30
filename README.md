@@ -50,6 +50,8 @@ $lineString->getSrid(); // 4326
 
 For the complete catalogue of concrete types, constructors, accessors, and
 mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-types.md).
+See [Public and internal API](docs/public-api.md) for the supported API boundary
+and the complete symbol inventory.
 
 ## Type class hierarchy
 

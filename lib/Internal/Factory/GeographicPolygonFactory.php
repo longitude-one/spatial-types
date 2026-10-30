@@ -14,26 +14,26 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory\Internal;
+namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PolygonImmutable as Polygon2D;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PolygonImmutable as Polygon3Dm;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PolygonImmutable as Polygon3Dz;
-use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolygonImmutable as Polygon4Dzm;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PolygonImmutable as Polygon2D;
+use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PolygonImmutable as Polygon3Dm;
+use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolygonImmutable as Polygon3Dz;
+use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolygonImmutable as Polygon4Dzm;
 
 /**
- * Creates geometric polygons.
+ * Creates geographic polygons.
  *
  * @internal
  */
-final class GeometricPolygonFactory implements PolygonFactoryInterface
+final class GeographicPolygonFactory implements PolygonFactoryInterface
 {
     /**
-     * Create a geometric polygon.
+     * Create a geographic polygon.
      *
      * @param ImmutableLineStringInterface[] $rings   exterior ring followed by optional interior rings
      * @param SpatialContext                 $context family, dimension, and SRID to apply
