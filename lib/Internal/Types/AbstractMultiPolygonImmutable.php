@@ -107,7 +107,13 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
      */
     public function isEmpty(): bool
     {
-        return empty($this->getPolygons());
+        foreach ($this->getPolygons() as $element) {
+            if (!$element->isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

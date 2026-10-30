@@ -79,7 +79,7 @@ class GeometryCollectionTest extends TestCase
         $polygon = new GeometricPolygon([]);
         static::assertTrue((new GeometryCollectionImmutable())->isEmpty());
         $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
-        static::assertFalse($geometryCollection->isEmpty());
+        static::assertTrue($geometryCollection->isEmpty());
     }
 
     /**

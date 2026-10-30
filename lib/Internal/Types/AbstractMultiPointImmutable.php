@@ -55,6 +55,18 @@ abstract class AbstractMultiPointImmutable extends AbstractPointCollectionImmuta
         return $this->getPoints();
     }
 
+    /** Whether every stored point is EMPTY, including zero membership. */
+    public function isEmpty(): bool
+    {
+        foreach ($this->points as $point) {
+            if (!$point->isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /** Repeated complete positions are non-simple even when they share an object. */
     public function isSimple(): bool
     {

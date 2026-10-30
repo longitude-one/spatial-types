@@ -73,7 +73,13 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
      */
     public function isEmpty(): bool
     {
-        return empty($this->getElements());
+        foreach ($this->getElements() as $element) {
+            if (!$element->isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

@@ -101,10 +101,16 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
         return $this;
     }
 
-    /** Whether membership is empty. */
+    /** Whether every stored member is EMPTY, including zero membership. */
     public function isEmpty(): bool
     {
-        return [] === $this->elements;
+        foreach ($this->elements as $element) {
+            if (!$element->isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /** @param int $index Existing zero-based member index */

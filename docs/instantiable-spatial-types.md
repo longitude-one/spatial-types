@@ -344,15 +344,25 @@ $polygon = new PolygonImmutable([
 `new MultiLineStringImmutable([])` has zero members, whereas
 `new MultiLineStringImmutable([[]])` has one empty member. `getElements()`,
 `getLineStrings()`, `getLineString()` and `toArray()` preserve this distinction.
-The current `MultiLineStringImmutable::isEmpty()` checks whether it has zero members;
-inspect the member arrays when the distinction matters.
+Both report `isEmpty() === true`: all stored members are EMPTY, including when
+there are no members. Use `count($value->getElements())` to distinguish their
+cardinality. A mixed collection with at least one non-EMPTY member reports false.
 
 `new MultiPolygonImmutable([])` has zero members and `isEmpty()` returns `true`.
 `new MultiPolygonImmutable([[]])` and `new MultiPolygonImmutable([new PolygonImmutable([])])` each
-contain one empty polygon and `isEmpty()` returns `false`. `getElements()`,
+contain one empty polygon and `isEmpty()` returns `true`. `getElements()`,
 `getPolygons()` and `getPolygon()` expose that member, whose own `isEmpty()`
 returns `true`. `toArray()` preserves the distinction as `[]` versus `[[]]`;
 empty members in mixed collections retain their positions.
+
+This member-based EMPTY rule applies to MultiPoint, MultiLineString,
+MultiPolygon and GeometryCollection, in both families and all supported
+layouts, for mutable and immutable variants. Nested GeometryCollections
+propagate member emptiness. Mutable collections reflect child edits immediately,
+including shared descendants. Member references, order and cardinality are
+preserved; no family, layout, reference or geometric validation is added.
+See [collection emptiness](collection-emptiness.md) for examples and the
+approved compatibility change.
 
 `withLineString($index, [])` replaces a member with an empty line string without
 removing it. Replacing an empty member with non-empty coordinates preserves its
