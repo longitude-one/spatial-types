@@ -451,8 +451,10 @@ For point, ring, line-string, polygon, and patch single-element accessors, negat
 indexes count from the end (`-1` is the last element). An index is wrapped by
 the element count; accessing an empty aggregate raises `OutOfBoundsException`.
 
-In the current implementation, `isLine()` is true for a line string with at
-least two points. `isClosed()` requires a line and equal first/last points.
+For both mutable and immutable line strings, `isLine()` is true only with
+exactly two defining points (ISO/IEC CD 13249-3:201x(E), clause 4.2.5).
+`isClosed()` independently requires at least two points and equal first/last
+points, so a closed path with three or more points is not a line.
 Functional validity checks belong to explicit consumer validation; see
 [Spatial validation](validators.md).
 
