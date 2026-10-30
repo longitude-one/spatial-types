@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Internal\Factor\Hydrator\CoordinatesHydrator;
 
 /** Tuple hydration for mutable point sequences.
  * @internal

@@ -94,6 +94,7 @@ class ApiBoundaryTest extends TestCase
             }
             static::assertStringNotContainsString('\Factory\Internal\\', $symbol);
             static::assertStringNotContainsString('\Internal\Internal\\', $symbol);
+            static::assertStringNotContainsString('\Factory\Hydrator\\', $symbol);
         }
     }
 
