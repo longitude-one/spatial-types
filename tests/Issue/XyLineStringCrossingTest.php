@@ -109,6 +109,15 @@ final class XyLineStringCrossingTest extends TestCase
         self::assertSame(4326, $endpoint->getSrid());
     }
 
+    /** Reproduce the review crossing at an overflow-prone scale. */
+    public function testLargeFiniteCrossing(): void
+    {
+        $line = new LineStringImmutable([[0.0, 0.0], [4.0e200, 4.0e200], [1.0e200, 3.0e200], [3.0e200, 1.0e200]]);
+
+        self::assertFalse($line->isSimple());
+        self::assertSame([[0.0, 0.0], [4.0e200, 4.0e200], [1.0e200, 3.0e200], [3.0e200, 1.0e200]], $line->toArray());
+    }
+
     /** Non-finite coordinate predicates remain outside the approved correction. */
     public function testNonFinitePositionResultIsPreserved(): void
     {
@@ -159,5 +168,24 @@ final class XyLineStringCrossingTest extends TestCase
         self::assertSame($endpoint, $ring->getStartPoint());
         self::assertSame($endpoint, $ring->getEndPoint());
         self::assertSame([[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]], $ring->toArray());
+    }
+
+    /** Reproduce the review crossing at an underflow-prone scale. */
+    public function testSmallFiniteCrossing(): void
+    {
+        $line = new LineStringImmutable([[0.0, 0.0], [4.0e-200, 4.0e-200], [1.0e-200, 3.0e-200], [3.0e-200, 1.0e-200]]);
+
+        self::assertFalse($line->isSimple());
+        self::assertSame([[0.0, 0.0], [4.0e-200, 4.0e-200], [1.0e-200, 3.0e-200], [3.0e-200, 1.0e-200]], $line->toArray());
+    }
+
+    /** Axis-aligned collinear paths need no determinant scaling on a zero axis. */
+    public function testZeroAxisNonCrossingPaths(): void
+    {
+        $vertical = new LineStringImmutable([[0, 0], [0, 1], [0, 2], [0, 3]]);
+        $horizontal = new LineStringImmutable([[0, 0], [1, 0], [2, 0], [3, 0]]);
+
+        self::assertTrue($vertical->isSimple());
+        self::assertTrue($horizontal->isSimple());
     }
 }

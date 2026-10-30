@@ -470,6 +470,11 @@ share the line string's family, dimension and spatial reference. For example,
 `[[0, 0], [2, 2], [0, 2], [2, 0]]` is not simple. A contact only at the
 first/last endpoint is not a proper interior crossing.
 
+The orientation calculation normalizes each coordinate axis before computing
+determinants to reduce overflow and underflow. It still uses PHP floating-point
+arithmetic: rounding and cancellation can affect near-degenerate or widely
+separated scales. This is not an exact-arithmetic topology validator.
+
 These are the two corrections approved in Story #60. They do not establish
 a complete normative simplicity implementation. Existing equality-based
 results for distinct points and closing endpoints remain unchanged, as do

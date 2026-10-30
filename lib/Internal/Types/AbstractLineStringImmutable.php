@@ -253,6 +253,17 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
      */
     private function segmentsCross(array $start, array $end, array $otherStart, array $otherEnd): bool
     {
+        $scaleX = max(abs($start[0]), abs($end[0]), abs($otherStart[0]), abs($otherEnd[0]));
+        $scaleY = max(abs($start[1]), abs($end[1]), abs($otherStart[1]), abs($otherEnd[1]));
+        if (0 >= $scaleX || 0 >= $scaleY) {
+            return false;
+        }
+
+        $start = [$start[0] / $scaleX, $start[1] / $scaleY];
+        $end = [$end[0] / $scaleX, $end[1] / $scaleY];
+        $otherStart = [$otherStart[0] / $scaleX, $otherStart[1] / $scaleY];
+        $otherEnd = [$otherEnd[0] / $scaleX, $otherEnd[1] / $scaleY];
+
         return $this->oppositeSides($this->side($start, $end, $otherStart), $this->side($start, $end, $otherEnd))
             && $this->oppositeSides($this->side($otherStart, $otherEnd, $start), $this->side($otherStart, $otherEnd, $end));
     }
