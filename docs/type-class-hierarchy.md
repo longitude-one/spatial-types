@@ -4,8 +4,12 @@ All abstract bases and traits shown here are internal implementation symbols.
 Their documented operations remain available through public concrete types.
 See [Public and internal API](public-api.md) for the supported contract boundary.
 
-The following tree describes class inheritance in `Types`, rather than the
-file layout. `{Dimension2, Dimension3m, Dimension3z, Dimension4zm}` represents
+The following tree describes class inheritance, rather than the file layout.
+Abstract nodes are relative to `Internal\Types`; concrete spatial nodes remain
+relative to the public `Types` namespace. The dimension-specific and collection
+branches of every abstract base are preserved under `Internal\Types`.
+Shared traits remain internal symbols under `Types`.
+`{Dimension2, Dimension3m, Dimension3z, Dimension4zm}` represents
 one branch for each listed coordinate dimension and `{Geometry, Geography}` one
 concrete class for each spatial model.
 

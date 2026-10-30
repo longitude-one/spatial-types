@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractCollectionImmutable
  */
 class CollectionWithElementTest extends TestCase
 {

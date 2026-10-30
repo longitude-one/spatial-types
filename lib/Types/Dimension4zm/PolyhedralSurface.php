@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurface;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractPolyhedralSurface;
 
 /** Mutable XYZM PolyhedralSurface with instance-level declared family. */
 final class PolyhedralSurface extends AbstractPolyhedralSurface

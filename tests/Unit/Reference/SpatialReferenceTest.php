@@ -22,8 +22,8 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable
  * @covers \LongitudeOne\SpatialTypes\Reference\SpatialReference
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
  *
  * @internal
  */

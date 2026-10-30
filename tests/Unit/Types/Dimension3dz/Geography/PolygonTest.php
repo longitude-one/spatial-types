@@ -29,8 +29,8 @@ use PHPUnit\Framework\TestCase;
  * @internal
  *
  * @covers \LongitudeOne\SpatialTypes\Internal\Boundary\PolygonBoundary
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable
  * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolygonImmutable
  */
 class PolygonTest extends TestCase

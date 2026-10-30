@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractMultiPoint;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPoint;
 
 /** Mutable XY MultiPoint with instance-level declared family. */
 final class MultiPoint extends AbstractMultiPoint

@@ -25,8 +25,8 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable
  * @covers \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineStringImmutable
  */
 class LineStringTest extends TestCase

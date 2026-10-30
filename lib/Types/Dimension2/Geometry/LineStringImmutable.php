@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractLineStringImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\Dimension2\AbstractLineStringImmutable;
 
 final class LineStringImmutable extends AbstractLineStringImmutable implements ImmutableLineStringInterface
 {

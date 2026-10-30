@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractTriangleImmutable;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\AbstractTriangleImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\TriangleImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractTriangleImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractTriangleImmutable
  */
 class TriangleTest extends TestCase
 {

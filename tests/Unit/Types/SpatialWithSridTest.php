@@ -34,12 +34,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPointImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable
  */
 class SpatialWithSridTest extends TestCase
 {

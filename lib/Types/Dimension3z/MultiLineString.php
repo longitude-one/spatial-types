@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension3z;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractMultiLineString;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiLineString;
 
 /** Mutable XYZ MultiLineString with instance-level declared family. */
 final class MultiLineString extends AbstractMultiLineString

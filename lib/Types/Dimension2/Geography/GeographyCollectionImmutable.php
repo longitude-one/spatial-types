@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geography;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableCollectionInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractCollectionImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\Dimension2\AbstractCollectionImmutable;
 
 final class GeographyCollectionImmutable extends AbstractCollectionImmutable implements ImmutableCollectionInterface
 {

@@ -63,6 +63,10 @@ coordinate dimension and `{Geometry, Geography}` one concrete class for each
 spatial model. For the complete hierarchy, including intermediate abstract
 classes, see [Type class hierarchy](docs/type-class-hierarchy.md).
 
+`AbstractSpatialType` and all other abstract spatial bases live under the
+internal `LongitudeOne\SpatialTypes\Internal\Types` namespace. Concrete types
+remain under the public `LongitudeOne\SpatialTypes\Types` namespace.
+
 ```text
 AbstractSpatialType
 ├── Dimension{2,3m,3z,4zm}\{Geometry,Geography}\PointImmutable

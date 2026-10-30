@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension3m;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractCompoundCurve;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractCompoundCurve;
 
 /** Mutable XYM CompoundCurve with instance-level declared family. */
 final class CompoundCurve extends AbstractCompoundCurve

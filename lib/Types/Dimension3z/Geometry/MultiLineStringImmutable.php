@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiLineStringInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension3z\AbstractMultiLineStringImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\Dimension3z\AbstractMultiLineStringImmutable;
 
 final class MultiLineStringImmutable extends AbstractMultiLineStringImmutable implements ImmutableMultiLineStringInterface
 {

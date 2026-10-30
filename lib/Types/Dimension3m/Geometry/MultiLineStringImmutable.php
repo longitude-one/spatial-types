@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiLineStringInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\AbstractMultiLineStringImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\Dimension3m\AbstractMultiLineStringImmutable;
 
 /**
  * Geometric multi-line string using the XYM layout.

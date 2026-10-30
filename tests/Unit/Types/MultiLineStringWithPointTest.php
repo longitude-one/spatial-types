@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiLineStringImmutable
  */
 class MultiLineStringWithPointTest extends TestCase
 {

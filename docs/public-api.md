@@ -41,7 +41,7 @@ See [instantiable spatial types](instantiable-spatial-types.md),
 
 | Group | Internal symbols |
 | --- | --- |
-| Implementation bases | Every abstract class, including dimension-specific and collection bases |
+| Implementation bases | Every abstract class under `Internal\Types`, including dimension-specific and collection bases |
 | Shared mechanisms | Every trait, component guard and mutable point hydrator |
 | Builder helpers | The builder traits and `Internal\BuilderTypes` |
 | Factory helpers | All symbols under `Internal\Factory`, including `PointFactoryInterface`, `LineStringFactoryInterface` and `PolygonFactoryInterface` |
@@ -70,6 +70,11 @@ The old hydrator namespace has no aliases.
 `Boundary\PolygonBoundary` and `Collection\LineStringCollection` have also moved
 under `Internal\Boundary` and `Internal\Collection`, respectively. Their old
 namespaces have no aliases; internal imports must use the new names.
+
+All 40 abstract spatial classes formerly under `Types` now live under
+`Internal\Types`, preserving their relative dimension and collection branches.
+Concrete spatial types remain under `Types`; their supported inherited
+operations are unchanged. The former abstract-class names have no aliases.
 
 ## Evolution and compatibility
 

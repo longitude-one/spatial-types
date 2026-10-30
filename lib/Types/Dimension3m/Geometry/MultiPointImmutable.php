@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiPointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension3m\AbstractMultiPointImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\Dimension3m\AbstractMultiPointImmutable;
 
 /**
  * Geometric multi-point using the XYM layout.

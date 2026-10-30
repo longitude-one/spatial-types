@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension2\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiPointInterface;
-use LongitudeOne\SpatialTypes\Types\Dimension2\AbstractMultiPointImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\Dimension2\AbstractMultiPointImmutable;
 
 final class MultiPointImmutable extends AbstractMultiPointImmutable implements ImmutableMultiPointInterface
 {

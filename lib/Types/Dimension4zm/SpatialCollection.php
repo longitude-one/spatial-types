@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractSpatialCollection;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialCollection;
 
 /** Mutable XYZM SpatialCollection with instance-level declared family. */
 final class SpatialCollection extends AbstractSpatialCollection

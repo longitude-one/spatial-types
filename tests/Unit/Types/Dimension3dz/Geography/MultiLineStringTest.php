@@ -28,9 +28,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractSpatialTypeImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\Collection\AbstractLineStringCollectionImmutable
  * @covers \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable
  */
 class MultiLineStringTest extends TestCase

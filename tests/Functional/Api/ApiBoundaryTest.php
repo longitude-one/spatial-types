@@ -88,6 +88,9 @@ class ApiBoundaryTest extends TestCase
             $markedInternal = str_contains((string) $reflection->getDocComment(), '@internal');
             static::assertContains($status, ['public', 'internal'], $symbol);
             static::assertSame('internal' === $status, $markedInternal, $symbol);
+            if ($reflection->isAbstract() && !$reflection->isInterface() && !$reflection->isTrait()) {
+                static::assertStringStartsWith('LongitudeOne\SpatialTypes\Internal\Types\\', $symbol);
+            }
             if ($reflection->isAbstract() && !$reflection->isInterface() || $reflection->isTrait()
                 || str_contains($symbol, '\Internal\\')) {
                 static::assertSame('internal', $status, $symbol);
