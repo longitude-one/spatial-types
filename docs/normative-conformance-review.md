@@ -88,9 +88,23 @@ Each finding blocks this audit's final baseline; no runtime fix is included.
 
 R1 is tracked by [Story #59](https://github.com/longitude-one/spatial-types/issues/59);
 R2 is tracked by [Story #60](https://github.com/longitude-one/spatial-types/issues/60).
-These findings are not approved implementation work. R3 and R4 require
-Alexandre's decision before finalizing the dependent correction contracts.
+On 2026-10-30, Alexandre approved exact-two-point line classification and
+false for the two exact R2 cases above. Their corrections are proposed below,
+but are not integrated into the audited main-branch baseline. R3 and R4 still
+require Alexandre's decision for the wider predicate contracts.
 No existing behavior is reclassified as an intentional divergence.
+
+### Approved correction evidence before integration
+
+These implementation PRs are separate from the audit. Their runtime changes
+have not been merged; R1/R2 remain open against the audited main-branch
+baseline. This records the proposed behavior and verification required by
+Stories #59/#60 without declaring either Story Done.
+
+| Finding | Approved behavior and implementation | Test evidence | Review and remote checks | Integration status |
+| --- | --- | --- | --- | --- |
+| R1 / #59 | [PR #62](https://github.com/longitude-one/spatial-types/pull/62), `13ccd77da0782ea38448c4413e619941ed7a2fe0`: `AbstractLineStringImmutable::isLine()` requires exactly two entries, matching the mutable type. `isClosed()` checks cardinality independently, so closed paths with more than two points stay closed. | `tests/Issue/LineClassificationTest.php`: 17 explicit tests across XY/XYZ/XYM/XYZM, both families and variants; updated existing immutable XY expectations. Developer full suite: 1,150 tests / 18,767 assertions; `composer quality` passes. Restoring old classification causes 9 regression failures. | Independent full suite isolated on `13ccd77`: 1,150 tests / 18,765 assertions; code, tests and compatibility favorable. PHP 8.4, PHP 8.5 and GitGuardian checks pass. Final verdict awaits verification of this audit trace. | Proposed correction, not integrated; not Done. No R3/R4 interpretation changed. |
+| R2 / #60 | [PR #63](https://github.com/longitude-one/spatial-types/pull/63), `0c5a263d99768e98b7b51461e2d343c9683581c8`: immutable MultiPoint counts repeated complete non-empty Point instances; immutable LineString detects proper interior crossings in complete finite homogeneous XY paths. | `tests/Issue/RepeatedMultiPointInstanceTest.php` and `XyLineStringCrossingTest.php`: 29 tests / 135 assertions, covering exact cases, four-layout shared-instance behavior and preservation of unresolved cases. Developer full suite: 1,162 tests / 18,672 assertions; `composer quality` passes. Restoring original sources causes 12 failures. | Independent review and remote CI pending at this snapshot. | Proposed correction, not integrated; not Done. Higher-dimensional intersections, partial/EMPTY, inconsistent-context and broader equality behavior remain pending R3/R4. |
 
 ### Disposition of historical findings
 
