@@ -17,7 +17,10 @@ $floating->toArray();         // [1.0, 2.0]
 ```
 
 The same rule applies to X, Y, Z and M in mutable and immutable points, in both
-Geometry and Geography. There is no approximate tolerance. Null stays distinct
+Geometry and Geography. There is no approximate tolerance. Mixed integer/float comparison retains exact integer
+values: `9007199254740993` differs from `9007199254740992.0`, and an out-of-range
+float does not equal an integer limit. No integer is rounded to floating point
+for this comparison. Null stays distinct
 from zero. Different concrete classes, SRIDs, families or declared coordinate
 layouts remain unequal, including extra axes whose values are null or zero.
 EMPTY values retain those context distinctions; an EMPTY point never equals a
@@ -38,9 +41,9 @@ geometric-predicate questions.
 
 | Requirement | Implementation | Automated evidence | Status |
 | --- | --- | --- | --- |
-| Equivalent integer/float ordinates, with null distinct from zero | `lib/Types/PointBehaviorTrait.php::equalsTo()` and private ordinate comparison | `tests/Issue/NumericPointEqualityTest.php` | Implemented for XY/XYZ/XYM/XYZM, mutable/immutable and both families |
+| Equivalent integer/float ordinates, with null distinct from zero | `lib/Types/PointBehaviorTrait.php::equalsTo()` and private ordinate comparison | `tests/Issue/NumericPointEqualityTest.php`; `tests/Issue/LargeNumericPointEqualityTest.php` | Implemented for XY/XYZ/XYM/XYZM, mutable/immutable and both families |
 | Context, layout and concrete-class distinctions; EMPTY and partial positions; no mutation or tolerance | Existing context checks and EMPTY branch in the same trait | `tests/Issue/NumericPointEqualityTest.php` | Preserved |
-| Numeric equivalence reaches existing closure and duplicate-position callers | LineString, CircularString, CompoundCurve and point-collection implementations | `tests/Issue/NumericEqualityPredicateTest.php` | Covered for the changed numeric behavior |
+| Numeric equivalence reaches existing closure and duplicate-position callers | LineString, CircularString, CompoundCurve and point-collection implementations | `tests/Issue/NumericEqualityPredicateTest.php`; `tests/Issue/LargeNumericPointEqualityTest.php` | Covered for the changed numeric behavior |
 | Spatial versus representation mapping of closure/simplicity, including higher-dimensional crossings and partial/inconsistent contexts | Outside this correction | Existing preservation regressions remain applicable | Remaining R3 decision; not resolved by #64 |
 
 This is an approved observable behavior change before 1.0.0: mixed integer/float
