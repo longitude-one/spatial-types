@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension3z;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractLineString;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractLineString;
 
 /** Mutable XYZ LineString with instance-level declared family. */
 final class LineString extends AbstractLineString

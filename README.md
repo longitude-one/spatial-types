@@ -50,6 +50,8 @@ $lineString->getSrid(); // 4326
 
 For the complete catalogue of concrete types, constructors, accessors, and
 mutability rules, see [Instantiable spatial types](docs/instantiable-spatial-types.md).
+See [Public and internal API](docs/public-api.md) for the supported API boundary
+and the complete symbol inventory.
 
 ## Type class hierarchy
 
@@ -60,6 +62,10 @@ Dimension3m, Dimension3z, Dimension4zm}` represents one branch for each listed
 coordinate dimension and `{Geometry, Geography}` one concrete class for each
 spatial model. For the complete hierarchy, including intermediate abstract
 classes, see [Type class hierarchy](docs/type-class-hierarchy.md).
+
+`AbstractSpatialType` and all other abstract spatial bases live under the
+internal `LongitudeOne\SpatialTypes\Internal\Types` namespace. Concrete types
+remain under the public `LongitudeOne\SpatialTypes\Types` namespace.
 
 ```text
 AbstractSpatialType

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygon;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPolygon;
 
 /** Mutable XY MultiPolygon with instance-level declared family. */
 final class MultiPolygon extends AbstractMultiPolygon

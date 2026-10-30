@@ -30,12 +30,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiLineStringImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractLineStringCollectionImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\Collection\AbstractPointCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\Collection\AbstractLineStringCollectionImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\Collection\AbstractPointCollectionImmutable
  */
 class AggregateImmutabilityTest extends TestCase
 {

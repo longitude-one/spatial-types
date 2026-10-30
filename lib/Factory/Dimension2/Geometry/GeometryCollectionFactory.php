@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Dimension2\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableSpatialInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableSpatialInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension2\SpatialCollection;

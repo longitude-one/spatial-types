@@ -42,7 +42,7 @@ use LongitudeOne\SpatialTypes\Interfaces\PolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PolyhedralSurfaceInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Interfaces\TriangleInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractSpatialType;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialType;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CircularStringImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CompoundCurveImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\GeographyCollectionImmutable;

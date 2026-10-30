@@ -1,0 +1,68 @@
+<?php
+/**
+ * This file is part of the spatial project.
+ *
+ * PHP 8.4 | 8.5
+ *
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
+ * Copyright Longitude One 2024-2026
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
+declare(strict_types=1);
+
+namespace LongitudeOne\SpatialTypes\Internal\Types\Dimension3m;
+
+use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
+use LongitudeOne\Core\Enum\GeometryTypeEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
+use LongitudeOne\SpatialTypes\Exception\MissingValueException;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
+use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractLineStringImmutable as ParentLineString;
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+
+/**
+ * Base class for three-dimensional line strings with a measure coordinate.
+ */
+/**
+ * Dimension-specific immutable implementation base.
+ *
+ * @internal
+ */
+abstract class AbstractLineStringImmutable extends ParentLineString implements ImmutableLineStringInterface
+{
+    /**
+     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2: null|float|int}|ImmutablePointInterface)[] $points points of the line string
+     * @param int|SpatialReference                                                                                     $srid   Spatial Reference Identifier
+     *
+     * @throws InvalidDimensionException when a point dimension is incompatible
+     * @throws InvalidValueException     when point coordinates are invalid
+     * @throws MissingValueException     when a point is missing
+     */
+    public function __construct(array $points, int|SpatialReference $srid = 0)
+    {
+        $this->initializeSpatialReference($srid);
+        $this->addPoints($points);
+    }
+
+    /**
+     * Return the XYM dimension.
+     */
+    public function getDimension(): CoordinateDimensionEnum
+    {
+        return CoordinateDimensionEnum::XYM;
+    }
+
+    /**
+     * Return the line string type.
+     */
+    public function getType(): GeometryTypeEnum
+    {
+        return GeometryTypeEnum::LINESTRING;
+    }
+}

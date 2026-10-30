@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension3m;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractPolygon;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractPolygon;
 
 /** Mutable XYM Polygon with instance-level declared family. */
 final class Polygon extends AbstractPolygon

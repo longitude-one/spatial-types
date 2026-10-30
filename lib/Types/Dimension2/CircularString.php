@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Types\Dimension2;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractCircularString;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractCircularString;
 
 /** Mutable XY CircularString with instance-level declared family. */
 final class CircularString extends AbstractCircularString

@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractPointImmutable
  */
 class PartiallyNullXYZMPointTest extends TestCase
 {

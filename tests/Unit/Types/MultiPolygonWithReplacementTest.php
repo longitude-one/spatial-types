@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPolygonImmutable
  */
 class MultiPolygonWithReplacementTest extends TestCase
 {

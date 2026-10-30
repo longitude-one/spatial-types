@@ -27,8 +27,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractLineStringImmutable
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolygonImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractLineStringImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractPolygonImmutable
  */
 class SpatialWithArrayOfCoordinatesTest extends TestCase
 {

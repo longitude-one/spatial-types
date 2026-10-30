@@ -19,7 +19,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MutableTriangleInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractPolygon;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractPolygon;
 
 /** Mutable XYZM Triangle with instance-level declared family. */
 final class Triangle extends AbstractPolygon implements MutableTriangleInterface

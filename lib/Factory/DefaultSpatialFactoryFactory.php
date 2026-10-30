@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Factory;
 
-use LongitudeOne\SpatialTypes\Factory\Hydrator\CoordinatesHydrator;
-use LongitudeOne\SpatialTypes\Factory\Hydrator\SpatialArrayHydrator;
+use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\CoordinatesHydrator;
+use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\SpatialArrayHydrator;
 
 /**
  * Creates the default spatial factory used by internal aggregate hydration.

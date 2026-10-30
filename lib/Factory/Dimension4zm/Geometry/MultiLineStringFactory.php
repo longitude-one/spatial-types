@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Dimension4zm\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString;

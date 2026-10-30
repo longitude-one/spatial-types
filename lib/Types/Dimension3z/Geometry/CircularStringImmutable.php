@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Types\AbstractCircularStringImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractCircularStringImmutable;
 
 /** Circular string with XYZ coordinates in the Geometry family. */
 final class CircularStringImmutable extends AbstractCircularStringImmutable

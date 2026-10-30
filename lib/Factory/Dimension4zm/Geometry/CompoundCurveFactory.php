@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Dimension4zm\Geometry;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableCurveInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableCurveInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\CompoundCurve;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CompoundCurveImmutable;

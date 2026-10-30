@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractMultiPointImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPointImmutable
  */
 class MultiPointWithPointTest extends TestCase
 {

@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Dimension3m\Geography;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\CircularString;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CircularStringImmutable;

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory\Dimension4zm\Geography;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\RepresentationFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\RepresentationFactory;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm\Point;

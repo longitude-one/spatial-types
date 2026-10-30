@@ -18,8 +18,8 @@ namespace LongitudeOne\SpatialTypes\Types\Dimension4zm;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractPoint;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\AbstractPoint;
 
 /** Mutable XYZM point with independently editable declared context. */
 final class Point extends AbstractPoint

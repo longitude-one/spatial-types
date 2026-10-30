@@ -20,7 +20,7 @@ use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiPolygonInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractMultiPolygonImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractMultiPolygonImmutable;
 
 /**
  * Geographic multi-polygon using the XYM layout.

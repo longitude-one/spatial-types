@@ -18,8 +18,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractPolyhedralSurfaceImmutable;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurfaceImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PolyhedralSurfaceImmutable;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurfaceImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractPolyhedralSurfaceImmutable
  *
  * @phpstan-type Position array{int, int, int, 3?: int}
  * @phpstan-type Patches list<list<list<Position>>>

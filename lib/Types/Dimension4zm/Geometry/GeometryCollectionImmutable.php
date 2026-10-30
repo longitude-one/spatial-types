@@ -20,7 +20,7 @@ use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableCollectionInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractCollectionImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractCollectionImmutable;
 
 final class GeometryCollectionImmutable extends AbstractCollectionImmutable implements ImmutableCollectionInterface
 {

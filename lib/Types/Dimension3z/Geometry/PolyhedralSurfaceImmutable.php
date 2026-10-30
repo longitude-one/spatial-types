@@ -20,7 +20,7 @@ use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolyhedralSurfaceInterface;
-use LongitudeOne\SpatialTypes\Types\AbstractPolyhedralSurfaceImmutable;
+use LongitudeOne\SpatialTypes\Internal\Types\AbstractPolyhedralSurfaceImmutable;
 
 final class PolyhedralSurfaceImmutable extends AbstractPolyhedralSurfaceImmutable implements ImmutablePolyhedralSurfaceInterface
 {

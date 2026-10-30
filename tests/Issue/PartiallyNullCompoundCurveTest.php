@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Types\AbstractCompoundCurveImmutable
+ * @covers \LongitudeOne\SpatialTypes\Internal\Types\AbstractCompoundCurveImmutable
  */
 class PartiallyNullCompoundCurveTest extends TestCase
 {

@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Factory;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\Internal\LineStringFactoryInterface;
-use LongitudeOne\SpatialTypes\Factory\Internal\PointFactoryInterface;
-use LongitudeOne\SpatialTypes\Factory\Internal\PolygonFactoryInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\LineStringFactoryInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\PointFactoryInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\PolygonFactoryInterface;
 
 /**
  * Set of constructors for one spatial family.
