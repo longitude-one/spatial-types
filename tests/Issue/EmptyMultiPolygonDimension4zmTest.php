@@ -42,7 +42,7 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         static::assertSame([$single->getPolygon(0)], $single->getPolygons());
         static::assertInstanceOf(GeographicPolygon::class, $single->getPolygon(0));
         static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame(4326, $single->getPolygon(0)->getSrid());
         static::assertTrue($single->getPolygon(0)->hasZ());
@@ -67,7 +67,7 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         static::assertSame([$polygon], $single->getPolygons());
         static::assertSame($polygon, $single->getPolygon(0));
         static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame([], $zero->getElements());
         static::assertSame([], $zero->getPolygons());
@@ -89,7 +89,7 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         static::assertSame([$single->getPolygon(0)], $single->getPolygons());
         static::assertInstanceOf(PolygonImmutable::class, $single->getPolygon(0));
         static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame(4326, $single->getPolygon(0)->getSrid());
         static::assertTrue($single->getPolygon(0)->hasZ());
@@ -114,7 +114,7 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         static::assertSame([$polygon], $single->getPolygons());
         static::assertSame($polygon, $single->getPolygon(0));
         static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame([], $zero->getElements());
         static::assertSame([], $zero->getPolygons());

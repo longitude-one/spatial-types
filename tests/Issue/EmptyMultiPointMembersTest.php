@@ -49,7 +49,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -74,7 +74,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -99,7 +99,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -124,7 +124,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -149,7 +149,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -174,7 +174,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -199,7 +199,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
@@ -224,7 +224,7 @@ class EmptyMultiPointMembersTest extends TestCase
         static::assertFalse($multiPoint->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertCount(1, $single->getElements());
-        static::assertFalse($single->isEmpty());
+        static::assertTrue($single->isEmpty());
         static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->getElements());
         static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));

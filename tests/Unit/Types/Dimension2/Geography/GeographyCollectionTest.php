@@ -79,7 +79,7 @@ class GeographyCollectionTest extends TestCase
         $polygon = new GeographicPolygon([]);
         static::assertTrue((new GeographyCollectionImmutable())->isEmpty());
         $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
-        static::assertFalse($geographyCollection->isEmpty());
+        static::assertTrue($geographyCollection->isEmpty());
     }
 
     /**
