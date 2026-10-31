@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Internal\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
-use LongitudeOne\SpatialTypes\Types\PointBehaviorTrait;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /** Immutable point coordinate replacement.

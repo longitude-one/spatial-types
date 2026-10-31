@@ -20,7 +20,7 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
+use LongitudeOne\SpatialTypes\Internal\Types\ImmutableComponentGuard;
 
 /**
  * Common line-string collection for multi-line strings.

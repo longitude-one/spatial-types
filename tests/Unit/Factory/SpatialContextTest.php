@@ -18,13 +18,13 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\SpatialContext
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext
  */
 class SpatialContextTest extends TestCase
 {

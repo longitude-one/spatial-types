@@ -21,7 +21,6 @@ use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\PointBehaviorTrait;
 
 /** Common in-place point editing, without geometric validation.
  * @internal

@@ -26,7 +26,6 @@ use LongitudeOne\SpatialTypes\Types\Dimension2;
 use LongitudeOne\SpatialTypes\Types\Dimension3m;
 use LongitudeOne\SpatialTypes\Types\Dimension3z;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm;
-use LongitudeOne\SpatialTypes\Types\MutableComponentGuard;
 
 /** Mutable MultiLineString members without geometric validation.
  * @internal

@@ -22,8 +22,8 @@ use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableSpatialInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
+use LongitudeOne\SpatialTypes\Internal\Types\ImmutableComponentGuard;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
 use ReflectionClass as ConstructorReflection;
 
 /** @internal Constructor selection for the one public builder class. */

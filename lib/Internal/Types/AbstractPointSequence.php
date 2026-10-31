@@ -19,11 +19,10 @@ namespace LongitudeOne\SpatialTypes\Internal\Types;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\MutableCurveInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\MutablePointHydrator;
 
 /** Shared mutable ordered-point storage, reads and declared context.
  * @internal

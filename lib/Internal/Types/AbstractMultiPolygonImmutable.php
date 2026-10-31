@@ -24,7 +24,6 @@ use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableMultiPolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**

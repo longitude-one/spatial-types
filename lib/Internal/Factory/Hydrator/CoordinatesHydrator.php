@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Internal\Factory\Hydrator;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
-use LongitudeOne\SpatialTypes\Factory\Coordinates;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Internal\Factory\Coordinates;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
 
 /**
  * Hydrates point coordinates from an indexed array.

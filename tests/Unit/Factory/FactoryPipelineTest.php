@@ -20,12 +20,10 @@ use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Factory\Coordinates;
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
-use LongitudeOne\SpatialTypes\Factory\FamilyFactories;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Factory\SpatialFactory;
-use LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry;
+use LongitudeOne\SpatialTypes\Internal\Factory\Coordinates;
+use LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\FamilyFactories;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeographicLineStringFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPointFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPolygonFactory;
@@ -34,6 +32,8 @@ use LongitudeOne\SpatialTypes\Internal\Factory\GeometricPointFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeometricPolygonFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\SpatialArrayHydrator;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialFactoryRegistry;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -44,13 +44,13 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\Coordinates
- * @covers \LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory
- * @covers \LongitudeOne\SpatialTypes\Factory\FamilyFactories
  * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactory
- * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\Coordinates
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryFactory
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\FamilyFactories
  * @covers \LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\CoordinatesHydrator
  * @covers \LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\SpatialArrayHydrator
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\SpatialFactoryRegistry
  */
 class FactoryPipelineTest extends TestCase
 {

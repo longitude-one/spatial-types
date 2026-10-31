@@ -22,7 +22,6 @@ use LongitudeOne\SpatialTypes\Interfaces\ImmutableCollectionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableSpatialInterface;
 use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
 
 /**
  * Abstract collection class.

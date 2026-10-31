@@ -26,7 +26,6 @@ use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 use LongitudeOne\SpatialTypes\Internal\Boundary\PolygonBoundary;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**
