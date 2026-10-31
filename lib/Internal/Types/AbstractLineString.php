@@ -32,10 +32,4 @@ abstract class AbstractLineString extends AbstractPointSequence implements Mutab
     {
         return GeometryTypeEnum::LINESTRING;
     }
-
-    /** Whether this path has exactly two defining points. */
-    public function isLine(): bool
-    {
-        return 2 === count($this->points);
-    }
 }

@@ -53,16 +53,6 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
     }
 
     /**
-     * Is this line string a line?
-     *
-     * A line is composed of exactly two points.
-     */
-    public function isLine(): bool
-    {
-        return 2 === count($this->points);
-    }
-
-    /**
      * Return an array representation of the line string.
      *
      * @return (null|float|int)[][]

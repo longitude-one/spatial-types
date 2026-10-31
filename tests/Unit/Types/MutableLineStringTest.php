@@ -86,11 +86,8 @@ class MutableLineStringTest extends TestCase
         $line = new LineString([]);
         static::assertNull($line->getStartPoint());
         static::assertNull($line->getEndPoint());
-        static::assertFalse($line->isLine());
         $line->addPoint(new Point(0, null));
-        static::assertFalse($line->isLine());
         $line->addPoint(new Point(0, null));
-        static::assertTrue($line->isLine());
         $line->setPoint(1, new Point(1, 2));
         static::assertSame([[0, null], [1, 2]], $line->toArray());
         static::assertSame($line, $line->setArrayOfCoordinates([]));
@@ -344,9 +341,7 @@ class MutableLineStringTest extends TestCase
     public function testThreePointClosureDoesNotImplyLine(): void
     {
         $path = new LineString([[0, 0], [1, 1], [2, 0]]);
-        static::assertFalse($path->isLine());
         static::assertSame($path, $path->setPoint(2, new Point(0, 0)));
-        static::assertFalse($path->isLine());
         static::assertSame([[0, 0], [1, 1], [0, 0]], $path->toArray());
     }
 

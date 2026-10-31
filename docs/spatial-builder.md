@@ -46,7 +46,7 @@ EMPTY object. A later addition does not change membership of earlier builds.
 | `createLineString(array $points): LineStringInterface` | `lineString()` | `addPoint(...)`, `addPointComponent(PointInterface $point)` |
 | `createCircularString(array $points): CircularStringInterface` | `circularString()` | `addPoint(...)`, `addPointComponent(PointInterface $point)` |
 | `createMultiPoint(array $points): MultiPointInterface` | `multiPoint()` | `addPoint(...)`, `addPointComponent(PointInterface $point)` |
-| `createCompoundCurve(array $curves = []): CompoundCurveInterface` | `compoundCurve()` | `addCurve(LineStringInterface|CircularStringInterface $curve)` |
+| `createCompoundCurve(array $curves = []): CompoundCurveInterface` | `compoundCurve()` | `addCurve(LineStringInterface\|CircularStringInterface $curve)` |
 | `createPolygon(array $rings): PolygonInterface` | `polygon()` | `addRing(LineStringInterface $ring)` |
 | `createTriangle(array $rings): TriangleInterface` | `triangle()` | `addRing(LineStringInterface $ring)` |
 | `createMultiLineString(array $lineStrings): MultiLineStringInterface` | `multiLineString()` | `addLineString(LineStringInterface $lineString)` |

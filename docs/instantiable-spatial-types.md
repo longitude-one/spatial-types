@@ -49,35 +49,35 @@ This exception extends PHP's `LogicException` and implements
 classification, rather than an unsupported spatial type. A test iterates all
 enum cases to ensure this exception is not raised for the current model.
 
-| `GeometryTypeEnum` | Instantiable | Fully implemented by `spatial-types` |
-| --- | --- | --- |
-| `GEOMETRY` | No | Not applicable |
-| `POINT` | Yes | Yes |
-| `CURVE` | No | Not applicable |
-| `LINESTRING` | Yes | Yes |
-| `CIRCULARSTRING` | Yes | Yes |
-| `COMPOUNDCURVE` | Yes | Yes |
-| `SURFACE` | No | Not applicable |
-| `CURVEPOLYGON` | Yes | No |
-| `POLYGON` | Yes | Yes |
-| `TRIANGLE` | Yes | Yes |
-| `POLYHEDRALSURFACE` | Yes | Yes |
-| `TIN` | Yes | No |
-| `GEOMETRYCOLLECTION` | Yes | Yes |
-| `MULTIPOINT` | Yes | Yes |
-| `MULTICURVE` | Yes | No |
-| `MULTILINESTRING` | Yes | Yes |
-| `MULTISURFACE` | Yes | No |
-| `MULTIPOLYGON` | Yes | Yes |
-| `SOLID` | No | Not applicable |
-| `BREPSOLID` | Yes | No |
-| `CIRCLE` | Yes | No |
-| `CLOTHOID` | Yes | No |
-| `COMPOUNDSURFACE` | Yes | No |
-| `ELLIPTICALCURVE` | Yes | No |
-| `GEODESICSTRING` | Yes | No |
-| `NURBSCURVE` | Yes | No |
-| `SPIRALCURVE` | Yes | No |
+| `GeometryTypeEnum`   | Instantiable | Fully implemented by `spatial-types` |
+|----------------------|--------------|--------------------------------------|
+| `GEOMETRY`           | No           | Not applicable                       |
+| `POINT`              | Yes          | Yes                                  |
+| `CURVE`              | No           | Not applicable                       |
+| `LINESTRING`         | Yes          | Yes                                  |
+| `CIRCULARSTRING`     | Yes          | Yes                                  |
+| `COMPOUNDCURVE`      | Yes          | Yes                                  |
+| `SURFACE`            | No           | Not applicable                       |
+| `CURVEPOLYGON`       | Yes          | No                                   |
+| `POLYGON`            | Yes          | Yes                                  |
+| `TRIANGLE`           | Yes          | Yes                                  |
+| `POLYHEDRALSURFACE`  | Yes          | Yes                                  |
+| `TIN`                | Yes          | No                                   |
+| `GEOMETRYCOLLECTION` | Yes          | Yes                                  |
+| `MULTIPOINT`         | Yes          | Yes                                  |
+| `MULTICURVE`         | Yes          | No                                   |
+| `MULTILINESTRING`    | Yes          | Yes                                  |
+| `MULTISURFACE`       | Yes          | No                                   |
+| `MULTIPOLYGON`       | Yes          | Yes                                  |
+| `SOLID`              | No           | Not applicable                       |
+| `BREPSOLID`          | Yes          | No                                   |
+| `CIRCLE`             | Yes          | No                                   |
+| `CLOTHOID`           | Yes          | No                                   |
+| `COMPOUNDSURFACE`    | Yes          | No                                   |
+| `ELLIPTICALCURVE`    | Yes          | No                                   |
+| `GEODESICSTRING`     | Yes          | No                                   |
+| `NURBSCURVE`         | Yes          | No                                   |
+| `SPIRALCURVE`        | Yes          | No                                   |
 
 Full implementation is evaluated over the layouts applicable to the geometry
 type, not over every layout in the library. `POLYHEDRALSURFACE` is fully
@@ -94,7 +94,7 @@ No existing spatial type or supported coordinate layout changes.
 `ST_SpatialRefSys` is an SQL/MM spatial-reference-system metadata type rather
 than a subtype of `ST_Geometry`; it is outside this value-type hierarchy. This
 library identifies a reference with `Reference\SpatialReference`, which can
-carry an authority and its integer identifier, without modelling a full
+carry an authority and its integer identifier, without modeling a full
 reference-system definition. The supplied ISO/IEC CD 13249-3:201x(E), section
 8.5, names the polyhedral surface type `ST_PolyhdrlSurface`.
 
@@ -123,7 +123,7 @@ handling and [Spatial validation](validators.md) for explicit functional checks.
 ## Class catalogue
 
 All classes in the following matrix are final, concrete and immutable. The class
-name is composed from the dimension, family, and type:
+name is composed of the dimension, family, and type:
 
 ```php
 LongitudeOne\SpatialTypes\Types\<dimension>\<family>\<type>Immutable
@@ -138,12 +138,12 @@ LongitudeOne\SpatialTypes\Types\<dimension>\<family>\<type>Immutable
 
 For each dimension, both `Geometry` and `Geography` provide:
 
-| Type                     | Geometry class                  | Geography class                   |
-| ------------------------ | ------------------------------- | --------------------------------- |
+| Type                     | Geometry class                           | Geography class                            |
+|--------------------------|------------------------------------------|--------------------------------------------|
 | Point                    | `…\Geometry\PointImmutable`              | `…\Geography\PointImmutable`               |
 | Line string              | `…\Geometry\LineStringImmutable`         | `…\Geography\LineStringImmutable`          |
-| Circular string          | `…\Geometry\CircularStringImmutable` | `…\Geography\CircularStringImmutable` |
-| Compound curve           | `…\Geometry\CompoundCurveImmutable` | `…\Geography\CompoundCurveImmutable` |
+| Circular string          | `…\Geometry\CircularStringImmutable`     | `…\Geography\CircularStringImmutable`      |
+| Compound curve           | `…\Geometry\CompoundCurveImmutable`      | `…\Geography\CompoundCurveImmutable`       |
 | Polygon                  | `…\Geometry\PolygonImmutable`            | `…\Geography\PolygonImmutable`             |
 | Triangle                 | `…\Geometry\TriangleImmutable`           | `…\Geography\TriangleImmutable`            |
 | Multi-point              | `…\Geometry\MultiPointImmutable`         | `…\Geography\MultiPointImmutable`          |
@@ -221,12 +221,12 @@ depend on it. See [Validation](validators.md).
 
 Mutable points live directly in the dimension namespace:
 
-| Layout | Class | Constructor ordinates |
-| --- | --- | --- |
-| XY | `Types\Dimension2\Point` | X, Y |
-| XYZ | `Types\Dimension3z\Point` | X, Y, Z |
-| XYM | `Types\Dimension3m\Point` | X, Y, M |
-| XYZM | `Types\Dimension4zm\Point` | X, Y, Z, M |
+| Layout | Class                      | Constructor ordinates |
+|--------|----------------------------|-----------------------|
+| XY     | `Types\Dimension2\Point`   | X, Y                  |
+| XYZ    | `Types\Dimension3z\Point`  | X, Y, Z               |
+| XYM    | `Types\Dimension3m\Point`  | X, Y, M               |
+| XYZM   | `Types\Dimension4zm\Point` | X, Y, Z, M            |
 
 All ordinates default to `null`. Each constructor ends with
 `int|SpatialReference $srid = 0` and
@@ -444,24 +444,19 @@ returns one tuple in the layout's order.
 
 ### Aggregate getters
 
-| Type | Element access | Additional observation |
-| --- | --- | --- |
-| `LineStringImmutable` | `getPoints()`, `getPoint($index)`, `getElements()` | `isLine()` |
-| `MultiPointImmutable` | `getPoints()`, `getPoint($index)`, `getElements()` | — |
-| `PolygonImmutable` / `TriangleImmutable` | `getRings()`, `getRing($index)`, `getElements()` | — |
-| `MultiLineStringImmutable` | `getLineStrings()`, `getLineString($index)`, `getElements()` | — |
-| `MultiPolygonImmutable` | `getPolygons()`, `getPolygon($index)`, `getElements()` | — |
-| `PolyhedralSurfaceImmutable` | `getPatches()`, `getPatch($index)`, `getElements()` | — |
-| `GeometryCollectionImmutable` / `GeographyCollectionImmutable` | `getElements()` | `hasElement($spatial)` |
+| Type                                                           | Element access                                               | Additional observation |
+|----------------------------------------------------------------|--------------------------------------------------------------|------------------------|
+| `LineStringImmutable`                                          | `getPoints()`, `getPoint($index)`, `getElements()`           | —                      |
+| `MultiPointImmutable`                                          | `getPoints()`, `getPoint($index)`, `getElements()`           | —                      |
+| `PolygonImmutable` / `TriangleImmutable`                       | `getRings()`, `getRing($index)`, `getElements()`             | —                      |
+| `MultiLineStringImmutable`                                     | `getLineStrings()`, `getLineString($index)`, `getElements()` | —                      |
+| `MultiPolygonImmutable`                                        | `getPolygons()`, `getPolygon($index)`, `getElements()`       | —                      |
+| `PolyhedralSurfaceImmutable`                                   | `getPatches()`, `getPatch($index)`, `getElements()`          | —                      |
+| `GeometryCollectionImmutable` / `GeographyCollectionImmutable` | `getElements()`                                              | `hasElement($spatial)` |
 
 For point, ring, line-string, polygon, and patch single-element accessors, negative
 indexes count from the end (`-1` is the last element). An index is wrapped by
 the element count; accessing an empty aggregate raises `OutOfBoundsException`.
-
-For both mutable and immutable line strings, `isLine()` is true only with
-exactly two defining points (ISO/IEC CD 13249-3:201x(E), clause 4.2.5).
-Functional validity checks belong to explicit consumer validation; see
-[Spatial validation](validators.md).
 
 Emptiness, closure and simplicity are geometric or functional evaluations and
 are intentionally not part of the `spatial-types` public API. Their evaluation
@@ -493,7 +488,7 @@ family, dimension, and SRID of the receiving aggregate.
 
 `MultiPointImmutable::withPoint(int $pointIndex, Coordinates $coordinates): static`
 returns a deep copy with one replacement point and preserves the receiving
-multi-point's family, dimension, and SRID.
+multipoint's family, dimension, and SRID.
 
 `PolygonImmutable::withRing(int $ringIndex, array $coordinates): static` replaces
 one ring. `MultiLineStringImmutable::withLineString(int $lineStringIndex, array
@@ -514,7 +509,7 @@ methods return deep copies and preserve family, dimension, and SRID.
 $coordinates)`, `withRing($patchIndex, $ringIndex, $coordinates)` and
 `withPatch($patchIndex, $coordinates)` with the same deep-copy semantics.
 Surface topology is not checked. Editing a shared vertex does not silently
-move neighbouring faces.
+move neighboring faces.
 Empty surfaces reject indexed access and indexed replacements.
 
 `GeometryCollectionImmutable::withElement(int $elementIndex, ImmutableSpatialInterface
@@ -655,15 +650,15 @@ without conversion. Supplied mutable points keep their identity, ordinates,
 family and reference; construction and membership edits do not synchronize them.
 Functional compatibility and geometric validity remain consumer concerns.
 
-| Operation | Effect |
-| --- | --- |
-| `addPoint($point)` | Append the supplied mutable point |
-| `insertPoint($index, $point)` | Insert before the zero-based index; the point count appends |
-| `setPoint($index, $point)` | Replace an existing point |
-| `removePoint($index)` | Remove an existing point and reindex the remaining points |
-| `setArrayOfCoordinates($tuples)` | Replace all points with newly constructed mutable points |
-| `getPoint($index)` | Return the same mutable point instance at an existing index |
-| `getPoints()` / `getElements()` | Return an ordered array of the same mutable point instances |
+| Operation                        | Effect                                                      |
+|----------------------------------|-------------------------------------------------------------|
+| `addPoint($point)`               | Append the supplied mutable point                           |
+| `insertPoint($index, $point)`    | Insert before the zero-based index; the point count appends |
+| `setPoint($index, $point)`       | Replace an existing point                                   |
+| `removePoint($index)`            | Remove an existing point and reindex the remaining points   |
+| `setArrayOfCoordinates($tuples)` | Replace all points with newly constructed mutable points    |
+| `getPoint($index)`               | Return the same mutable point instance at an existing index |
+| `getPoints()` / `getElements()`  | Return an ordered array of the same mutable point instances |
 
 Indexed access, replacement and removal require an existing non-negative index;
 invalid addressing throws `OutOfBoundsException`. Unlike the immutable variants,
@@ -688,7 +683,7 @@ $first->setSrid(3857, false); // Updates only $first's declared reference.
 `setSrid($srid, $propagate = true)`,
 `setSpatialReference($reference, $propagate = true)` and
 `setFamily($family, $propagate = true)` change the path's declared context.
-By default they also update every contained point, including shared instances in
+By default, they also update every contained point, including shared instances in
 other paths. Passing `false` changes only the receiver. None of these operations
 transforms ordinates or updates the metadata of another containing path.
 Returned point arrays cannot change membership, but their mutable points remain shared.
@@ -703,10 +698,10 @@ complete pairs. Without an origin or after an incomplete pair, it throws
 `InvalidValueException` without mutation.
 
 | Arc index | Origin point index | Passing point index | Destination point index |
-| --- | --- | --- | --- |
-| `0` | `0` | `1` | `2` |
-| `1` | `2` | `3` | `4` |
-| `i` | `2 * i` | `2 * i + 1` | `2 * i + 2` |
+|-----------|--------------------|---------------------|-------------------------|
+| `0`       | `0`                | `1`                 | `2`                     |
+| `1`       | `2`                | `3`                 | `4`                     |
+| `i`       | `2 * i`            | `2 * i + 1`         | `2 * i + 2`             |
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension2\CircularString;
@@ -740,15 +735,15 @@ rejected without conversion. Components retain their own declared layout,
 family and reference; compatibility and geometric continuity require explicit
 validation. Incomplete and empty component sequences remain representable.
 
-| Operation | Behavior |
-| --- | --- |
-| `addCurve($curve)` | Append a component |
-| `insertCurve($index, $curve)` | Insert before an index; the component count appends |
-| `setCurve($index, $curve)` | Replace an existing component |
-| `removeCurve($index)` | Remove an existing component and reindex |
-| `setCurves($curves)` | Replace the entire ordered sequence atomically |
-| `getCurve($index)` | Read an existing component |
-| `getCurves()`, `getElements()` | Return the ordered component instances |
+| Operation                      | Behavior                                            |
+|--------------------------------|-----------------------------------------------------|
+| `addCurve($curve)`             | Append a component                                  |
+| `insertCurve($index, $curve)`  | Insert before an index; the component count appends |
+| `setCurve($index, $curve)`     | Replace an existing component                       |
+| `removeCurve($index)`          | Remove an existing component and reindex            |
+| `setCurves($curves)`           | Replace the entire ordered sequence atomically      |
+| `getCurve($index)`             | Read an existing component                          |
+| `getCurves()`, `getElements()` | Return the ordered component instances              |
 
 All indices are zero-based. Negative indices and missing components raise
 `OutOfBoundsException`; indexed access does not wrap. Invalid component arrays
@@ -811,15 +806,15 @@ surface's current layout, family and reference. Supplied spatial objects retain
 their own context and identity. Immutable rings and points are rejected without
 conversion, including immutable points exposed by a custom ring.
 
-| Operation | Effect |
-| --- | --- |
-| `addRing($ring)` | Append a mutable line string |
-| `insertRing($index, $ring)` | Insert before the addressed ring; the count appends |
-| `removeRing($index)` | Remove an existing ring and reindex |
-| `setRing($index, $ring)` | Replace one existing ring |
-| `setPoint($ringIndex, $pointIndex, $point)` | Replace one point in an existing ring |
-| `setArrayOfCoordinates($coordinates)` | Replace all rings from coordinate tuples |
-| `getRing($index)`, `getRings()`, `getElements()` | Return the retained mutable ring instances |
+| Operation                                        | Effect                                              |
+|--------------------------------------------------|-----------------------------------------------------|
+| `addRing($ring)`                                 | Append a mutable line string                        |
+| `insertRing($index, $ring)`                      | Insert before the addressed ring; the count appends |
+| `removeRing($index)`                             | Remove an existing ring and reindex                 |
+| `setRing($index, $ring)`                         | Replace one existing ring                           |
+| `setPoint($ringIndex, $pointIndex, $point)`      | Replace one point in an existing ring               |
+| `setArrayOfCoordinates($coordinates)`            | Replace all rings from coordinate tuples            |
+| `getRing($index)`, `getRings()`, `getElements()` | Return the retained mutable ring instances          |
 
 All successful mutations return the receiver as `static`. Ring and point indices
 start at zero; access, replacement and removal require an existing element.
@@ -857,7 +852,7 @@ are visible in every surface containing it. Coordinate replacement creates new
 descendants and leaves the previous rings and their other owners unchanged.
 
 `setSrid()`, `setSpatialReference()` and `setFamily()` each accept a second
-`bool $propagate = true` parameter. By default they update all rings and points
+`bool $propagate = true` parameter. By default, they update all rings and points
 recursively; `false` updates only the receiver. No ordinates are recalculated.
 The instance's spatial type and coordinate layout remain fixed. Mutable surfaces
 have no `with…` methods or dimension setter; immutable counterparts keep their
@@ -890,19 +885,19 @@ family and reference. Supplied components retain their own context and identity;
 immutable patches, rings and points are rejected without conversion, including
 immutable descendants exposed by custom mutable components.
 
-| Operation | Effect |
-| --- | --- |
-| `addPatch($patch)` | Append a mutable polygon |
-| `insertPatch($index, $patch)` | Insert before a patch; the patch count appends |
-| `removePatch($index)` | Remove an existing patch and reindex |
-| `setPatch($index, $patch)` | Replace one existing patch |
-| `addRing($patchIndex, $ring)` | Append a ring in an existing patch |
-| `insertRing($patchIndex, $ringIndex, $ring)` | Insert a ring; the addressed patch's ring count appends |
-| `removeRing($patchIndex, $ringIndex)` | Remove an existing ring from a patch |
-| `setRing($patchIndex, $ringIndex, $ring)` | Replace one existing ring |
-| `setPoint($patchIndex, $ringIndex, $pointIndex, $point)` | Replace one point in an existing ring |
-| `setArrayOfCoordinates($coordinates)` | Replace the complete patch sequence from coordinates; `[]` empties it |
-| `getPatch($index)`, `getPatches()`, `getElements()` | Expose the retained mutable patches |
+| Operation                                                | Effect                                                                |
+|----------------------------------------------------------|-----------------------------------------------------------------------|
+| `addPatch($patch)`                                       | Append a mutable polygon                                              |
+| `insertPatch($index, $patch)`                            | Insert before a patch; the patch count appends                        |
+| `removePatch($index)`                                    | Remove an existing patch and reindex                                  |
+| `setPatch($index, $patch)`                               | Replace one existing patch                                            |
+| `addRing($patchIndex, $ring)`                            | Append a ring in an existing patch                                    |
+| `insertRing($patchIndex, $ringIndex, $ring)`             | Insert a ring; the addressed patch's ring count appends               |
+| `removeRing($patchIndex, $ringIndex)`                    | Remove an existing ring from a patch                                  |
+| `setRing($patchIndex, $ringIndex, $ring)`                | Replace one existing ring                                             |
+| `setPoint($patchIndex, $ringIndex, $pointIndex, $point)` | Replace one point in an existing ring                                 |
+| `setArrayOfCoordinates($coordinates)`                    | Replace the complete patch sequence from coordinates; `[]` empties it |
+| `getPatch($index)`, `getPatches()`, `getElements()`      | Expose the retained mutable patches                                   |
 
 Every successful mutation returns the receiver as `static`. Indices start at
 zero at each nesting level; access, replacement and removal require existing
@@ -940,12 +935,12 @@ Construction, insertion and replacement never clone supplied components.
 Editing one shared point changes every occurrence of that instance; distinct
 points with equal coordinates remain independent. Replacing a point at one
 address only changes that ring entry. No vertex detection, merging,
-synchronization or neighbouring-patch repair occurs. Complete coordinate
+synchronization or neighboring-patch repair occurs. Complete coordinate
 replacement creates new descendants and leaves previous components and their
 other owners unchanged.
 
 `setSrid()`, `setSpatialReference()` and `setFamily()` each accept
-`bool $propagate = true`. By default they update the receiver and all patches,
+`bool $propagate = true`. By default, they update the receiver and all patches,
 rings and points in place; `false` updates only the receiver. Ordinates never
 change. Spatial type and layout stay fixed, and mutable surfaces expose neither
 `with…` methods nor a dimension setter. Immutable counterparts retain their
@@ -967,11 +962,11 @@ new MultiPoint(array $elements = [], int|SpatialReference $srid = 0,
     SpatialModelEnum $family = SpatialModelEnum::GEOMETRY);
 ```
 
-| Mutable aggregate | Accepted members | Coordinate-array input |
-| --- | --- | --- |
-| `MultiPoint` | `MutablePointInterface` | Point tuples |
-| `MultiLineString` | `MutableLineStringInterface` | Arrays of points or tuples |
-| `MultiPolygon` | `MutablePolygonInterface` | Arrays of rings, points or tuples |
+| Mutable aggregate   | Accepted members                                        | Coordinate-array input                            |
+|---------------------|---------------------------------------------------------|---------------------------------------------------|
+| `MultiPoint`        | `MutablePointInterface`                                 | Point tuples                                      |
+| `MultiLineString`   | `MutableLineStringInterface`                            | Arrays of points or tuples                        |
+| `MultiPolygon`      | `MutablePolygonInterface`                               | Arrays of rings, points or tuples                 |
 | `SpatialCollection` | `MutableSpatialInterface`, including nested collections | Not accepted: arrays do not identify member types |
 
 Construction and `setElements()` support the listed coordinate arrays. Arrays
@@ -985,14 +980,14 @@ and can therefore be retained by a mutable multi-polygon.
 `GeometryCollectionImmutable` and `GeographyCollectionImmutable`. Changing its
 family preserves both its concrete class and its instance identity.
 
-| Operation, common to all four kinds | Result |
-| --- | --- |
-| `addElement($element)` | Append a mutable member |
-| `insertElement($index, $element)` | Insert before an index; the member count appends |
-| `setElement($index, $element)` | Replace one existing member |
-| `removeElement($index)` | Remove one existing member and reindex |
-| `setElements($elements)` | Replace complete ordered membership atomically; `[]` empties it |
-| `getElement($index)`, `getElements()` | Expose the retained mutable instances |
+| Operation, common to all four kinds   | Result                                                          |
+|---------------------------------------|-----------------------------------------------------------------|
+| `addElement($element)`                | Append a mutable member                                         |
+| `insertElement($index, $element)`     | Insert before an index; the member count appends                |
+| `setElement($index, $element)`        | Replace one existing member                                     |
+| `removeElement($index)`               | Remove one existing member and reindex                          |
+| `setElements($elements)`              | Replace complete ordered membership atomically; `[]` empties it |
+| `getElement($index)`, `getElements()` | Expose the retained mutable instances                           |
 
 `MultiPoint::getPoints()`, `MultiLineString::getLineStrings()` and
 `MultiPolygon::getPolygons()` also expose the retained instances. Single-member
@@ -1040,7 +1035,7 @@ assert([7, null] === $point->toArray()); // Coordinates are unchanged.
 ```
 
 `setSrid()`, `setSpatialReference()` and `setFamily()` each accept
-`bool $propagate = true`. By default changes reach all descendants recursively,
+`bool $propagate = true`. By default, changes reach all descendants recursively,
 including points in compound curves and polyhedral surfaces held by a
 `SpatialCollection`. Propagation updates existing shared instances and is visible
 to other owners of those instances. Passing `false` updates only the receiver.
