@@ -42,7 +42,6 @@ class EmptyGeometryTest extends TestCase
     public function testEmptyGeometryCanBeCreated(SpatialInterface $geometry, GeometryTypeEnum $type): void
     {
         static::assertSame($type, $geometry->getType());
-        static::assertTrue($geometry->isEmpty());
         static::assertSame([], $geometry->toArray());
     }
 

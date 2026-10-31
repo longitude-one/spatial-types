@@ -41,17 +41,12 @@ class EmptyMultiPolygonDimension3mTest extends TestCase
         static::assertSame([$single->getPolygon(0)], $single->getElements());
         static::assertSame([$single->getPolygon(0)], $single->getPolygons());
         static::assertInstanceOf(GeographicPolygon::class, $single->getPolygon(0));
-        static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame(4326, $single->getPolygon(0)->getSrid());
         static::assertFalse($single->getPolygon(0)->hasZ());
         static::assertTrue($single->getPolygon(0)->hasM());
         static::assertCount(5, $mixed->getElements());
         static::assertSame($mixed->getPolygons(), $mixed->getElements());
-        static::assertTrue($mixed->getPolygon(0)->isEmpty());
-        static::assertTrue($mixed->getPolygon(2)->isEmpty());
-        static::assertTrue($mixed->getPolygon(4)->isEmpty());
         static::assertSame([[], [[[0, 0, 2], [4, 0, 2], [4, 3, 2], [0, 0, 2]]], [], [[[10, 0, 2], [14, 0, 2], [14, 3, 2], [10, 0, 2]]], []], $mixed->toArray());
     }
 
@@ -66,12 +61,9 @@ class EmptyMultiPolygonDimension3mTest extends TestCase
         static::assertSame([$polygon], $single->getElements());
         static::assertSame([$polygon], $single->getPolygons());
         static::assertSame($polygon, $single->getPolygon(0));
-        static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame([], $zero->getElements());
         static::assertSame([], $zero->getPolygons());
-        static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->toArray());
         static::assertSame(4326, $single->getPolygon(0)->getSrid());
         static::assertFalse($single->getPolygon(0)->hasZ());
@@ -88,17 +80,12 @@ class EmptyMultiPolygonDimension3mTest extends TestCase
         static::assertSame([$single->getPolygon(0)], $single->getElements());
         static::assertSame([$single->getPolygon(0)], $single->getPolygons());
         static::assertInstanceOf(PolygonImmutable::class, $single->getPolygon(0));
-        static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame(4326, $single->getPolygon(0)->getSrid());
         static::assertFalse($single->getPolygon(0)->hasZ());
         static::assertTrue($single->getPolygon(0)->hasM());
         static::assertCount(5, $mixed->getElements());
         static::assertSame($mixed->getPolygons(), $mixed->getElements());
-        static::assertTrue($mixed->getPolygon(0)->isEmpty());
-        static::assertTrue($mixed->getPolygon(2)->isEmpty());
-        static::assertTrue($mixed->getPolygon(4)->isEmpty());
         static::assertSame([[], [[[0, 0, 2], [4, 0, 2], [4, 3, 2], [0, 0, 2]]], [], [[[10, 0, 2], [14, 0, 2], [14, 3, 2], [10, 0, 2]]], []], $mixed->toArray());
     }
 
@@ -113,12 +100,9 @@ class EmptyMultiPolygonDimension3mTest extends TestCase
         static::assertSame([$polygon], $single->getElements());
         static::assertSame([$polygon], $single->getPolygons());
         static::assertSame($polygon, $single->getPolygon(0));
-        static::assertTrue($single->getPolygon(0)->isEmpty());
-        static::assertTrue($single->isEmpty());
         static::assertSame([[]], $single->toArray());
         static::assertSame([], $zero->getElements());
         static::assertSame([], $zero->getPolygons());
-        static::assertTrue($zero->isEmpty());
         static::assertSame([], $zero->toArray());
         static::assertSame(4326, $single->getPolygon(0)->getSrid());
         static::assertFalse($single->getPolygon(0)->hasZ());

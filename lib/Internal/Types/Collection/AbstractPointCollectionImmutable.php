@@ -60,26 +60,6 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
         return $this->points;
     }
 
-    /** Whether this point collection is empty. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->points;
-    }
-
-    /** Whether no two distinct points are equal. */
-    public function isSimple(): bool
-    {
-        foreach ($this->points as $point) {
-            foreach ($this->points as $otherPoint) {
-                if ($point !== $otherPoint && $point->equalsTo($otherPoint)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     /**
      * @return (null|float|int)[][]
      */

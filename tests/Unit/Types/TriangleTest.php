@@ -47,7 +47,6 @@ class TriangleTest extends TestCase
         static::assertSame(GeometryTypeEnum::TRIANGLE, $triangle->getType());
         static::assertSame([$ring], $triangle->toArray());
         static::assertSame('Triangle', $triangle->jsonSerialize()['type']);
-        static::assertFalse($triangle->isEmpty());
         static::assertSame(str_contains($class, '3z') || str_contains($class, '4zm'), $triangle->hasZ());
         static::assertSame(str_contains($class, '3m') || str_contains($class, '4zm'), $triangle->hasM());
         static::assertSame($triangle->getFamily(), $triangle->getRing(0)->getFamily());
@@ -68,8 +67,6 @@ class TriangleTest extends TestCase
         static::assertSame(4326, $triangle->getSrid());
         static::assertSame(3857, $copies[2]->getSrid());
         static::assertSame('EPSG', $copies[3]->getRing(0)->getPoint(0)->getSpatialReference()->authority);
-        static::assertTrue((new $class([]))->isEmpty());
-        static::assertTrue($triangle->withArrayOfCoordinates([])->isEmpty());
         static::assertSame([$ring], $triangle->toArray());
     }
 

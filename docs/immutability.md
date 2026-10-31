@@ -233,7 +233,6 @@ EMPTY copy; partial nulls preserve a non-empty point and its dimension.
 ```php
 $partial = $paris->withCoordinates(Coordinates::xy(0, null));
 assert([0, null] === $partial->toArray());
-assert(!$partial->isEmpty());
 ```
 
 ### Mutable path ownership

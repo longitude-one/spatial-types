@@ -49,7 +49,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZ, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -81,7 +80,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZ, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -104,13 +102,10 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $compound = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable([$line], 4326);
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
 
-        static::assertFalse($compound->isEmpty());
         static::assertSame([[[0, null, 3], []]], $compound->toArray());
         static::assertSame([[[0, null, 3], []]], $copy->toArray());
-        static::assertTrue($compound->getEndPoint()?->isEmpty());
-        static::assertTrue($copy->getEndPoint()?->isEmpty());
-        static::assertSame(CoordinateDimensionEnum::XYM, $copy->getEndPoint()->getDimension());
-        static::assertSame(4326, $compound->getEndPoint()->getSrid());
+        static::assertSame(CoordinateDimensionEnum::XYM, $copy->getEndPoint()?->getDimension());
+        static::assertSame(4326, $compound->getEndPoint()?->getSrid());
         static::assertSame(3857, $copy->getEndPoint()->getSrid());
         static::assertNotSame($compound->getEndPoint(), $copy->getEndPoint());
     }
@@ -131,7 +126,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZM, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -163,7 +157,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZM, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -195,7 +188,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XYM, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -227,7 +219,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XYM, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -259,7 +250,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2], [1.5, null], [0, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XY, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
@@ -291,7 +281,6 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertSame([[null, 2], [1.5, null], [0, null]], $copy->getCurve(1)->toArray());
         static::assertSame(CoordinateDimensionEnum::XY, $copy->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertFalse($compound->isEmpty());
         static::assertNotSame($compound, $copy);
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());

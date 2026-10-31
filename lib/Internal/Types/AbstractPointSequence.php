@@ -56,7 +56,7 @@ abstract class AbstractPointSequence extends AbstractSpatialType implements Muta
     /** Return the last defining point, or null for EMPTY. */
     public function getEndPoint(): ?MutablePointInterface
     {
-        return $this->isEmpty() ? null : $this->points[count($this->points) - 1];
+        return [] === $this->points ? null : $this->points[count($this->points) - 1];
     }
 
     /** Return the declared family. */
@@ -83,18 +83,6 @@ abstract class AbstractPointSequence extends AbstractSpatialType implements Muta
     public function getStartPoint(): ?MutablePointInterface
     {
         return $this->points[0] ?? null;
-    }
-
-    /** Whether this sequence has equal endpoints. */
-    public function isClosed(): bool
-    {
-        return !$this->isEmpty() && $this->points[0]->equalsTo($this->points[count($this->points) - 1]);
-    }
-
-    /** Whether there are no defining points. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->points;
     }
 
     /**

@@ -112,24 +112,17 @@ class MutableCompoundCurveTest extends TestCase
     public function testEmptyAndIncompleteComponents(): void
     {
         $compound = new CompoundCurve();
-        static::assertTrue($compound->isEmpty());
         static::assertNull($compound->getStartPoint());
         static::assertNull($compound->getEndPoint());
-        static::assertFalse($compound->isClosed());
         $empty = new LineString([]);
         $partial = new CircularString([[0, null]]);
         $compound->setCurves([$empty, $partial]);
-        static::assertFalse($compound->isEmpty());
         static::assertNull($compound->getStartPoint());
-        static::assertFalse($compound->isClosed());
         static::assertSame([[], [[0, null]]], $compound->toArray());
         $compound->setCurves([$partial, $empty]);
         static::assertNull($compound->getEndPoint());
-        static::assertFalse($compound->isClosed());
         $compound->setCurves([$partial]);
-        static::assertTrue($compound->isClosed());
         static::assertSame($compound, $compound->setCurves([]));
-        static::assertTrue($compound->isEmpty());
     }
 
     /** Empty indexed access has no existing component. */

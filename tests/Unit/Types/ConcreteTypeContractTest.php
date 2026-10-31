@@ -182,7 +182,6 @@ class ConcreteTypeContractTest extends TestCase
             static::assertSame($family, $spatial->getFamily());
             static::assertSame($type, $spatial->getType());
             static::assertSame($expectedDimension, $spatial->getDimension());
-            static::assertFalse($spatial->isEmpty());
             static::assertSame($hasM, $spatial->hasM());
             static::assertSame($hasZ, $spatial->hasZ());
             static::assertSame($expectedCoordinates, $spatial->toArray());

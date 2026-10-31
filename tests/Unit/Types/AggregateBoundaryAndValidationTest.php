@@ -63,7 +63,6 @@ class AggregateBoundaryAndValidationTest extends TestCase
         static::assertSame($secondPolygon->getRing(0), $polygon->getRing(-1));
 
         $multiPolygon = new MultiPolygonImmutable([$firstPolygon, $secondPolygon]);
-        static::assertFalse($multiPolygon->isEmpty());
         static::assertSame($firstPolygon, $multiPolygon->getPolygon(2));
         static::assertSame($secondPolygon, $multiPolygon->getPolygon(-1));
     }

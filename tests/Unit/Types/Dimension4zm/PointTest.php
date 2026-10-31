@@ -73,7 +73,6 @@ class PointTest extends TestCase
     public function testEmptyConstructionAndRecovery(): void
     {
         $point = new Point();
-        static::assertTrue($point->isEmpty());
         static::assertSame([], $point->toArray());
         static::assertSame($point, $point->setY(0));
         static::assertSame([null, 0, null, null], $point->toArray());
@@ -88,17 +87,14 @@ class PointTest extends TestCase
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame($point, $point->setX(null));
         static::assertNull($point->getX());
-        static::assertFalse($point->isEmpty());
         static::assertSame($point, $point->setY(null));
         static::assertSame($point, $point->setZ(null));
         static::assertNull($point->getZ());
         static::assertSame($point, $point->setM(null));
         static::assertNull($point->getM());
-        static::assertTrue($point->isEmpty());
         static::assertSame([], $point->toArray());
         static::assertNull($point->getCoordinates());
         static::assertSame($point, $point->setX(0));
-        static::assertFalse($point->isEmpty());
         static::assertSame([0, null, null, null], $point->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
         static::assertSame(4326, $point->getSrid());

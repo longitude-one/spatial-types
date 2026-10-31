@@ -43,21 +43,6 @@ abstract class AbstractMultiPoint extends AbstractMutableCollection implements M
         return GeometryTypeEnum::MULTIPOINT;
     }
 
-    /** Whether no two member positions contain equal points. */
-    public function isSimple(): bool
-    {
-        $points = $this->getPoints();
-        foreach ($points as $index => $point) {
-            foreach ($points as $otherIndex => $otherPoint) {
-                if ($index !== $otherIndex && $point->equalsTo($otherPoint)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     /** @return (null|float|int)[][] */
     public function toArray(): array
     {

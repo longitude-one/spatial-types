@@ -84,8 +84,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[0, null, 7]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -115,8 +113,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[[0, null, 7]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -146,8 +142,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[0, null, 7]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -177,8 +171,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[0, null, 7]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -208,8 +200,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[[0, null, 7]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -239,8 +229,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[0, null, 7]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -270,8 +258,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[[[0, null, 7]]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -301,8 +287,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([0, null, 7], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -332,8 +316,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[[0, null, 7]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -363,8 +345,6 @@ final class Dimension3mGeometryFactoryTest extends TestCase
         self::assertSame([[[0, null, 7]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYM, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYM, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());

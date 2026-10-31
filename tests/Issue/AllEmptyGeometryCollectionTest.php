@@ -42,16 +42,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new GeographyCollectionImmutable(4326, [$first, $second]);
         $mixed = new GeographyCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new GeographyCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new GeographyCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new GeographyCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0], []], $mixed->toArray());
@@ -71,16 +65,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new SpatialCollection([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0], []], $mixed->toArray());
@@ -100,16 +88,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new GeometryCollectionImmutable(4326, [$first, $second]);
         $mixed = new GeometryCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new GeometryCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new GeometryCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new GeometryCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0], []], $mixed->toArray());
@@ -129,16 +111,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new SpatialCollection([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0], []], $mixed->toArray());
@@ -158,16 +134,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\GeographyCollectionImmutable(4326, [$first, $second]);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\GeographyCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\GeographyCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\GeographyCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\GeographyCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -187,16 +157,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -216,16 +180,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\GeometryCollectionImmutable(4326, [$first, $second]);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\GeometryCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\GeometryCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\GeometryCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\GeometryCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -245,16 +203,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -274,16 +226,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\GeographyCollectionImmutable(4326, [$first, $second]);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\GeographyCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\GeographyCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\GeographyCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\GeographyCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -303,16 +249,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -332,16 +272,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\GeometryCollectionImmutable(4326, [$first, $second]);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\GeometryCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\GeometryCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\GeometryCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\GeometryCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -361,16 +295,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1], []], $mixed->toArray());
@@ -390,16 +318,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollectionImmutable(4326, [$first, $second]);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\GeographyCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1, 1], []], $mixed->toArray());
@@ -419,16 +341,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1, 1], []], $mixed->toArray());
@@ -448,16 +364,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollectionImmutable(4326, [$first, $second]);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollectionImmutable(4326, [$first, $populated, $second]);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollectionImmutable(4326, [$first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollectionImmutable(4326, [$populated, $first]))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\GeometryCollectionImmutable(4326, [$first, $populated]))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1, 1], []], $mixed->toArray());
@@ -477,16 +387,10 @@ final class AllEmptyGeometryCollectionTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [0, 0, 1, 1], []], $mixed->toArray());

@@ -31,6 +31,9 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
  */
 trait PointBehaviorTrait
 {
+    /** Whether this point corresponds to the empty set. */
+    protected bool $empty = false;
+
     /**
      * The X coordinate or the longitude.
      */
@@ -40,9 +43,6 @@ trait PointBehaviorTrait
      * The Y coordinate or the latitude.
      */
     protected float|int|null $y = null;
-
-    /** Whether this point corresponds to the empty set. */
-    private bool $empty = false;
 
     /**
      * Compare a mixed numeric pair without rounding the integer to binary64.
@@ -89,8 +89,9 @@ trait PointBehaviorTrait
             return false;
         }
 
-        if ($this->isEmpty() || $point->isEmpty()) {
-            return $this->isEmpty() && $point->isEmpty();
+        $otherCoordinates = $point->getCoordinates();
+        if ($this->empty || null === $otherCoordinates) {
+            return $this->empty && null === $otherCoordinates;
         }
 
         if (!self::ordinatesEqual($point->getX(), $this->getX()) || !self::ordinatesEqual($point->getY(), $this->getY())) {
@@ -113,7 +114,7 @@ trait PointBehaviorTrait
      */
     public function getCoordinates(): ?Coordinates
     {
-        if ($this->isEmpty()) {
+        if ($this->empty) {
             return null;
         }
 
@@ -147,7 +148,7 @@ trait PointBehaviorTrait
      */
     public function getX(): float|int|null
     {
-        return $this->isEmpty() ? null : $this->x;
+        return $this->empty ? null : $this->x;
     }
 
     /**
@@ -155,15 +156,7 @@ trait PointBehaviorTrait
      */
     public function getY(): float|int|null
     {
-        return $this->isEmpty() ? null : $this->y;
-    }
-
-    /**
-     * Does this point correspond to the empty set?
-     */
-    public function isEmpty(): bool
-    {
-        return $this->empty;
+        return $this->empty ? null : $this->y;
     }
 
     /**

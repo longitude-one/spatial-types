@@ -89,18 +89,6 @@ class MultiLineStringTest extends TestCase
     }
 
     /**
-     * Test the isEmpty method.
-     */
-    public function testIsEmpty(): void
-    {
-        $multiLineString = new MultiLineStringImmutable([]);
-        static::assertTrue($multiLineString->isEmpty());
-
-        $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
-        static::assertFalse($multiLineString->isEmpty());
-    }
-
-    /**
      * Test the json serialize.
      */
     public function testJsonSerialize(): void

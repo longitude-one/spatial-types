@@ -62,7 +62,6 @@ class CircularStringImmutabilityTest extends TestCase
         static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
         static::assertSame([[3, 0], [4, 1], [5, 0]], $replacement->toArray());
         static::assertSame([], $empty->toArray());
-        static::assertTrue($empty->isEmpty());
         static::assertSame($curve->getSpatialReference(), $replacement->getPoint(0)->getSpatialReference());
         static::assertSame($curve->getSpatialReference(), $empty->getSpatialReference());
     }

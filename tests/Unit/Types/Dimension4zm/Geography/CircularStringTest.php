@@ -40,7 +40,6 @@ class CircularStringTest extends TestCase
     {
         $curve = new CircularStringImmutable([], 4326);
 
-        static::assertTrue($curve->isEmpty());
         static::assertSame([], $curve->getPoints());
         static::assertSame([], $curve->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZM, $curve->getDimension());
@@ -68,7 +67,6 @@ class CircularStringTest extends TestCase
 
         static::assertContains(CurveInterface::class, class_implements($curve));
         static::assertContains(CircularStringInterface::class, class_implements($curve));
-        static::assertFalse($curve->isEmpty());
         static::assertSame(GeometryTypeEnum::CIRCULARSTRING, $curve->getType());
         static::assertSame(CoordinateDimensionEnum::XYZM, $curve->getDimension());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $curve->getFamily());

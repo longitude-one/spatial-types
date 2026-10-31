@@ -42,8 +42,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $partial = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable(null, 2, null, null, 3857);
         $mixed = new GeometryCollectionImmutable(4326, [$point, $partial, $line]);
 
-        self::assertTrue($empty->isEmpty());
-        self::assertFalse($mixed->isEmpty());
         self::assertSame([$point, $line], $empty->getElements());
         self::assertSame([$point, $partial, $line], $mixed->getElements());
         self::assertSame([[], [null, 2, null, null], []], $mixed->toArray());
@@ -60,9 +58,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $filled = $original->withLineString(1, [[0, 0], [1, 1]]);
         $emptied = $filled->withLineString(1, []);
 
-        self::assertTrue($original->isEmpty());
-        self::assertFalse($filled->isEmpty());
-        self::assertTrue($emptied->isEmpty());
         self::assertSame([[], []], $original->toArray());
         self::assertSame([[], [[0, 0], [1, 1]]], $filled->toArray());
         self::assertSame([[], []], $emptied->toArray());
@@ -81,10 +76,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $emptied = $filled->withPoint(1, Coordinates::xy(null, null));
         $referenceCopy = $original->withSrid(3857);
 
-        self::assertTrue($original->isEmpty());
-        self::assertFalse($filled->isEmpty());
-        self::assertTrue($emptied->isEmpty());
-        self::assertTrue($referenceCopy->isEmpty());
         self::assertSame([[], []], $original->toArray());
         self::assertSame([[], [1, null]], $filled->toArray());
         self::assertSame([[], []], $emptied->toArray());
@@ -104,9 +95,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $filled = $original->withPolygon(1, [[[0, 0], [2, 0], [0, 2], [0, 0]]]);
         $emptied = $filled->withPolygon(1, []);
 
-        self::assertTrue($original->isEmpty());
-        self::assertFalse($filled->isEmpty());
-        self::assertTrue($emptied->isEmpty());
         self::assertSame([[], []], $original->toArray());
         self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]]], $filled->toArray());
         self::assertSame([[], []], $emptied->toArray());
@@ -127,10 +115,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $emptied = $filled->withElement(0, $inner);
         $copied = $original->withSrid(3857);
 
-        self::assertTrue($original->isEmpty());
-        self::assertTrue($copied->isEmpty());
-        self::assertFalse($filled->isEmpty());
-        self::assertTrue($emptied->isEmpty());
         self::assertSame([[[[]]], []], $original->toArray());
         self::assertSame([[[1, 2]], []], $filled->toArray());
         self::assertSame([[[[]]], []], $emptied->toArray());
@@ -152,11 +136,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $polygons = new MultiPolygonImmutable([$polygon]);
         $collection = new GeometryCollectionImmutable(0, [$line, $polygon]);
 
-        self::assertFalse($line->isEmpty());
-        self::assertFalse($polygon->isEmpty());
-        self::assertFalse($lines->isEmpty());
-        self::assertFalse($polygons->isEmpty());
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$point], $line->getElements());
         self::assertSame([[]], $polygon->toArray());
     }

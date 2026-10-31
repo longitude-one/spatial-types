@@ -191,7 +191,6 @@ This preserves the selected coordinate layout and optional SRID:
 
 ```php
 $emptyPoint = new PointImmutable(srid: 4326);
-assert($emptyPoint->isEmpty());
 assert([] === $emptyPoint->toArray());
 ```
 
@@ -209,7 +208,6 @@ $point = new PointImmutable(2.3522, 48.8566, 35, 4326); // longitude, latitude, 
 
 ```php
 $partialPoint = new PointImmutable(0, null, null, 4326); // XYZ Geography
-assert(!$partialPoint->isEmpty());
 assert([0, null, null] === $partialPoint->toArray());
 assert($partialPoint->hasZ()); // The Z axis exists even when its value is null.
 ```
@@ -344,25 +342,21 @@ $polygon = new PolygonImmutable([
 `new MultiLineStringImmutable([])` has zero members, whereas
 `new MultiLineStringImmutable([[]])` has one empty member. `getElements()`,
 `getLineStrings()`, `getLineString()` and `toArray()` preserve this distinction.
-Both report `isEmpty() === true`: all stored members are EMPTY, including when
-there are no members. Use `count($value->getElements())` to distinguish their
-cardinality. A mixed collection with at least one non-EMPTY member reports false.
+Use `count($value->getElements())` to inspect their cardinality.
 
-`new MultiPolygonImmutable([])` has zero members and `isEmpty()` returns `true`.
-`new MultiPolygonImmutable([[]])` and `new MultiPolygonImmutable([new PolygonImmutable([])])` each
-contain one empty polygon and `isEmpty()` returns `true`. `getElements()`,
-`getPolygons()` and `getPolygon()` expose that member, whose own `isEmpty()`
-returns `true`. `toArray()` preserves the distinction as `[]` versus `[[]]`;
-empty members in mixed collections retain their positions.
+`new MultiPolygonImmutable([])` has zero members.
+`new MultiPolygonImmutable([[]])` and
+`new MultiPolygonImmutable([new PolygonImmutable([])])` each contain one empty
+polygon. `getElements()`, `getPolygons()` and `getPolygon()` expose that member.
+`toArray()` preserves the distinction as `[]` versus `[[]]`; empty members in
+mixed collections retain their positions.
 
-This member-based EMPTY rule applies to MultiPoint, MultiLineString,
+EMPTY members remain representable in MultiPoint, MultiLineString,
 MultiPolygon and GeometryCollection, in both families and all supported
-layouts, for mutable and immutable variants. Nested GeometryCollections
-propagate member emptiness. Mutable collections reflect child edits immediately,
-including shared descendants. Member references, order and cardinality are
-preserved; no family, layout, reference or geometric validation is added.
-See [collection emptiness](collection-emptiness.md) for examples and the
-approved compatibility change.
+layouts, for mutable and immutable variants. Member references, order and
+cardinality are preserved; no family, layout, reference or geometric
+validation is added. Applications that need to evaluate emptiness must use
+`spatial-validator`.
 
 `withLineString($index, [])` replaces a member with an empty line string without
 removing it. Replacing an empty member with non-empty coordinates preserves its
@@ -425,7 +419,6 @@ All concrete types implement `SpatialInterface` and `JsonSerializable`.
 | `getSpatialReference(): SpatialReference`         | The full reference identity, including its optional authority.  |
 | `hasZ(): bool` / `hasM(): bool`                   | Whether the selected coordinate layout has Z or M.              |
 | `hasSameDimension(SpatialInterface $other): bool` | Whether both values use the same Z/M layout.                    |
-| `isEmpty(): bool`                                 | Whether the object corresponds to the empty set.                |
 | `toArray(): array`                                | Nested coordinate arrays only; it omits type, family, and SRID. |
 | `jsonSerialize(): array`                          | `['type' => string, 'coordinates' => array, 'srid' => int]`.    |
 
@@ -449,17 +442,17 @@ unchanged. See [numeric representation equality](numeric-point-equality.md)
 for examples and the Story #26 audit evidence. `toArray()`
 returns one tuple in the layout's order.
 
-### Aggregate getters and predicates
+### Aggregate getters
 
-| Type                                         | Element access                                               | Predicates                            |
-| -------------------------------------------- | ------------------------------------------------------------ | ------------------------------------- |
-| `LineStringImmutable`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isLine()`, `isClosed()` |
-| `MultiPointImmutable`                                 | `getPoints()`, `getPoint($index)`, `getElements()`           | `isEmpty()`, `isSimple()`             |
-| `PolygonImmutable` / `TriangleImmutable`                       | `getRings()`, `getRing($index)`, `getElements()`             | `isEmpty()`                           |
-| `MultiLineStringImmutable`                            | `getLineStrings()`, `getLineString($index)`, `getElements()` | `isEmpty()`                           |
-| `MultiPolygonImmutable`                               | `getPolygons()`, `getPolygon($index)`, `getElements()`       | `isEmpty()`                           |
-| `PolyhedralSurfaceImmutable` | `getPatches()`, `getPatch($index)`, `getElements()` | `isEmpty()` |
-| `GeometryCollectionImmutable` / `GeographyCollectionImmutable` | `getElements()`                                              | `isEmpty()`, `hasElement($spatial)`   |
+| Type | Element access | Additional observation |
+| --- | --- | --- |
+| `LineStringImmutable` | `getPoints()`, `getPoint($index)`, `getElements()` | `isLine()` |
+| `MultiPointImmutable` | `getPoints()`, `getPoint($index)`, `getElements()` | — |
+| `PolygonImmutable` / `TriangleImmutable` | `getRings()`, `getRing($index)`, `getElements()` | — |
+| `MultiLineStringImmutable` | `getLineStrings()`, `getLineString($index)`, `getElements()` | — |
+| `MultiPolygonImmutable` | `getPolygons()`, `getPolygon($index)`, `getElements()` | — |
+| `PolyhedralSurfaceImmutable` | `getPatches()`, `getPatch($index)`, `getElements()` | — |
+| `GeometryCollectionImmutable` / `GeographyCollectionImmutable` | `getElements()` | `hasElement($spatial)` |
 
 For point, ring, line-string, polygon, and patch single-element accessors, negative
 indexes count from the end (`-1` is the last element). An index is wrapped by
@@ -467,34 +460,13 @@ the element count; accessing an empty aggregate raises `OutOfBoundsException`.
 
 For both mutable and immutable line strings, `isLine()` is true only with
 exactly two defining points (ISO/IEC CD 13249-3:201x(E), clause 4.2.5).
-`isClosed()` independently requires at least two points and equal first/last
-points, so a closed path with three or more points is not a line.
 Functional validity checks belong to explicit consumer validation; see
 [Spatial validation](validators.md).
 
-## Simplicity correction scope
-
-A MultiPoint containing the same complete, non-empty Point instance at two
-member positions is not simple, for both mutable and immutable variants.
-Calling `isSimple()` does not change the members or their shared identity.
-
-Immutable XY line strings also detect proper interior crossings between
-non-adjacent segments when all defining positions are complete, finite and
-share the line string's family, dimension and spatial reference. For example,
-`[[0, 0], [2, 2], [0, 2], [2, 0]]` is not simple. A contact only at the
-first/last endpoint is not a proper interior crossing.
-
-The orientation calculation normalizes each coordinate axis before computing
-determinants to reduce overflow and underflow. It still uses PHP floating-point
-arithmetic: rounding and cancellation can affect near-degenerate or widely
-separated scales. This is not an exact-arithmetic topology validator.
-
-These are the two corrections approved in Story #60. They do not establish
-a complete normative simplicity implementation. Existing equality-based
-results for distinct points and closing endpoints remain unchanged, as do
-higher-dimensional crossings, partial/EMPTY positions and inconsistent
-contexts. The broader equality and XY/3D predicate mapping remains under
-review in Story #26. Mutable LineString does not expose `isSimple()`.
+Emptiness, closure and simplicity are geometric or functional evaluations and
+are intentionally not part of the `spatial-types` public API. Their evaluation
+belongs to `spatial-validator`; this library only preserves the structures on
+which those evaluations operate.
 
 ## Immutability contract
 
@@ -579,14 +551,10 @@ The formatter does not escape messages for HTML, JSON, XML or SQL.
 `Interfaces\CurveInterface` extends `SpatialInterface` and is the shared curve
 contract implemented by `LineStringInterface`, `CircularStringInterface` and
 `CompoundCurveInterface`. It provides `getStartPoint(): ?PointInterface`,
-`getEndPoint(): ?PointInterface` and `isClosed(): bool`. Empty curves return
-`null` endpoints and are not closed. Endpoint equality uses the existing
-`PointInterface::equalsTo()` semantics, including all ordinates with integer/float numeric equivalence;
-null stays distinct from zero. No tolerance or coordinate normalization is introduced.
+and `getEndPoint(): ?PointInterface`. Empty curves return `null` endpoints.
 
 This is an approved breaking change before 1.0.0: third-party implementations
-of these curve interfaces must implement the three common methods. Existing
-concrete line-string closure behavior is preserved.
+of these curve interfaces must implement the two common endpoint methods.
 
 `Types\Dimension{2,3z,3m,4zm}\{Geometry,Geography}\CircularStringImmutable` supports
 XY, XYZ, XYM and XYZM in both families. Its constructor is:
@@ -650,9 +618,8 @@ flattening, reversal or linear approximation.
 `getCurves()` and `getElements()` expose the ordered components as
 `ImmutableCurveInterface[]`. `getCurve($index)` uses wrapping indexes and negative
 indexes from the end; EMPTY indexed access raises `OutOfBoundsException`.
-`getStartPoint()` and `getEndPoint()` expose the outer endpoints. `isClosed()`
-compares those endpoints without checking intermediate continuity. Closure does not claim simplicity; no compound ring or simplicity
-predicate is added. `getType()` returns `GeometryTypeEnum::COMPOUNDCURVE`.
+`getStartPoint()` and `getEndPoint()` expose the outer endpoints.
+`getType()` returns `GeometryTypeEnum::COMPOUNDCURVE`.
 `toArray()` contains one array of defining coordinate tuples per component;
 use component accessors when interpolation identity is needed. The inherited
 JSON representation uses type `CompoundCurve`, these coordinates, and SRID;

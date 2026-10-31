@@ -78,7 +78,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
      */
     public function getM(): float|int|null
     {
-        return $this->isEmpty() ? null : $this->m;
+        return $this->empty ? null : $this->m;
     }
 
     /**
@@ -102,7 +102,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
      */
     public function toArray(): array
     {
-        if ($this->isEmpty()) {
+        if ($this->empty) {
             return [];
         }
 

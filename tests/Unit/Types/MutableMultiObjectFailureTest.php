@@ -48,7 +48,6 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[1, 2]]);
         } finally {
-            static::assertTrue($aggregate->isEmpty());
         }
     }
 

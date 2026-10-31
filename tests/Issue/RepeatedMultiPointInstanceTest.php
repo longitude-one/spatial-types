@@ -38,8 +38,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $emptyMembers = new MultiPointImmutable([$empty, $empty]);
         $partialMembers = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([$partial, $partial]);
 
-        self::assertTrue($emptyMembers->isSimple());
-        self::assertTrue($partialMembers->isSimple());
         self::assertSame([[], []], $emptyMembers->toArray());
         self::assertSame([[1, 2, null], [1, 2, null]], $partialMembers->toArray());
     }
@@ -50,7 +48,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable(1, 2, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2], [1, 2]], $multiPoint->toArray());
@@ -64,7 +61,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new Point(1, 2, 4326, SpatialModelEnum::GEOGRAPHY);
         $multiPoint = new MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2], [1, 2]], $multiPoint->toArray());
@@ -78,7 +74,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new PointImmutable(1, 2, 4326);
         $multiPoint = new MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2], [1, 2]], $multiPoint->toArray());
@@ -92,7 +87,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new Point(1, 2, 4326, SpatialModelEnum::GEOMETRY);
         $multiPoint = new MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2], [1, 2]], $multiPoint->toArray());
@@ -106,7 +100,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable(1, 2, 7, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 7], [1, 2, 7]], $multiPoint->toArray());
@@ -120,7 +113,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Point(1, 2, 7, 4326, SpatialModelEnum::GEOGRAPHY);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 7], [1, 2, 7]], $multiPoint->toArray());
@@ -134,7 +126,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable(1, 2, 7, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 7], [1, 2, 7]], $multiPoint->toArray());
@@ -148,7 +139,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Point(1, 2, 7, 4326, SpatialModelEnum::GEOMETRY);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 7], [1, 2, 7]], $multiPoint->toArray());
@@ -162,7 +152,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable(1, 2, 3, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3], [1, 2, 3]], $multiPoint->toArray());
@@ -176,7 +165,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Point(1, 2, 3, 4326, SpatialModelEnum::GEOGRAPHY);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3], [1, 2, 3]], $multiPoint->toArray());
@@ -190,7 +178,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(1, 2, 3, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3], [1, 2, 3]], $multiPoint->toArray());
@@ -204,7 +191,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Point(1, 2, 3, 4326, SpatialModelEnum::GEOMETRY);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3], [1, 2, 3]], $multiPoint->toArray());
@@ -218,7 +204,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable(1, 2, 3, 7, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $multiPoint->toArray());
@@ -232,7 +217,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Point(1, 2, 3, 7, 4326, SpatialModelEnum::GEOGRAPHY);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $multiPoint->toArray());
@@ -246,7 +230,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PointImmutable(1, 2, 3, 7, 4326);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable([$point, $point], 4326);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $multiPoint->toArray());
@@ -260,7 +243,6 @@ final class RepeatedMultiPointInstanceTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Point(1, 2, 3, 7, 4326, SpatialModelEnum::GEOMETRY);
         $multiPoint = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPoint([$point, $point], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertFalse($multiPoint->isSimple());
         self::assertSame($point, $multiPoint->getPoints()[0]);
         self::assertSame($point, $multiPoint->getPoints()[1]);
         self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $multiPoint->toArray());

@@ -216,7 +216,6 @@ class FactoryPipelineTest extends TestCase
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
         );
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([1, 2, null], $point->toArray());
         static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
     }

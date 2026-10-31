@@ -82,34 +82,19 @@ abstract class AbstractCompoundCurveImmutable extends AbstractSpatialTypeImmutab
     /** Return the final component's endpoint, or null for EMPTY. */
     public function getEndPoint(): ?ImmutablePointInterface
     {
-        return $this->isEmpty() ? null : $this->getCurve(-1)->getEndPoint();
+        return [] === $this->curves ? null : $this->getCurve(-1)->getEndPoint();
     }
 
     /** Return the first component's start point, or null for EMPTY. */
     public function getStartPoint(): ?ImmutablePointInterface
     {
-        return $this->isEmpty() ? null : $this->getCurve(0)->getStartPoint();
+        return [] === $this->curves ? null : $this->getCurve(0)->getStartPoint();
     }
 
     /** Return the compound-curve type. */
     public function getType(): GeometryTypeEnum
     {
         return GeometryTypeEnum::COMPOUNDCURVE;
-    }
-
-    /** Whether the non-empty curve has equal endpoints. */
-    public function isClosed(): bool
-    {
-        $start = $this->getStartPoint();
-        $end = $this->getEndPoint();
-
-        return null !== $start && null !== $end && $start->equalsTo($end);
-    }
-
-    /** Whether there are no components. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->curves;
     }
 
     /** @return (null|float|int)[][][] */

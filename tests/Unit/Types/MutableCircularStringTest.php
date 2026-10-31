@@ -124,9 +124,7 @@ class MutableCircularStringTest extends TestCase
         $origin = new Point(0, 0);
         $destination = new Point(0, 0);
         $curve = new CircularString([$origin, new Point(1, 1), $destination]);
-        static::assertTrue($curve->isClosed());
         $destination->setY(2);
-        static::assertFalse($curve->isClosed());
         static::assertSame([0, 0], $origin->toArray());
         static::assertSame([[0, 0], [1, 1], [0, 2]], $curve->toArray());
     }
@@ -174,10 +172,8 @@ class MutableCircularStringTest extends TestCase
         $point = new Point(null, null);
         $replacement = new Point(3, 4);
         $curve = new CircularString([]);
-        static::assertTrue($curve->isEmpty());
         static::assertNull($curve->getStartPoint());
         static::assertNull($curve->getEndPoint());
-        static::assertFalse($curve->isClosed());
         static::assertSame($curve, $curve->addPoint($origin)->insertPoint(1, $point)->setPoint(0, $replacement));
         static::assertSame([$replacement, $point], $curve->getPoints());
         static::assertSame([[3, 4], []], $curve->toArray());
@@ -185,9 +181,7 @@ class MutableCircularStringTest extends TestCase
         static::assertSame([$point], $curve->getPoints());
         static::assertSame($curve, $curve->setArrayOfCoordinates([[0, null], [2, 3]]));
         static::assertSame([[0, null], [2, 3]], $curve->toArray());
-        static::assertFalse($curve->isClosed());
         static::assertSame($curve, $curve->setArrayOfCoordinates([]));
-        static::assertTrue($curve->isEmpty());
     }
 
     /** IncompleteArc addressing fails without mutation. */

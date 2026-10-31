@@ -42,12 +42,6 @@ interface MultiPointInterface extends CollectionInterface
     public function getPoints(): array;
 
     /**
-     * Is this multipoint simple?
-     * A MultiPoint value is simple if and only if no two Point values in the MultiPoint value are equal.
-     */
-    public function isSimple(): bool;
-
-    /**
      * Return an array of coordinates.
      *
      * @return (null|float|int)[][]

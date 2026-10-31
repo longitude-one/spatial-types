@@ -52,12 +52,6 @@ final class PolygonBoundary
         return $this->rings->count();
     }
 
-    /** Whether the boundary has no rings. */
-    public function isEmpty(): bool
-    {
-        return $this->rings->isEmpty();
-    }
-
     /**
      * Return a boundary ring using the collection index convention.
      *

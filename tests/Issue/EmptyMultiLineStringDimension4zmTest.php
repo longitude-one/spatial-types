@@ -89,7 +89,6 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
         static::assertSame($mixed->getLineStrings(), $mixed->getElements());
         static::assertSame($empty, $mixed->getLineString(0));
         static::assertSame($line, $mixed->getLineString(1));
-        static::assertTrue($mixed->getLineString(2)->isEmpty());
         static::assertSame($otherLine, $mixed->getLineString(3));
         static::assertSame($empty, $mixed->getLineString(-1));
         static::assertSame($empty, $mixed->getLineString(5));
@@ -194,7 +193,6 @@ class EmptyMultiLineStringDimension4zmTest extends TestCase
         static::assertSame($mixed->getLineStrings(), $mixed->getElements());
         static::assertSame($empty, $mixed->getLineString(0));
         static::assertSame($line, $mixed->getLineString(1));
-        static::assertTrue($mixed->getLineString(2)->isEmpty());
         static::assertSame($otherLine, $mixed->getLineString(3));
         static::assertSame($empty, $mixed->getLineString(-1));
         static::assertSame($empty, $mixed->getLineString(5));

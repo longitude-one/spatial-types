@@ -84,23 +84,16 @@ class MutableLineStringTest extends TestCase
     public function testEmptyAndIncompletePathsRemainEditable(): void
     {
         $line = new LineString([]);
-        static::assertTrue($line->isEmpty());
         static::assertNull($line->getStartPoint());
         static::assertNull($line->getEndPoint());
-        static::assertFalse($line->isClosed());
         static::assertFalse($line->isLine());
         $line->addPoint(new Point(0, null));
-        static::assertFalse($line->isEmpty());
-        static::assertFalse($line->isClosed());
         static::assertFalse($line->isLine());
         $line->addPoint(new Point(0, null));
         static::assertTrue($line->isLine());
-        static::assertTrue($line->isClosed());
         $line->setPoint(1, new Point(1, 2));
-        static::assertFalse($line->isClosed());
         static::assertSame([[0, null], [1, 2]], $line->toArray());
         static::assertSame($line, $line->setArrayOfCoordinates([]));
-        static::assertTrue($line->isEmpty());
     }
 
     /** Extra coordinates are rejected without mutation. */
@@ -352,10 +345,8 @@ class MutableLineStringTest extends TestCase
     {
         $path = new LineString([[0, 0], [1, 1], [2, 0]]);
         static::assertFalse($path->isLine());
-        static::assertFalse($path->isClosed());
         static::assertSame($path, $path->setPoint(2, new Point(0, 0)));
         static::assertFalse($path->isLine());
-        static::assertTrue($path->isClosed());
         static::assertSame([[0, 0], [1, 1], [0, 0]], $path->toArray());
     }
 

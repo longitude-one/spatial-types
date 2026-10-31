@@ -89,22 +89,17 @@ class MutablePolyhedralSurfaceTest extends TestCase
     public function testEmptyAndIncompleteSurface(): void
     {
         $surface = new PolyhedralSurface();
-        static::assertTrue($surface->isEmpty());
         static::assertSame([], $surface->toArray());
         static::assertSame($surface, $surface->setArrayOfCoordinates([[], [[]], [[[0, null, null], [null, 7, 8]]]]));
-        static::assertFalse($surface->isEmpty());
         static::assertSame([[], [[]], [[[0, null, null], [null, 7, 8]]]], $surface->toArray());
         static::assertSame($surface, $surface->setArrayOfCoordinates([]));
-        static::assertTrue($surface->isEmpty());
     }
 
     /** All-null points remain EMPTY without removing containing rings or patches. */
     public function testEmptyPoint(): void
     {
         $surface = new PolyhedralSurface([[[[null, null, null]]]]);
-        static::assertFalse($surface->isEmpty());
         static::assertSame([[[[]]]], $surface->toArray());
-        static::assertTrue($surface->getPatch(0)->getRing(0)->getPoint(0)->isEmpty());
         static::assertSame(CoordinateDimensionEnum::XYZ, $surface->getPatch(0)->getRing(0)->getPoint(0)->getDimension());
     }
 

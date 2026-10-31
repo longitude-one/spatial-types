@@ -46,9 +46,7 @@ class MutablePolygonTest extends TestCase
     public function testAllNullPointRemainsInRing(): void
     {
         $polygon = new Polygon([[[null, null]]]);
-        static::assertFalse($polygon->isEmpty());
         static::assertSame([[[]]], $polygon->toArray());
-        static::assertTrue($polygon->getRing(0)->getPoint(0)->isEmpty());
         static::assertSame(CoordinateDimensionEnum::XY, $polygon->getRing(0)->getPoint(0)->getDimension());
     }
 
@@ -191,14 +189,11 @@ class MutablePolygonTest extends TestCase
     public function testEmptyAndInvalidTriangleStates(): void
     {
         $triangle = new Triangle([]);
-        static::assertTrue($triangle->isEmpty());
         static::assertSame([], $triangle->toArray());
         static::assertSame($triangle, $triangle->setArrayOfCoordinates([[], [[0, null]], [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]]));
-        static::assertFalse($triangle->isEmpty());
         static::assertSame([[], [[0, null]], [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]], $triangle->toArray());
         static::assertSame(GeometryTypeEnum::TRIANGLE, $triangle->getType());
         static::assertSame($triangle, $triangle->setArrayOfCoordinates([]));
-        static::assertTrue($triangle->isEmpty());
     }
 
     /** Replacing a ring endpoint never closes or repairs the ring. */
@@ -209,7 +204,6 @@ class MutablePolygonTest extends TestCase
         $point = new Point(9, null);
         static::assertSame($polygon, $polygon->setPoint(0, 0, $point));
         static::assertSame([[[9, null], [3, 4], [1, 2]]], $polygon->toArray());
-        static::assertFalse($ring->isClosed());
         static::assertSame($point, $ring->getPoint(0));
     }
 
