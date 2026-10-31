@@ -199,7 +199,7 @@ creates a deep copy of every polygon in the collection. `PolyhedralSurfaceImmuta
 uses patch indexes with `withPoint()`, `withRing()` and `withPatch()`. Its
 `withArrayOfCoordinates()` replaces all patches atomically, or returns an empty
 surface for `[]`. Indexed replacements on an empty surface are invalid.
-Neighbouring faces are never changed implicitly when editing a shared vertex.
+Neighboring faces are never changed implicitly when editing a shared vertex.
 
 `GeometryCollectionImmutable::withElement()` and `GeographyCollectionImmutable::withElement()`
 replace one element and deeply copy every unchanged element.

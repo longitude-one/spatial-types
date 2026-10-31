@@ -51,13 +51,6 @@ interface LineStringInterface extends CurveInterface
     public function getPoints(): array;
 
     /**
-     * Is the line string a line?
-     *
-     * A line is a LineString value with exactly two points.
-     */
-    public function isLine(): bool;
-
-    /**
      * Return an array of coordinates.
      *
      * @return (null|float|int)[][]

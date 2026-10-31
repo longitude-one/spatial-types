@@ -170,7 +170,7 @@ dimension setter. `Coordinates` and `SpatialReference` remain immutable
 auxiliary values. Renamed immutable classes are used directly, with no
 deprecated aliases or compatibility layer. See [immutability and ownership](immutability.md).
 
-Family and declared-reference relabelling never transform coordinates.
+Family and declared-reference relabeling never transform coordinates.
 Dimension conversion and reprojection belong to `spatial-transformer`.
 Geometric validation is explicit and belongs to `spatial-validator`:
 `PointFactory::create(0, null)` represents the incomplete `Point(0, null)`
