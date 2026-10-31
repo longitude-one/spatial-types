@@ -116,8 +116,6 @@ final class SpatialBuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create();
         $point = $builder->point(0, null);
-        $empty = $builder->point();
-
         self::assertInstanceOf(PointImmutable::class, $point);
         self::assertSame([0, null], $point->toArray());
         self::assertSame(0, $point->getSrid());

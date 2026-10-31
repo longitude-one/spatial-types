@@ -51,6 +51,15 @@ class CompoundCurveValidationTest extends TestCase
         static::assertSame([[[0, 0], [1, 1], [2, 0]], [[2, 0], [3, -1], [4, 0]]], $compound->toArray());
     }
 
+    /** A complete circle preserves its equal endpoint representation. */
+    public function testCircularStringPreservesEqualEndpoints(): void
+    {
+        $circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]]);
+
+        static::assertSame($circle->getPoint(0), $circle->getStartPoint());
+        static::assertSame($circle->getPoint(-1), $circle->getEndPoint());
+    }
+
     /** A closed line exposes the same endpoints as its point accessors. */
     public function testClosedLineEndpoints(): void
     {
@@ -202,15 +211,5 @@ class CompoundCurveValidationTest extends TestCase
 
         static::assertCount(2, $curves);
         static::assertSame([$line], $compound->getCurves());
-    }
-
-    /** A complete circle forms a closed single-component compound. */
-    public function testSingleClosedComponent(): void
-    {
-        $circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]]);
-        $compound = new CompoundCurveImmutable([$circle]);
-
-        static::assertSame($circle->getPoint(0), $circle->getStartPoint());
-        static::assertSame($circle->getPoint(-1), $circle->getEndPoint());
     }
 }

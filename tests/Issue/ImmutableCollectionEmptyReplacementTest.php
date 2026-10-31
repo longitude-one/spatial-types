@@ -132,10 +132,6 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $point = new PointImmutable();
         $line = new LineStringImmutable([$point]);
         $polygon = new PolygonImmutable([[]]);
-        $lines = new MultiLineStringImmutable([$line]);
-        $polygons = new MultiPolygonImmutable([$polygon]);
-        $collection = new GeometryCollectionImmutable(0, [$line, $polygon]);
-
         self::assertSame([$point], $line->getElements());
         self::assertSame([[]], $polygon->toArray());
     }
