@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Factory\Coordinates;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as Point2D;
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\PointImmutable as Point3Dm;

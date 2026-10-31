@@ -23,7 +23,6 @@ use LongitudeOne\SpatialTypes\Interfaces\ImmutableCompoundCurveInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableCurveInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
 
 /**
  * Ordered curve storage.

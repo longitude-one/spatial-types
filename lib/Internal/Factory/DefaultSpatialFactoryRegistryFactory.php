@@ -14,15 +14,9 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory;
+namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Internal\Factory\GeographicLineStringFactory;
-use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPointFactory;
-use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPolygonFactory;
-use LongitudeOne\SpatialTypes\Internal\Factory\GeometricLineStringFactory;
-use LongitudeOne\SpatialTypes\Internal\Factory\GeometricPointFactory;
-use LongitudeOne\SpatialTypes\Internal\Factory\GeometricPolygonFactory;
 
 /**
  * Creates the default registry used by the internal factory pipeline.

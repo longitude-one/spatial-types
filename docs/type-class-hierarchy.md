@@ -8,7 +8,8 @@ The following tree describes class inheritance, rather than the file layout.
 Abstract nodes are relative to `Internal\Types`; concrete spatial nodes remain
 relative to the public `Types` namespace. The dimension-specific and collection
 branches of every abstract base are preserved under `Internal\Types`.
-Shared traits remain internal symbols under `Types`.
+The point behavior and sequence-editing traits shown here are under
+`Internal\Types`.
 `{Dimension2, Dimension3m, Dimension3z, Dimension4zm}` represents
 one branch for each listed coordinate dimension and `{Geometry, Geography}` one
 concrete class for each spatial model.

@@ -5,26 +5,21 @@ not identify a supported consumer contract: some implementation helpers must be
 accessible across classes. Internal symbols carry an explicit `@internal` PHPDoc
 annotation.
 
-The [symbol inventory](api-symbols.json) is the authoritative classification of
-every class, interface, trait and enum in `lib/`. Its keys are fully qualified
-names and its values are `public` or `internal`. Automated checks compare the
-inventory with the source tree and annotations; there are no unclassified symbols.
-
 ## Supported public contracts
 
 All names below are relative to `LongitudeOne\SpatialTypes`.
 
-| Group | Public API |
-| --- | --- |
-| Spatial interfaces | All contracts in `Interfaces` |
-| Concrete spatial types | Non-abstract classes in `Types\Dimension2`, `Types\Dimension3z`, `Types\Dimension3m` and `Types\Dimension4zm`, including their `Geometry` and `Geography` branches |
-| Type-specific factories | All 84 factories in `Factory\Dimension*\Geometry` and `Factory\Dimension*\Geography` |
-| Factory mode | Only `Factory\SpatialFactory::immutable()`, `isMutable()` and `mutable()` |
-| Builder | `Builder\SpatialBuilder` |
-| Implementation status | `Implementation\SpatialTypeImplementationStatus` |
-| Exceptions | All exception classes and `Exception\SpatialTypeExceptionInterface` |
-| Spatial reference | `Reference\SpatialReference` |
-| Coordinate value | `Value\Coordinates` |
+| Group                   | Public API                                                                                                                                                         |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spatial interfaces      | All contracts in `Interfaces`                                                                                                                                      |
+| Concrete spatial types  | Non-abstract classes in `Types\Dimension2`, `Types\Dimension3z`, `Types\Dimension3m` and `Types\Dimension4zm`, including their `Geometry` and `Geography` branches |
+| Type-specific factories | All 84 factories in `Factory\Dimension*\Geometry` and `Factory\Dimension*\Geography`                                                                               |
+| Factory mode            | Only `Factory\SpatialFactory::immutable()`, `isMutable()` and `mutable()`                                                                                          |
+| Builder                 | `Builder\SpatialBuilder`                                                                                                                                           |
+| Implementation status   | `Implementation\SpatialTypeImplementationStatus`                                                                                                                   |
+| Exceptions              | All exception classes and `Exception\SpatialTypeExceptionInterface`                                                                                                |
+| Spatial reference       | `Reference\SpatialReference`                                                                                                                                       |
+| Coordinate value        | `Value\Coordinates`                                                                                                                                                |
 
 Public operations inherited by concrete spatial types remain part of those
 types' public contracts even when their implementation is declared in an
@@ -39,19 +34,19 @@ See [instantiable spatial types](instantiable-spatial-types.md),
 
 ## Internal implementation
 
-| Group | Internal symbols |
-| --- | --- |
-| Implementation bases | Every abstract class under `Internal\Types`, including dimension-specific and collection bases |
-| Shared mechanisms | Every trait, component guard and mutable point hydrator |
-| Builder helpers | The builder traits and `Internal\BuilderTypes` |
-| Factory helpers | All symbols under `Internal\Factory`, including `PointFactoryInterface`, `LineStringFactoryInterface` and `PolygonFactoryInterface` |
-| Factory pipeline | `Factory\Coordinates`, `Factory\DefaultSpatialFactoryFactory`, `Factory\DefaultSpatialFactoryRegistryFactory`, `Factory\FamilyFactories`, `Factory\FromIndexedArrayFactory`, `Factory\SpatialContext` and `Factory\SpatialFactoryRegistry` |
-| Factory hydrators | `Internal\Factory\Hydrator\CoordinatesHydrator` and `Internal\Factory\Hydrator\SpatialArrayHydrator` |
-| Aggregate hydration | `Factory\SpatialFactory` constructor and every `create*` instance method |
-| Supporting collections | `Internal\Boundary\PolygonBoundary` and `Internal\Collection\LineStringCollection` |
+| Group                  | Internal symbols                                                                                                                                                                                                                           |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Implementation bases   | Every abstract class under `Internal\Types`, including dimension-specific and collection bases                                                                                                                                             |
+| Shared mechanisms      | Every trait, component guard and mutable point hydrator                                                                                                                                                                                    |
+| Builder helpers        | The builder traits and `Internal\BuilderTypes`                                                                                                                                                                                             |
+| Factory helpers        | All symbols under `Internal\Factory`, including `PointFactoryInterface`, `LineStringFactoryInterface` and `PolygonFactoryInterface`                                                                                                        |
+| Factory pipeline       | Pipeline components in `Internal\Factory`                                                                                                                                                                                                  |
+| Factory hydrators      | `Internal\Factory\Hydrator\CoordinatesHydrator` and `Internal\Factory\Hydrator\SpatialArrayHydrator`                                                                                                                                       |
+| Aggregate hydration    | `Factory\SpatialFactory` constructor and every `create*` instance method                                                                                                                                                                   |
+| Supporting collections | `Internal\Boundary\PolygonBoundary` and `Internal\Collection\LineStringCollection`                                                                                                                                                         |
 
-`Factory\Coordinates` is an internal data-transfer object; the public coordinate
-value is `Value\Coordinates`.
+`Internal\Factory\Coordinates` is an internal data-transfer object; the public
+coordinate value is `Value\Coordinates`.
 
 The three factory-pipeline interfaces are internal exceptions to the public
 interface classification. Consumer-facing interfaces under `Interfaces` and

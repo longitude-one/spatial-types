@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Types;
+namespace LongitudeOne\SpatialTypes\Internal\Types;
 
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\CircularStringInterface;

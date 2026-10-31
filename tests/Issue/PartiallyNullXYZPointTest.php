@@ -18,7 +18,7 @@ namespace LongitudeOne\SpatialTypes\Tests\Issue;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable as GeographyPoint;
 use LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable as GeometryPoint;
 use LongitudeOne\SpatialTypes\Value\Coordinates;

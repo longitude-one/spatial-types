@@ -19,7 +19,6 @@ namespace LongitudeOne\SpatialTypes\Internal\Types;
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableSpatialInterface;
-use LongitudeOne\SpatialTypes\Types\MutableComponentGuard;
 
 /** Family-independent mutable spatial collection.
  * @internal

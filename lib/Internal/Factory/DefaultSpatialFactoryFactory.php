@@ -14,8 +14,9 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory;
+namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
+use LongitudeOne\SpatialTypes\Factory\SpatialFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\CoordinatesHydrator;
 use LongitudeOne\SpatialTypes\Internal\Factory\Hydrator\SpatialArrayHydrator;
 

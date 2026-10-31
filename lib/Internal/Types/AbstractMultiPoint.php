@@ -18,11 +18,9 @@ namespace LongitudeOne\SpatialTypes\Internal\Types;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\MutableMultiPointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
-use LongitudeOne\SpatialTypes\Types\MutableComponentGuard;
-use LongitudeOne\SpatialTypes\Types\MutablePointHydrator;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
 
 /** Mutable MultiPoint members without geometric validation.
  * @internal

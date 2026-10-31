@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
-use LongitudeOne\SpatialTypes\Factory\Coordinates;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 
 /**

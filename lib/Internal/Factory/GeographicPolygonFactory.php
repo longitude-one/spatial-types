@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PolygonImmutable as Polygon2D;

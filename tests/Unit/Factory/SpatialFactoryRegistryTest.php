@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Factory;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryRegistryFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryRegistryFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeographicLineStringFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPointFactory;
 use LongitudeOne\SpatialTypes\Internal\Factory\GeographicPolygonFactory;
@@ -30,9 +30,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory
- * @covers \LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryRegistryFactory
- * @covers \LongitudeOne\SpatialTypes\Factory\SpatialFactoryRegistry
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryFactory
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryRegistryFactory
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\SpatialFactoryRegistry
  */
 class SpatialFactoryRegistryTest extends TestCase
 {

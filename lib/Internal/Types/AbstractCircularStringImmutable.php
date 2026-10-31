@@ -24,7 +24,6 @@ use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableCircularStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
 use LongitudeOne\SpatialTypes\Value\Coordinates;
 
 /**

@@ -21,7 +21,6 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableCircularStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
-use LongitudeOne\SpatialTypes\Types\PointSequenceEditingTrait;
 
 /** Mutable circular point sequences and structural arc editing.
  * @internal

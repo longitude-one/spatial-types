@@ -19,8 +19,8 @@ namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 use LongitudeOne\Core\Enum\CoordinateDimensionEnum;
 use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\FromIndexedArrayFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

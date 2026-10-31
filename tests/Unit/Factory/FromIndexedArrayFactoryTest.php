@@ -21,7 +21,7 @@ use LongitudeOne\Core\Enum\SpatialModelEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
-use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable as GeometricLineString;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable as GeometricPoint;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  *
- * @covers \LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory
+ * @covers \LongitudeOne\SpatialTypes\Internal\Factory\FromIndexedArrayFactory
  */
 class FromIndexedArrayFactoryTest extends TestCase
 {

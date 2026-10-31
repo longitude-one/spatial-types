@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Tests\Unit\Types;
 
-use LongitudeOne\SpatialTypes\Factory\FromIndexedArrayFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\FromIndexedArrayFactory;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable;
 use PHPUnit\Framework\TestCase;
 

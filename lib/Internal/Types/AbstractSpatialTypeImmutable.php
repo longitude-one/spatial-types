@@ -16,12 +16,12 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Internal\Types;
 
-use LongitudeOne\SpatialTypes\Factory\DefaultSpatialFactoryFactory;
-use LongitudeOne\SpatialTypes\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableSpatialInterface;
+use LongitudeOne\SpatialTypes\Internal\Factory\DefaultSpatialFactoryFactory;
+use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /** Common immutable reference replacement.

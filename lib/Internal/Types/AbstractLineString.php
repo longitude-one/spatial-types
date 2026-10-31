@@ -18,7 +18,6 @@ namespace LongitudeOne\SpatialTypes\Internal\Types;
 
 use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
-use LongitudeOne\SpatialTypes\Types\PointSequenceEditingTrait;
 
 /** Mutable line-string operations without geometric validation.
  * @internal

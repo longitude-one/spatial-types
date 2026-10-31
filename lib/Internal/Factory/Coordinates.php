@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace LongitudeOne\SpatialTypes\Factory;
+namespace LongitudeOne\SpatialTypes\Internal\Factory;
 
 /**
  * Immutable coordinates used to create a point.

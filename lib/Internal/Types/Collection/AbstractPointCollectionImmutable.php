@@ -22,7 +22,7 @@ use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
 use LongitudeOne\SpatialTypes\Internal\Types\AbstractSpatialTypeImmutable;
-use LongitudeOne\SpatialTypes\Types\ImmutableComponentGuard;
+use LongitudeOne\SpatialTypes\Internal\Types\ImmutableComponentGuard;
 
 /**
  * Common point collection for point-defined spatial values.
