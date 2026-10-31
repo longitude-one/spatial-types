@@ -108,12 +108,6 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
         return $this;
     }
 
-    /** Whether there are no rings. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->rings;
-    }
-
     /** @param int $index Existing zero-based ring index */
     public function removeRing(int $index): static
     {

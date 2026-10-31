@@ -43,10 +43,8 @@ class CompoundCurveTest extends TestCase
         $line = new LineStringImmutable([], 4326);
         $circular = new CircularStringImmutable([], 4326);
 
-        static::assertTrue($compound->isEmpty());
         static::assertNull($compound->getStartPoint());
         static::assertNull($compound->getEndPoint());
-        static::assertFalse($compound->isClosed());
         static::assertSame([], $compound->getCurves());
         static::assertSame([], $compound->toArray());
         static::assertSame(CoordinateDimensionEnum::XYM, $compound->getDimension());
@@ -54,10 +52,8 @@ class CompoundCurveTest extends TestCase
         static::assertSame(4326, $compound->getSrid());
         static::assertNull($line->getStartPoint());
         static::assertNull($line->getEndPoint());
-        static::assertFalse($line->isClosed());
         static::assertNull($circular->getStartPoint());
         static::assertNull($circular->getEndPoint());
-        static::assertFalse($circular->isClosed());
     }
 
     /** Mixed interpolation, order and closure survive through public contracts. */
@@ -77,10 +73,6 @@ class CompoundCurveTest extends TestCase
         static::assertSame($circular->getStartPoint(), $compound->getStartPoint());
         static::assertSame($line->getEndPoint(), $compound->getEndPoint());
         static::assertSame([0, 0, 6], $compound->getStartPoint()?->toArray());
-        static::assertTrue($compound->isClosed());
-        static::assertFalse($compound->isEmpty());
-        static::assertFalse($line->isClosed());
-        static::assertFalse($circular->isClosed());
         static::assertSame([2, 0, 8], $circular->getEndPoint()?->toArray());
         static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
         static::assertSame(CoordinateDimensionEnum::XYM, $compound->getDimension());
@@ -110,6 +102,5 @@ class CompoundCurveTest extends TestCase
         static::assertSame([[[0, 0, 6], [1, 1, 7], [2, 0, 8]], [[2, 0, 8], [0, 0, 6]]], $copy->toArray());
         static::assertInstanceOf(CircularStringImmutable::class, $copy->getCurve(0));
         static::assertInstanceOf(LineStringImmutable::class, $copy->getCurve(1));
-        static::assertTrue($copy->isClosed());
     }
 }

@@ -41,16 +41,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
@@ -70,16 +64,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new MultiPolygon([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
@@ -99,16 +87,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
@@ -128,16 +110,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new MultiPolygon([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
@@ -157,16 +133,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
@@ -186,16 +156,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
@@ -215,16 +179,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
@@ -244,16 +202,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
@@ -273,16 +225,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
@@ -302,16 +248,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
@@ -331,16 +271,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
@@ -360,16 +294,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
@@ -389,16 +317,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
@@ -418,16 +340,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
@@ -447,16 +363,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
@@ -476,16 +386,10 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());

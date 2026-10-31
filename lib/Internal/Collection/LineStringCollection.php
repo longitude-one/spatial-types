@@ -77,12 +77,6 @@ final class LineStringCollection
         return count($this->lineStrings);
     }
 
-    /** Whether the collection is empty. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->lineStrings;
-    }
-
     /**
      * @param ImmutableLineStringInterface[] $lineStrings Replacement line strings
      */

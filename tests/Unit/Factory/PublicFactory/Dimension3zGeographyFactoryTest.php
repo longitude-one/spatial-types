@@ -87,8 +87,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[0, null, 12]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -118,8 +116,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[[0, null, 12]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -149,8 +145,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[0, null, 12]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -180,8 +174,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[0, null, 12]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -211,8 +203,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[[0, null, 12]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -242,8 +232,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[0, null, 12]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -273,8 +261,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[[[0, null, 12]]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -304,8 +290,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([0, null, 12], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -335,8 +319,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[[0, null, 12]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -366,8 +348,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[[[0, null, 12]]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
@@ -397,8 +377,6 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         self::assertSame([[[0, null, 12]]], $mutable->toArray());
         self::assertSame([], $emptyImmutable->toArray());
         self::assertSame([], $emptyMutable->toArray());
-        self::assertTrue($emptyImmutable->isEmpty());
-        self::assertTrue($emptyMutable->isEmpty());
         self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
         self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());

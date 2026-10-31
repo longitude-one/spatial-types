@@ -38,7 +38,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new CircularStringImmutable([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        self::assertTrue($curve->isClosed());
         self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
         self::assertSame(4326, $curve->getSrid());
     }
@@ -48,7 +47,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new CircularString([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        self::assertTrue($curve->isClosed());
         self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
         self::assertSame(4326, $curve->getSrid());
     }
@@ -61,7 +59,6 @@ final class NumericEqualityPredicateTest extends TestCase
             new LineStringImmutable([[3, 4], [1.0, 2.0]], 4326),
         ], 4326);
 
-        self::assertTrue($curve->isClosed());
         self::assertSame([[[1, 2], [3, 4]], [[3, 4], [1.0, 2.0]]], $curve->toArray());
         self::assertSame(4326, $curve->getSrid());
     }
@@ -74,7 +71,6 @@ final class NumericEqualityPredicateTest extends TestCase
             new LineString([[3, 4], [1.0, 2.0]], 4326),
         ], 4326);
 
-        self::assertTrue($curve->isClosed());
         self::assertSame([[[1, 2], [3, 4]], [[3, 4], [1.0, 2.0]]], $curve->toArray());
         self::assertSame(4326, $curve->getSrid());
     }
@@ -84,7 +80,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new LineStringImmutable([[1, 2], [3, 4], [1.0, 2.0]]);
 
-        self::assertFalse($curve->isSimple());
         self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
     }
 
@@ -93,7 +88,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $points = new MultiPointImmutable([[1, 2], [1.0, 2.0]], 4326);
 
-        self::assertFalse($points->isSimple());
         self::assertSame([[1, 2], [1.0, 2.0]], $points->toArray());
         self::assertSame(4326, $points->getSrid());
     }
@@ -103,7 +97,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new LineStringImmutable([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        self::assertTrue($curve->isClosed());
         self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
         self::assertSame(4326, $curve->getSrid());
     }
@@ -113,7 +106,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new LineString([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        self::assertTrue($curve->isClosed());
         self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
         self::assertSame(4326, $curve->getSrid());
     }
@@ -123,7 +115,6 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $points = new MultiPoint([[1, 2], [1.0, 2.0]], 4326);
 
-        self::assertFalse($points->isSimple());
         self::assertSame([[1, 2], [1.0, 2.0]], $points->toArray());
         self::assertSame(4326, $points->getSrid());
     }

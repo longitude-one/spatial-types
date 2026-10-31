@@ -72,17 +72,6 @@ class GeometryCollectionTest extends TestCase
     }
 
     /**
-     * Test the isEmpty method.
-     */
-    public function testIsEmpty(): void
-    {
-        $polygon = new GeometricPolygon([]);
-        static::assertTrue((new GeometryCollectionImmutable())->isEmpty());
-        $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
-        static::assertTrue($geometryCollection->isEmpty());
-    }
-
-    /**
      * Test the toArray method.
      */
     public function testToArray(): void

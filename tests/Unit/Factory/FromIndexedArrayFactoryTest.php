@@ -43,7 +43,6 @@ class FromIndexedArrayFactoryTest extends TestCase
         static::assertCount(2, $lineString->getPoints());
         static::assertSame(4326, $lineString->getSrid());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineString->getFamily());
-        static::assertFalse($lineString->isEmpty());
     }
 
     /**

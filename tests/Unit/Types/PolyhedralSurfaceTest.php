@@ -66,7 +66,6 @@ class PolyhedralSurfaceTest extends TestCase
     public function testEmptySurface(string $class): void
     {
         $surface = new $class();
-        static::assertTrue($surface->isEmpty());
         static::assertTrue($surface->hasZ());
         static::assertSame([], $surface->getElements());
         static::assertSame([], $surface->getPatches());
@@ -74,10 +73,8 @@ class PolyhedralSurfaceTest extends TestCase
         static::assertSame(['type' => 'PolyhedralSurface', 'coordinates' => [], 'srid' => 0], $surface->jsonSerialize());
         $copy = $surface->withSpatialReference(SpatialReference::epsg(4326));
         static::assertSame($class, (new \ReflectionClass($copy))->getName());
-        static::assertTrue($copy->isEmpty());
         static::assertSame(4326, $copy->getSrid());
         static::assertSame(0, $surface->getSrid());
-        static::assertTrue($copy->withArrayOfCoordinates([])->isEmpty());
         $this->expectException(OutOfBoundsException::class);
         $surface->getPatch(0);
     }
@@ -105,7 +102,6 @@ class PolyhedralSurfaceTest extends TestCase
     {
         $coordinates = self::coordinates($class);
         $surface = new $class($coordinates, 4326);
-        static::assertFalse($surface->isEmpty());
         static::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $surface->getType());
         static::assertSame(str_contains($class, '4zm'), $surface->hasM());
         static::assertSame($coordinates, $surface->toArray());
@@ -134,7 +130,6 @@ class PolyhedralSurfaceTest extends TestCase
         static::assertSame(3857, $copies[3]->getSrid());
         static::assertSame('EPSG', $copies[4]->getPatch(0)->getSpatialReference()->authority);
         static::assertSame(4326, $surface->getSrid());
-        static::assertTrue($surface->withArrayOfCoordinates([])->isEmpty());
         static::assertSame($coordinates, $surface->toArray());
     }
 

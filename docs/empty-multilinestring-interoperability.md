@@ -4,8 +4,8 @@ Issue [#9](https://github.com/longitude-one/spatial-types/issues/9) protects the
 distinction between zero line-string members, one empty member, and a mixture
 of empty and non-empty members. The domain tests cover XY, XYZ, XYM and XYZM
 in both Geometry and Geography families, using objects and coordinate arrays.
-`isEmpty()` is true for both zero members and all-EMPTY members; member count
-and arrays preserve their distinction. See [collection emptiness](collection-emptiness.md).
+Member count and arrays preserve the distinction between zero members and
+stored EMPTY members. Emptiness evaluation belongs to `spatial-validator`.
 The interoperability results below are a dated snapshot of the specified
 external adapters, not a fresh verification after the EMPTY-predicate change.
 

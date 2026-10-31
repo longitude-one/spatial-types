@@ -133,12 +133,6 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
         return $this;
     }
 
-    /** Whether there are no patches. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->patches;
-    }
-
     /** @param int $index Existing zero-based patch index */
     public function removePatch(int $index): static
     {

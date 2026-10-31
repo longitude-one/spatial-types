@@ -33,12 +33,6 @@ abstract class AbstractLineString extends AbstractPointSequence implements Mutab
         return GeometryTypeEnum::LINESTRING;
     }
 
-    /** Whether a line has equal endpoints. */
-    public function isClosed(): bool
-    {
-        return count($this->points) >= 2 && parent::isClosed();
-    }
-
     /** Whether this path has exactly two defining points. */
     public function isLine(): bool
     {

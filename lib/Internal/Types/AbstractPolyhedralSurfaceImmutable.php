@@ -101,14 +101,6 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
     }
 
     /**
-     * Is this surface empty?
-     */
-    public function isEmpty(): bool
-    {
-        return empty($this->getPatches());
-    }
-
-    /**
      * Return an array representation of this polyhedral surface.
      *
      * @return (null|float|int)[][][][]

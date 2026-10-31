@@ -40,29 +40,19 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $populated = new LineString([[0, 0], [1, 1]]);
         $collection = new MultiLineString([]);
 
-        self::assertTrue($collection->isEmpty());
         $collection->addElement($empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
-        self::assertFalse($collection->isEmpty());
         $collection->removeElement(2);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([], $collection->getElements());
-        self::assertTrue($empty->isEmpty());
-        self::assertFalse($populated->isEmpty());
     }
 
     /** Membership transitions retain EMPTY members and reflect each edit immediately. */
@@ -72,29 +62,19 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $populated = new Point(1, 2);
         $collection = new MultiPoint([]);
 
-        self::assertTrue($collection->isEmpty());
         $collection->addElement($empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
-        self::assertFalse($collection->isEmpty());
         $collection->removeElement(2);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([], $collection->getElements());
-        self::assertTrue($empty->isEmpty());
-        self::assertFalse($populated->isEmpty());
     }
 
     /** Membership transitions retain EMPTY members and reflect each edit immediately. */
@@ -104,29 +84,19 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $populated = new Polygon([[[0, 0], [2, 0], [0, 2], [0, 0]]]);
         $collection = new MultiPolygon([]);
 
-        self::assertTrue($collection->isEmpty());
         $collection->addElement($empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
-        self::assertFalse($collection->isEmpty());
         $collection->removeElement(2);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([], $collection->getElements());
-        self::assertTrue($empty->isEmpty());
-        self::assertFalse($populated->isEmpty());
     }
 
     /** Incompatible declared contexts remain representable during classification. */
@@ -136,12 +106,9 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $line = new \LongitudeOne\SpatialTypes\Types\Dimension3m\LineString([], 2154);
         $collection = new SpatialCollection([$point, $line], 4326);
 
-        self::assertTrue($collection->isEmpty());
         $point->setZ(1);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([null, null, 1], $point->toArray());
         $point->setZ(null);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$point, $line], $collection->getElements());
         self::assertSame(3857, $point->getSrid());
         self::assertSame(2154, $line->getSrid());
@@ -156,18 +123,9 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $left = new SpatialCollection([$members]);
         $right = new SpatialCollection([$point, $left]);
 
-        self::assertTrue($members->isEmpty());
-        self::assertTrue($left->isEmpty());
-        self::assertTrue($right->isEmpty());
         $point->setX(1);
-        self::assertFalse($members->isEmpty());
-        self::assertFalse($left->isEmpty());
-        self::assertFalse($right->isEmpty());
         self::assertSame([[1, null], [[[1, null], [1, null]]]], $right->toArray());
         $point->setX(null);
-        self::assertTrue($members->isEmpty());
-        self::assertTrue($left->isEmpty());
-        self::assertTrue($right->isEmpty());
         self::assertSame([[], [[[], []]]], $right->toArray());
         self::assertSame([$point, $point], $members->getElements());
         self::assertSame([$point, $left], $right->getElements());
@@ -183,16 +141,9 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $right = new MultiLineString([$child], 4326);
         $root = new SpatialCollection([$left, $right], 4326);
 
-        self::assertTrue($root->isEmpty());
         $child->setArrayOfCoordinates([[0, 0], [1, 1]]);
-        self::assertFalse($left->isEmpty());
-        self::assertFalse($right->isEmpty());
-        self::assertFalse($root->isEmpty());
         self::assertSame([[0, 0], [1, 1]], $child->toArray());
         $child->setArrayOfCoordinates([]);
-        self::assertTrue($left->isEmpty());
-        self::assertTrue($right->isEmpty());
-        self::assertTrue($root->isEmpty());
         self::assertSame([$child], $left->getElements());
         self::assertSame([$child], $right->getElements());
         self::assertSame([[[]], [[]]], $root->toArray());
@@ -207,16 +158,9 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $right = new MultiPolygon([$child], 4326);
         $root = new SpatialCollection([$left, $right], 4326);
 
-        self::assertTrue($root->isEmpty());
         $child->setArrayOfCoordinates([[[0, 0], [2, 0], [0, 2], [0, 0]]]);
-        self::assertFalse($left->isEmpty());
-        self::assertFalse($right->isEmpty());
-        self::assertFalse($root->isEmpty());
         self::assertSame([[[0, 0], [2, 0], [0, 2], [0, 0]]], $child->toArray());
         $child->setArrayOfCoordinates([]);
-        self::assertTrue($left->isEmpty());
-        self::assertTrue($right->isEmpty());
-        self::assertTrue($root->isEmpty());
         self::assertSame([$child], $left->getElements());
         self::assertSame([$child], $right->getElements());
         self::assertSame([[[]], [[]]], $root->toArray());
@@ -230,28 +174,18 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $populated = new Point(1, 2);
         $collection = new SpatialCollection([]);
 
-        self::assertTrue($collection->isEmpty());
         $collection->addElement($empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
-        self::assertFalse($collection->isEmpty());
         $collection->removeElement(2);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        self::assertFalse($collection->isEmpty());
         self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        self::assertTrue($collection->isEmpty());
         self::assertSame([], $collection->getElements());
-        self::assertTrue($empty->isEmpty());
-        self::assertFalse($populated->isEmpty());
     }
 }

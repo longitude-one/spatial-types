@@ -47,13 +47,6 @@ interface CircularStringInterface extends CurveInterface
     public function getPoints(): array;
 
     /**
-     * Is the circular string empty?
-     *
-     * A circular string is empty when it does not contain any point.
-     */
-    public function isEmpty(): bool;
-
-    /**
      * Return an array of coordinates.
      *
      * @return (null|float|int)[][]

@@ -46,10 +46,18 @@ class CompoundCurveValidationTest extends TestCase
             new CircularStringImmutable([[2, 0], [3, -1], [4, 0]]),
         ]);
 
-        static::assertFalse($compound->isClosed());
         static::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(0));
         static::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(1));
         static::assertSame([[[0, 0], [1, 1], [2, 0]], [[2, 0], [3, -1], [4, 0]]], $compound->toArray());
+    }
+
+    /** A complete circle preserves its equal endpoint representation. */
+    public function testCircularStringPreservesEqualEndpoints(): void
+    {
+        $circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]]);
+
+        static::assertSame($circle->getPoint(0), $circle->getStartPoint());
+        static::assertSame($circle->getPoint(-1), $circle->getEndPoint());
     }
 
     /** A closed line exposes the same endpoints as its point accessors. */
@@ -57,7 +65,6 @@ class CompoundCurveValidationTest extends TestCase
     {
         $line = new LineStringImmutable([[0, 0], [1, 1], [0, 0]]);
 
-        static::assertTrue($line->isClosed());
         static::assertSame($line->getPoint(0), $line->getStartPoint());
         static::assertSame($line->getPoint(-1), $line->getEndPoint());
     }
@@ -72,7 +79,6 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('hasM')->willReturn(false);
         $component->method('getFamily')->willReturn(SpatialModelEnum::GEOMETRY);
         $component->method('getSpatialReference')->willReturn(SpatialReference::fromSrid(0));
-        $component->method('isEmpty')->willReturn(false);
         $component->method('getStartPoint')->willReturn(new PointImmutable(0, 0));
         $component->method('getEndPoint')->willReturn(new PointImmutable(1, 1));
         $component->method('toArray')->willReturn([[0, 0], [1, 1]]);
@@ -80,7 +86,6 @@ class CompoundCurveValidationTest extends TestCase
 
         static::assertSame($component, $compound->getCurve(0));
         static::assertSame([[[0, 0], [1, 1]]], $compound->toArray());
-        static::assertFalse($compound->isClosed());
     }
 
     /** Booleans are not normalized into numeric component ordinates. */
@@ -123,7 +128,6 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('hasM')->willReturn(false);
         $component->method('getFamily')->willReturn(SpatialModelEnum::GEOMETRY);
         $component->method('getSpatialReference')->willReturn(SpatialReference::fromSrid(0));
-        $component->method('isEmpty')->willReturn(false);
         $component->method('getStartPoint')->willReturn(new PointImmutable(0, 0));
         $component->method('getEndPoint')->willReturn(new PointImmutable(1, 1));
         $component->method('toArray')->willReturn([[[0, 0]], [[1, 1]]]);
@@ -142,7 +146,6 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('hasM')->willReturn(false);
         $component->method('getFamily')->willReturn(SpatialModelEnum::GEOMETRY);
         $component->method('getSpatialReference')->willReturn(SpatialReference::fromSrid(0));
-        $component->method('isEmpty')->willReturn(false);
         $component->method('getStartPoint')->willReturn(new PointImmutable(0, 0));
         $component->method('getEndPoint')->willReturn(new PointImmutable(1, 1));
         $component->method('toArray')->willReturn([0, 1]);
@@ -177,7 +180,6 @@ class CompoundCurveValidationTest extends TestCase
             new LineStringImmutable([[1, 1], [2, 0]]),
         ]);
 
-        static::assertFalse($compound->isClosed());
         static::assertSame([0, 0], $compound->getStartPoint()?->toArray());
         static::assertSame([2, 0], $compound->getEndPoint()?->toArray());
         static::assertSame([[[0, 0], [1, 1]], [[1, 1], [2, 0]]], $compound->toArray());
@@ -209,17 +211,5 @@ class CompoundCurveValidationTest extends TestCase
 
         static::assertCount(2, $curves);
         static::assertSame([$line], $compound->getCurves());
-    }
-
-    /** A complete circle forms a closed single-component compound. */
-    public function testSingleClosedComponent(): void
-    {
-        $circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]]);
-        $compound = new CompoundCurveImmutable([$circle]);
-
-        static::assertTrue($circle->isClosed());
-        static::assertTrue($compound->isClosed());
-        static::assertSame($circle->getPoint(0), $circle->getStartPoint());
-        static::assertSame($circle->getPoint(-1), $circle->getEndPoint());
     }
 }

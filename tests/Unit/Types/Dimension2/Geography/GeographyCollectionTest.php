@@ -72,17 +72,6 @@ class GeographyCollectionTest extends TestCase
     }
 
     /**
-     * Test the isEmpty method.
-     */
-    public function testIsEmpty(): void
-    {
-        $polygon = new GeographicPolygon([]);
-        static::assertTrue((new GeographyCollectionImmutable())->isEmpty());
-        $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
-        static::assertTrue($geographyCollection->isEmpty());
-    }
-
-    /**
      * Test the toArray method.
      */
     public function testToArray(): void

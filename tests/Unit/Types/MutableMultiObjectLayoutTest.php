@@ -77,11 +77,9 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new MultiLineString([[], [[0, null]]]);
         $polygons = new MultiPolygon([[], [[]], [[[0, null]]]]);
         $collection = new SpatialCollection([$points, $lines, $polygons]);
-        static::assertFalse($points->isEmpty());
         static::assertSame([[], [0, null]], $points->toArray());
         static::assertSame([[], [[0, null]]], $lines->toArray());
         static::assertSame([[], [[]], [[[0, null]]]], $polygons->toArray());
-        static::assertFalse($collection->isEmpty());
         static::assertSame([[[], [0, null]], [[], [[0, null]]], [[], [[]], [[[0, null]]]]], $collection->toArray());
     }
 

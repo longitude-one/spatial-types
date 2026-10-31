@@ -42,7 +42,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([0, null], $point->toArray());
         static::assertSame([0, null], $coordinates->toArray());
         static::assertSame(0, $point->getX());
@@ -55,7 +54,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -67,7 +65,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([0, 2], $point->toArray());
         static::assertSame([0, 2], $coordinates->toArray());
         static::assertSame(0, $point->getX());
@@ -80,7 +77,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -92,7 +88,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertTrue($point->isEmpty());
         static::assertSame([], $point->toArray());
         static::assertSame([null, null], $coordinates->toArray());
         static::assertNull($point->getX());
@@ -105,7 +100,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -117,7 +111,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([null, 2], $point->toArray());
         static::assertSame([null, 2], $coordinates->toArray());
         static::assertNull($point->getX());
@@ -130,7 +123,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -142,7 +134,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([0, null], $point->toArray());
         static::assertSame([0, null], $coordinates->toArray());
         static::assertSame(0, $point->getX());
@@ -155,7 +146,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -167,7 +157,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([0, 2], $point->toArray());
         static::assertSame([0, 2], $coordinates->toArray());
         static::assertSame(0, $point->getX());
@@ -180,7 +169,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -192,7 +180,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertTrue($point->isEmpty());
         static::assertSame([], $point->toArray());
         static::assertSame([null, null], $coordinates->toArray());
         static::assertNull($point->getX());
@@ -205,7 +192,6 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -217,7 +203,6 @@ class PartiallyNullXYPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([null, 2], $point->toArray());
         static::assertSame([null, 2], $coordinates->toArray());
         static::assertNull($point->getX());
@@ -230,6 +215,5 @@ class PartiallyNullXYPointTest extends TestCase
         static::assertEquals($point, $replacement);
         static::assertNotSame($original, $replacement);
         static::assertSame([1, 2], $original->toArray());
-        static::assertFalse($original->isEmpty());
     }
 }

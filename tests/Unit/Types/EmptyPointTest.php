@@ -99,7 +99,6 @@ class EmptyPointTest extends TestCase
     #[DataProvider('provideEmptyPoints')]
     public function testEmptyPointCanBeCreated(ImmutablePointInterface $point): void
     {
-        static::assertTrue($point->isEmpty());
         static::assertSame(4326, $point->getSrid());
         static::assertNull($point->getCoordinates());
         static::assertNull($point->getLongitude());
@@ -141,7 +140,6 @@ class EmptyPointTest extends TestCase
     {
         $point = FromIndexedArrayFactory::createPoint([], 4326, $family, $dimension);
 
-        static::assertTrue($point->isEmpty());
         static::assertSame([], $point->toArray());
         static::assertSame(4326, $point->getSrid());
     }
@@ -161,7 +159,6 @@ class EmptyPointTest extends TestCase
     {
         $point = new GeometryPoint(null, 2);
 
-        static::assertFalse($point->isEmpty());
         static::assertSame([null, 2], $point->toArray());
     }
 
@@ -176,8 +173,6 @@ class EmptyPointTest extends TestCase
     {
         $replacement = $point->withCoordinates($coordinates);
 
-        static::assertTrue($point->isEmpty());
-        static::assertFalse($replacement->isEmpty());
         static::assertEquals($coordinates, $replacement->getCoordinates());
     }
 

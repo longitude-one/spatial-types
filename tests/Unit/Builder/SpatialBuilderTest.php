@@ -85,8 +85,6 @@ final class SpatialBuilderTest extends TestCase
         self::assertInstanceOf(GeographyCollectionImmutable::class, $immutable);
         self::assertInstanceOf(SpatialCollection::class, $mutable);
         self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        self::assertTrue($immutable->isEmpty());
-        self::assertTrue($mutable->isEmpty());
     }
 
     /**
@@ -118,12 +116,9 @@ final class SpatialBuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create();
         $point = $builder->point(0, null);
-        $empty = $builder->point();
-
         self::assertInstanceOf(PointImmutable::class, $point);
         self::assertSame([0, null], $point->toArray());
         self::assertSame(0, $point->getSrid());
-        self::assertTrue($empty->isEmpty());
         self::assertInstanceOf(PointImmutable::class, $builder->point(1, 2));
     }
 
@@ -260,7 +255,6 @@ final class SpatialBuilderTest extends TestCase
         self::assertInstanceOf(PolyhedralSurfaceImmutable::class, $progressive);
         self::assertSame($patch, $direct->getElements()[0]);
         self::assertSame($patch, $progressive->getElements()[0]);
-        self::assertTrue($builder->createPolyhedralSurface()->isEmpty());
     }
 
     /**
@@ -327,7 +321,6 @@ final class SpatialBuilderTest extends TestCase
         self::assertNotSame($first, $second);
         self::assertSame([[1, 2]], $first->toArray());
         self::assertSame([[1, 2], [3, 4]], $third->toArray());
-        self::assertTrue($source->createLineString([])->isEmpty());
     }
 
     /**

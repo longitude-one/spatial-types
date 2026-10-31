@@ -69,20 +69,6 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
     }
 
     /**
-     * Is the collection empty?
-     */
-    public function isEmpty(): bool
-    {
-        foreach ($this->getElements() as $element) {
-            if (!$element->isEmpty()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Convert the collection to an array.
      *
      * @return (null|float|int|(null|float|int|string)[]|(null|float|int|string)[][]|(null|float|int|string)[][][]|string)[][]

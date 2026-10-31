@@ -51,7 +51,6 @@ class MutableMultiObjectTest extends TestCase
         static::assertSame($first, $aggregate->getElement(0));
         static::assertSame(4326, $first->getSrid());
         static::assertSame($aggregate, $aggregate->setElements([]));
-        static::assertTrue($aggregate->isEmpty());
         static::assertSame([], $aggregate->toArray());
     }
 
@@ -74,7 +73,6 @@ class MutableMultiObjectTest extends TestCase
         static::assertSame($first, $aggregate->getElement(0));
         static::assertSame(4326, $first->getSrid());
         static::assertSame($aggregate, $aggregate->setElements([]));
-        static::assertTrue($aggregate->isEmpty());
         static::assertSame([], $aggregate->toArray());
     }
 
@@ -97,7 +95,6 @@ class MutableMultiObjectTest extends TestCase
         static::assertSame($first, $aggregate->getElement(0));
         static::assertSame(4326, $first->getSrid());
         static::assertSame($aggregate, $aggregate->setElements([]));
-        static::assertTrue($aggregate->isEmpty());
         static::assertSame([], $aggregate->toArray());
     }
 
@@ -131,13 +128,9 @@ class MutableMultiObjectTest extends TestCase
     {
         $point = new Point(1, 2);
         $points = new MultiPoint([$point, $point]);
-        static::assertFalse($points->isSimple());
         static::assertSame($points, $points->setElements([new Point(1, 2), new Point(1, 2)]));
-        static::assertFalse($points->isSimple());
         static::assertSame($points, $points->removeElement(1));
-        static::assertTrue($points->isSimple());
         static::assertSame($points, $points->setElements([]));
-        static::assertTrue($points->isSimple());
     }
 
     /** Every membership edit keeps identity, order and zero-based addressing. */
@@ -159,7 +152,6 @@ class MutableMultiObjectTest extends TestCase
         static::assertSame($first, $aggregate->getElement(0));
         static::assertSame(4326, $first->getSrid());
         static::assertSame($aggregate, $aggregate->setElements([]));
-        static::assertTrue($aggregate->isEmpty());
         static::assertSame([], $aggregate->toArray());
     }
 }

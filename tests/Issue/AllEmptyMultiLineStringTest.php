@@ -41,16 +41,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
@@ -70,16 +64,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new MultiLineString([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
@@ -99,16 +87,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
@@ -128,16 +110,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new MultiLineString([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
@@ -157,16 +133,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
@@ -186,16 +156,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
@@ -215,16 +179,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
@@ -244,16 +202,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
@@ -273,16 +225,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
@@ -302,16 +248,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
@@ -331,16 +271,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
@@ -360,16 +294,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
@@ -389,16 +317,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
@@ -418,16 +340,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOGRAPHY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
@@ -447,16 +363,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$populated, $first], 4326))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$first, $populated], 4326))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
@@ -476,16 +386,10 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertTrue($zero->isEmpty());
         self::assertSame([], $zero->getElements());
-        self::assertTrue((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$populated, $first], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertFalse((new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $populated], 4326, SpatialModelEnum::GEOMETRY))->isEmpty());
-        self::assertTrue($all->isEmpty());
         self::assertCount(2, $all->getElements());
         self::assertSame([$first, $second], $all->getElements());
         self::assertSame([[], []], $all->toArray());
-        self::assertFalse($mixed->isEmpty());
         self::assertCount(3, $mixed->getElements());
         self::assertSame([$first, $populated, $second], $mixed->getElements());
         self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());

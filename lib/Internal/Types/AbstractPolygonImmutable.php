@@ -87,14 +87,6 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
     }
 
     /**
-     * Is this polygon empty?
-     */
-    public function isEmpty(): bool
-    {
-        return 0 === $this->boundary->count();
-    }
-
-    /**
      * Return an array representation of this polygon.
      *
      * @return (null|float|int)[][][]

@@ -79,7 +79,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
     /** Return the final component's endpoint, or null. */
     public function getEndPoint(): ?MutablePointInterface
     {
-        return $this->isEmpty() ? null : $this->curves[count($this->curves) - 1]->getEndPoint();
+        return [] === $this->curves ? null : $this->curves[count($this->curves) - 1]->getEndPoint();
     }
 
     /** Return the declared family. */
@@ -91,7 +91,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
     /** Return the first component's start point, or null. */
     public function getStartPoint(): ?MutablePointInterface
     {
-        return $this->isEmpty() ? null : $this->curves[0]->getStartPoint();
+        return [] === $this->curves ? null : $this->curves[0]->getStartPoint();
     }
 
     /** Return the fixed spatial type. */
@@ -112,21 +112,6 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
         array_splice($this->curves, $index, 0, [$curve]);
 
         return $this;
-    }
-
-    /** Whether the first and final endpoints are present and equal. */
-    public function isClosed(): bool
-    {
-        $start = $this->getStartPoint();
-        $end = $this->getEndPoint();
-
-        return null !== $start && null !== $end && $start->equalsTo($end);
-    }
-
-    /** Whether there are no components. */
-    public function isEmpty(): bool
-    {
-        return [] === $this->curves;
     }
 
     /** @param int $index Existing zero-based component index */

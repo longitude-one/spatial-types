@@ -238,7 +238,6 @@ final class FactoryOwnershipTest extends TestCase
         self::assertSame($reference, $ring->getSpatialReference());
         self::assertSame($reference, $point->getSpatialReference());
         self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
-        self::assertTrue($multi->getPolygons()[1]->isEmpty());
     }
 
     /** Nested Mutable Arrays Create Only Mutable Descendants In Declared Context. */
@@ -262,7 +261,6 @@ final class FactoryOwnershipTest extends TestCase
         self::assertSame($reference, $ring->getSpatialReference());
         self::assertSame($reference, $point->getSpatialReference());
         self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
-        self::assertTrue($multi->getPolygons()[1]->isEmpty());
         self::assertSame($point, $point->setX(9));
         self::assertSame([[[[9, null, 12, 7]]], []], $multi->toArray());
     }

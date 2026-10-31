@@ -92,20 +92,6 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
     }
 
     /**
-     * Is the multiLineString empty?
-     */
-    public function isEmpty(): bool
-    {
-        foreach ($this->getLineStrings() as $element) {
-            if (!$element->isEmpty()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Return an array representation of the multiLineString.
      *
      * @return (null|float|int)[][][]

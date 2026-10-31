@@ -113,7 +113,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
      */
     public function toArray(): array
     {
-        if ($this->isEmpty()) {
+        if ($this->empty) {
             return [];
         }
 

@@ -24,7 +24,4 @@ interface CurveInterface extends SpatialInterface
 
     /** Return the start point, or null for an empty curve. */
     public function getStartPoint(): ?PointInterface;
-
-    /** Whether this non-empty curve has equal start and end points. */
-    public function isClosed(): bool;
 }

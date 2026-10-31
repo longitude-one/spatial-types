@@ -45,11 +45,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $aggregate = new SpatialCollection([]);
         $this->expectException(InvalidValueException::class);
 
-        try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[1, 2]]);
-        } finally {
-            static::assertTrue($aggregate->isEmpty());
-        }
+        (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[1, 2]]);
     }
 
     /** Custom mutable aggregate objects cannot conceal immutable descendants. */
