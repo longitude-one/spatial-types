@@ -158,8 +158,8 @@ not provided. It is a surface, not a heterogeneous collection or a solid.
 For example, a four-dimensional geographic polygon is
 `LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolygonImmutable`.
 
-`AbstractSpatialType` and the other `Abstract*` classes are internal base
-classes, not part of the instantiable API.
+`AbstractSpatialType` and the other `Abstract*` classes under `Internal\Types`
+are internal base classes, not part of the instantiable API.
 
 ## Direct construction
 

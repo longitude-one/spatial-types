@@ -40,13 +40,13 @@ See [instantiable spatial types](instantiable-spatial-types.md),
 | Shared mechanisms      | Every trait, component guard and mutable point hydrator                                                                                                                                                                                    |
 | Builder helpers        | The builder traits and `Internal\BuilderTypes`                                                                                                                                                                                             |
 | Factory helpers        | All symbols under `Internal\Factory`, including `PointFactoryInterface`, `LineStringFactoryInterface` and `PolygonFactoryInterface`                                                                                                        |
-| Factory pipeline       | `Factory\Coordinates`, `Factory\DefaultSpatialFactoryFactory`, `Factory\DefaultSpatialFactoryRegistryFactory`, `Factory\FamilyFactories`, `Factory\FromIndexedArrayFactory`, `Factory\SpatialContext` and `Factory\SpatialFactoryRegistry` |
+| Factory pipeline       | Pipeline components in `Internal\Factory`                                                                                                                                                                                                  |
 | Factory hydrators      | `Internal\Factory\Hydrator\CoordinatesHydrator` and `Internal\Factory\Hydrator\SpatialArrayHydrator`                                                                                                                                       |
 | Aggregate hydration    | `Factory\SpatialFactory` constructor and every `create*` instance method                                                                                                                                                                   |
 | Supporting collections | `Internal\Boundary\PolygonBoundary` and `Internal\Collection\LineStringCollection`                                                                                                                                                         |
 
-`Factory\Coordinates` is an internal data-transfer object; the public coordinate
-value is `Value\Coordinates`.
+`Internal\Factory\Coordinates` is an internal data-transfer object; the public
+coordinate value is `Value\Coordinates`.
 
 The three factory-pipeline interfaces are internal exceptions to the public
 interface classification. Consumer-facing interfaces under `Interfaces` and
