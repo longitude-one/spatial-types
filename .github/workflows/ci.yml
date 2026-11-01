@@ -72,10 +72,10 @@ jobs:
               run: composer update --working-dir=quality/php-mess-detector
 
             - name: Run PHP-Mess Detector on lib
-              run: ./quality/php-mess-detector/vendor/bin/phpmd lib text quality/php-mess-detector/ruleset.xml
+              run: ./quality/php-mess-detector/vendor/bin/phpmd analyze lib --format text --ruleset quality/php-mess-detector/ruleset.yml
 
             - name: Run PHP-Mess Detector on tests
-              run: ./quality/php-mess-detector/vendor/bin/phpmd tests text quality/php-mess-detector/test-ruleset.xml
+              run: ./quality/php-mess-detector/vendor/bin/phpmd analyze tests --format text --ruleset quality/php-mess-detector/test-ruleset.yml
 
             - name: Install PHP CodeSniffer
               run: composer update --working-dir=quality/php-code-sniffer
