@@ -127,7 +127,6 @@ class PointTest extends TestCase
     public function testGetZ(): void
     {
         static::assertSame(42.195, $this->point->getZ());
-        $this->point->getZ();
     }
 
     /**

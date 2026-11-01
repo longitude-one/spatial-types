@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MultiPolygonTest extends TestCase
 {
-    private const DEFAULT_COORDINATE = [[[[1, 2, 3], [3, 4, 5], [3, 6, 42.195], [1, 2, 3]]]];
+    private const array DEFAULT_COORDINATE = [[[[1, 2, 3], [3, 4, 5], [3, 6, 42.195], [1, 2, 3]]]];
 
     /**
      * Test the constructor with geodesic points.
