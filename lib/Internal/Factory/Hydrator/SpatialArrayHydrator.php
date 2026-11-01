@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,14 +35,14 @@ final class SpatialArrayHydrator
      */
     public function __construct(
         private SpatialFactoryRegistry $factoryRegistry,
-        private CoordinatesHydrator $coordinatesHydrator = new CoordinatesHydrator()
+        private CoordinatesHydrator $coordinatesHydrator = new CoordinatesHydrator(),
     ) {
     }
 
     /**
      * Hydrate the points of a line string.
      *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface> $points  points
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface> $points  points
      * @param SpatialContext                                                                                                                     $context family, dimension, and SRID expected for every point
      *
      * @return ImmutablePointInterface[]
@@ -81,7 +81,7 @@ final class SpatialArrayHydrator
     /**
      * Hydrate the rings of a polygon.
      *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings   rings
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings   rings
      * @param SpatialContext                                                                                                                                                         $context family, dimension, and SRID expected for every ring
      *
      * @return ImmutableLineStringInterface[]

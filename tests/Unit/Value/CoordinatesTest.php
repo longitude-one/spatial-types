@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -30,6 +30,26 @@ use PHPUnit\Framework\TestCase;
 class CoordinatesTest extends TestCase
 {
     /**
+     * @return \Generator<string, array{0: \Closure}, null, void>
+     */
+    public static function provideIncompatibleCoordinates(): \Generator
+    {
+        yield 'XYZ with measure instead of elevation' => [static fn () => new Coordinates(CoordinateDimensionEnum::XYZ, 1, 2, null, 3)];
+    }
+
+    /**
+     * @return \Generator<string, array{0: \Closure}, null, void>
+     */
+    public static function provideOperationsRequiringAnAbsentOrdinate(): \Generator
+    {
+        yield 'read M from XY' => [static fn () => Coordinates::xy(1, 2)->getM()];
+
+        yield 'read Z from XYM' => [static fn () => Coordinates::xym(1, 2, 3)->getZ()];
+
+        yield 'replace M on XYZ' => [static fn () => Coordinates::xyz(1, 2, 3)->withM(4)];
+    }
+
+    /**
      * Coordinates reject supplied ordinates outside their dimension.
      *
      * @param \Closure $operation invalid coordinate value construction
@@ -39,14 +59,6 @@ class CoordinatesTest extends TestCase
     {
         self::expectException(InvalidDimensionException::class);
         $operation();
-    }
-
-    /**
-     * @return \Generator<string, array{0: \Closure}, null, void>
-     */
-    public static function provideIncompatibleCoordinates(): \Generator
-    {
-        yield 'XYZ with measure instead of elevation' => [static fn () => new Coordinates(CoordinateDimensionEnum::XYZ, 1, 2, null, 3)];
     }
 
     /**
@@ -106,18 +118,6 @@ class CoordinatesTest extends TestCase
     {
         self::expectException(InvalidDimensionException::class);
         $operation();
-    }
-
-    /**
-     * @return \Generator<string, array{0: \Closure}, null, void>
-     */
-    public static function provideOperationsRequiringAnAbsentOrdinate(): \Generator
-    {
-        yield 'read M from XY' => [static fn () => Coordinates::xy(1, 2)->getM()];
-
-        yield 'read Z from XYM' => [static fn () => Coordinates::xym(1, 2, 3)->getZ()];
-
-        yield 'replace M on XYZ' => [static fn () => Coordinates::xyz(1, 2, 3)->withM(4)];
     }
 
     /**

@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -33,7 +33,7 @@ interface ImmutableSpatialInterface extends SpatialInterface
      *
      * Use the longitude-one/spatial-writer library to export all data.
      *
-     * @return (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]
+     * @return (float|int|null)[]|(float|int|null)[][]|(float|int|null)[][][]|(float|int|null)[][][][]
      */
     public function toArray(): array;
 

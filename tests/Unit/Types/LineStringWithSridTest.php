@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -32,6 +32,22 @@ use PHPUnit\Framework\TestCase;
 class LineStringWithSridTest extends TestCase
 {
     /**
+     * @return \Generator<string, array{0: ImmutableLineStringInterface}, null, void>
+     */
+    public static function provideLineStrings(): \Generator
+    {
+        yield 'geometry' => [new GeometryLineString([
+            new GeometryPoint(1, 2, 4326),
+            new GeometryPoint(3, 4, 4326),
+        ], 4326)];
+
+        yield 'geography' => [new GeographyLineString([
+            new GeographyPoint(1, 2, 4326),
+            new GeographyPoint(3, 4, 4326),
+        ], 4326)];
+    }
+
+    /**
      * Verify that withSrid copies the line string and every one of its points.
      *
      * @param ImmutableLineStringInterface $lineString line string to copy
@@ -54,21 +70,5 @@ class LineStringWithSridTest extends TestCase
 
         static::assertSame(4326, $lineString->getPoint(0)->getSrid());
         static::assertSame(4326, $lineString->getPoint(1)->getSrid());
-    }
-
-    /**
-     * @return \Generator<string, array{0: ImmutableLineStringInterface}, null, void>
-     */
-    public static function provideLineStrings(): \Generator
-    {
-        yield 'geometry' => [new GeometryLineString([
-            new GeometryPoint(1, 2, 4326),
-            new GeometryPoint(3, 4, 4326),
-        ], 4326)];
-
-        yield 'geography' => [new GeographyLineString([
-            new GeographyPoint(1, 2, 4326),
-            new GeographyPoint(3, 4, 4326),
-        ], 4326)];
     }
 }

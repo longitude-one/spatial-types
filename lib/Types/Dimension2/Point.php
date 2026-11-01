@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,8 +25,8 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 final class Point extends AbstractPoint
 {
     /**
-     * @param null|float|int|string $x      X ordinate; strings use geo-parser
-     * @param null|float|int|string $y      Y ordinate; strings use geo-parser
+     * @param float|int|string|null $x      X ordinate; strings use geo-parser
+     * @param float|int|string|null $y      Y ordinate; strings use geo-parser
      * @param int|SpatialReference  $srid   Declared reference
      * @param SpatialModelEnum      $family Declared family
      */

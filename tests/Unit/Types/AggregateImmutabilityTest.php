@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,6 +40,28 @@ use PHPUnit\Framework\TestCase;
 class AggregateImmutabilityTest extends TestCase
 {
     /**
+     * @return \Generator<string, array{0: SpatialInterface}, null, void>
+     */
+    public static function provideAggregates(): \Generator
+    {
+        $lineString = new LineStringImmutable([[0, 0], [1, 1]]);
+        $ring = new LineStringImmutable([[0, 0], [1, 0], [0, 1], [0, 0]]);
+        $polygon = new PolygonImmutable([$ring]);
+
+        yield 'line string' => [$lineString];
+
+        yield 'multi-point' => [new MultiPointImmutable([[0, 0], [1, 1]])];
+
+        yield 'polygon' => [$polygon];
+
+        yield 'multi-line string' => [new MultiLineStringImmutable([$lineString])];
+
+        yield 'multi-polygon' => [new MultiPolygonImmutable([$polygon])];
+
+        yield 'collection' => [new GeometryCollectionImmutable(0, [$lineString, $polygon])];
+    }
+
+    /**
      * @param SpatialInterface $aggregate aggregate to inspect
      */
     #[DataProvider('provideAggregates')]
@@ -61,28 +83,6 @@ class AggregateImmutabilityTest extends TestCase
                 static::assertFalse((new \ReflectionMethod($aggregate, $method))->isPublic(), sprintf('%s::%s() must not be public.', $aggregate::class, $method));
             }
         }
-    }
-
-    /**
-     * @return \Generator<string, array{0: SpatialInterface}, null, void>
-     */
-    public static function provideAggregates(): \Generator
-    {
-        $lineString = new LineStringImmutable([[0, 0], [1, 1]]);
-        $ring = new LineStringImmutable([[0, 0], [1, 0], [0, 1], [0, 0]]);
-        $polygon = new PolygonImmutable([$ring]);
-
-        yield 'line string' => [$lineString];
-
-        yield 'multi-point' => [new MultiPointImmutable([[0, 0], [1, 1]])];
-
-        yield 'polygon' => [$polygon];
-
-        yield 'multi-line string' => [new MultiLineStringImmutable([$lineString])];
-
-        yield 'multi-polygon' => [new MultiPolygonImmutable([$polygon])];
-
-        yield 'collection' => [new GeometryCollectionImmutable(0, [$lineString, $polygon])];
     }
 
     /**

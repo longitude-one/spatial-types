@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,6 +35,18 @@ use PHPUnit\Framework\TestCase;
  */
 class PolyhedralSurfaceTest extends TestCase
 {
+    /** @return iterable<string, array{class-string<AbstractPolyhedralSurfaceImmutable>}> */
+    public static function surfaces(): iterable
+    {
+        yield 'Dimension3z Geometry' => [PolyhedralSurfaceImmutable::class];
+
+        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolyhedralSurfaceImmutable::class];
+
+        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolyhedralSurfaceImmutable::class];
+
+        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurfaceImmutable::class];
+    }
+
     /**
      * @param string $class Surface class
      *
@@ -169,17 +181,5 @@ class PolyhedralSurfaceTest extends TestCase
                 static::assertTrue($reference->equals($patch->getRing(0)->getPoint(0)->getSpatialReference()));
             }
         }
-    }
-
-    /** @return iterable<string, array{class-string<AbstractPolyhedralSurfaceImmutable>}> */
-    public static function surfaces(): iterable
-    {
-        yield 'Dimension3z Geometry' => [PolyhedralSurfaceImmutable::class];
-
-        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PolyhedralSurfaceImmutable::class];
-
-        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\PolyhedralSurfaceImmutable::class];
-
-        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurfaceImmutable::class];
     }
 }

@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,7 +31,7 @@ use LongitudeOne\SpatialTypes\Types\Dimension4zm;
 /** Mutable MultiPolygon members without geometric validation.
  * @internal
  *
- * @extends AbstractMutableCollection<MutablePolygonInterface, array<array<array{0: null|float|int|string, 1: null|float|int|string, 2?: null|float|int, 3?: null|float|int}|\LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface>|\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface>>
+ * @extends AbstractMutableCollection<MutablePolygonInterface, array<array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|\LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface>|\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface>>
  */
 abstract class AbstractMultiPolygon extends AbstractMutableCollection implements MutableMultiPolygonInterface
 {
@@ -47,13 +47,13 @@ abstract class AbstractMultiPolygon extends AbstractMutableCollection implements
         return GeometryTypeEnum::MULTIPOLYGON;
     }
 
-    /** @return (null|float|int)[][][][] */
+    /** @return (float|int|null)[][][][] */
     public function toArray(): array
     {
         return array_map(static fn (MutablePolygonInterface $element): array => $element->toArray(), $this->getElements());
     }
 
-    /** @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2?: null|float|int, 3?: null|float|int}|MutablePointInterface>|MutableLineStringInterface>|MutablePolygonInterface $element Mutable member or coordinate array */
+    /** @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|MutableLineStringInterface>|MutablePolygonInterface $element Mutable member or coordinate array */
     protected function hydrateElement(mixed $element): MutablePolygonInterface
     {
         if (is_array($element)) {

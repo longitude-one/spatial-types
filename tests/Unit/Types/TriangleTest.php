@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -33,6 +33,26 @@ use PHPUnit\Framework\TestCase;
  */
 class TriangleTest extends TestCase
 {
+    /** @return iterable<string, array{class-string<AbstractTriangleImmutable>, list<array{0: int, 1: int, 2?: int, 3?: int}>}> */
+    public static function triangles(): iterable
+    {
+        yield 'Dimension2 Geometry' => [TriangleImmutable::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
+
+        yield 'Dimension2 Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\TriangleImmutable::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
+
+        yield 'Dimension3m Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\TriangleImmutable::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
+
+        yield 'Dimension3m Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\TriangleImmutable::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
+
+        yield 'Dimension3z Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\TriangleImmutable::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
+
+        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\TriangleImmutable::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
+
+        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\TriangleImmutable::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
+
+        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\TriangleImmutable::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
+    }
+
     /**
      * @param string                                        $class Concrete type
      * @param list<array{0: int, 1: int, 2?: int, 3?: int}> $ring  Exterior coordinates
@@ -110,25 +130,5 @@ class TriangleTest extends TestCase
         $ring[1][0] = 'invalid-coordinate';
         $this->expectException(InvalidValueException::class);
         new $class([$ring]);
-    }
-
-    /** @return iterable<string, array{class-string<AbstractTriangleImmutable>, list<array{0: int, 1: int, 2?: int, 3?: int}>}> */
-    public static function triangles(): iterable
-    {
-        yield 'Dimension2 Geometry' => [TriangleImmutable::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
-
-        yield 'Dimension2 Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\TriangleImmutable::class, [[0, 0], [4, 0], [0, 4], [0, 0]]];
-
-        yield 'Dimension3m Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\TriangleImmutable::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
-
-        yield 'Dimension3m Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\TriangleImmutable::class, [[0, 0, 7], [4, 0, 7], [0, 4, 7], [0, 0, 7]]];
-
-        yield 'Dimension3z Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\TriangleImmutable::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
-
-        yield 'Dimension3z Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\TriangleImmutable::class, [[0, 0, 5], [4, 0, 5], [0, 4, 5], [0, 0, 5]]];
-
-        yield 'Dimension4zm Geometry' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\TriangleImmutable::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
-
-        yield 'Dimension4zm Geography' => [\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\TriangleImmutable::class, [[0, 0, 5, 7], [4, 0, 5, 7], [0, 4, 5, 7], [0, 0, 5, 7]]];
     }
 }

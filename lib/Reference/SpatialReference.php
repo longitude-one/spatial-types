@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,11 +26,11 @@ final readonly class SpatialReference
 {
     /**
      * @param int         $identifier Spatial reference identifier
-     * @param null|string $authority  Naming authority, for example "EPSG"
+     * @param string|null $authority  Naming authority, for example "EPSG"
      */
     public function __construct(
         public int $identifier,
-        public ?string $authority = null
+        public ?string $authority = null,
     ) {
     }
 

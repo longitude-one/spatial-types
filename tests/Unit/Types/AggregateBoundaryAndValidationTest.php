@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,6 +40,38 @@ use PHPUnit\Framework\TestCase;
  */
 class AggregateBoundaryAndValidationTest extends TestCase
 {
+    /**
+     * @return \Generator<string, array{0: \Closure}, null, void>
+     */
+    public static function provideOperationsOnEmptyAggregates(): \Generator
+    {
+        yield 'line string point replacement' => [static fn () => (new LineStringImmutable([]))->withPoint(0, Coordinates::xy(1, 2))];
+
+        yield 'multi-point point replacement' => [static fn () => (new MultiPointImmutable([]))->withPoint(0, Coordinates::xy(1, 2))];
+
+        yield 'multi-line string accessor' => [static fn () => (new MultiLineStringImmutable([]))->getLineString(0)];
+
+        yield 'multi-line string replacement' => [static fn () => (new MultiLineStringImmutable([]))->withLineString(0, [[1, 2], [3, 4]])];
+
+        yield 'multi-line string point replacement' => [static fn () => (new MultiLineStringImmutable([]))->withPoint(0, 0, Coordinates::xy(1, 2))];
+
+        yield 'polygon accessor' => [static fn () => (new PolygonImmutable([]))->getRing(0)];
+
+        yield 'polygon ring replacement' => [static fn () => (new PolygonImmutable([]))->withRing(0, [[0, 0], [1, 1], [0, 0]])];
+
+        yield 'polygon point replacement' => [static fn () => (new PolygonImmutable([]))->withPoint(0, 0, Coordinates::xy(1, 2))];
+
+        yield 'multi-polygon accessor' => [static fn () => (new MultiPolygonImmutable([]))->getPolygon(0)];
+
+        yield 'multi-polygon replacement' => [static fn () => (new MultiPolygonImmutable([]))->withPolygon(0, [[[0, 0], [1, 1], [0, 0]]])];
+
+        yield 'multi-polygon ring replacement' => [static fn () => (new MultiPolygonImmutable([]))->withRing(0, 0, [[0, 0], [1, 1], [0, 0]])];
+
+        yield 'multi-polygon point replacement' => [static fn () => (new MultiPolygonImmutable([]))->withPoint(0, 0, 0, Coordinates::xy(1, 2))];
+
+        yield 'collection element replacement' => [static fn () => (new GeometryCollectionImmutable())->withElement(0, new PointImmutable(1, 2))];
+    }
+
     /**
      * Aggregate accessors support both circular and negative indexing.
      */
@@ -88,38 +120,6 @@ class AggregateBoundaryAndValidationTest extends TestCase
     {
         self::expectException(OutOfBoundsException::class);
         $operation();
-    }
-
-    /**
-     * @return \Generator<string, array{0: \Closure}, null, void>
-     */
-    public static function provideOperationsOnEmptyAggregates(): \Generator
-    {
-        yield 'line string point replacement' => [static fn () => (new LineStringImmutable([]))->withPoint(0, Coordinates::xy(1, 2))];
-
-        yield 'multi-point point replacement' => [static fn () => (new MultiPointImmutable([]))->withPoint(0, Coordinates::xy(1, 2))];
-
-        yield 'multi-line string accessor' => [static fn () => (new MultiLineStringImmutable([]))->getLineString(0)];
-
-        yield 'multi-line string replacement' => [static fn () => (new MultiLineStringImmutable([]))->withLineString(0, [[1, 2], [3, 4]])];
-
-        yield 'multi-line string point replacement' => [static fn () => (new MultiLineStringImmutable([]))->withPoint(0, 0, Coordinates::xy(1, 2))];
-
-        yield 'polygon accessor' => [static fn () => (new PolygonImmutable([]))->getRing(0)];
-
-        yield 'polygon ring replacement' => [static fn () => (new PolygonImmutable([]))->withRing(0, [[0, 0], [1, 1], [0, 0]])];
-
-        yield 'polygon point replacement' => [static fn () => (new PolygonImmutable([]))->withPoint(0, 0, Coordinates::xy(1, 2))];
-
-        yield 'multi-polygon accessor' => [static fn () => (new MultiPolygonImmutable([]))->getPolygon(0)];
-
-        yield 'multi-polygon replacement' => [static fn () => (new MultiPolygonImmutable([]))->withPolygon(0, [[[0, 0], [1, 1], [0, 0]]])];
-
-        yield 'multi-polygon ring replacement' => [static fn () => (new MultiPolygonImmutable([]))->withRing(0, 0, [[0, 0], [1, 1], [0, 0]])];
-
-        yield 'multi-polygon point replacement' => [static fn () => (new MultiPolygonImmutable([]))->withPoint(0, 0, 0, Coordinates::xy(1, 2))];
-
-        yield 'collection element replacement' => [static fn () => (new GeometryCollectionImmutable())->withElement(0, new PointImmutable(1, 2))];
     }
 
     /**

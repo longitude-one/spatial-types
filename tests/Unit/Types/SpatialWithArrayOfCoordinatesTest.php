@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -33,6 +33,24 @@ use PHPUnit\Framework\TestCase;
 class SpatialWithArrayOfCoordinatesTest extends TestCase
 {
     /**
+     * Provide every coordinate layout for both spatial families.
+     *
+     * @return \Generator<string, array{0: CoordinateDimensionEnum, 1: SpatialModelEnum, 2: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>, 3: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>}, null, void>
+     */
+    public static function provideContextsAndCoordinates(): \Generator
+    {
+        foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
+            yield sprintf('%s XY', $family->value) => [CoordinateDimensionEnum::XY, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
+
+            yield sprintf('%s XYM', $family->value) => [CoordinateDimensionEnum::XYM, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
+
+            yield sprintf('%s XYZ', $family->value) => [CoordinateDimensionEnum::XYZ, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
+
+            yield sprintf('%s XYZM', $family->value) => [CoordinateDimensionEnum::XYZM, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
+        }
+    }
+
+    /**
      * Assert that replacement coordinates preserve line-string metadata without mutating the source.
      *
      * @param LineStringInterface                                                      $lineString             source line string
@@ -48,7 +66,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         array $initialCoordinates,
         array $replacementCoordinates,
         SpatialModelEnum $family,
-        CoordinateDimensionEnum $dimension
+        CoordinateDimensionEnum $dimension,
     ): void {
         static::assertNotSame($lineString, $replacement);
         static::assertSame($lineString::class, (new \ReflectionClass($replacement))->getName());
@@ -74,7 +92,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         CoordinateDimensionEnum $dimension,
         SpatialModelEnum $family,
         array $initialCoordinates,
-        array $replacementCoordinates
+        array $replacementCoordinates,
     ): void {
         $lineString = FromIndexedArrayFactory::createLineString($initialCoordinates, 4326, $family, $dimension);
         $replacement = $lineString->withArrayOfCoordinates($replacementCoordinates);
@@ -107,7 +125,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         CoordinateDimensionEnum $dimension,
         SpatialModelEnum $family,
         array $initialCoordinates,
-        array $replacementCoordinates
+        array $replacementCoordinates,
     ): void {
         $polygon = FromIndexedArrayFactory::createPolygon([$initialCoordinates], 4326, $family, $dimension);
         $replacement = $polygon->withArrayOfCoordinates([$replacementCoordinates]);
@@ -119,24 +137,6 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         static::assertSame([$initialCoordinates], $polygon->toArray());
         static::assertSame([$replacementCoordinates], $replacement->toArray());
         static::assertNotSame($polygon->getRing(0), $replacement->getRing(0));
-    }
-
-    /**
-     * Provide every coordinate layout for both spatial families.
-     *
-     * @return \Generator<string, array{0: CoordinateDimensionEnum, 1: SpatialModelEnum, 2: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>, 3: array<array{0: float|int, 1: float|int, 2 ?: float|int, 3 ?: float|int}>}, null, void>
-     */
-    public static function provideContextsAndCoordinates(): \Generator
-    {
-        foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
-            yield sprintf('%s XY', $family->value) => [CoordinateDimensionEnum::XY, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
-
-            yield sprintf('%s XYM', $family->value) => [CoordinateDimensionEnum::XYM, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
-
-            yield sprintf('%s XYZ', $family->value) => [CoordinateDimensionEnum::XYZ, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
-
-            yield sprintf('%s XYZM', $family->value) => [CoordinateDimensionEnum::XYZM, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
-        }
     }
 
     /**

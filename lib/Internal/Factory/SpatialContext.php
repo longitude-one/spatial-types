@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ final readonly class SpatialContext
     public function __construct(
         int|SpatialReference $srid = 0,
         public SpatialModelEnum $family = SpatialModelEnum::GEOMETRY,
-        public CoordinateDimensionEnum $dimension = CoordinateDimensionEnum::XY
+        public CoordinateDimensionEnum $dimension = CoordinateDimensionEnum::XY,
     ) {
         $this->reference = $srid instanceof SpatialReference ? $srid : SpatialReference::fromSrid($srid);
         $this->srid = $this->reference->srid();

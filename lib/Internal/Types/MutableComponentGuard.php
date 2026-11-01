@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,7 +35,7 @@ final class MutableComponentGuard
 {
     /** Reject immutable components and containment cycles at every nesting level.
      * @param SpatialInterface      $component Component to inspect
-     * @param null|SpatialInterface $receiver  Aggregate receiving the component
+     * @param SpatialInterface|null $receiver  Aggregate receiving the component
      */
     public static function check(SpatialInterface $component, ?SpatialInterface $receiver = null): void
     {

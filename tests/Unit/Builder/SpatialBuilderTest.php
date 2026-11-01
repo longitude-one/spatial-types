@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -68,10 +68,10 @@ final class SpatialBuilderTest extends TestCase
         $other = $source->mutable()->family(SpatialModelEnum::GEOGRAPHY)->srid(4326);
         $line->addPoint(0, null);
 
-        self::assertInstanceOf(LineStringImmutable::class, $line->build());
-        self::assertSame(0, $line->build()->getSrid());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $line->build()->getFamily());
-        self::assertInstanceOf(Point::class, $other->point(0, null));
+        static::assertInstanceOf(LineStringImmutable::class, $line->build());
+        static::assertSame(0, $line->build()->getSrid());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $line->build()->getFamily());
+        static::assertInstanceOf(Point::class, $other->point(0, null));
     }
 
     /**
@@ -82,9 +82,9 @@ final class SpatialBuilderTest extends TestCase
         $immutable = SpatialBuilder::create()->family(SpatialModelEnum::GEOGRAPHY)->collection()->build();
         $mutable = SpatialBuilder::create()->mutable()->family(SpatialModelEnum::GEOGRAPHY)->collection()->build();
 
-        self::assertInstanceOf(GeographyCollectionImmutable::class, $immutable);
-        self::assertInstanceOf(SpatialCollection::class, $mutable);
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        static::assertInstanceOf(GeographyCollectionImmutable::class, $immutable);
+        static::assertInstanceOf(SpatialCollection::class, $mutable);
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
     }
 
     /**
@@ -99,14 +99,14 @@ final class SpatialBuilderTest extends TestCase
         $referenced = $measured->srid(SpatialReference::epsg(4326));
         $immutable = $mutable->immutable();
 
-        self::assertNotSame($source, $mutable);
-        self::assertInstanceOf(PointImmutable::class, $source->point(1, 2));
-        self::assertInstanceOf(Point::class, $mutable->point(1, 2));
-        self::assertInstanceOf(PointImmutable::class, $immutable->point(1, 2));
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $geography->point(1, 2)->getFamily());
-        self::assertInstanceOf(GeographyPointM::class, $measured->point(1, 2, m: 3));
-        self::assertSame(0, $measured->point(1, 2, m: 3)->getSrid());
-        self::assertSame(SpatialReference::epsg(4326)->authority, $referenced->point(1, 2, m: 3)->getSpatialReference()->authority);
+        static::assertNotSame($source, $mutable);
+        static::assertInstanceOf(PointImmutable::class, $source->point(1, 2));
+        static::assertInstanceOf(Point::class, $mutable->point(1, 2));
+        static::assertInstanceOf(PointImmutable::class, $immutable->point(1, 2));
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $geography->point(1, 2)->getFamily());
+        static::assertInstanceOf(GeographyPointM::class, $measured->point(1, 2, m: 3));
+        static::assertSame(0, $measured->point(1, 2, m: 3)->getSrid());
+        static::assertSame(SpatialReference::epsg(4326)->authority, $referenced->point(1, 2, m: 3)->getSpatialReference()->authority);
     }
 
     /**
@@ -116,10 +116,10 @@ final class SpatialBuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create();
         $point = $builder->point(0, null);
-        self::assertInstanceOf(PointImmutable::class, $point);
-        self::assertSame([0, null], $point->toArray());
-        self::assertSame(0, $point->getSrid());
-        self::assertInstanceOf(PointImmutable::class, $builder->point(1, 2));
+        static::assertInstanceOf(PointImmutable::class, $point);
+        static::assertSame([0, null], $point->toArray());
+        static::assertSame(0, $point->getSrid());
+        static::assertInstanceOf(PointImmutable::class, $builder->point(1, 2));
     }
 
     /**
@@ -133,16 +133,16 @@ final class SpatialBuilderTest extends TestCase
         $circular = $builder->createCircularString([[$point->getX(), $point->getY()]]);
         $polygon = $builder->createPolygon([$line]);
 
-        self::assertInstanceOf(LineStringImmutable::class, $line);
-        self::assertInstanceOf(CircularStringImmutable::class, $circular);
-        self::assertInstanceOf(MultiPointImmutable::class, $builder->createMultiPoint([$point]));
-        self::assertInstanceOf(CompoundCurveImmutable::class, $builder->createCompoundCurve([$line, $circular]));
-        self::assertInstanceOf(PolygonImmutable::class, $polygon);
-        self::assertInstanceOf(TriangleImmutable::class, $builder->createTriangle([$line]));
-        self::assertInstanceOf(MultiLineStringImmutable::class, $builder->createMultiLineString([$line]));
-        self::assertInstanceOf(MultiPolygonImmutable::class, $builder->createMultiPolygon([$polygon]));
-        self::assertInstanceOf(GeometryCollectionImmutable::class, $builder->createCollection([$point, $line]));
-        self::assertSame([[0, null]], $line->toArray());
+        static::assertInstanceOf(LineStringImmutable::class, $line);
+        static::assertInstanceOf(CircularStringImmutable::class, $circular);
+        static::assertInstanceOf(MultiPointImmutable::class, $builder->createMultiPoint([$point]));
+        static::assertInstanceOf(CompoundCurveImmutable::class, $builder->createCompoundCurve([$line, $circular]));
+        static::assertInstanceOf(PolygonImmutable::class, $polygon);
+        static::assertInstanceOf(TriangleImmutable::class, $builder->createTriangle([$line]));
+        static::assertInstanceOf(MultiLineStringImmutable::class, $builder->createMultiLineString([$line]));
+        static::assertInstanceOf(MultiPolygonImmutable::class, $builder->createMultiPolygon([$polygon]));
+        static::assertInstanceOf(GeometryCollectionImmutable::class, $builder->createCollection([$point, $line]));
+        static::assertSame([[0, null]], $line->toArray());
     }
 
     /** Verify opposite-representation components are rejected by direct creation. */
@@ -164,9 +164,9 @@ final class SpatialBuilderTest extends TestCase
 
         try {
             SpatialBuilder::create()->point(1, 2, z: 3);
-            self::fail('Unavailable Z must be rejected.');
+            static::fail('Unavailable Z must be rejected.');
         } catch (InvalidDimensionException) {
-            self::assertTrue(SpatialFactory::isMutable());
+            static::assertTrue(SpatialFactory::isMutable());
         }
     }
 
@@ -180,11 +180,11 @@ final class SpatialBuilderTest extends TestCase
         $direct = $builder->createPolyhedralSurface([$patch]);
         $progressive = $builder->polyhedralSurface()->addPatch($patch)->build();
 
-        self::assertInstanceOf(PolyhedralSurfaceInterface::class, $progressive);
-        self::assertSame(CoordinateDimensionEnum::XYZM, $direct->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $direct->getFamily());
-        self::assertSame($patch, $direct->getElements()[0]);
-        self::assertSame($patch, $progressive->getElements()[0]);
+        static::assertInstanceOf(PolyhedralSurfaceInterface::class, $progressive);
+        static::assertSame(CoordinateDimensionEnum::XYZM, $direct->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $direct->getFamily());
+        static::assertSame($patch, $direct->getElements()[0]);
+        static::assertSame($patch, $progressive->getElements()[0]);
     }
 
     /**
@@ -198,9 +198,9 @@ final class SpatialBuilderTest extends TestCase
         SpatialFactory::immutable();
         $mutable = $mutableBuilder->point(1, 2);
 
-        self::assertInstanceOf(PointImmutable::class, $immutable);
-        self::assertInstanceOf(Point::class, $mutable);
-        self::assertFalse(SpatialFactory::isMutable());
+        static::assertInstanceOf(PointImmutable::class, $immutable);
+        static::assertInstanceOf(Point::class, $mutable);
+        static::assertFalse(SpatialFactory::isMutable());
     }
 
     /** Verify nested coordinate input uses the local mutable context. */
@@ -214,13 +214,13 @@ final class SpatialBuilderTest extends TestCase
         $ring = $polygon->getRings()[0];
         $point = $ring->getPoints()[0];
 
-        self::assertSame(CoordinateDimensionEnum::XYM, $polygon->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
-        self::assertSame($reference, $polygon->getSpatialReference());
-        self::assertSame($reference, $ring->getSpatialReference());
-        self::assertSame($reference, $point->getSpatialReference());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        self::assertSame([0, null, 7], $point->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYM, $polygon->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
+        static::assertSame($reference, $polygon->getSpatialReference());
+        static::assertSame($reference, $ring->getSpatialReference());
+        static::assertSame($reference, $point->getSpatialReference());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame([0, null, 7], $point->toArray());
     }
 
     /**
@@ -229,12 +229,12 @@ final class SpatialBuilderTest extends TestCase
     public function testNamedMeasureAndUnavailableAxes(): void
     {
         $measured = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XYM);
-        self::assertSame([1, null, 3], $measured->point(1, null, m: 3)->toArray());
-        self::assertSame([], $measured->point()->toArray());
+        static::assertSame([1, null, 3], $measured->point(1, null, m: 3)->toArray());
+        static::assertSame([], $measured->point()->toArray());
         $elevated = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XYZ);
-        self::assertInstanceOf(GeometryPointZ::class, $elevated->point(1, 2, z: 3));
+        static::assertInstanceOf(GeometryPointZ::class, $elevated->point(1, 2, z: 3));
         $four = SpatialBuilder::create()->mutable()->dimension(CoordinateDimensionEnum::XYZM);
-        self::assertInstanceOf(MutablePointZM::class, $four->point(1, 2, 3, 4));
+        static::assertInstanceOf(MutablePointZM::class, $four->point(1, 2, 3, 4));
 
         $this->expectException(InvalidDimensionException::class);
         $measured->point(1, 2, z: 3);
@@ -251,10 +251,10 @@ final class SpatialBuilderTest extends TestCase
         $direct = $builder->createPolyhedralSurface([$patch]);
         $progressive = $builder->polyhedralSurface()->addPatch($patch)->build();
 
-        self::assertInstanceOf(PolyhedralSurfaceImmutable::class, $direct);
-        self::assertInstanceOf(PolyhedralSurfaceImmutable::class, $progressive);
-        self::assertSame($patch, $direct->getElements()[0]);
-        self::assertSame($patch, $progressive->getElements()[0]);
+        static::assertInstanceOf(PolyhedralSurfaceImmutable::class, $direct);
+        static::assertInstanceOf(PolyhedralSurfaceImmutable::class, $progressive);
+        static::assertSame($patch, $direct->getElements()[0]);
+        static::assertSame($patch, $progressive->getElements()[0]);
     }
 
     /**
@@ -275,17 +275,17 @@ final class SpatialBuilderTest extends TestCase
         $point = $builder->point(0, null);
         $line = $builder->lineString()->addPointComponent($point)->build();
         $circular = $builder->circularString()->addPoint(0, null)->build();
-        self::assertInstanceOf(LineStringImmutable::class, $line);
-        self::assertInstanceOf(CircularStringImmutable::class, $circular);
+        static::assertInstanceOf(LineStringImmutable::class, $line);
+        static::assertInstanceOf(CircularStringImmutable::class, $circular);
         $polygon = $builder->polygon()->addRing($line)->build();
 
-        self::assertInstanceOf(MultiPointImmutable::class, $builder->multiPoint()->addPoint(0, null)->build());
-        self::assertInstanceOf(CompoundCurveImmutable::class, $builder->compoundCurve()->addCurve($line)->addCurve($circular)->build());
-        self::assertInstanceOf(PolygonImmutable::class, $polygon);
-        self::assertInstanceOf(TriangleImmutable::class, $builder->triangle()->addRing($line)->build());
-        self::assertInstanceOf(MultiLineStringImmutable::class, $builder->multiLineString()->addLineString($line)->build());
-        self::assertInstanceOf(MultiPolygonImmutable::class, $builder->multiPolygon()->addPolygon($polygon)->build());
-        self::assertInstanceOf(GeometryCollectionImmutable::class, $builder->collection()->addElement($point)->build());
+        static::assertInstanceOf(MultiPointImmutable::class, $builder->multiPoint()->addPoint(0, null)->build());
+        static::assertInstanceOf(CompoundCurveImmutable::class, $builder->compoundCurve()->addCurve($line)->addCurve($circular)->build());
+        static::assertInstanceOf(PolygonImmutable::class, $polygon);
+        static::assertInstanceOf(TriangleImmutable::class, $builder->triangle()->addRing($line)->build());
+        static::assertInstanceOf(MultiLineStringImmutable::class, $builder->multiLineString()->addLineString($line)->build());
+        static::assertInstanceOf(MultiPolygonImmutable::class, $builder->multiPolygon()->addPolygon($polygon)->build());
+        static::assertInstanceOf(GeometryCollectionImmutable::class, $builder->collection()->addElement($point)->build());
     }
 
     /**
@@ -297,9 +297,9 @@ final class SpatialBuilderTest extends TestCase
 
         try {
             $line->addPointComponent(new Point(3, 4));
-            self::fail('A mutable point must not enter an immutable line.');
+            static::fail('A mutable point must not enter an immutable line.');
         } catch (InvalidValueException) {
-            self::assertSame([[1, 2]], $line->build()->toArray());
+            static::assertSame([[1, 2]], $line->build()->toArray());
         }
     }
 
@@ -310,17 +310,17 @@ final class SpatialBuilderTest extends TestCase
     {
         $source = SpatialBuilder::create();
         $line = $source->lineString();
-        self::assertNotSame($source, $line);
-        self::assertSame($line, $line->addPoint(1, 2));
+        static::assertNotSame($source, $line);
+        static::assertSame($line, $line->addPoint(1, 2));
         $first = $line->build();
         $second = $line->build();
         $line->addPoint(3, 4);
         $third = $line->build();
 
-        self::assertInstanceOf(LineStringImmutable::class, $first);
-        self::assertNotSame($first, $second);
-        self::assertSame([[1, 2]], $first->toArray());
-        self::assertSame([[1, 2], [3, 4]], $third->toArray());
+        static::assertInstanceOf(LineStringImmutable::class, $first);
+        static::assertNotSame($first, $second);
+        static::assertSame([[1, 2]], $first->toArray());
+        static::assertSame([[1, 2], [3, 4]], $third->toArray());
     }
 
     /**
@@ -335,12 +335,12 @@ final class SpatialBuilderTest extends TestCase
         $second = $line->build();
         $point->setX(5);
 
-        self::assertInstanceOf(LineString::class, $first);
-        self::assertInstanceOf(LineString::class, $second);
-        self::assertSame($point, $first->getPoints()[0]);
-        self::assertSame($point, $second->getPoints()[0]);
-        self::assertSame([[5, 2]], $first->toArray());
-        self::assertNotSame($first, $second);
+        static::assertInstanceOf(LineString::class, $first);
+        static::assertInstanceOf(LineString::class, $second);
+        static::assertSame($point, $first->getPoints()[0]);
+        static::assertSame($point, $second->getPoints()[0]);
+        static::assertSame([[5, 2]], $first->toArray());
+        static::assertNotSame($first, $second);
     }
 
     /**

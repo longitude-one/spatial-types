@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -64,12 +64,12 @@ final class FactoryOwnershipTest extends TestCase
         $line = LineStringFactory::create([$point], SpatialReference::epsg(2154));
         $multiPoint = MultiPointFactory::create([$point], 3857);
 
-        self::assertSame($point, $line->getPoint(0));
-        self::assertSame($point, $multiPoint->getElements()[0]);
-        self::assertSame(4326, $point->getSrid());
-        self::assertSame(2154, $line->getSrid());
-        self::assertSame([[0, null]], $line->toArray());
-        self::assertInstanceOf(ImmutableSpatialInterface::class, $line);
+        static::assertSame($point, $line->getPoint(0));
+        static::assertSame($point, $multiPoint->getElements()[0]);
+        static::assertSame(4326, $point->getSrid());
+        static::assertSame(2154, $line->getSrid());
+        static::assertSame([[0, null]], $line->toArray());
+        static::assertInstanceOf(ImmutableSpatialInterface::class, $line);
     }
 
     /** Immutable Factory Preserves Constructor Coordinate Parsing. */
@@ -77,7 +77,7 @@ final class FactoryOwnershipTest extends TestCase
     {
         SpatialFactory::immutable();
         $point = GeographicPointFactory::create("2°30'E", "48°30'N", null, 4326);
-        self::assertSame([2.5, 48.5, null], $point->toArray());
+        static::assertSame([2.5, 48.5, null], $point->toArray());
     }
 
     /** Immutable Factory Rejects Unsupported Coordinate Layout Without Changing Mode. */
@@ -87,9 +87,9 @@ final class FactoryOwnershipTest extends TestCase
 
         try {
             LineStringFactory::create([[0, 1, 2]]);
-            self::fail('XY construction must reject an XYZ tuple.');
+            static::fail('XY construction must reject an XYZ tuple.');
         } catch (InvalidDimensionException) {
-            self::assertFalse(SpatialFactory::isMutable());
+            static::assertFalse(SpatialFactory::isMutable());
         }
     }
 
@@ -102,11 +102,11 @@ final class FactoryOwnershipTest extends TestCase
 
         try {
             LineStringFactory::create([$point], 2154);
-            self::fail('Mutable components must be rejected.');
+            static::fail('Mutable components must be rejected.');
         } catch (InvalidValueException) {
-            self::assertInstanceOf(Point::class, $point);
-            self::assertSame([0, null], $point->toArray());
-            self::assertSame(4326, $point->getSrid());
+            static::assertInstanceOf(Point::class, $point);
+            static::assertSame([0, null], $point->toArray());
+            static::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -115,7 +115,7 @@ final class FactoryOwnershipTest extends TestCase
     {
         SpatialFactory::mutable();
         $point = PointFactory::create(0, null, 4326);
-        $ring = self::createStub(ImmutableLineStringInterface::class);
+        $ring = static::createStub(ImmutableLineStringInterface::class);
         $ring->method('getStartPoint')->willReturn(null);
         $ring->method('getEndPoint')->willReturn(null);
         $ring->method('getElements')->willReturn([$point]);
@@ -144,13 +144,13 @@ final class FactoryOwnershipTest extends TestCase
         $line = LineStringFactory::create([$point], SpatialReference::epsg(2154));
         $multiPoint = MultiPointFactory::create([$point], 3857);
 
-        self::assertInstanceOf(Point::class, $point);
-        self::assertSame($point, $line->getPoint(0));
-        self::assertSame($point, $multiPoint->getElements()[0]);
-        self::assertSame(4326, $point->getSrid());
+        static::assertInstanceOf(Point::class, $point);
+        static::assertSame($point, $line->getPoint(0));
+        static::assertSame($point, $multiPoint->getElements()[0]);
+        static::assertSame(4326, $point->getSrid());
         $point->setX(8);
-        self::assertSame([[8, null]], $line->toArray());
-        self::assertSame([[8, null]], $multiPoint->toArray());
+        static::assertSame([[8, null]], $line->toArray());
+        static::assertSame([[8, null]], $multiPoint->toArray());
     }
 
     /** Mutable Factory Preserves Constructor Coordinate Parsing. */
@@ -158,7 +158,7 @@ final class FactoryOwnershipTest extends TestCase
     {
         SpatialFactory::mutable();
         $point = GeographicPointFactory::create("2°30'E", "48°30'N", null, 4326);
-        self::assertSame([2.5, 48.5, null], $point->toArray());
+        static::assertSame([2.5, 48.5, null], $point->toArray());
     }
 
     /** Mutable Factory Rejects Unsupported Coordinate Layout Without Changing Mode. */
@@ -168,9 +168,9 @@ final class FactoryOwnershipTest extends TestCase
 
         try {
             LineStringFactory::create([[0, 1, 2]]);
-            self::fail('XY construction must reject an XYZ tuple.');
+            static::fail('XY construction must reject an XYZ tuple.');
         } catch (InvalidDimensionException) {
-            self::assertTrue(SpatialFactory::isMutable());
+            static::assertTrue(SpatialFactory::isMutable());
         }
     }
 
@@ -183,11 +183,11 @@ final class FactoryOwnershipTest extends TestCase
 
         try {
             LineStringFactory::create([$point], 2154);
-            self::fail('Immutable components must be rejected.');
+            static::fail('Immutable components must be rejected.');
         } catch (InvalidValueException) {
-            self::assertInstanceOf(PointImmutable::class, $point);
-            self::assertSame([0, null], $point->toArray());
-            self::assertSame(4326, $point->getSrid());
+            static::assertInstanceOf(PointImmutable::class, $point);
+            static::assertSame([0, null], $point->toArray());
+            static::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -196,7 +196,7 @@ final class FactoryOwnershipTest extends TestCase
     {
         SpatialFactory::immutable();
         $point = PointFactory::create(0, null, 4326);
-        $ring = self::createStub(MutableLineStringInterface::class);
+        $ring = static::createStub(MutableLineStringInterface::class);
         $ring->method('getStartPoint')->willReturn(null);
         $ring->method('getEndPoint')->willReturn(null);
         $ring->method('getElements')->willReturn([$point]);
@@ -227,17 +227,17 @@ final class FactoryOwnershipTest extends TestCase
         $ring = $polygon->getRing(0);
         $point = $ring->getPoint(0);
 
-        self::assertInstanceOf(PolygonImmutable::class, $polygon);
-        self::assertInstanceOf(LineStringImmutable::class, $ring);
-        self::assertInstanceOf(GeographicPointImmutable::class, $point);
-        self::assertSame([[[[0, null, 12, 7]]], []], $multi->toArray());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $ring->getFamily());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        self::assertSame($reference, $polygon->getSpatialReference());
-        self::assertSame($reference, $ring->getSpatialReference());
-        self::assertSame($reference, $point->getSpatialReference());
-        self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
+        static::assertInstanceOf(PolygonImmutable::class, $polygon);
+        static::assertInstanceOf(LineStringImmutable::class, $ring);
+        static::assertInstanceOf(GeographicPointImmutable::class, $point);
+        static::assertSame([[[[0, null, 12, 7]]], []], $multi->toArray());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $ring->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame($reference, $polygon->getSpatialReference());
+        static::assertSame($reference, $ring->getSpatialReference());
+        static::assertSame($reference, $point->getSpatialReference());
+        static::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
     }
 
     /** Nested Mutable Arrays Create Only Mutable Descendants In Declared Context. */
@@ -250,19 +250,19 @@ final class FactoryOwnershipTest extends TestCase
         $ring = $polygon->getRing(0);
         $point = $ring->getPoint(0);
 
-        self::assertInstanceOf(Polygon::class, $polygon);
-        self::assertInstanceOf(LineString::class, $ring);
-        self::assertInstanceOf(GeographicPoint::class, $point);
-        self::assertSame([[[[0, null, 12, 7]]], []], $multi->toArray());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $ring->getFamily());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        self::assertSame($reference, $polygon->getSpatialReference());
-        self::assertSame($reference, $ring->getSpatialReference());
-        self::assertSame($reference, $point->getSpatialReference());
-        self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
-        self::assertSame($point, $point->setX(9));
-        self::assertSame([[[[9, null, 12, 7]]], []], $multi->toArray());
+        static::assertInstanceOf(Polygon::class, $polygon);
+        static::assertInstanceOf(LineString::class, $ring);
+        static::assertInstanceOf(GeographicPoint::class, $point);
+        static::assertSame([[[[0, null, 12, 7]]], []], $multi->toArray());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $ring->getFamily());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        static::assertSame($reference, $polygon->getSpatialReference());
+        static::assertSame($reference, $ring->getSpatialReference());
+        static::assertSame($reference, $point->getSpatialReference());
+        static::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
+        static::assertSame($point, $point->setX(9));
+        static::assertSame([[[[9, null, 12, 7]]], []], $multi->toArray());
     }
 
     /** Nested Surface Arrays Preserve Empty Patches And Null Ordinates In Both Modes. */
@@ -274,13 +274,13 @@ final class FactoryOwnershipTest extends TestCase
         SpatialFactory::mutable();
         $mutable = PolyhedralSurfaceFactory::create([[[[0, null, 12, 7]]], []], $reference);
 
-        self::assertInstanceOf(PolygonImmutable::class, $immutable->getPatch(0));
-        self::assertInstanceOf(GeographicPointImmutable::class, $immutable->getPatch(0)->getRing(0)->getPoint(0));
-        self::assertInstanceOf(Polygon::class, $mutable->getPatch(0));
-        self::assertInstanceOf(GeographicPoint::class, $mutable->getPatch(0)->getRing(0)->getPoint(0));
-        self::assertSame($reference, $immutable->getPatch(0)->getRing(0)->getPoint(0)->getSpatialReference());
-        self::assertSame($reference, $mutable->getPatch(0)->getRing(0)->getPoint(0)->getSpatialReference());
-        self::assertSame([[[[0, null, 12, 7]]], []], $immutable->toArray());
-        self::assertSame([[[[0, null, 12, 7]]], []], $mutable->toArray());
+        static::assertInstanceOf(PolygonImmutable::class, $immutable->getPatch(0));
+        static::assertInstanceOf(GeographicPointImmutable::class, $immutable->getPatch(0)->getRing(0)->getPoint(0));
+        static::assertInstanceOf(Polygon::class, $mutable->getPatch(0));
+        static::assertInstanceOf(GeographicPoint::class, $mutable->getPatch(0)->getRing(0)->getPoint(0));
+        static::assertSame($reference, $immutable->getPatch(0)->getRing(0)->getPoint(0)->getSpatialReference());
+        static::assertSame($reference, $mutable->getPatch(0)->getRing(0)->getPoint(0)->getSpatialReference());
+        static::assertSame([[[[0, null, 12, 7]]], []], $immutable->toArray());
+        static::assertSame([[[[0, null, 12, 7]]], []], $mutable->toArray());
     }
 }

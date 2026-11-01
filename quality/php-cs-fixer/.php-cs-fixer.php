@@ -1,51 +1,53 @@
 <?php
-
 /**
  * This file is part of the spatial project.
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  */
 
-//Replace the value of this variable with the project's launch year.
-$firstYear = 2024;
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+// Replace the value of this variable with the project's launch year.
+$firstYear = 2026;
 
 function __copyright(int $launchYear): string
 {
-    $currentYear = (int)date('Y');
+    $currentYear = (int) date('Y');
     if ($currentYear === $launchYear) {
-        return $currentYear;
+        return (string) $currentYear;
     }
 
     return sprintf('%d-%d', $launchYear, $currentYear);
 }
 
-$header = file_get_contents(__DIR__ . '/headers.txt');
-$header = str_replace("%year%", __copyright($firstYear), $header);
+$header = file_get_contents(__DIR__.'/headers.txt');
+$header = str_replace('%year%', __copyright($firstYear), $header);
 
-$finder = PhpCsFixer\Finder::create()
+$finder = Finder::create()
     ->in([
-        __DIR__ . '/../../lib/',
-        __DIR__ . '/../../quality/php-cs-fixer/',
-        __DIR__ . '/../../tests/',
-    ]);
+        __DIR__.'/../../lib/',
+        __DIR__.'/../../quality/php-cs-fixer/',
+        __DIR__.'/../../tests/',
+    ])
+;
 
-$config = new PhpCsFixer\Config();
+$config = new Config();
 
 return $config->setRules([
-    '@DoctrineAnnotation' => true,
-    '@PhpCsFixer' => true,
-    '@PHPUnit100Migration:risky' => true,
-    '@PHP84Migration' => true,
+    '@Symfony' => true,
     'declare_strict_types' => true,
-    'dir_constant' => true, // Remove when @PHPCsFixerRisky is added
-    'ereg_to_preg' => true, // Remove when @PHPCsFixerRisky is added
+    'dir_constant' => true,
+    'ereg_to_preg' => true,
     'header_comment' => [
         'comment_type' => 'PHPDoc',
         'header' => $header,
@@ -53,13 +55,12 @@ return $config->setRules([
         'separate' => 'bottom',
     ],
     //        'date_time_immutable' => true,
-    'is_null' => true, // Remove when @PHPCsFixerRisky is added
-    'mb_str_functions' => true, //Set to false if we only use multibyte string functions for ClassName
-    'modernize_types_casting' => true, // Remove when @PHPCsFixerRisky is added
+    'is_null' => true,
+    'modernize_types_casting' => true,
     'new_expression_parentheses' => [
         'use_parentheses' => true,
     ],
-    'no_unneeded_final_method' => true, // Remove when @PHPCsFixerRisky is added
+    'no_unneeded_final_method' => true,
     'ordered_interfaces' => [
         'direction' => 'ascend',
         'order' => 'alpha',
@@ -78,9 +79,11 @@ return $config->setRules([
         ],
         'sort_algorithm' => 'alpha',
     ],
-    'php_unit_test_case_static_method_calls' => true, //FIXME accepted values are self static or this.
-    'single_line_throw' => false, //FIXME set to true when all #60 is fixed
+    'php_unit_test_case_static_method_calls' => true, // accepted values are true, 'self', 'static' or 'this'.
+    'single_line_throw' => true,
     'single_line_empty_body' => false,
 ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder)
-    ->setCacheFile(__DIR__ . '/.php_cs.cache');
+    ->setCacheFile(__DIR__.'/.php_cs.cache')
+;

@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -61,7 +61,7 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
     }
 
     /**
-     * @return (null|float|int)[][]
+     * @return (float|int|null)[][]
      */
     public function toArray(): array
     {
@@ -72,7 +72,7 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
     }
 
     /**
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface $point Point or coordinate tuple to add
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface $point Point or coordinate tuple to add
      *
      * @throws InvalidDimensionException When a coordinate tuple has an incompatible layout
      * @throws InvalidValueException     When coordinates are invalid
@@ -91,7 +91,7 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
     }
 
     /**
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface> $points Points or tuples to add
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface> $points Points or tuples to add
      */
     protected function addPoints(array $points): static
     {

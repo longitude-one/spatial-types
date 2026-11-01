@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -54,6 +54,26 @@ use PHPUnit\Framework\TestCase;
  */
 class FactoryPipelineTest extends TestCase
 {
+    /**
+     * @return \Generator<string, array{0: \Closure, 1: string}, null, void>
+     */
+    public static function provideInvalidFactoryOperations(): \Generator
+    {
+        yield 'line string contains an unsupported typed value' => [
+            static function (SpatialFactory $factory): void {
+                (new \ReflectionMethod($factory, 'createLineString'))->invoke($factory, [new \stdClass()], new SpatialContext());
+            },
+            'objects implementing ImmutablePointInterface',
+        ];
+
+        yield 'polygon contains an unsupported typed value' => [
+            static function (SpatialFactory $factory): void {
+                (new \ReflectionMethod($factory, 'createPolygon'))->invoke($factory, [new \stdClass()], new SpatialContext());
+            },
+            'objects implementing ImmutableLineStringInterface',
+        ];
+    }
+
     /**
      * Create a complete factory with explicit geometric and geographic registrations.
      */
@@ -184,26 +204,6 @@ class FactoryPipelineTest extends TestCase
         self::expectExceptionMessageIsOrContains($message);
 
         $operation(self::createFactory());
-    }
-
-    /**
-     * @return \Generator<string, array{0: \Closure, 1: string}, null, void>
-     */
-    public static function provideInvalidFactoryOperations(): \Generator
-    {
-        yield 'line string contains an unsupported typed value' => [
-            static function (SpatialFactory $factory): void {
-                (new \ReflectionMethod($factory, 'createLineString'))->invoke($factory, [new \stdClass()], new SpatialContext());
-            },
-            'objects implementing ImmutablePointInterface',
-        ];
-
-        yield 'polygon contains an unsupported typed value' => [
-            static function (SpatialFactory $factory): void {
-                (new \ReflectionMethod($factory, 'createPolygon'))->invoke($factory, [new \stdClass()], new SpatialContext());
-            },
-            'objects implementing ImmutableLineStringInterface',
-        ];
     }
 
     /**

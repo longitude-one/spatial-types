@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -38,7 +38,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
     /**
      * AbstractMultiLineStringImmutable constructor.
      *
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|ImmutableLineStringInterface|ImmutablePointInterface[])[] $lineStrings lineStrings of the multiLineString
+     * @param (array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[]|ImmutableLineStringInterface|ImmutablePointInterface[])[] $lineStrings lineStrings of the multiLineString
      * @param int|SpatialReference                                                                                                                                             $srid        Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when the point dimension is not compatible with the multiLineStlineString dimension
@@ -94,7 +94,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
     /**
      * Return an array representation of the multiLineString.
      *
-     * @return (null|float|int)[][][]
+     * @return (float|int|null)[][][]
      */
     public function toArray(): array
     {
@@ -114,7 +114,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
      * dimension, and Spatial Reference Identifier (SRID) context.
      *
      * @param int                                                                                                        $lineStringIndex index of the line string to replace; negative indexes count from the end
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates     replacement line-string coordinates
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}> $coordinates     replacement line-string coordinates
      *
      * @throws OutOfBoundsException when the multi-line string has no line strings
      */
@@ -185,7 +185,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
     /**
      * Add a line string to the spatial collection.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|ImmutableLineStringInterface|ImmutablePointInterface[] $lineString line string to add
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[]|ImmutableLineStringInterface|ImmutablePointInterface[] $lineString line string to add
      *
      * @throws InvalidValueException when the line string dimension is not compatible with the current dimension
      */
@@ -197,7 +197,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
     /**
      * Add line strings to the spatial collection.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|ImmutableLineStringInterface[]|ImmutablePointInterface[][] $lineStrings the ring to add
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[][]|ImmutableLineStringInterface[]|ImmutablePointInterface[][] $lineStrings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition
      */

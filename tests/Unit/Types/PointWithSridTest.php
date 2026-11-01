@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,23 +36,6 @@ use PHPUnit\Framework\TestCase;
 class PointWithSridTest extends TestCase
 {
     /**
-     * Verify that withSrid returns a distinct point without changing its ordinates.
-     *
-     * @param ImmutablePointInterface $point Point to copy
-     */
-    #[DataProvider('providePoints')]
-    public function testWithSrid(ImmutablePointInterface $point): void
-    {
-        $pointWithSrid = $point->withSrid(2154);
-
-        static::assertNotSame($point, $pointWithSrid);
-        static::assertSame($point::class, (new \ReflectionClass($pointWithSrid))->getName());
-        static::assertSame($point->toArray(), $pointWithSrid->toArray());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(2154, $pointWithSrid->getSrid());
-    }
-
-    /**
      * @return \Generator<string, array{0: ImmutablePointInterface}, null, void>
      */
     public static function providePoints(): \Generator
@@ -72,6 +55,23 @@ class PointWithSridTest extends TestCase
         yield '4D geometry' => [new GeometryPoint4Dzm(1, 2, 3, 4, 4326)];
 
         yield '4D geography' => [new GeographyPoint4Dzm(1, 2, 3, 4, 4326)];
+    }
+
+    /**
+     * Verify that withSrid returns a distinct point without changing its ordinates.
+     *
+     * @param ImmutablePointInterface $point Point to copy
+     */
+    #[DataProvider('providePoints')]
+    public function testWithSrid(ImmutablePointInterface $point): void
+    {
+        $pointWithSrid = $point->withSrid(2154);
+
+        static::assertNotSame($point, $pointWithSrid);
+        static::assertSame($point::class, (new \ReflectionClass($pointWithSrid))->getName());
+        static::assertSame($point->toArray(), $pointWithSrid->toArray());
+        static::assertSame(4326, $point->getSrid());
+        static::assertSame(2154, $pointWithSrid->getSrid());
     }
 
     /**

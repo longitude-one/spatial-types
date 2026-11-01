@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,10 +36,10 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
      * Coordinates are ordered as X (abscissa), Y (ordinate), Z (elevation),
      * then M (measure).
      *
-     * @param null|float|int|string $x    X (abscissa) coordinate; strings are parsed by the geo-parser
-     * @param null|float|int|string $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
-     * @param null|float|int        $z    Z (elevation) coordinate
-     * @param null|float|int        $m    M (measure) coordinate
+     * @param float|int|string|null $x    X (abscissa) coordinate; strings are parsed by the geo-parser
+     * @param float|int|string|null $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
+     * @param float|int|null        $z    Z (elevation) coordinate
+     * @param float|int|null        $m    M (measure) coordinate
      * @param int|SpatialReference  $srid Spatial Reference Identifier
      *
      * @throws InvalidValueException when a coordinate is invalid
@@ -102,7 +102,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     /**
      * Convert the point to its ordered XYZM coordinates; the SRID is omitted.
      *
-     * @return array{0: null|float|int, 1: null|float|int, 2: null|float|int, 3: null|float|int}|array{}
+     * @return array{0: float|int|null, 1: float|int|null, 2: float|int|null, 3: float|int|null}|array{}
      */
     public function toArray(): array
     {
@@ -116,7 +116,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     /**
      * Set the M (measure) coordinate.
      *
-     * @param null|float|int $m M (measure) coordinate
+     * @param float|int|null $m M (measure) coordinate
      */
     protected function initializeM(float|int|null $m): static
     {
@@ -128,7 +128,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     /**
      * Set the Z (elevation) coordinate.
      *
-     * @param null|float|int $z Z (elevation) coordinate
+     * @param float|int|null $z Z (elevation) coordinate
      */
     protected function initializeZ(float|int|null $z): static
     {

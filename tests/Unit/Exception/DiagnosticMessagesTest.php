@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -30,6 +30,38 @@ use PHPUnit\Framework\TestCase;
  */
 class DiagnosticMessagesTest extends TestCase
 {
+    /**
+     * Range errors must also format parser input and geographic coordinate strings.
+     *
+     * @return iterable<string, array{string, string, bool}>
+     */
+    public static function rangeProvider(): iterable
+    {
+        yield 'latitude' => ["91N\n", 'Out of range latitude value, latitude must be between -90 and 90, got "91N\n".', false];
+
+        yield 'longitude' => ["181E\n", 'Out of range longitude value, longitude must be between -180 and 180, got "181E\n".', false];
+
+        yield 'minutes' => ["12°60'N\n", 'Out of range minute value, minute must be between 0 and 59, got "12°60\'N\n".', false];
+
+        yield 'seconds' => ["12°30'60\"N\n", 'Out of range second value, second must be between 0 and 59, got "12°30\'60"N\n".', false];
+    }
+
+    /**
+     * Untrusted diagnostic values and their visible representations.
+     *
+     * @return iterable<string, array{string, string}>
+     */
+    public static function valueProvider(): iterable
+    {
+        yield 'controls' => ["bad\0\t\r\n\x1B[31m", 'bad\0\t\r\n\u{001B}[31m'];
+
+        yield 'unicode' => ["é\u{0085}\u{202E}\u{2028}\u{2029}", 'é\u{0085}\u{202E}\u{2028}\u{2029}'];
+
+        yield 'invalid UTF-8' => ["é\xFF", 'é\xFF'];
+
+        yield 'long value' => [str_repeat('é', 2050), str_repeat('é', 2047).'…'];
+    }
+
     /**
      * Invalid coordinates must retain a safe representation in the outer exception.
      *
@@ -62,22 +94,6 @@ class DiagnosticMessagesTest extends TestCase
     }
 
     /**
-     * Untrusted diagnostic values and their visible representations.
-     *
-     * @return iterable<string, array{string, string}>
-     */
-    public static function valueProvider(): iterable
-    {
-        yield 'controls' => ["bad\0\t\r\n\x1B[31m", 'bad\0\t\r\n\u{001B}[31m'];
-
-        yield 'unicode' => ["é\u{0085}\u{202E}\u{2028}\u{2029}", 'é\u{0085}\u{202E}\u{2028}\u{2029}'];
-
-        yield 'invalid UTF-8' => ["é\xFF", 'é\xFF'];
-
-        yield 'long value' => [str_repeat('é', 2050), str_repeat('é', 2047).'…'];
-    }
-
-    /**
      * Check all range-error translations without changing the parsed input.
      *
      * @param string $value      Untrusted coordinate
@@ -94,21 +110,5 @@ class DiagnosticMessagesTest extends TestCase
         } catch (SpatialTypeExceptionInterface $exception) {
             static::assertSame($expected, $exception->getMessage());
         }
-    }
-
-    /**
-     * Range errors must also format parser input and geographic coordinate strings.
-     *
-     * @return iterable<string, array{string, string, bool}>
-     */
-    public static function rangeProvider(): iterable
-    {
-        yield 'latitude' => ["91N\n", 'Out of range latitude value, latitude must be between -90 and 90, got "91N\n".', false];
-
-        yield 'longitude' => ["181E\n", 'Out of range longitude value, longitude must be between -180 and 180, got "181E\n".', false];
-
-        yield 'minutes' => ["12°60'N\n", 'Out of range minute value, minute must be between 0 and 59, got "12°60\'N\n".', false];
-
-        yield 'seconds' => ["12°30'60\"N\n", 'Out of range second value, second must be between 0 and 59, got "12°30\'60"N\n".', false];
     }
 }

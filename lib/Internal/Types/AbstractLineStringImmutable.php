@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -55,7 +55,7 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
     /**
      * Return an array representation of the line string.
      *
-     * @return (null|float|int)[][]
+     * @return (float|int|null)[][]
      */
     public function toArray(): array
     {
@@ -75,7 +75,7 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
      * (SRID); the existing point hydrator validates each tuple against that
      * retained context.
      *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement coordinates
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}> $coordinates replacement coordinates
      */
     public function withArrayOfCoordinates(array $coordinates): static
     {

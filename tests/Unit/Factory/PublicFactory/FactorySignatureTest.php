@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -47,16 +47,16 @@ final class FactorySignatureTest extends TestCase
         foreach ($factories as $factory => $immutable) {
             $creation = new \ReflectionMethod($factory, 'create');
             $constructor = new \ReflectionMethod($immutable, '__construct');
-            self::assertTrue($creation->isStatic());
-            self::assertTrue($creation->isPublic());
-            self::assertCount($constructor->getNumberOfParameters(), $creation->getParameters());
+            static::assertTrue($creation->isStatic());
+            static::assertTrue($creation->isPublic());
+            static::assertCount($constructor->getNumberOfParameters(), $creation->getParameters());
             foreach ($constructor->getParameters() as $position => $expected) {
                 $actual = $creation->getParameters()[$position];
-                self::assertSame($expected->getName(), $actual->getName(), $factory);
-                self::assertSame((string) $expected->getType(), (string) $actual->getType(), $factory);
-                self::assertSame($expected->isDefaultValueAvailable(), $actual->isDefaultValueAvailable(), $factory);
+                static::assertSame($expected->getName(), $actual->getName(), $factory);
+                static::assertSame((string) $expected->getType(), (string) $actual->getType(), $factory);
+                static::assertSame($expected->isDefaultValueAvailable(), $actual->isDefaultValueAvailable(), $factory);
                 if ($expected->isDefaultValueAvailable()) {
-                    self::assertSame($expected->getDefaultValue(), $actual->getDefaultValue(), $factory);
+                    static::assertSame($expected->getDefaultValue(), $actual->getDefaultValue(), $factory);
                 }
             }
         }
@@ -87,7 +87,7 @@ final class FactorySignatureTest extends TestCase
             GeographyXYFactories\MultiPolygonFactory::class => GeographyXYTypes\MultiPolygonImmutable::class,
             GeographyXYFactories\GeographyCollectionFactory::class => GeographyXYTypes\GeographyCollectionImmutable::class,
         ];
-        self::assertCount(20, $factories);
+        static::assertCount(20, $factories);
         self::assertSignatures($factories);
     }
 
@@ -116,7 +116,7 @@ final class FactorySignatureTest extends TestCase
             GeographyXYMFactories\MultiPolygonFactory::class => GeographyXYMTypes\MultiPolygonImmutable::class,
             GeographyXYMFactories\GeographyCollectionFactory::class => GeographyXYMTypes\GeographyCollectionImmutable::class,
         ];
-        self::assertCount(20, $factories);
+        static::assertCount(20, $factories);
         self::assertSignatures($factories);
     }
 
@@ -147,7 +147,7 @@ final class FactorySignatureTest extends TestCase
             GeographyXYZFactories\PolyhedralSurfaceFactory::class => GeographyXYZTypes\PolyhedralSurfaceImmutable::class,
             GeographyXYZFactories\GeographyCollectionFactory::class => GeographyXYZTypes\GeographyCollectionImmutable::class,
         ];
-        self::assertCount(22, $factories);
+        static::assertCount(22, $factories);
         self::assertSignatures($factories);
     }
 
@@ -178,7 +178,7 @@ final class FactorySignatureTest extends TestCase
             GeographyXYZMFactories\PolyhedralSurfaceFactory::class => GeographyXYZMTypes\PolyhedralSurfaceImmutable::class,
             GeographyXYZMFactories\GeographyCollectionFactory::class => GeographyXYZMTypes\GeographyCollectionImmutable::class,
         ];
-        self::assertCount(22, $factories);
+        static::assertCount(22, $factories);
         self::assertSignatures($factories);
     }
 }

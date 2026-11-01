@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ class FromIndexedArrayFactory
     /**
      * Create a line string from an indexed array.
      *
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface)[] $indexedArray indexed array
+     * @param (array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface)[] $indexedArray indexed array
      * @param int|SpatialReference                                                                                                            $srid         SRID
      * @param SpatialModelEnum                                                                                                                $family       family
      * @param CoordinateDimensionEnum                                                                                                         $dimension    dimension
@@ -49,7 +49,7 @@ class FromIndexedArrayFactory
     /**
      * Create a point from an array of coordinates.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates   array of coordinates; an empty array creates an empty point
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|array{} $coordinates   array of coordinates; an empty array creates an empty point
      * @param int|SpatialReference                                                                                        $srid          SRID
      * @param SpatialModelEnum                                                                                            $family        family
      * @param CoordinateDimensionEnum                                                                                     $dimensionEnum dimension
@@ -64,7 +64,7 @@ class FromIndexedArrayFactory
     /**
      * Create a polygon from an indexed array of closed line strings.
      *
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|ImmutableLineStringInterface)[] $indexedArray indexed array of rings
+     * @param (array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[]|ImmutableLineStringInterface)[] $indexedArray indexed array of rings
      * @param int|SpatialReference                                                                                                                   $srid         SRID
      * @param SpatialModelEnum                                                                                                                       $family       family
      * @param CoordinateDimensionEnum                                                                                                                $dimension    dimension

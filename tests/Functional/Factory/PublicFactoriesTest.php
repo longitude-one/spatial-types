@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -67,13 +67,13 @@ final class PublicFactoriesTest extends TestCase
             $surface, $multiPoint, $multiLine, $multiPolygon, $nested,
         ]);
 
-        self::assertInstanceOf(ImmutableSpatialInterface::class, $collection);
-        self::assertSame([
+        static::assertInstanceOf(ImmutableSpatialInterface::class, $collection);
+        static::assertSame([
             $point, $line, $circular, $compound, $polygon, $triangle,
             $surface, $multiPoint, $multiLine, $multiPolygon, $nested,
         ], $collection->getElements());
-        self::assertSame([$point, $surface], $nested->getElements());
-        self::assertSame([
+        static::assertSame([$point, $surface], $nested->getElements());
+        static::assertSame([
             [0, null, 12],
             [[0, null, 12]],
             [[0, null, 12]],
@@ -86,8 +86,8 @@ final class PublicFactoriesTest extends TestCase
             [[[[0, null, 12]]]],
             [[0, null, 12], [[[[0, null, 12]]]]],
         ], $collection->toArray());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $collection->getFamily());
-        self::assertSame(4326, $collection->getSrid());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $collection->getFamily());
+        static::assertSame(4326, $collection->getSrid());
     }
 
     /** Mutable Consumers Assemble Every Supported Type And Nested Collections. */
@@ -110,13 +110,13 @@ final class PublicFactoriesTest extends TestCase
             $surface, $multiPoint, $multiLine, $multiPolygon, $nested,
         ]);
 
-        self::assertInstanceOf(MutableSpatialInterface::class, $collection);
-        self::assertSame([
+        static::assertInstanceOf(MutableSpatialInterface::class, $collection);
+        static::assertSame([
             $point, $line, $circular, $compound, $polygon, $triangle,
             $surface, $multiPoint, $multiLine, $multiPolygon, $nested,
         ], $collection->getElements());
-        self::assertSame([$point, $surface], $nested->getElements());
-        self::assertSame([
+        static::assertSame([$point, $surface], $nested->getElements());
+        static::assertSame([
             [0, null, 12],
             [[0, null, 12]],
             [[0, null, 12]],
@@ -129,7 +129,7 @@ final class PublicFactoriesTest extends TestCase
             [[[[0, null, 12]]]],
             [[0, null, 12], [[[[0, null, 12]]]]],
         ], $collection->toArray());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $collection->getFamily());
-        self::assertSame(4326, $collection->getSrid());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $collection->getFamily());
+        static::assertSame(4326, $collection->getSrid());
     }
 }

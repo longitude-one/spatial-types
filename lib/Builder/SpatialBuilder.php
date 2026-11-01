@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,7 +40,7 @@ final class SpatialBuilder
     use BuilderMoreSelectionTrait;
     use BuilderSelectionTrait;
 
-    /** @var null|'CircularString'|'Collection'|'CompoundCurve'|'LineString'|'MultiLineString'|'MultiPoint'|'MultiPolygon'|'Polygon'|'PolyhedralSurface'|'Triangle' */
+    /** @var 'CircularString'|'Collection'|'CompoundCurve'|'LineString'|'MultiLineString'|'MultiPoint'|'MultiPolygon'|'Polygon'|'PolyhedralSurface'|'Triangle'|null */
     protected ?string $aggregate = null;
 
     /** @var list<mixed> */
@@ -58,7 +58,7 @@ final class SpatialBuilder
         private bool $isMutable = false,
         private CoordinateDimensionEnum $coordinateDimension = CoordinateDimensionEnum::XY,
         private SpatialModelEnum $spatialFamily = SpatialModelEnum::GEOMETRY,
-        private SpatialReference $reference = new SpatialReference(0)
+        private SpatialReference $reference = new SpatialReference(0),
     ) {
     }
 

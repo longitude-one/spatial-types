@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -33,19 +33,6 @@ use PHPUnit\Framework\TestCase;
 class EmptyGeometryTest extends TestCase
 {
     /**
-     * Empty Geometry values retain their concrete type and coordinate dimension.
-     *
-     * @param SpatialInterface $geometry Empty geometry instance
-     * @param GeometryTypeEnum $type     Expected concrete geometry type
-     */
-    #[DataProvider('provideEmptyGeometries')]
-    public function testEmptyGeometryCanBeCreated(SpatialInterface $geometry, GeometryTypeEnum $type): void
-    {
-        static::assertSame($type, $geometry->getType());
-        static::assertSame([], $geometry->toArray());
-    }
-
-    /**
      * @return \Generator<string, array{0: SpatialInterface, 1: GeometryTypeEnum}>
      */
     public static function provideEmptyGeometries(): \Generator
@@ -67,5 +54,18 @@ class EmptyGeometryTest extends TestCase
 
             yield $dimension.' GeometryCollection' => [new ($namespace.'GeometryCollectionImmutable')(), GeometryTypeEnum::GEOMETRYCOLLECTION];
         }
+    }
+
+    /**
+     * Empty Geometry values retain their concrete type and coordinate dimension.
+     *
+     * @param SpatialInterface $geometry Empty geometry instance
+     * @param GeometryTypeEnum $type     Expected concrete geometry type
+     */
+    #[DataProvider('provideEmptyGeometries')]
+    public function testEmptyGeometryCanBeCreated(SpatialInterface $geometry, GeometryTypeEnum $type): void
+    {
+        static::assertSame($type, $geometry->getType());
+        static::assertSame([], $geometry->toArray());
     }
 }

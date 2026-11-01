@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -70,7 +70,7 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
     /**
      * Convert the collection to an array.
      *
-     * @return (null|float|int|(null|float|int|string)[]|(null|float|int|string)[][]|(null|float|int|string)[][][]|string)[][]
+     * @return (float|int|(float|int|string|null)[]|(float|int|string|null)[][]|(float|int|string|null)[][][]|string|null)[][]
      */
     public function toArray(): array
     {

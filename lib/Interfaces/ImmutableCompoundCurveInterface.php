@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -38,6 +38,6 @@ interface ImmutableCompoundCurveInterface extends CompoundCurveInterface, Immuta
     /** Return the immutable start point, or null for EMPTY. */
     public function getStartPoint(): ?ImmutablePointInterface;
 
-    /** @return (null|float|int)[][][] */
+    /** @return (float|int|null)[][][] */
     public function toArray(): array;
 }
