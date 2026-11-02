@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -38,6 +38,28 @@ use PHPUnit\Framework\TestCase;
  */
 class PointWithCoordinatesTest extends TestCase
 {
+    /**
+     * @return \Generator<string, array{0: Coordinates, 1: ImmutablePointInterface}, null, void>
+     */
+    public static function providePointsAndCoordinates(): \Generator
+    {
+        yield '2D geometry' => [Coordinates::xy(3, 4), new GeometryPoint2D(1, 2, 4326)];
+
+        yield '2D geography' => [Coordinates::xy(3, 4), new GeographyPoint2D(1, 2, 4326)];
+
+        yield '3DM geometry' => [Coordinates::xym(3, 4, 5), new GeometryPoint3Dm(1, 2, 3, 4326)];
+
+        yield '3DM geography' => [Coordinates::xym(3, 4, 5), new GeographyPoint3Dm(1, 2, 3, 4326)];
+
+        yield '3DZ geometry' => [Coordinates::xyz(3, 4, 5), new GeometryPoint3Dz(1, 2, 3, 4326)];
+
+        yield '3DZ geography' => [Coordinates::xyz(3, 4, 5), new GeographyPoint3Dz(1, 2, 3, 4326)];
+
+        yield '4D geometry' => [Coordinates::xyzm(3, 4, 5, 6), new GeometryPoint4Dzm(1, 2, 3, 4, 4326)];
+
+        yield '4D geography' => [Coordinates::xyzm(3, 4, 5, 6), new GeographyPoint4Dzm(1, 2, 3, 4, 4326)];
+    }
+
     /**
      * Point equality includes every ordinate that its dimension exposes.
      */
@@ -72,28 +94,6 @@ class PointWithCoordinatesTest extends TestCase
         static::assertSame(4326, $pointWithCoordinates->getSrid());
         static::assertEquals($originalCoordinates, $point->getCoordinates());
         static::assertEquals($coordinates, $pointWithCoordinates->getCoordinates());
-    }
-
-    /**
-     * @return \Generator<string, array{0: Coordinates, 1: ImmutablePointInterface}, null, void>
-     */
-    public static function providePointsAndCoordinates(): \Generator
-    {
-        yield '2D geometry' => [Coordinates::xy(3, 4), new GeometryPoint2D(1, 2, 4326)];
-
-        yield '2D geography' => [Coordinates::xy(3, 4), new GeographyPoint2D(1, 2, 4326)];
-
-        yield '3DM geometry' => [Coordinates::xym(3, 4, 5), new GeometryPoint3Dm(1, 2, 3, 4326)];
-
-        yield '3DM geography' => [Coordinates::xym(3, 4, 5), new GeographyPoint3Dm(1, 2, 3, 4326)];
-
-        yield '3DZ geometry' => [Coordinates::xyz(3, 4, 5), new GeometryPoint3Dz(1, 2, 3, 4326)];
-
-        yield '3DZ geography' => [Coordinates::xyz(3, 4, 5), new GeographyPoint3Dz(1, 2, 3, 4326)];
-
-        yield '4D geometry' => [Coordinates::xyzm(3, 4, 5, 6), new GeometryPoint4Dzm(1, 2, 3, 4, 4326)];
-
-        yield '4D geography' => [Coordinates::xyzm(3, 4, 5, 6), new GeographyPoint4Dzm(1, 2, 3, 4, 4326)];
     }
 
     /**

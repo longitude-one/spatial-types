@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -83,10 +83,10 @@ trait BuilderMoreDirectCreationTrait
     /**
      * Point.
      *
-     * @param null|float|int|string $x x value
-     * @param null|float|int|string $y y value
-     * @param null|float|int        $z z value
-     * @param null|float|int        $m m value
+     * @param float|int|string|null $x x value
+     * @param float|int|string|null $y y value
+     * @param float|int|null        $z z value
+     * @param float|int|null        $m m value
      */
     public function point(float|int|string|null $x = null, float|int|string|null $y = null, float|int|null $z = null, float|int|null $m = null): PointInterface
     {

@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -75,7 +75,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements MutablePoint
         return $this;
     }
 
-    /** @param null|float|int $m Measure ordinate */
+    /** @param float|int|null $m Measure ordinate */
     public function setM(float|int|null $m): static
     {
         if (!$this->hasM()) {
@@ -102,7 +102,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements MutablePoint
         return $this->setSpatialReference(SpatialReference::fromSrid($srid));
     }
 
-    /** @param null|float|int|string $x X ordinate, using constructor parsing */
+    /** @param float|int|string|null $x X ordinate, using constructor parsing */
     public function setX(float|int|string|null $x): static
     {
         $this->initializeX($x);
@@ -111,7 +111,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements MutablePoint
         return $this;
     }
 
-    /** @param null|float|int|string $y Y ordinate, using constructor parsing */
+    /** @param float|int|string|null $y Y ordinate, using constructor parsing */
     public function setY(float|int|string|null $y): static
     {
         $this->initializeY($y);
@@ -120,7 +120,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements MutablePoint
         return $this;
     }
 
-    /** @param null|float|int $z Elevation ordinate */
+    /** @param float|int|null $z Elevation ordinate */
     public function setZ(float|int|null $z): static
     {
         if (!$this->hasZ()) {
@@ -133,7 +133,7 @@ abstract class AbstractPoint extends AbstractSpatialType implements MutablePoint
         return $this;
     }
 
-    /** @return (null|float|int)[] */
+    /** @return (float|int|null)[] */
     public function toArray(): array
     {
         return $this->getCoordinates()?->toArray() ?? [];

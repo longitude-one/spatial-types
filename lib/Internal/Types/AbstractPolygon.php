@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
     protected array $rings = [];
 
     /**
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|MutablePointInterface>|MutableLineStringInterface> $rings  Ordered rings or point sequences
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|MutablePointInterface>|MutableLineStringInterface> $rings  Ordered rings or point sequences
      * @param int|SpatialReference                                                                                                                                               $srid   Declared reference
      * @param SpatialModelEnum                                                                                                                                                   $family Declared family
      */
@@ -117,7 +117,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
         return $this;
     }
 
-    /** @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates Complete replacement ring coordinates */
+    /** @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}>> $coordinates Complete replacement ring coordinates */
     public function setArrayOfCoordinates(array $coordinates): static
     {
         $this->rings = $this->hydrateRings($coordinates);
@@ -191,7 +191,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
         return $this->setSpatialReference(SpatialReference::fromSrid($srid), $propagate);
     }
 
-    /** @return (null|float|int)[][][] */
+    /** @return (float|int|null)[][][] */
     public function toArray(): array
     {
         return array_map(static fn (MutableLineStringInterface $ring): array => $ring->toArray(), $this->rings);
@@ -208,7 +208,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
     }
 
     /**
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|MutablePointInterface>|MutableLineStringInterface> $rings Ordered rings or point sequences
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|MutablePointInterface>|MutableLineStringInterface> $rings Ordered rings or point sequences
      *
      * @return list<MutableLineStringInterface>
      */

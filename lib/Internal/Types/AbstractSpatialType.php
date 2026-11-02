@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -77,7 +77,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Define elements for the JSON serialization.
      *
-     * @return array{type: string, coordinates: (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]|SpatialInterface[], srid: ?int}
+     * @return array{type: string, coordinates: (float|int|null)[]|(float|int|null)[][]|(float|int|null)[][][]|(float|int|null)[][][][]|SpatialInterface[], srid: ?int}
      */
     public function jsonSerialize(): array
     {
@@ -120,7 +120,7 @@ abstract class AbstractSpatialType implements SpatialInterface
     /**
      * Convert any spatial object to its array representation.
      *
-     * @return (null|float|int)[]|(null|float|int)[][]|(null|float|int)[][][]|(null|float|int)[][][][]|SpatialInterface[]
+     * @return (float|int|null)[]|(float|int|null)[][]|(float|int|null)[][][]|(float|int|null)[][][][]|SpatialInterface[]
      */
     abstract public function toArray(): array;
 }

@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -28,8 +28,8 @@ final class PointFactory
     /**
      * Create a spatial object using the current shared representation.
      *
-     * @param null|float|int|string $x    X ordinate
-     * @param null|float|int|string $y    Y ordinate
+     * @param float|int|string|null $x    X ordinate
+     * @param float|int|string|null $y    Y ordinate
      * @param int|SpatialReference  $srid Declared reference
      */
     public static function create(float|int|string|null $x = null, float|int|string|null $y = null, int|SpatialReference $srid = 0): Point|PointImmutable

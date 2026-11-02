@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ final class PolyhedralSurfaceFactory
     /**
      * Create a spatial object using the current shared representation.
      *
-     * @param array<array<array<array{0: null|float|int|string, 1: null|float|int|string, 2?: null|float|int, 3?: null|float|int}|ImmutablePointInterface|MutablePointInterface>|ImmutableLineStringInterface|MutableLineStringInterface>|ImmutablePolygonInterface|MutablePolygonInterface> $patches Constructor-compatible components or coordinate arrays
+     * @param array<array<array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|ImmutablePointInterface|MutablePointInterface>|ImmutableLineStringInterface|MutableLineStringInterface>|ImmutablePolygonInterface|MutablePolygonInterface> $patches Constructor-compatible components or coordinate arrays
      * @param int|SpatialReference                                                                                                                                                                                                                                                           $srid    Declared reference
      */
     public static function create(array $patches = [], int|SpatialReference $srid = 0): PolyhedralSurface|PolyhedralSurfaceImmutable

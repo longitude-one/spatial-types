@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,6 +34,44 @@ use PHPUnit\Framework\TestCase;
  */
 class EmptyPointTest extends TestCase
 {
+    /**
+     * @return \Generator<string, array{0: ImmutablePointInterface}>
+     */
+    public static function provideEmptyPoints(): \Generator
+    {
+        foreach (self::familiesAndDimensions() as $name => [$family, $dimension]) {
+            $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
+            $class = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\PointImmutable', self::dimensionNamespace($dimension), $familyNamespace);
+
+            yield $name => [self::asPoint(new $class(srid: 4326))];
+        }
+    }
+
+    /**
+     * @return \Generator<string, array{0: ImmutablePointInterface, 1: Coordinates}>
+     */
+    public static function provideEmptyPointsAndCoordinates(): \Generator
+    {
+        foreach (self::provideEmptyPoints() as $name => [$point]) {
+            $coordinates = match (self::dimensionFromPoint($point)) {
+                CoordinateDimensionEnum::XY => Coordinates::xy(1, 2),
+                CoordinateDimensionEnum::XYM => Coordinates::xym(1, 2, 3),
+                CoordinateDimensionEnum::XYZ => Coordinates::xyz(1, 2, 3),
+                CoordinateDimensionEnum::XYZM => Coordinates::xyzm(1, 2, 3, 4),
+            };
+
+            yield $name => [$point, $coordinates];
+        }
+    }
+
+    /**
+     * @return \Generator<string, array{0: SpatialModelEnum, 1: CoordinateDimensionEnum}>
+     */
+    public static function provideFamiliesAndDimensions(): \Generator
+    {
+        yield from self::familiesAndDimensions();
+    }
+
     /**
      * @param object $point Configured point instance
      *
@@ -117,19 +155,6 @@ class EmptyPointTest extends TestCase
     }
 
     /**
-     * @return \Generator<string, array{0: ImmutablePointInterface}>
-     */
-    public static function provideEmptyPoints(): \Generator
-    {
-        foreach (self::familiesAndDimensions() as $name => [$family, $dimension]) {
-            $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
-            $class = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\PointImmutable', self::dimensionNamespace($dimension), $familyNamespace);
-
-            yield $name => [self::asPoint(new $class(srid: 4326))];
-        }
-    }
-
-    /**
      * The indexed-array factory accepts an empty coordinate array.
      *
      * @param SpatialModelEnum        $family    Point family
@@ -142,14 +167,6 @@ class EmptyPointTest extends TestCase
 
         static::assertSame([], $point->toArray());
         static::assertSame(4326, $point->getSrid());
-    }
-
-    /**
-     * @return \Generator<string, array{0: SpatialModelEnum, 1: CoordinateDimensionEnum}>
-     */
-    public static function provideFamiliesAndDimensions(): \Generator
-    {
-        yield from self::familiesAndDimensions();
     }
 
     /**
@@ -174,22 +191,5 @@ class EmptyPointTest extends TestCase
         $replacement = $point->withCoordinates($coordinates);
 
         static::assertEquals($coordinates, $replacement->getCoordinates());
-    }
-
-    /**
-     * @return \Generator<string, array{0: ImmutablePointInterface, 1: Coordinates}>
-     */
-    public static function provideEmptyPointsAndCoordinates(): \Generator
-    {
-        foreach (self::provideEmptyPoints() as $name => [$point]) {
-            $coordinates = match (self::dimensionFromPoint($point)) {
-                CoordinateDimensionEnum::XY => Coordinates::xy(1, 2),
-                CoordinateDimensionEnum::XYM => Coordinates::xym(1, 2, 3),
-                CoordinateDimensionEnum::XYZ => Coordinates::xyz(1, 2, 3),
-                CoordinateDimensionEnum::XYZM => Coordinates::xyzm(1, 2, 3, 4),
-            };
-
-            yield $name => [$point, $coordinates];
-        }
     }
 }

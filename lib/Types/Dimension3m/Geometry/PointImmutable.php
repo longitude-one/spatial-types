@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,9 +36,9 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     protected float|int|null $m = null;
 
     /**
-     * @param null|float|int|string $x    X coordinate
-     * @param null|float|int|string $y    Y coordinate
-     * @param null|float|int        $m    M coordinate
+     * @param float|int|string|null $x    X coordinate
+     * @param float|int|string|null $y    Y coordinate
+     * @param float|int|null        $m    M coordinate
      * @param int|SpatialReference  $srid SRID
      *
      * @throws InvalidValueException when a coordinate is invalid
@@ -98,7 +98,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     }
 
     /**
-     * @return array{0: null|float|int, 1: null|float|int, 2: null|float|int}|array{}
+     * @return array{0: float|int|null, 1: float|int|null, 2: float|int|null}|array{}
      */
     public function toArray(): array
     {
@@ -112,7 +112,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     /**
      * Set the M coordinate.
      *
-     * @param null|float|int $m M coordinate
+     * @param float|int|null $m M coordinate
      */
     protected function initializeM(float|int|null $m): static
     {

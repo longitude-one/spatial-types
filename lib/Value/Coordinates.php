@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,10 +29,10 @@ final readonly class Coordinates
 {
     /**
      * @param CoordinateDimensionEnum $dimension coordinate layout represented by these ordinates
-     * @param null|float|int          $x         X coordinate or longitude
-     * @param null|float|int          $y         Y coordinate or latitude
-     * @param null|float|int          $z         Z coordinate or elevation
-     * @param null|float|int          $m         M coordinate or measure
+     * @param float|int|null          $x         X coordinate or longitude
+     * @param float|int|null          $y         Y coordinate or latitude
+     * @param float|int|null          $z         Z coordinate or elevation
+     * @param float|int|null          $m         M coordinate or measure
      *
      * @throws InvalidDimensionException when Z or M does not match the coordinate layout
      */
@@ -41,7 +41,7 @@ final readonly class Coordinates
         public float|int|null $x,
         public float|int|null $y,
         public float|int|null $z = null,
-        public float|int|null $m = null
+        public float|int|null $m = null,
     ) {
         if ((!$dimension->hasZ() && null !== $z) || (!$dimension->hasM() && null !== $m)) {
             throw new InvalidDimensionException(sprintf('The supplied ordinates do not match the %s coordinate dimension.', $dimension->value));
@@ -51,8 +51,8 @@ final readonly class Coordinates
     /**
      * Create a two-dimensional XY coordinate value.
      *
-     * @param null|float|int $x X coordinate or longitude
-     * @param null|float|int $y Y coordinate or latitude
+     * @param float|int|null $x X coordinate or longitude
+     * @param float|int|null $y Y coordinate or latitude
      */
     public static function xy(float|int|null $x, float|int|null $y): self
     {
@@ -62,9 +62,9 @@ final readonly class Coordinates
     /**
      * Create a three-dimensional XYM coordinate value.
      *
-     * @param null|float|int $x X coordinate or longitude
-     * @param null|float|int $y Y coordinate or latitude
-     * @param null|float|int $m M coordinate or measure
+     * @param float|int|null $x X coordinate or longitude
+     * @param float|int|null $y Y coordinate or latitude
+     * @param float|int|null $m M coordinate or measure
      */
     public static function xym(float|int|null $x, float|int|null $y, float|int|null $m): self
     {
@@ -74,9 +74,9 @@ final readonly class Coordinates
     /**
      * Create a three-dimensional XYZ coordinate value.
      *
-     * @param null|float|int $x X coordinate or longitude
-     * @param null|float|int $y Y coordinate or latitude
-     * @param null|float|int $z Z coordinate or elevation
+     * @param float|int|null $x X coordinate or longitude
+     * @param float|int|null $y Y coordinate or latitude
+     * @param float|int|null $z Z coordinate or elevation
      */
     public static function xyz(float|int|null $x, float|int|null $y, float|int|null $z): self
     {
@@ -86,10 +86,10 @@ final readonly class Coordinates
     /**
      * Create a four-dimensional XYZM coordinate value.
      *
-     * @param null|float|int $x X coordinate or longitude
-     * @param null|float|int $y Y coordinate or latitude
-     * @param null|float|int $z Z coordinate or elevation
-     * @param null|float|int $m M coordinate or measure
+     * @param float|int|null $x X coordinate or longitude
+     * @param float|int|null $y Y coordinate or latitude
+     * @param float|int|null $z Z coordinate or elevation
+     * @param float|int|null $m M coordinate or measure
      */
     public static function xyzm(float|int|null $x, float|int|null $y, float|int|null $z, float|int|null $m): self
     {
@@ -127,7 +127,7 @@ final readonly class Coordinates
     /**
      * Return the ordinates in the order defined by the coordinate dimension.
      *
-     * @return array{0: null|float|int, 1: null|float|int, 2: null|float|int, 3: null|float|int}|array{0: null|float|int, 1: null|float|int, 2: null|float|int}|array{0: null|float|int, 1: null|float|int}
+     * @return array{0: float|int|null, 1: float|int|null, 2: float|int|null, 3: float|int|null}|array{0: float|int|null, 1: float|int|null, 2: float|int|null}|array{0: float|int|null, 1: float|int|null}
      */
     public function toArray(): array
     {
@@ -142,7 +142,7 @@ final readonly class Coordinates
     /**
      * Return a copy with a different M coordinate.
      *
-     * @param null|float|int $m M coordinate or measure
+     * @param float|int|null $m M coordinate or measure
      *
      * @throws InvalidDimensionException when the coordinate value has no M ordinate
      */
@@ -158,7 +158,7 @@ final readonly class Coordinates
     /**
      * Return a copy with a different X coordinate.
      *
-     * @param null|float|int $x X coordinate or longitude
+     * @param float|int|null $x X coordinate or longitude
      */
     public function withX(float|int|null $x): self
     {
@@ -168,7 +168,7 @@ final readonly class Coordinates
     /**
      * Return a copy with a different Y coordinate.
      *
-     * @param null|float|int $y Y coordinate or latitude
+     * @param float|int|null $y Y coordinate or latitude
      */
     public function withY(float|int|null $y): self
     {
@@ -178,7 +178,7 @@ final readonly class Coordinates
     /**
      * Return a copy with a different Z coordinate.
      *
-     * @param null|float|int $z Z coordinate or elevation
+     * @param float|int|null $z Z coordinate or elevation
      *
      * @throws InvalidDimensionException when the coordinate value has no Z ordinate
      */

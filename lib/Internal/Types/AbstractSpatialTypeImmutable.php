@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -58,7 +58,7 @@ abstract class AbstractSpatialTypeImmutable extends AbstractSpatialType implemen
     /**
      * Hydrate a line-string tuple collection in this spatial value's context.
      *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface> $coordinates Point tuples
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface> $coordinates Point tuples
      */
     final protected function createLineStringFromCoordinates(array $coordinates): ImmutableLineStringInterface
     {
@@ -71,7 +71,7 @@ abstract class AbstractSpatialTypeImmutable extends AbstractSpatialType implemen
     /**
      * Hydrate a point tuple in this spatial value's complete context.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates Point tuple
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null} $coordinates Point tuple
      */
     final protected function createPointFromCoordinates(array $coordinates): ImmutablePointInterface
     {
@@ -84,7 +84,7 @@ abstract class AbstractSpatialTypeImmutable extends AbstractSpatialType implemen
     /**
      * Hydrate polygon rings in this spatial value's context.
      *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings Polygon rings
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings Polygon rings
      */
     final protected function createPolygonFromCoordinates(array $rings): ImmutablePolygonInterface
     {

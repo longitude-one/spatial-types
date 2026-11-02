@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -32,7 +32,7 @@ final class CoordinatesHydrator
     /**
      * Hydrate coordinates from an indexed array.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int} $coordinates coordinates
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null} $coordinates coordinates
      * @param SpatialContext                                                                                      $context     expected dimension and target SRID
      *
      * @throws InvalidDimensionException when the array contains too many coordinates
@@ -62,7 +62,7 @@ final class CoordinatesHydrator
      * @param mixed  $coordinate coordinate to validate
      * @param string $name       coordinate name used in the error message
      *
-     * @return null|float|int validated coordinate
+     * @return float|int|null validated coordinate
      *
      * @throws InvalidValueException when the coordinate is neither numeric nor null
      */
@@ -83,10 +83,10 @@ final class CoordinatesHydrator
      * returning it to the factory DTO.
      *
      * @param array<array-key, mixed> $coordinates coordinates to read
-     * @param null|int                $index       coordinate index, if supported by the dimension
+     * @param int|null                $index       coordinate index, if supported by the dimension
      * @param string                  $name        coordinate name used in the error message
      *
-     * @return null|float|int the coordinate, or null when absent from the dimension
+     * @return float|int|null the coordinate, or null when absent from the dimension
      *
      * @throws InvalidValueException when the coordinate is neither numeric nor null
      */

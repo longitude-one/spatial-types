@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ interface ImmutablePolygonInterface extends ImmutableSpatialInterface, PolygonIn
     /**
      * Return an array of coordinates.
      *
-     * @return (null|float|int)[][][]
+     * @return (float|int|null)[][][]
      */
     public function toArray(): array;
 
@@ -52,7 +52,7 @@ interface ImmutablePolygonInterface extends ImmutableSpatialInterface, PolygonIn
      * Spatial Reference Identifier (SRID). Every coordinate tuple must match
      * this instance's coordinate layout; ring closure is not checked.
      *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}>> $coordinates replacement ring coordinates
      */
     public function withArrayOfCoordinates(array $coordinates): static;
 
@@ -77,7 +77,7 @@ interface ImmutablePolygonInterface extends ImmutableSpatialInterface, PolygonIn
      * use this polygon's coordinate layout; ring closure is not checked.
      *
      * @param int                                                                                                        $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}> $coordinates replacement ring coordinates
      */
     public function withRing(int $ringIndex, array $coordinates): static;
 }

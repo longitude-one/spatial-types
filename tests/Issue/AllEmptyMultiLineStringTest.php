@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,17 +41,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -64,17 +64,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -87,17 +87,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -110,17 +110,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0], [2, 0]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -133,17 +133,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -156,17 +156,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -179,17 +179,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -202,17 +202,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -225,17 +225,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -248,17 +248,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -271,17 +271,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -294,17 +294,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1], [2, 0, 1]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -317,17 +317,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -340,17 +340,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -363,17 +363,17 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiLineStringImmutable([$first, $populated, $second], 4326);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -386,16 +386,16 @@ final class AllEmptyMultiLineStringTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        self::assertSame([], $zero->getElements());
-        self::assertCount(2, $all->getElements());
-        self::assertSame([$first, $second], $all->getElements());
-        self::assertSame([[], []], $all->toArray());
-        self::assertCount(3, $mixed->getElements());
-        self::assertSame([$first, $populated, $second], $mixed->getElements());
-        self::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
-        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        self::assertSame(4326, $all->getSrid());
-        self::assertSame(4326, $mixed->getSrid());
+        static::assertSame([], $zero->getElements());
+        static::assertCount(2, $all->getElements());
+        static::assertSame([$first, $second], $all->getElements());
+        static::assertSame([[], []], $all->toArray());
+        static::assertCount(3, $mixed->getElements());
+        static::assertSame([$first, $populated, $second], $mixed->getElements());
+        static::assertSame([[], [[0, 0, 1, 1], [2, 0, 1, 2]], []], $mixed->toArray());
+        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        static::assertSame(4326, $all->getSrid());
+        static::assertSame(4326, $mixed->getSrid());
     }
 }

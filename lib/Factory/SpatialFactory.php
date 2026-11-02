@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -46,7 +46,7 @@ final class SpatialFactory
     public function __construct(
         private SpatialFactoryRegistry $factoryRegistry,
         private CoordinatesHydrator $coordinatesHydrator,
-        private SpatialArrayHydrator $spatialArrayHydrator
+        private SpatialArrayHydrator $spatialArrayHydrator,
     ) {
     }
 
@@ -94,7 +94,7 @@ final class SpatialFactory
      *
      * @internal used by immutable aggregate constructors
      *
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface> $points  points
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface> $points  points
      * @param SpatialContext                                                                                                                     $context family, dimension, and SRID to apply
      */
     public function createLineStringFromIndexedArray(array $points, SpatialContext $context): ImmutableLineStringInterface
@@ -126,7 +126,7 @@ final class SpatialFactory
      *
      * @internal used by immutable aggregate constructors
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|array{} $coordinates coordinates
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|array{} $coordinates coordinates
      * @param SpatialContext                                                                                              $context     family, dimension, and SRID to apply
      */
     public function createPointFromIndexedArray(array $coordinates, SpatialContext $context): ImmutablePointInterface
@@ -164,7 +164,7 @@ final class SpatialFactory
      *
      * @internal used by immutable aggregate constructors
      *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings   rings
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface>|ImmutableLineStringInterface> $rings   rings
      * @param SpatialContext                                                                                                                                                         $context family, dimension, and SRID to apply
      */
     public function createPolygonFromIndexedArray(array $rings, SpatialContext $context): ImmutablePolygonInterface

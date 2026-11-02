@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -37,7 +37,7 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 abstract class AbstractMultiPointImmutable extends ParentMultiPoint implements ImmutableMultiPointInterface
 {
     /**
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2: null|float|int}|ImmutablePointInterface)[] $points points of the multipoint
+     * @param (array{0: float|int|string|null, 1: float|int|string|null, 2: float|int|null}|ImmutablePointInterface)[] $points points of the multipoint
      * @param int|SpatialReference                                                                                     $srid   Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a point dimension is incompatible

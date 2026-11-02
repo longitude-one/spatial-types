@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MultiPolygonTest extends TestCase
 {
-    private const DEFAULT_COORDINATE = [[[[1, 2, 3], [3, 4, 5], [3, 6, 42.195], [1, 2, 3]]]];
+    private const array DEFAULT_COORDINATE = [[[[1, 2, 3], [3, 4, 5], [3, 6, 42.195], [1, 2, 3]]]];
 
     /**
      * Test the constructor with geodesic points.

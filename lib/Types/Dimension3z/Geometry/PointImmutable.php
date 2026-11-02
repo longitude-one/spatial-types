@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -44,9 +44,9 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
      * @see https://stackoverflow.com/questions/7309121/preferred-order-of-writing-latitude-longitude-tuples
      * @see https://docs.geotools.org/latest/userguide/library/referencing/order.html
      *
-     * @param null|float|int|string $x    X (abscissa) coordinate; strings are parsed by the geo-parser
-     * @param null|float|int|string $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
-     * @param null|float|int        $z    Z (elevation) coordinate
+     * @param float|int|string|null $x    X (abscissa) coordinate; strings are parsed by the geo-parser
+     * @param float|int|string|null $y    Y (ordinate) coordinate; strings are parsed by the geo-parser
+     * @param float|int|null        $z    Z (elevation) coordinate
      * @param int|SpatialReference  $srid SRID
      *
      * @throws InvalidValueException when point is invalid
@@ -116,7 +116,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
      * Convert this point to an array containing X, Y, and Z coordinates.
      * The SRID is not exported.
      *
-     * @return array{0 : null|float|int, 1 : null|float|int, 2 : null|float|int}|array{}
+     * @return array{0 : float|int|null, 1 : float|int|null, 2 : float|int|null}|array{}
      */
     public function toArray(): array
     {
@@ -130,7 +130,7 @@ final class PointImmutable extends AbstractPointImmutable implements ImmutablePo
     /**
      * Set the Z coordinate (elevation).
      *
-     * @param null|float|int $z Z (elevation) coordinate
+     * @param float|int|null $z Z (elevation) coordinate
      */
     protected function initializeZ(float|int|null $z): static
     {

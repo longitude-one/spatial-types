@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -49,10 +49,10 @@ final class SharedModeTest extends TestCase
         $point = new PointImmutable(0, null, 4326);
         $line = new LineStringImmutable([[0, null, 7]], 4326);
 
-        self::assertSame([0, null], $point->toArray());
-        self::assertSame([[0, null, 7]], $line->toArray());
-        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable::class, $line->getPoint(0));
-        self::assertTrue(SpatialFactory::isMutable());
+        static::assertSame([0, null], $point->toArray());
+        static::assertSame([[0, null, 7]], $line->toArray());
+        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable::class, $line->getPoint(0));
+        static::assertTrue(SpatialFactory::isMutable());
     }
 
     #[RunInSeparateProcess]
@@ -60,9 +60,9 @@ final class SharedModeTest extends TestCase
     /** Fresh Process Defaults To Immutable Without Selecting AMode. */
     public function testFreshProcessUsesImmutableDefault(): void
     {
-        self::assertFalse(SpatialFactory::isMutable());
-        self::assertInstanceOf(PointImmutable::class, PointFactory::create());
-        self::assertInstanceOf(LineStringImmutable::class, LineStringFactory::create([]));
+        static::assertFalse(SpatialFactory::isMutable());
+        static::assertInstanceOf(PointImmutable::class, PointFactory::create());
+        static::assertInstanceOf(LineStringImmutable::class, LineStringFactory::create([]));
     }
 
     /** Mode Commands Are Idempotent. */
@@ -70,39 +70,39 @@ final class SharedModeTest extends TestCase
     {
         SpatialFactory::mutable();
         SpatialFactory::mutable();
-        self::assertTrue(SpatialFactory::isMutable());
+        static::assertTrue(SpatialFactory::isMutable());
         SpatialFactory::immutable();
         SpatialFactory::immutable();
-        self::assertFalse(SpatialFactory::isMutable());
+        static::assertFalse(SpatialFactory::isMutable());
     }
 
     /** Selection Is Shared Across Factories And Changes Only Later Creations. */
     public function testSelectionIsSharedAcrossFactoriesAndChangesOnlyLaterCreations(): void
     {
         SpatialFactory::immutable();
-        self::assertFalse(SpatialFactory::isMutable());
+        static::assertFalse(SpatialFactory::isMutable());
         $first = PointFactory::create(0, null, 2154);
         SpatialFactory::mutable();
-        self::assertTrue(SpatialFactory::isMutable());
+        static::assertTrue(SpatialFactory::isMutable());
         $second = PointFactory::create(1, 2, 4326);
         $line = LineStringFactory::create([[3, 4, 5]], 4326);
         SpatialFactory::immutable();
-        self::assertFalse(SpatialFactory::isMutable());
+        static::assertFalse(SpatialFactory::isMutable());
         $third = PointFactory::create(6, 7, 3857);
         $immutableLine = LineStringFactory::create([[8, 9, 10]], 3857);
 
-        self::assertInstanceOf(PointImmutable::class, $first);
-        self::assertInstanceOf(Point::class, $second);
-        self::assertInstanceOf(LineString::class, $line);
-        self::assertInstanceOf(PointImmutable::class, $third);
-        self::assertInstanceOf(LineStringImmutable::class, $immutableLine);
+        static::assertInstanceOf(PointImmutable::class, $first);
+        static::assertInstanceOf(Point::class, $second);
+        static::assertInstanceOf(LineString::class, $line);
+        static::assertInstanceOf(PointImmutable::class, $third);
+        static::assertInstanceOf(LineStringImmutable::class, $immutableLine);
         $second->setX(20);
-        self::assertSame([0, null], $first->toArray());
-        self::assertSame(2154, $first->getSrid());
-        self::assertSame([20, 2], $second->toArray());
-        self::assertSame([[3, 4, 5]], $line->toArray());
-        self::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getFamily());
-        self::assertSame([6, 7], $third->toArray());
-        self::assertSame([[8, 9, 10]], $immutableLine->toArray());
+        static::assertSame([0, null], $first->toArray());
+        static::assertSame(2154, $first->getSrid());
+        static::assertSame([20, 2], $second->toArray());
+        static::assertSame([[3, 4, 5]], $line->toArray());
+        static::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getFamily());
+        static::assertSame([6, 7], $third->toArray());
+        static::assertSame([[8, 9, 10]], $immutableLine->toArray());
     }
 }

@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -61,8 +61,8 @@ trait PointBehaviorTrait
     /**
      * Compare numeric ordinates without coercing missing values to zero.
      *
-     * @param null|float|int $first  the first ordinate
-     * @param null|float|int $second the second ordinate
+     * @param float|int|null $first  the first ordinate
+     * @param float|int|null $second the second ordinate
      */
     private static function ordinatesEqual(float|int|null $first, float|int|null $second): bool
     {
@@ -198,7 +198,7 @@ trait PointBehaviorTrait
      * A point is empty only when every ordinate in its coordinate layout is
      * null. Partially supplied coordinates are preserved without validation.
      *
-     * @param (null|float|int|string) ...$coordinates Point ordinates
+     * @param (float|int|string|null) ...$coordinates Point ordinates
      */
     final protected function hasOnlyNullCoordinates(float|int|string|null ...$coordinates): bool
     {
@@ -210,7 +210,7 @@ trait PointBehaviorTrait
     /**
      * Set the M coordinate on a point that supports a measure ordinate.
      *
-     * @param null|float|int $m M coordinate or measure
+     * @param float|int|null $m M coordinate or measure
      *
      * @throws BadMethodCallException when the point has no M ordinate
      */
@@ -224,7 +224,7 @@ trait PointBehaviorTrait
     /**
      * X setter. (Latitude setter).
      *
-     * @param null|float|int|string $x the new X
+     * @param float|int|string|null $x the new X
      *
      * @throws InvalidValueException when x is not valid
      */
@@ -238,7 +238,7 @@ trait PointBehaviorTrait
     /**
      * Y setter. Longitude Setter.
      *
-     * @param null|float|int|string $y the new Y value
+     * @param float|int|string|null $y the new Y value
      *
      * @throws InvalidValueException when Y is invalid, not in valid range
      */
@@ -252,7 +252,7 @@ trait PointBehaviorTrait
     /**
      * Set the Z coordinate on a point that supports an elevation ordinate.
      *
-     * @param null|float|int $z Z coordinate or elevation
+     * @param float|int|null $z Z coordinate or elevation
      *
      * @throws BadMethodCallException when the point has no Z ordinate
      */
@@ -267,7 +267,7 @@ trait PointBehaviorTrait
      * Set a cartesian coordinate.
      * Abscissa or ordinate.
      *
-     * @param null|float|int|string $coordinate the coordinate to set
+     * @param float|int|string|null $coordinate the coordinate to set
      *
      * @throws InvalidValueException when coordinate is invalid, RangeException is never thrown
      */

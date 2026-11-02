@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
     /**
      * AbstractPolygonImmutable constructor.
      *
-     * @param (array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|ImmutableLineStringInterface|ImmutablePointInterface[])[] $rings rings of the polygon
+     * @param (array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[]|ImmutableLineStringInterface|ImmutablePointInterface[])[] $rings rings of the polygon
      * @param int|SpatialReference                                                                                                                                             $srid  Spatial Reference Identifier
      *
      * @throws InvalidDimensionException when a coordinate tuple does not match the polygon dimension
@@ -88,7 +88,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
     /**
      * Return an array representation of this polygon.
      *
-     * @return (null|float|int)[][][]
+     * @return (float|int|null)[][][]
      */
     public function toArray(): array
     {
@@ -108,7 +108,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
      * (SRID); the existing line-string hydrator creates members from each tuple
      * against that retained context.
      *
-     * @param array<array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}>> $coordinates replacement ring coordinates
+     * @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}>> $coordinates replacement ring coordinates
      */
     public function withArrayOfCoordinates(array $coordinates): static
     {
@@ -159,7 +159,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
      * and Spatial Reference Identifier (SRID) context without enforcing ring validity.
      *
      * @param int                                                                                                        $ringIndex   index of the ring to replace; negative indexes count from the end
-     * @param array<array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}> $coordinates replacement ring coordinates
+     * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}> $coordinates replacement ring coordinates
      *
      * @throws OutOfBoundsException when the polygon has no rings
      */
@@ -208,7 +208,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
     /**
      * Get the line strings of the spatial collection.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[]|ImmutableLineStringInterface|ImmutablePointInterface[] $ring the ring to add
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[]|ImmutableLineStringInterface|ImmutablePointInterface[] $ring the ring to add
      *
      * @throws SpatialTypeExceptionInterface when something is wrong during the addition of the ring
      */
@@ -227,7 +227,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
     /**
      * Add a ring to the spatial collection.
      *
-     * @param array{0: null|float|int|string, 1: null|float|int|string, 2 ?: null|float|int, 3 ?: null|float|int}[][]|ImmutableLineStringInterface[]|ImmutablePointInterface[][] $rings the ring to add
+     * @param array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}[][]|ImmutableLineStringInterface[]|ImmutablePointInterface[][] $rings the ring to add
      *
      * @throws SpatialTypeExceptionInterface when an input does not provide a line-string interface or coordinate tuples
      */

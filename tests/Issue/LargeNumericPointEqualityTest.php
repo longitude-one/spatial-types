@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,13 +35,13 @@ final class LargeNumericPointEqualityTest extends TestCase
     {
         $curve = new LineStringImmutable([[9007199254740993, 2], [0, 0], [9007199254740992.0, 2]]);
 
-        self::assertSame([[9007199254740993, 2], [0, 0], [9007199254740992.0, 2]], $curve->toArray());
+        static::assertSame([[9007199254740993, 2], [0, 0], [9007199254740992.0, 2]], $curve->toArray());
         $start = $curve->getStartPoint();
         $end = $curve->getEndPoint();
-        self::assertNotNull($start);
-        self::assertNotNull($end);
-        self::assertSame(9007199254740993, $start->getX());
-        self::assertSame(9007199254740992.0, $end->getX());
+        static::assertNotNull($start);
+        static::assertNotNull($end);
+        static::assertSame(9007199254740993, $start->getX());
+        static::assertSame(9007199254740992.0, $end->getX());
     }
 
     /** Reproduce the reviewed multipoint without merging its two member positions. */
@@ -51,11 +51,11 @@ final class LargeNumericPointEqualityTest extends TestCase
         $floating = new PointImmutable(9007199254740992.0, 2);
         $points = new MultiPointImmutable([$integer, $floating]);
 
-        self::assertSame($integer, $points->getPoint(0));
-        self::assertSame($floating, $points->getPoint(1));
-        self::assertSame([[9007199254740993, 2], [9007199254740992.0, 2]], $points->toArray());
-        self::assertSame([9007199254740993, 2], $integer->toArray());
-        self::assertSame([9007199254740992.0, 2], $floating->toArray());
+        static::assertSame($integer, $points->getPoint(0));
+        static::assertSame($floating, $points->getPoint(1));
+        static::assertSame([[9007199254740993, 2], [9007199254740992.0, 2]], $points->toArray());
+        static::assertSame([9007199254740993, 2], $integer->toArray());
+        static::assertSame([9007199254740992.0, 2], $floating->toArray());
     }
 
     /** Negative values must not be merged by the same binary64 rounding. */
@@ -64,10 +64,10 @@ final class LargeNumericPointEqualityTest extends TestCase
         $integer = new PointImmutable(-9007199254740993, 2);
         $floating = new PointImmutable(-9007199254740992.0, 2);
 
-        self::assertFalse($integer->equalsTo($floating));
-        self::assertFalse($floating->equalsTo($integer));
-        self::assertSame([-9007199254740993, 2], $integer->toArray());
-        self::assertSame([-9007199254740992.0, 2], $floating->toArray());
+        static::assertFalse($integer->equalsTo($floating));
+        static::assertFalse($floating->equalsTo($integer));
+        static::assertSame([-9007199254740993, 2], $integer->toArray());
+        static::assertSame([-9007199254740992.0, 2], $floating->toArray());
     }
 
     /** Reproduce the exact distinct representations identified in review. */
@@ -76,10 +76,10 @@ final class LargeNumericPointEqualityTest extends TestCase
         $integer = new PointImmutable(9007199254740993, 2);
         $floating = new PointImmutable(9007199254740992.0, 2);
 
-        self::assertFalse($integer->equalsTo($floating));
-        self::assertFalse($floating->equalsTo($integer));
-        self::assertSame([9007199254740993, 2], $integer->toArray());
-        self::assertSame([9007199254740992.0, 2], $floating->toArray());
+        static::assertFalse($integer->equalsTo($floating));
+        static::assertFalse($floating->equalsTo($integer));
+        static::assertSame([9007199254740993, 2], $integer->toArray());
+        static::assertSame([9007199254740992.0, 2], $floating->toArray());
     }
 
     /** Exact mixed representations at and above 2^53 remain equal. */
@@ -92,14 +92,14 @@ final class LargeNumericPointEqualityTest extends TestCase
         $negativeInteger = new PointImmutable(-9007199254740994, 2);
         $negativeFloating = new PointImmutable(-9007199254740994.0, 2.0);
 
-        self::assertTrue($boundaryInteger->equalsTo($boundaryFloating));
-        self::assertTrue($boundaryFloating->equalsTo($boundaryInteger));
-        self::assertTrue($aboveInteger->equalsTo($aboveFloating));
-        self::assertTrue($aboveFloating->equalsTo($aboveInteger));
-        self::assertTrue($negativeInteger->equalsTo($negativeFloating));
-        self::assertTrue($negativeFloating->equalsTo($negativeInteger));
-        self::assertSame([9007199254740994, 2], $aboveInteger->toArray());
-        self::assertSame([9007199254740994.0, 2.0], $aboveFloating->toArray());
+        static::assertTrue($boundaryInteger->equalsTo($boundaryFloating));
+        static::assertTrue($boundaryFloating->equalsTo($boundaryInteger));
+        static::assertTrue($aboveInteger->equalsTo($aboveFloating));
+        static::assertTrue($aboveFloating->equalsTo($aboveInteger));
+        static::assertTrue($negativeInteger->equalsTo($negativeFloating));
+        static::assertTrue($negativeFloating->equalsTo($negativeInteger));
+        static::assertSame([9007199254740994, 2], $aboveInteger->toArray());
+        static::assertSame([9007199254740994.0, 2.0], $aboveFloating->toArray());
     }
 
     /** A fractional floating ordinate must not be truncated into equality. */
@@ -110,11 +110,11 @@ final class LargeNumericPointEqualityTest extends TestCase
         $zero = new PointImmutable(0, 2);
         $negativeZero = new PointImmutable(-0.0, 2.0);
 
-        self::assertFalse($integer->equalsTo($fractional));
-        self::assertFalse($fractional->equalsTo($integer));
-        self::assertTrue($zero->equalsTo($negativeZero));
-        self::assertTrue($negativeZero->equalsTo($zero));
-        self::assertSame([1.5, 2.0], $fractional->toArray());
+        static::assertFalse($integer->equalsTo($fractional));
+        static::assertFalse($fractional->equalsTo($integer));
+        static::assertTrue($zero->equalsTo($negativeZero));
+        static::assertTrue($negativeZero->equalsTo($zero));
+        static::assertSame([1.5, 2.0], $fractional->toArray());
     }
 
     /** All represented axes share the exact mixed comparison. */
@@ -125,14 +125,14 @@ final class LargeNumericPointEqualityTest extends TestCase
         $z = new Point(1.0, 9007199254740993, 9007199254740992.0, 9007199254740993, 4326, SpatialModelEnum::GEOGRAPHY);
         $m = new Point(1.0, 9007199254740993, 9007199254740993, 9007199254740992.0, 4326, SpatialModelEnum::GEOGRAPHY);
 
-        self::assertFalse($integer->equalsTo($y));
-        self::assertFalse($y->equalsTo($integer));
-        self::assertFalse($integer->equalsTo($z));
-        self::assertFalse($z->equalsTo($integer));
-        self::assertFalse($integer->equalsTo($m));
-        self::assertFalse($m->equalsTo($integer));
-        self::assertSame([1, 9007199254740993, 9007199254740993, 9007199254740993], $integer->toArray());
-        self::assertSame([1.0, 9007199254740993, 9007199254740993, 9007199254740992.0], $m->toArray());
+        static::assertFalse($integer->equalsTo($y));
+        static::assertFalse($y->equalsTo($integer));
+        static::assertFalse($integer->equalsTo($z));
+        static::assertFalse($z->equalsTo($integer));
+        static::assertFalse($integer->equalsTo($m));
+        static::assertFalse($m->equalsTo($integer));
+        static::assertSame([1, 9007199254740993, 9007199254740993, 9007199254740993], $integer->toArray());
+        static::assertSame([1.0, 9007199254740993, 9007199254740993, 9007199254740992.0], $m->toArray());
     }
 
     /** The negative integer limit is exactly representable, unlike its neighbour. */
@@ -143,14 +143,14 @@ final class LargeNumericPointEqualityTest extends TestCase
         $neighbour = new PointImmutable(-9223372036854775807, 2);
         $outside = new PointImmutable(-9223372036854777856.0, 2.0);
 
-        self::assertTrue($limit->equalsTo($floating));
-        self::assertTrue($floating->equalsTo($limit));
-        self::assertFalse($neighbour->equalsTo($floating));
-        self::assertFalse($floating->equalsTo($neighbour));
-        self::assertFalse($limit->equalsTo($outside));
-        self::assertFalse($outside->equalsTo($limit));
-        self::assertSame([PHP_INT_MIN, 2], $limit->toArray());
-        self::assertSame([-9223372036854775807, 2], $neighbour->toArray());
+        static::assertTrue($limit->equalsTo($floating));
+        static::assertTrue($floating->equalsTo($limit));
+        static::assertFalse($neighbour->equalsTo($floating));
+        static::assertFalse($floating->equalsTo($neighbour));
+        static::assertFalse($limit->equalsTo($outside));
+        static::assertFalse($outside->equalsTo($limit));
+        static::assertSame([PHP_INT_MIN, 2], $limit->toArray());
+        static::assertSame([-9223372036854775807, 2], $neighbour->toArray());
     }
 
     /** A rounded positive integer limit is outside the integer domain. */
@@ -161,11 +161,11 @@ final class LargeNumericPointEqualityTest extends TestCase
         $insideInteger = new PointImmutable(9223372036854774784, 2);
         $insideFloating = new PointImmutable(9223372036854774784.0, 2.0);
 
-        self::assertFalse($integer->equalsTo($outside));
-        self::assertFalse($outside->equalsTo($integer));
-        self::assertTrue($insideInteger->equalsTo($insideFloating));
-        self::assertTrue($insideFloating->equalsTo($insideInteger));
-        self::assertSame([PHP_INT_MAX, 2], $integer->toArray());
-        self::assertSame([9223372036854775808.0, 2.0], $outside->toArray());
+        static::assertFalse($integer->equalsTo($outside));
+        static::assertFalse($outside->equalsTo($integer));
+        static::assertTrue($insideInteger->equalsTo($insideFloating));
+        static::assertTrue($insideFloating->equalsTo($insideInteger));
+        static::assertSame([PHP_INT_MAX, 2], $integer->toArray());
+        static::assertSame([9223372036854775808.0, 2.0], $outside->toArray());
     }
 }

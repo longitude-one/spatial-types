@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -48,26 +48,6 @@ use PHPUnit\Framework\TestCase;
  */
 class SpatialTypeExceptionInterfaceTest extends TestCase
 {
-    // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint
-    // phpcs:disable Squiz.Commenting.FunctionComment.MissingParamComment
-
-    /**
-     * Let's check that each exception thrown by the library can be caught with the SpatialTypeExceptionInterface.
-     *
-     * @param class-string<\Exception> $exceptionClass
-     */
-    #[DataProvider('exceptionProvider')]
-    public function testCatch(string $exceptionClass): void
-    {
-        try {
-            throw new $exceptionClass();
-        } catch (SpatialTypeExceptionInterface $exception) {
-            static::assertInstanceOf($exceptionClass, $exception);
-        } catch (\Exception) {
-            static::fail(sprintf('%s should be caught.', $exceptionClass));
-        }
-    }
-
     /**
      * Exception provider.
      *
@@ -90,6 +70,25 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
         yield 'OutOfBoundsException' => [OutOfBoundsException::class];
 
         yield 'RangeException' => [RangeException::class];
+    }
+    // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint
+    // phpcs:disable Squiz.Commenting.FunctionComment.MissingParamComment
+
+    /**
+     * Let's check that each exception thrown by the library can be caught with the SpatialTypeExceptionInterface.
+     *
+     * @param class-string<\Exception> $exceptionClass
+     */
+    #[DataProvider('exceptionProvider')]
+    public function testCatch(string $exceptionClass): void
+    {
+        try {
+            throw new $exceptionClass();
+        } catch (SpatialTypeExceptionInterface $exception) {
+            static::assertInstanceOf($exceptionClass, $exception);
+        } catch (\Exception) {
+            static::fail(sprintf('%s should be caught.', $exceptionClass));
+        }
     }
 
     /**

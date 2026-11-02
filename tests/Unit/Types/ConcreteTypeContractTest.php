@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,6 +35,25 @@ use PHPUnit\Framework\TestCase;
  */
 class ConcreteTypeContractTest extends TestCase
 {
+    /**
+     * @return \Generator<string, array{0: SpatialModelEnum, 1: bool, 2: bool, 3: string, 4: (float|int)[], 5: (float|int)[]}, null, void>
+     */
+    public static function provideConcreteSpatialTypes(): \Generator
+    {
+        foreach (self::layouts() as $dimension => [$hasM, $hasZ, $coordinates, $otherCoordinates]) {
+            foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
+                yield sprintf('%s %s', $dimension, $family->value) => [
+                    $family,
+                    $hasM,
+                    $hasZ,
+                    $dimension,
+                    $coordinates,
+                    $otherCoordinates,
+                ];
+            }
+        }
+    }
+
     /**
      * @param object $spatial configured concrete class instance
      *
@@ -167,7 +186,7 @@ class ConcreteTypeContractTest extends TestCase
         bool $hasZ,
         string $dimension,
         array $coordinates,
-        array $otherCoordinates
+        array $otherCoordinates,
     ): void {
         $spatialTypes = self::createSpatialTypes($dimension, $family, $coordinates, $otherCoordinates);
         $expectedDimension = match ($dimension) {
@@ -190,25 +209,6 @@ class ConcreteTypeContractTest extends TestCase
                 'coordinates' => $expectedCoordinates,
                 'srid' => 4326,
             ], $spatial->jsonSerialize());
-        }
-    }
-
-    /**
-     * @return \Generator<string, array{0: SpatialModelEnum, 1: bool, 2: bool, 3: string, 4: (float|int)[], 5: (float|int)[]}, null, void>
-     */
-    public static function provideConcreteSpatialTypes(): \Generator
-    {
-        foreach (self::layouts() as $dimension => [$hasM, $hasZ, $coordinates, $otherCoordinates]) {
-            foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
-                yield sprintf('%s %s', $dimension, $family->value) => [
-                    $family,
-                    $hasM,
-                    $hasZ,
-                    $dimension,
-                    $coordinates,
-                    $otherCoordinates,
-                ];
-            }
         }
     }
 }

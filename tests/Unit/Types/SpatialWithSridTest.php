@@ -4,8 +4,8 @@
  *
  * PHP 8.4 | 8.5
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2024-2026
- * Copyright Longitude One 2024-2026
+ * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
+ * Copyright Longitude One 2026
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -43,6 +43,27 @@ use PHPUnit\Framework\TestCase;
  */
 class SpatialWithSridTest extends TestCase
 {
+    /**
+     * @return \Generator<string, array{0: ImmutableSpatialInterface}, null, void>
+     */
+    public static function provideSpatialTypes(): \Generator
+    {
+        yield 'multipoint' => [new MultiPointImmutable([
+            new PointImmutable(1, 2, 4326),
+            new PointImmutable(3, 4, 4326),
+        ], 4326)];
+
+        yield 'polygon' => [self::createPolygon()];
+
+        yield 'multi-line string' => [new MultiLineStringImmutable([self::createLineString()], 4326)];
+
+        yield 'multi-polygon' => [new MultiPolygonImmutable([self::createPolygon()], 4326)];
+
+        $collection = new GeometryCollectionImmutable(4326, [self::createPolygon()]);
+
+        yield 'geometry collection' => [$collection];
+    }
+
     /**
      * Assert that an aggregate and every descendant were copied with SRID 2154.
      *
@@ -119,26 +140,5 @@ class SpatialWithSridTest extends TestCase
 
         static::assertSame(4326, $spatial->getSrid());
         self::assertCopiedTree($spatial, $spatialWithSrid);
-    }
-
-    /**
-     * @return \Generator<string, array{0: ImmutableSpatialInterface}, null, void>
-     */
-    public static function provideSpatialTypes(): \Generator
-    {
-        yield 'multipoint' => [new MultiPointImmutable([
-            new PointImmutable(1, 2, 4326),
-            new PointImmutable(3, 4, 4326),
-        ], 4326)];
-
-        yield 'polygon' => [self::createPolygon()];
-
-        yield 'multi-line string' => [new MultiLineStringImmutable([self::createLineString()], 4326)];
-
-        yield 'multi-polygon' => [new MultiPolygonImmutable([self::createPolygon()], 4326)];
-
-        $collection = new GeometryCollectionImmutable(4326, [self::createPolygon()]);
-
-        yield 'geometry collection' => [$collection];
     }
 }
