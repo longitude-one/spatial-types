@@ -106,7 +106,7 @@ final class RepresentationWithoutValidationTest extends TestCase
         static::assertSame([[0, 0], [0, 0]], $copy->toArray());
         static::assertSame([[0, 0], [1, 1]], $line->toArray());
         static::assertSame(4326, $copy->getSrid());
-        static::assertSame(LineStringImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(LineStringImmutable::class, new \ReflectionClass($copy)->getName());
     }
 
     /** Xym triangle stores open boundaries and holes. */
@@ -117,7 +117,7 @@ final class RepresentationWithoutValidationTest extends TestCase
 
         static::assertSame([[[0, 0, 7], [1, 0, 8]], [[2, 2, 9]]], $triangle->toArray());
         static::assertSame([[[3, 3, 10]]], $copy->toArray());
-        static::assertSame(TriangleImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(TriangleImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertTrue($copy->hasM());
         static::assertFalse($copy->hasZ());
     }

@@ -100,7 +100,7 @@ class MultiPointTest extends TestCase
 
         self::expectException(OutOfBoundsException::class);
         self::expectExceptionMessageIsOrContains('The current collection of points is empty.');
-        (new MultiPointImmutable([]))->getPoint(0);
+        new MultiPointImmutable([])->getPoint(0);
     }
 
     /**

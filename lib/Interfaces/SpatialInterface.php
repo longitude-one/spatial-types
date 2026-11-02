@@ -69,9 +69,9 @@ interface SpatialInterface extends \JsonSerializable
     /**
      * Determine whether this object and another object have the same coordinate dimension.
      *
-     * @param SpatialInterface $spatial the spatial instance to compare
+     * @param self $spatial the spatial instance to compare
      */
-    public function hasSameDimension(SpatialInterface $spatial): bool;
+    public function hasSameDimension(self $spatial): bool;
 
     /**
      * Does this spatial object have a Z (elevation) dimension?

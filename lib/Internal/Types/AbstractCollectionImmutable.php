@@ -64,7 +64,7 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
      */
     public function hasElement(SpatialInterface $spatial): bool
     {
-        return in_array($spatial, $this->elements, true);
+        return \in_array($spatial, $this->elements, true);
     }
 
     /**
@@ -175,7 +175,7 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
      */
     private function normalizeElementIndex(int $elementIndex): int
     {
-        $elementCount = count($this->elements);
+        $elementCount = \count($this->elements);
         if (0 === $elementCount) {
             throw new OutOfBoundsException('The current collection of elements is empty.');
         }

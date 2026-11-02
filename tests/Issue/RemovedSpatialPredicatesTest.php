@@ -44,7 +44,7 @@ class RemovedSpatialPredicatesTest extends TestCase
 
         static::assertSame([[0, 0], [2, 2], [0, 0]], $immutable->toArray());
         static::assertSame([[0, 0], [2, 2], [0, 0]], $mutable->toArray());
-        $method = sprintf('is%s', 'Closed');
+        $method = \sprintf('is%s', 'Closed');
         static::assertFalse(method_exists(CurveInterface::class, $method));
         static::assertNotContains($method, get_class_methods($immutable));
         static::assertNotContains($method, get_class_methods($mutable));
@@ -58,7 +58,7 @@ class RemovedSpatialPredicatesTest extends TestCase
 
         static::assertSame([], $immutable->toArray());
         static::assertSame([], $mutable->toArray());
-        $method = sprintf('is%s', 'Empty');
+        $method = \sprintf('is%s', 'Empty');
         static::assertFalse(method_exists(SpatialInterface::class, $method));
         static::assertNotContains($method, get_class_methods($immutable));
         static::assertNotContains($method, get_class_methods($mutable));
@@ -72,7 +72,7 @@ class RemovedSpatialPredicatesTest extends TestCase
 
         static::assertSame([[1, 2], [1, 2]], $immutable->toArray());
         static::assertSame([[1, 2], [1, 2]], $mutable->toArray());
-        $method = sprintf('is%s', 'Simple');
+        $method = \sprintf('is%s', 'Simple');
         static::assertFalse(method_exists(MultiPointInterface::class, $method));
         static::assertNotContains($method, get_class_methods($immutable));
         static::assertNotContains($method, get_class_methods($mutable));

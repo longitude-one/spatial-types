@@ -38,7 +38,7 @@ class EmptyGeometryTest extends TestCase
     public static function provideEmptyGeometries(): \Generator
     {
         foreach (['Dimension2', 'Dimension3m', 'Dimension3z', 'Dimension4zm'] as $dimension) {
-            $namespace = sprintf('LongitudeOne\SpatialTypes\Types\%s\Geometry\\', $dimension);
+            $namespace = \sprintf('LongitudeOne\SpatialTypes\Types\%s\Geometry\\', $dimension);
 
             yield $dimension.' Point' => [new ($namespace.'PointImmutable')(), GeometryTypeEnum::POINT];
 

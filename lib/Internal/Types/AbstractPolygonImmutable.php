@@ -214,7 +214,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
      */
     protected function addRing(array|ImmutableLineStringInterface $ring): static
     {
-        if (is_array($ring)) {
+        if (\is_array($ring)) {
             $ring = $this->createLineStringFromCoordinates($ring);
         }
 
@@ -234,7 +234,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
     protected function addRings(array $rings): static
     {
         foreach ($rings as $ring) {
-            if (!is_array($ring) && !$ring instanceof ImmutableLineStringInterface) {
+            if (!\is_array($ring) && !$ring instanceof ImmutableLineStringInterface) {
                 throw new InvalidValueException('The array must contain only objects implementing ImmutableLineStringInterface or array of coordinates.');
             }
 
@@ -272,7 +272,7 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
      */
     private function replaceRingPoint(ImmutableLineStringInterface $ring, int $pointIndex, Coordinates $coordinates): ImmutableLineStringInterface
     {
-        $pointCount = count($ring->getPoints());
+        $pointCount = \count($ring->getPoints());
         if (0 === $pointCount) {
             throw new OutOfBoundsException('The current collection of points is empty.');
         }

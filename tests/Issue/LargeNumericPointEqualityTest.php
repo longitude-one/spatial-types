@@ -138,7 +138,7 @@ final class LargeNumericPointEqualityTest extends TestCase
     /** The negative integer limit is exactly representable, unlike its neighbour. */
     public function testNegativeIntegerLimitAndNeighbour(): void
     {
-        $limit = new PointImmutable(PHP_INT_MIN, 2);
+        $limit = new PointImmutable(\PHP_INT_MIN, 2);
         $floating = new PointImmutable(-9223372036854775808.0, 2.0);
         $neighbour = new PointImmutable(-9223372036854775807, 2);
         $outside = new PointImmutable(-9223372036854777856.0, 2.0);
@@ -149,14 +149,14 @@ final class LargeNumericPointEqualityTest extends TestCase
         static::assertFalse($floating->equalsTo($neighbour));
         static::assertFalse($limit->equalsTo($outside));
         static::assertFalse($outside->equalsTo($limit));
-        static::assertSame([PHP_INT_MIN, 2], $limit->toArray());
+        static::assertSame([\PHP_INT_MIN, 2], $limit->toArray());
         static::assertSame([-9223372036854775807, 2], $neighbour->toArray());
     }
 
     /** A rounded positive integer limit is outside the integer domain. */
     public function testPositiveIntegerLimitIsNotItsRoundedFloat(): void
     {
-        $integer = new PointImmutable(PHP_INT_MAX, 2);
+        $integer = new PointImmutable(\PHP_INT_MAX, 2);
         $outside = new PointImmutable(9223372036854775808.0, 2.0);
         $insideInteger = new PointImmutable(9223372036854774784, 2);
         $insideFloating = new PointImmutable(9223372036854774784.0, 2.0);
@@ -165,7 +165,7 @@ final class LargeNumericPointEqualityTest extends TestCase
         static::assertFalse($outside->equalsTo($integer));
         static::assertTrue($insideInteger->equalsTo($insideFloating));
         static::assertTrue($insideFloating->equalsTo($insideInteger));
-        static::assertSame([PHP_INT_MAX, 2], $integer->toArray());
+        static::assertSame([\PHP_INT_MAX, 2], $integer->toArray());
         static::assertSame([9223372036854775808.0, 2.0], $outside->toArray());
     }
 }

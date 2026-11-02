@@ -80,7 +80,7 @@ class AggregateImmutabilityTest extends TestCase
             'removeElement',
         ] as $method) {
             if (method_exists($aggregate, $method)) {
-                static::assertFalse((new \ReflectionMethod($aggregate, $method))->isPublic(), sprintf('%s::%s() must not be public.', $aggregate::class, $method));
+                static::assertFalse(new \ReflectionMethod($aggregate, $method)->isPublic(), \sprintf('%s::%s() must not be public.', $aggregate::class, $method));
             }
         }
     }

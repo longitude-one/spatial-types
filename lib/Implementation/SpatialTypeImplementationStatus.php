@@ -36,7 +36,7 @@ final class SpatialTypeImplementationStatus
     public static function isFullyImplemented(GeometryTypeEnum $type): bool
     {
         if (!$type->isInstantiable()) {
-            throw new InvalidValueException(sprintf('Implementation status is not applicable to non-instantiable GeometryTypeEnum::%s.', $type->name));
+            throw new InvalidValueException(\sprintf('Implementation status is not applicable to non-instantiable GeometryTypeEnum::%s.', $type->name));
         }
 
         return match ($type) {
@@ -63,7 +63,7 @@ final class SpatialTypeImplementationStatus
             GeometryTypeEnum::TIN,
             GeometryTypeEnum::MULTICURVE,
             GeometryTypeEnum::MULTISURFACE => false,
-            default => throw new LogicException(sprintf('Implementation status is undefined for GeometryTypeEnum::%s.', $type->name)),
+            default => throw new LogicException(\sprintf('Implementation status is undefined for GeometryTypeEnum::%s.', $type->name)),
         };
     }
 }

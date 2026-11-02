@@ -43,7 +43,7 @@ class MutableLineStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($line, 'addPoint'))->invoke($line, new PointImmutable(3, 4));
+            new \ReflectionMethod($line, 'addPoint')->invoke($line, new PointImmutable(3, 4));
         } finally {
             static::assertSame([$point], $line->getPoints());
         }
@@ -56,7 +56,7 @@ class MutableLineStringTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(LineString::class))->newInstance([$point]);
+            new \ReflectionClass(LineString::class)->newInstance([$point]);
         } finally {
             static::assertSame([1, 2], $point->toArray());
             static::assertSame(4326, $point->getSrid());
@@ -117,7 +117,7 @@ class MutableLineStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($line, 'insertPoint'))->invoke($line, 0, $immutable);
+            new \ReflectionMethod($line, 'insertPoint')->invoke($line, 0, $immutable);
         } finally {
             static::assertSame([$point], $line->getPoints());
             static::assertSame([1, 2], $point->toArray());
@@ -154,11 +154,11 @@ class MutableLineStringTest extends TestCase
         $line = new LineString([]);
         static::assertContains(MutableLineStringInterface::class, class_implements($line));
         static::assertNotContains(ImmutableSpatialInterface::class, class_implements($line));
-        static::assertFalse((new \ReflectionClass($line))->hasMethod('withPoint'));
-        static::assertFalse((new \ReflectionClass($line))->hasMethod('withArrayOfCoordinates'));
-        static::assertFalse((new \ReflectionClass($line))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($line))->hasMethod('withSpatialReference'));
-        static::assertFalse((new \ReflectionClass($line))->hasMethod('setDimension'));
+        static::assertFalse(new \ReflectionClass($line)->hasMethod('withPoint'));
+        static::assertFalse(new \ReflectionClass($line)->hasMethod('withArrayOfCoordinates'));
+        static::assertFalse(new \ReflectionClass($line)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($line)->hasMethod('withSpatialReference'));
+        static::assertFalse(new \ReflectionClass($line)->hasMethod('setDimension'));
     }
 
     /** NegativeAccess fails without changing membership or referenced points. */
@@ -297,7 +297,7 @@ class MutableLineStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($line, 'setPoint'))->invoke($line, 0, new PointImmutable(3, 4));
+            new \ReflectionMethod($line, 'setPoint')->invoke($line, 0, new PointImmutable(3, 4));
         } finally {
             static::assertSame([$point], $line->getPoints());
             static::assertSame([1, 2], $point->toArray());
@@ -330,7 +330,7 @@ class MutableLineStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($line, 'setArrayOfCoordinates'))->invoke($line, [[3, 4], [[], 5]]);
+            new \ReflectionMethod($line, 'setArrayOfCoordinates')->invoke($line, [[3, 4], [[], 5]]);
         } finally {
             static::assertSame([$point], $line->getPoints());
             static::assertSame([[1, 2]], $line->toArray());

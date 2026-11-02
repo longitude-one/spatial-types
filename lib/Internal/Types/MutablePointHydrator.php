@@ -36,7 +36,7 @@ final class MutablePointHydrator
      */
     public static function hydrate(array $tuple, SpatialContext $context): MutablePointInterface
     {
-        $coordinates = (new CoordinatesHydrator())->hydrate($tuple, $context);
+        $coordinates = new CoordinatesHydrator()->hydrate($tuple, $context);
 
         return match ($context->dimension) {
             CoordinateDimensionEnum::XY => new Dimension2\Point($coordinates->x, $coordinates->y, $context->reference, $context->family),

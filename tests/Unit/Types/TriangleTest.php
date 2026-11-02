@@ -71,12 +71,12 @@ class TriangleTest extends TestCase
         static::assertSame(str_contains($class, '3m') || str_contains($class, '4zm'), $triangle->hasM());
         static::assertSame($triangle->getFamily(), $triangle->getRing(0)->getFamily());
         static::assertTrue($triangle->hasSameDimension($triangle->getRing(0)));
-        static::assertSame([$ring], (new $class([$triangle->getRing(0)], 4326))->toArray());
-        static::assertSame([$ring], (new $class([$triangle->getRing(0)->getPoints()], 4326))->toArray());
+        static::assertSame([$ring], new $class([$triangle->getRing(0)], 4326)->toArray());
+        static::assertSame([$ring], new $class([$triangle->getRing(0)->getPoints()], 4326)->toArray());
 
         $copies = [$triangle->withRing(-1, $ring), $triangle->withArrayOfCoordinates([$ring]), $triangle->withSrid(3857), $triangle->withSpatialReference(SpatialReference::epsg(4326))];
         foreach ($copies as $copy) {
-            static::assertSame($class, (new \ReflectionClass($copy))->getName());
+            static::assertSame($class, new \ReflectionClass($copy)->getName());
             static::assertSame($triangle->getFamily(), $copy->getFamily());
             static::assertTrue($triangle->hasSameDimension($copy));
             static::assertSame([$ring], $copy->toArray());
@@ -109,7 +109,7 @@ class TriangleTest extends TestCase
         static::assertInstanceOf(Coordinates::class, $coordinates);
         foreach ([0, -1] as $index) {
             $copy = $triangle->withPoint(0, $index, $coordinates);
-            static::assertSame($class, (new \ReflectionClass($copy))->getName());
+            static::assertSame($class, new \ReflectionClass($copy)->getName());
             static::assertSame([$replacementRing], $copy->toArray());
             static::assertSame([$ring], $triangle->toArray());
             static::assertSame(4326, $copy->getSrid());

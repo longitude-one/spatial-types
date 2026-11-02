@@ -45,7 +45,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $aggregate = new SpatialCollection([]);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[1, 2]]);
+        new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[1, 2]]);
     }
 
     /** Custom mutable aggregate objects cannot conceal immutable descendants. */
@@ -110,7 +110,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'insertElement'))->invoke($aggregate, 1, $immutable);
+            new \ReflectionMethod($aggregate, 'insertElement')->invoke($aggregate, 1, $immutable);
         } finally {
             static::assertSame([$point], $aggregate->getElements());
             static::assertSame([7, 8], $immutable->toArray());
@@ -161,7 +161,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidDimensionException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[[7, 8]], [[1, 2, 3]]]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[[7, 8]], [[1, 2, 3]]]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame(4326, $member->getSrid());
@@ -179,7 +179,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [$member, $immutable]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame([$member], $owner->getElements());
@@ -197,7 +197,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidDimensionException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[7, 8], [1, 2, 3]]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[7, 8], [1, 2, 3]]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame(4326, $member->getSrid());
@@ -215,7 +215,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [$member, $immutable]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame([$member], $owner->getElements());
@@ -233,7 +233,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidDimensionException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [[[[7, 8]]], [[[1, 2, 3]]]]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[[[7, 8]]], [[[1, 2, 3]]]]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame(4326, $member->getSrid());
@@ -251,7 +251,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [$member, $immutable]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame([$member], $owner->getElements());
@@ -343,7 +343,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'setElements'))->invoke($aggregate, [$member, $immutable]);
+            new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
             static::assertSame([$member], $aggregate->getElements());
             static::assertSame([$member], $owner->getElements());
@@ -362,7 +362,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($aggregate, 'addElement'))->invoke($aggregate, $line);
+            new \ReflectionMethod($aggregate, 'addElement')->invoke($aggregate, $line);
         } finally {
             static::assertSame([$point], $aggregate->getElements());
             static::assertSame([$point], $line->getPoints());

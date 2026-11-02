@@ -58,7 +58,7 @@ class LineStringWithSridTest extends TestCase
         $lineStringWithSrid = $lineString->withSrid(2154);
 
         static::assertNotSame($lineString, $lineStringWithSrid);
-        static::assertSame($lineString::class, (new \ReflectionClass($lineStringWithSrid))->getName());
+        static::assertSame($lineString::class, new \ReflectionClass($lineStringWithSrid)->getName());
         static::assertSame($lineString->toArray(), $lineStringWithSrid->toArray());
         static::assertSame(4326, $lineString->getSrid());
         static::assertSame(2154, $lineStringWithSrid->getSrid());

@@ -92,8 +92,8 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
      */
     public function insertElement(int $index, MutableSpatialInterface $element): static
     {
-        if ($index < 0 || $index > count($this->elements)) {
-            throw new OutOfBoundsException(sprintf('Member index %d is outside the insertion range.', $index));
+        if ($index < 0 || $index > \count($this->elements)) {
+            throw new OutOfBoundsException(\sprintf('Member index %d is outside the insertion range.', $index));
         }
         $checked = $this->hydrateElement($element);
         array_splice($this->elements, $index, 0, [$checked]);
@@ -181,8 +181,8 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
     /** @param int $index Existing zero-based member index */
     private function requireElementIndex(int $index): void
     {
-        if ($index < 0 || $index >= count($this->elements)) {
-            throw new OutOfBoundsException(sprintf('Member index %d does not address an existing member.', $index));
+        if ($index < 0 || $index >= \count($this->elements)) {
+            throw new OutOfBoundsException(\sprintf('Member index %d does not address an existing member.', $index));
         }
     }
 

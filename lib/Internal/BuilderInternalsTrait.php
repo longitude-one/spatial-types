@@ -77,7 +77,7 @@ trait BuilderInternalsTrait
      */
     private function requireAggregate(array $allowed): void
     {
-        if (!in_array($this->aggregate, $allowed, true)) {
+        if (!\in_array($this->aggregate, $allowed, true)) {
             throw new InvalidValueException('This addition is unavailable for the active aggregate.');
         }
     }
@@ -91,7 +91,7 @@ trait BuilderInternalsTrait
      */
     private function select(string $type): self
     {
-        if ('PolyhedralSurface' === $type && !in_array($this->coordinateDimension, [CoordinateDimensionEnum::XYZ, CoordinateDimensionEnum::XYZM], true)) {
+        if ('PolyhedralSurface' === $type && !\in_array($this->coordinateDimension, [CoordinateDimensionEnum::XYZ, CoordinateDimensionEnum::XYZM], true)) {
             throw new InvalidDimensionException('PolyhedralSurface is supported only for XYZ and XYZM.');
         }
         $copy = clone $this;

@@ -53,7 +53,7 @@ class CircularStringTest extends TestCase
         $curve = new CircularStringImmutable([[0, 0, 3, 6], [1, 1, 4, 7], [2, 0, 5, 8]], 4326);
         $replacement = $curve->withPoint(1, Coordinates::xyzm(1, 2, 8, 9));
 
-        static::assertSame(CircularStringImmutable::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame(CircularStringImmutable::class, new \ReflectionClass($replacement)->getName());
         static::assertSame([[0, 0, 3, 6], [1, 1, 4, 7], [2, 0, 5, 8]], $curve->toArray());
         static::assertSame([[0, 0, 3, 6], [1, 2, 8, 9], [2, 0, 5, 8]], $replacement->toArray());
         static::assertSame(4326, $replacement->getPoint(1)->getSrid());

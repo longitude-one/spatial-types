@@ -47,7 +47,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(PolyhedralSurface::class))->newInstance([[[$invalid]]]);
+            new \ReflectionClass(PolyhedralSurface::class)->newInstance([[[$invalid]]]);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -73,7 +73,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(PolyhedralSurface::class))->newInstance([[$invalid]]);
+            new \ReflectionClass(PolyhedralSurface::class)->newInstance([[$invalid]]);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -99,7 +99,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($surface, 'addPatch'))->invoke($surface, $invalid);
+            new \ReflectionMethod($surface, 'addPatch')->invoke($surface, $invalid);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -125,7 +125,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($surface, 'insertPatch'))->invoke($surface, 0, $invalid);
+            new \ReflectionMethod($surface, 'insertPatch')->invoke($surface, 0, $invalid);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -151,7 +151,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($surface, 'setPatch'))->invoke($surface, 0, $invalid);
+            new \ReflectionMethod($surface, 'setPatch')->invoke($surface, 0, $invalid);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -177,7 +177,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($surface, 'setPoint'))->invoke($surface, 0, 0, 0, $invalid);
+            new \ReflectionMethod($surface, 'setPoint')->invoke($surface, 0, 0, 0, $invalid);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -203,7 +203,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($surface, 'setRing'))->invoke($surface, 0, 0, $invalid);
+            new \ReflectionMethod($surface, 'setRing')->invoke($surface, 0, 0, $invalid);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -263,7 +263,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(PolyhedralSurface::class))->newInstance([$invalid]);
+            new \ReflectionClass(PolyhedralSurface::class)->newInstance([$invalid]);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -379,7 +379,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(PolyhedralSurface::class))->newInstance([$invalid]);
+            new \ReflectionClass(PolyhedralSurface::class)->newInstance([$invalid]);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));

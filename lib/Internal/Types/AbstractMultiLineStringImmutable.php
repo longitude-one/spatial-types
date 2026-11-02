@@ -72,10 +72,10 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
             throw new OutOfBoundsException('The current collection of lineStrings is empty.');
         }
 
-        $index = $index % count($this->getLineStrings());
+        $index %= \count($this->getLineStrings());
 
         if ($index < 0) {
-            $index = count($this->getLineStrings()) + $index;
+            $index = \count($this->getLineStrings()) + $index;
         }
 
         return $this->getLineStrings()[$index];
@@ -215,7 +215,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
      */
     private function normalizeLineStringIndex(int $lineStringIndex): int
     {
-        $lineStringCount = count($this->lineStrings);
+        $lineStringCount = \count($this->lineStrings);
         if (0 === $lineStringCount) {
             throw new OutOfBoundsException('The current collection of lineStrings is empty.');
         }

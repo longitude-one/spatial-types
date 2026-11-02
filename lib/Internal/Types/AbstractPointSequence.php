@@ -55,7 +55,7 @@ abstract class AbstractPointSequence extends AbstractSpatialType implements Muta
     /** Return the last defining point, or null for EMPTY. */
     public function getEndPoint(): ?MutablePointInterface
     {
-        return [] === $this->points ? null : $this->points[count($this->points) - 1];
+        return [] === $this->points ? null : $this->points[\count($this->points) - 1];
     }
 
     /** Return the declared family. */
@@ -143,7 +143,7 @@ abstract class AbstractPointSequence extends AbstractSpatialType implements Muta
         $hydrated = [];
         $context = new SpatialContext($this->getSpatialReference(), $this->family, $this->getDimension());
         foreach ($points as $point) {
-            if (is_array($point)) {
+            if (\is_array($point)) {
                 $point = MutablePointHydrator::hydrate($point, $context);
             }
 
@@ -160,8 +160,8 @@ abstract class AbstractPointSequence extends AbstractSpatialType implements Muta
     /** @param int $index Existing zero-based point index */
     final protected function requirePointIndex(int $index): void
     {
-        if ($index < 0 || $index >= count($this->points)) {
-            throw new OutOfBoundsException(sprintf('Point index %d does not address an existing point.', $index));
+        if ($index < 0 || $index >= \count($this->points)) {
+            throw new OutOfBoundsException(\sprintf('Point index %d does not address an existing point.', $index));
         }
     }
 }

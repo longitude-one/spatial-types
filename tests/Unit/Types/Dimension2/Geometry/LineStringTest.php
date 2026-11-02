@@ -100,7 +100,7 @@ class LineStringTest extends TestCase
 
         self::expectException(OutOfBoundsException::class);
         self::expectExceptionMessageIsOrContains('The current collection of points is empty.');
-        (new LineStringImmutable([]))->getPoint(0);
+        new LineStringImmutable([])->getPoint(0);
     }
 
     /**

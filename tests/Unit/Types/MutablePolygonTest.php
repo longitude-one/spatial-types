@@ -60,7 +60,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(InvalidDimensionException::class);
 
         try {
-            (new \ReflectionMethod($polygon, 'setArrayOfCoordinates'))->invoke($polygon, [[[3, 4]], [[5, 6, 7]]]);
+            new \ReflectionMethod($polygon, 'setArrayOfCoordinates')->invoke($polygon, [[[3, 4]], [[5, 6, 7]]]);
         } finally {
             static::assertSame([$ring], $polygon->getRings());
             static::assertSame($point, $ring->getPoint(0));
@@ -216,7 +216,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($polygon, 'addRing'))->invoke($polygon, $immutable);
+            new \ReflectionMethod($polygon, 'addRing')->invoke($polygon, $immutable);
         } finally {
             static::assertSame([$ring], $polygon->getRings());
             static::assertSame([[[0, null]]], $polygon->toArray());
@@ -232,7 +232,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(Polygon::class))->newInstance([$immutable]);
+            new \ReflectionClass(Polygon::class)->newInstance([$immutable]);
         } finally {
             static::assertSame([[3, 4]], $immutable->toArray());
             static::assertSame(2154, $immutable->getSrid());
@@ -248,7 +248,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($polygon, 'insertRing'))->invoke($polygon, 0, $immutable);
+            new \ReflectionMethod($polygon, 'insertRing')->invoke($polygon, 0, $immutable);
         } finally {
             static::assertSame([$ring], $polygon->getRings());
             static::assertSame([[[0, null]]], $polygon->toArray());
@@ -264,7 +264,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(Triangle::class))->newInstance([[$point]]);
+            new \ReflectionClass(Triangle::class)->newInstance([[$point]]);
         } finally {
             static::assertSame([3, 4], $point->toArray());
             static::assertSame(2154, $point->getSrid());
@@ -280,7 +280,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($polygon, 'setPoint'))->invoke($polygon, 0, 0, $point);
+            new \ReflectionMethod($polygon, 'setPoint')->invoke($polygon, 0, 0, $point);
         } finally {
             static::assertSame([$ring], $polygon->getRings());
             static::assertSame([[[0, null]]], $polygon->toArray());
@@ -295,7 +295,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(PolygonImmutable::class))->newInstance([$ring]);
+            new \ReflectionClass(PolygonImmutable::class)->newInstance([$ring]);
         } finally {
             static::assertSame([[0, null]], $ring->toArray());
             static::assertSame(4326, $ring->getSrid());
@@ -311,7 +311,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($polygon, 'setRing'))->invoke($polygon, 0, $immutable);
+            new \ReflectionMethod($polygon, 'setRing')->invoke($polygon, 0, $immutable);
         } finally {
             static::assertSame([$ring], $polygon->getRings());
             static::assertSame([[[0, null]]], $polygon->toArray());
@@ -471,7 +471,7 @@ class MutablePolygonTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(Polygon::class))->newInstance([$invalid]);
+            new \ReflectionClass(Polygon::class)->newInstance([$invalid]);
         } finally {
             static::assertSame([$ring], $polygon->getRings());
             static::assertSame([[[0, null]]], $polygon->toArray());
@@ -596,10 +596,10 @@ class MutablePolygonTest extends TestCase
         static::assertSame(CoordinateDimensionEnum::XY, $triangle->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $polygon->getFamily());
         static::assertSame(SpatialModelEnum::GEOMETRY, $triangle->getFamily());
-        static::assertFalse((new \ReflectionClass($polygon))->hasMethod('withPoint'));
-        static::assertFalse((new \ReflectionClass($triangle))->hasMethod('withRing'));
-        static::assertFalse((new \ReflectionClass($polygon))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($triangle))->hasMethod('setDimension'));
-        static::assertSame('static', (string) (new \ReflectionMethod($polygon, 'setPoint'))->getReturnType());
+        static::assertFalse(new \ReflectionClass($polygon)->hasMethod('withPoint'));
+        static::assertFalse(new \ReflectionClass($triangle)->hasMethod('withRing'));
+        static::assertFalse(new \ReflectionClass($polygon)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($triangle)->hasMethod('setDimension'));
+        static::assertSame('static', (string) new \ReflectionMethod($polygon, 'setPoint')->getReturnType());
     }
 }

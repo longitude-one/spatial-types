@@ -55,7 +55,7 @@ abstract class AbstractMultiLineString extends AbstractMutableCollection impleme
     /** @param array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|MutableLineStringInterface $element Mutable member or coordinate array */
     protected function hydrateElement(mixed $element): MutableLineStringInterface
     {
-        if (is_array($element)) {
+        if (\is_array($element)) {
             $element = match ($this->getDimension()) {
                 CoordinateDimensionEnum::XY => new Dimension2\LineString($element, $this->spatialReference, $this->family),
                 CoordinateDimensionEnum::XYZ => new Dimension3z\LineString($element, $this->spatialReference, $this->family),

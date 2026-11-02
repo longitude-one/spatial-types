@@ -66,13 +66,13 @@ class PointWithCoordinatesTest extends TestCase
     public function testEqualsToRejectsDifferentMeasureOrElevation(): void
     {
         static::assertFalse(
-            (new GeometryPoint3Dm(1, 2, 3))->equalsTo(new GeometryPoint3Dm(1, 2, 4))
+            new GeometryPoint3Dm(1, 2, 3)->equalsTo(new GeometryPoint3Dm(1, 2, 4))
         );
         static::assertFalse(
-            (new GeometryPoint3Dz(1, 2, 3))->equalsTo(new GeometryPoint3Dz(1, 2, 4))
+            new GeometryPoint3Dz(1, 2, 3)->equalsTo(new GeometryPoint3Dz(1, 2, 4))
         );
         static::assertFalse(
-            (new GeometryPoint4Dzm(1, 2, 3, 4))->equalsTo(new GeometryPoint4Dzm(1, 2, 3, 5))
+            new GeometryPoint4Dzm(1, 2, 3, 4)->equalsTo(new GeometryPoint4Dzm(1, 2, 3, 5))
         );
     }
 
@@ -89,7 +89,7 @@ class PointWithCoordinatesTest extends TestCase
         $pointWithCoordinates = $point->withCoordinates($coordinates);
 
         static::assertNotSame($point, $pointWithCoordinates);
-        static::assertSame($point::class, (new \ReflectionClass($pointWithCoordinates))->getName());
+        static::assertSame($point::class, new \ReflectionClass($pointWithCoordinates)->getName());
         static::assertSame(4326, $point->getSrid());
         static::assertSame(4326, $pointWithCoordinates->getSrid());
         static::assertEquals($originalCoordinates, $point->getCoordinates());
@@ -104,7 +104,7 @@ class PointWithCoordinatesTest extends TestCase
         self::expectException(InvalidDimensionException::class);
         self::expectExceptionMessageIsOrContains('incompatible with the XY point dimension');
 
-        (new GeometryPoint2D(1, 2, 4326))->withCoordinates(Coordinates::xyz(1, 2, 3));
+        new GeometryPoint2D(1, 2, 4326)->withCoordinates(Coordinates::xyz(1, 2, 3));
     }
 
     /**
@@ -114,6 +114,6 @@ class PointWithCoordinatesTest extends TestCase
     {
         self::expectException(BadMethodCallException::class);
 
-        (new GeographyPoint3Dm(1, 2, 3))->getZ();
+        new GeographyPoint3Dm(1, 2, 3)->getZ();
     }
 }

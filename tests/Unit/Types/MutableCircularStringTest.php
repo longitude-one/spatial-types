@@ -66,7 +66,7 @@ class MutableCircularStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($curve, 'appendArc'))->invoke($curve, $mutable, $immutable);
+            new \ReflectionMethod($curve, 'appendArc')->invoke($curve, $mutable, $immutable);
         } finally {
             static::assertSame([$origin, $passing, $destination], $curve->getPoints());
             static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
@@ -136,7 +136,7 @@ class MutableCircularStringTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(CircularString::class))->newInstance([$point]);
+            new \ReflectionClass(CircularString::class)->newInstance([$point]);
         } finally {
             static::assertSame([1, 2], $point->toArray());
         }
@@ -215,7 +215,7 @@ class MutableCircularStringTest extends TestCase
         $this->expectException(MissingValueException::class);
 
         try {
-            (new \ReflectionMethod($curve, 'setArrayOfCoordinates'))->invoke($curve, [[1, 2], [3]]);
+            new \ReflectionMethod($curve, 'setArrayOfCoordinates')->invoke($curve, [[1, 2], [3]]);
         } finally {
             static::assertSame([$point], $curve->getPoints());
             static::assertSame([[0, null]], $curve->toArray());
@@ -252,11 +252,11 @@ class MutableCircularStringTest extends TestCase
         $curve = new CircularString([]);
         static::assertContains(MutableCircularStringInterface::class, class_implements($curve));
         static::assertNotContains(ImmutableSpatialInterface::class, class_implements($curve));
-        static::assertFalse((new \ReflectionClass($curve))->hasMethod('withPoint'));
-        static::assertFalse((new \ReflectionClass($curve))->hasMethod('withArrayOfCoordinates'));
-        static::assertFalse((new \ReflectionClass($curve))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($curve))->hasMethod('withSpatialReference'));
-        static::assertFalse((new \ReflectionClass($curve))->hasMethod('setDimension'));
+        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withPoint'));
+        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withArrayOfCoordinates'));
+        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withSpatialReference'));
+        static::assertFalse(new \ReflectionClass($curve)->hasMethod('setDimension'));
     }
 
     /** NegativeArc addressing fails without mutation. */
@@ -308,7 +308,7 @@ class MutableCircularStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($curve, 'setOrigin'))->invoke($curve, $immutable);
+            new \ReflectionMethod($curve, 'setOrigin')->invoke($curve, $immutable);
         } finally {
             static::assertSame([$origin, $passing, $destination], $curve->getPoints());
             static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
@@ -367,7 +367,7 @@ class MutableCircularStringTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($curve, 'replaceArc'))->invoke($curve, 0, $mutable, $immutable);
+            new \ReflectionMethod($curve, 'replaceArc')->invoke($curve, 0, $mutable, $immutable);
         } finally {
             static::assertSame([$origin, $passing, $destination], $curve->getPoints());
             static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());

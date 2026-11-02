@@ -69,9 +69,9 @@ abstract class AbstractCircularStringImmutable extends AbstractSpatialTypeImmuta
             throw new OutOfBoundsException('The current collection of points is empty.');
         }
 
-        $index %= count($this->points);
+        $index %= \count($this->points);
 
-        return $this->points[$index < 0 ? count($this->points) + $index : $index];
+        return $this->points[$index < 0 ? \count($this->points) + $index : $index];
     }
 
     /** @return ImmutablePointInterface[] */
@@ -118,9 +118,9 @@ abstract class AbstractCircularStringImmutable extends AbstractSpatialTypeImmuta
     public function withPoint(int $pointIndex, Coordinates $coordinates): static
     {
         $point = $this->getPoint($pointIndex);
-        $pointIndex %= count($this->points);
+        $pointIndex %= \count($this->points);
         if ($pointIndex < 0) {
-            $pointIndex += count($this->points);
+            $pointIndex += \count($this->points);
         }
         $points = array_map(
             static fn (ImmutablePointInterface $item): ImmutablePointInterface => $item->withSpatialReference($item->getSpatialReference()),
@@ -151,7 +151,7 @@ abstract class AbstractCircularStringImmutable extends AbstractSpatialTypeImmuta
      */
     protected function addPoint(array|ImmutablePointInterface $point): static
     {
-        if (is_array($point)) {
+        if (\is_array($point)) {
             $point = $this->createPointFromCoordinates($point);
         }
 
@@ -167,7 +167,7 @@ abstract class AbstractCircularStringImmutable extends AbstractSpatialTypeImmuta
     protected function addPoints(array $points): static
     {
         foreach ($points as $point) {
-            if (!is_array($point) && !$point instanceof ImmutablePointInterface) {
+            if (!\is_array($point) && !$point instanceof ImmutablePointInterface) {
                 throw new InvalidValueException('Argument shall contain an array of ImmutablePointInterface or an array of coordinates.');
             }
 

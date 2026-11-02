@@ -39,7 +39,7 @@ abstract class AbstractLineStringCollectionImmutable extends AbstractSpatialType
      */
     protected function addLineStringMember(array|ImmutableLineStringInterface $lineString): static
     {
-        if (is_array($lineString)) {
+        if (\is_array($lineString)) {
             $lineString = $this->createLineStringFromCoordinates($lineString);
         }
 

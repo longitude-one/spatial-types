@@ -40,13 +40,13 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
     public static function provideContextsAndCoordinates(): \Generator
     {
         foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
-            yield sprintf('%s XY', $family->value) => [CoordinateDimensionEnum::XY, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
+            yield \sprintf('%s XY', $family->value) => [CoordinateDimensionEnum::XY, $family, [[1, 2], [3, 4], [3, 6], [1, 2]], [[5, 6], [7, 8], [7, 10], [5, 6]]];
 
-            yield sprintf('%s XYM', $family->value) => [CoordinateDimensionEnum::XYM, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
+            yield \sprintf('%s XYM', $family->value) => [CoordinateDimensionEnum::XYM, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
 
-            yield sprintf('%s XYZ', $family->value) => [CoordinateDimensionEnum::XYZ, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
+            yield \sprintf('%s XYZ', $family->value) => [CoordinateDimensionEnum::XYZ, $family, [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]];
 
-            yield sprintf('%s XYZM', $family->value) => [CoordinateDimensionEnum::XYZM, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
+            yield \sprintf('%s XYZM', $family->value) => [CoordinateDimensionEnum::XYZM, $family, [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]], [[9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20], [9, 10, 11, 12]]];
         }
     }
 
@@ -69,7 +69,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         CoordinateDimensionEnum $dimension,
     ): void {
         static::assertNotSame($lineString, $replacement);
-        static::assertSame($lineString::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($lineString::class, new \ReflectionClass($replacement)->getName());
         static::assertSame($family, $replacement->getFamily());
         static::assertSame(4326, $replacement->getSrid());
         static::assertSame($dimension->hasM(), $replacement->hasM());
@@ -131,7 +131,7 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         $replacement = $polygon->withArrayOfCoordinates([$replacementCoordinates]);
 
         static::assertNotSame($polygon, $replacement);
-        static::assertSame($polygon::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($polygon::class, new \ReflectionClass($replacement)->getName());
         static::assertSame($family, $replacement->getFamily());
         static::assertSame(4326, $replacement->getSrid());
         static::assertSame([$initialCoordinates], $polygon->toArray());
@@ -150,13 +150,13 @@ class SpatialWithArrayOfCoordinatesTest extends TestCase
         $polygonClone = $polygon->withArrayOfCoordinates([[[7, 8, 9], [10, 11, 12], [13, 14, 15], [7, 8, 9]]]);
 
         static::assertNotSame($lineString, $lineStringClone);
-        static::assertSame($lineString::class, (new \ReflectionClass($lineStringClone))->getName());
+        static::assertSame($lineString::class, new \ReflectionClass($lineStringClone)->getName());
         static::assertSame(2154, $lineStringClone->getSrid());
         static::assertNotSame($lineString->getPoint(0), $lineStringClone->getPoint(0));
         static::assertSame([[1, 2, 3], [4, 5, 6]], $lineString->toArray());
 
         static::assertNotSame($polygon, $polygonClone);
-        static::assertSame($polygon::class, (new \ReflectionClass($polygonClone))->getName());
+        static::assertSame($polygon::class, new \ReflectionClass($polygonClone)->getName());
         static::assertSame(2154, $polygonClone->getSrid());
         static::assertNotSame($polygon->getRing(0), $polygonClone->getRing(0));
         static::assertNotSame($polygon->getRing(0)->getPoint(0), $polygonClone->getRing(0)->getPoint(0));

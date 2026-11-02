@@ -44,7 +44,7 @@ final readonly class Coordinates
         public float|int|null $m = null,
     ) {
         if ((!$dimension->hasZ() && null !== $z) || (!$dimension->hasM() && null !== $m)) {
-            throw new InvalidDimensionException(sprintf('The supplied ordinates do not match the %s coordinate dimension.', $dimension->value));
+            throw new InvalidDimensionException(\sprintf('The supplied ordinates do not match the %s coordinate dimension.', $dimension->value));
         }
     }
 
@@ -104,7 +104,7 @@ final readonly class Coordinates
     public function getM(): float|int|null
     {
         if (!$this->dimension->hasM()) {
-            throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no M ordinate.', $this->dimension->value));
+            throw new InvalidDimensionException(\sprintf('The %s coordinate dimension has no M ordinate.', $this->dimension->value));
         }
 
         return $this->m;
@@ -118,7 +118,7 @@ final readonly class Coordinates
     public function getZ(): float|int|null
     {
         if (!$this->dimension->hasZ()) {
-            throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no Z ordinate.', $this->dimension->value));
+            throw new InvalidDimensionException(\sprintf('The %s coordinate dimension has no Z ordinate.', $this->dimension->value));
         }
 
         return $this->z;
@@ -149,7 +149,7 @@ final readonly class Coordinates
     public function withM(float|int|null $m): self
     {
         if (!$this->dimension->hasM()) {
-            throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no M ordinate.', $this->dimension->value));
+            throw new InvalidDimensionException(\sprintf('The %s coordinate dimension has no M ordinate.', $this->dimension->value));
         }
 
         return new self($this->dimension, $this->x, $this->y, $this->z, $m);
@@ -185,7 +185,7 @@ final readonly class Coordinates
     public function withZ(float|int|null $z): self
     {
         if (!$this->dimension->hasZ()) {
-            throw new InvalidDimensionException(sprintf('The %s coordinate dimension has no Z ordinate.', $this->dimension->value));
+            throw new InvalidDimensionException(\sprintf('The %s coordinate dimension has no Z ordinate.', $this->dimension->value));
         }
 
         return new self($this->dimension, $this->x, $this->y, $z, $this->m);

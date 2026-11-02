@@ -41,7 +41,7 @@ class EmptyPointTest extends TestCase
     {
         foreach (self::familiesAndDimensions() as $name => [$family, $dimension]) {
             $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
-            $class = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\PointImmutable', self::dimensionNamespace($dimension), $familyNamespace);
+            $class = \sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\PointImmutable', self::dimensionNamespace($dimension), $familyNamespace);
 
             yield $name => [self::asPoint(new $class(srid: 4326))];
         }

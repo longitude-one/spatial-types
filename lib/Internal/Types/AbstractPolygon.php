@@ -99,8 +99,8 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
      */
     public function insertRing(int $index, MutableLineStringInterface $ring): static
     {
-        if ($index < 0 || $index > count($this->rings)) {
-            throw new OutOfBoundsException(sprintf('Ring index %d is outside the insertion range.', $index));
+        if ($index < 0 || $index > \count($this->rings)) {
+            throw new OutOfBoundsException(\sprintf('Ring index %d is outside the insertion range.', $index));
         }
         $this->checkRingPoints($ring);
         array_splice($this->rings, $index, 0, [$ring]);
@@ -216,7 +216,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
     {
         $hydrated = [];
         foreach ($rings as $ring) {
-            if (is_array($ring)) {
+            if (\is_array($ring)) {
                 $ring = match ($this->getDimension()) {
                     CoordinateDimensionEnum::XY => new Dimension2\LineString($ring, $this->spatialReference, $this->family),
                     CoordinateDimensionEnum::XYZ => new Dimension3z\LineString($ring, $this->spatialReference, $this->family),
@@ -237,8 +237,8 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
     /** @param int $index Existing zero-based ring index */
     private function requireRingIndex(int $index): void
     {
-        if ($index < 0 || $index >= count($this->rings)) {
-            throw new OutOfBoundsException(sprintf('Ring index %d does not address an existing ring.', $index));
+        if ($index < 0 || $index >= \count($this->rings)) {
+            throw new OutOfBoundsException(\sprintf('Ring index %d does not address an existing ring.', $index));
         }
     }
 }

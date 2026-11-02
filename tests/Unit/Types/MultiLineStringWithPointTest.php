@@ -39,7 +39,7 @@ class MultiLineStringWithPointTest extends TestCase
         $replacement = $multiLineString->withPoint(-1, -1, Coordinates::xy(4, 4));
 
         static::assertNotSame($multiLineString, $replacement);
-        static::assertSame($multiLineString::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($multiLineString::class, new \ReflectionClass($replacement)->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
         static::assertSame([[[0, 0], [1, 1]], [[2, 2], [4, 4]]], $replacement->toArray());

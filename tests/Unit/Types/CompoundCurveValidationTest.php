@@ -115,7 +115,7 @@ class CompoundCurveValidationTest extends TestCase
     {
         $this->expectException(OutOfBoundsException::class);
 
-        (new CompoundCurveImmutable())->getCurve(0);
+        new CompoundCurveImmutable()->getCurve(0);
     }
 
     /** Nested component coordinates cannot masquerade as point ordinates. */
@@ -190,7 +190,7 @@ class CompoundCurveValidationTest extends TestCase
     {
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(CompoundCurveImmutable::class))->newInstance([new PointImmutable(0, 0)]);
+        new \ReflectionClass(CompoundCurveImmutable::class)->newInstance([new PointImmutable(0, 0)]);
     }
 
     /** Coordinate tuples do not implicitly select a component interpolation. */
@@ -198,7 +198,7 @@ class CompoundCurveValidationTest extends TestCase
     {
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(CompoundCurveImmutable::class))->newInstance([[[0, 0], [1, 1]]]);
+        new \ReflectionClass(CompoundCurveImmutable::class)->newInstance([[[0, 0], [1, 1]]]);
     }
 
     /** Returned membership arrays cannot mutate the compound curve. */

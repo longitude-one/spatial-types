@@ -55,9 +55,9 @@ class SpatialTypesTest extends TestCase
         static::assertTrue($first->hasM());
         static::assertTrue($first->hasZ());
         static::assertSame([-1, 2, 3, 4], $first->toArray());
-        static::assertSame([$first, $second, $first], (new GeographicMultiPoint([$first, $second, $first]))->getElements());
-        static::assertSame([$lineString], (new GeographicMultiLineString([$lineString]))->getElements());
-        static::assertSame([$polygon], (new GeographicMultiPolygon([$polygon]))->getElements());
+        static::assertSame([$first, $second, $first], new GeographicMultiPoint([$first, $second, $first])->getElements());
+        static::assertSame([$lineString], new GeographicMultiLineString([$lineString])->getElements());
+        static::assertSame([$polygon], new GeographicMultiPolygon([$polygon])->getElements());
 
         $collection = new GeographyCollectionImmutable(0, [$polygon]);
         static::assertSame([$polygon], $collection->getElements());
@@ -80,9 +80,9 @@ class SpatialTypesTest extends TestCase
         static::assertSame(3, $first->getZ());
         static::assertSame(4, $first->getM());
         static::assertSame([1, 2, 3, 4], $first->toArray());
-        static::assertSame([$first, $second, $first], (new GeometricMultiPoint([$first, $second, $first]))->getElements());
-        static::assertSame([$lineString], (new GeometricMultiLineString([$lineString]))->getElements());
-        static::assertSame([$polygon], (new GeometricMultiPolygon([$polygon]))->getElements());
+        static::assertSame([$first, $second, $first], new GeometricMultiPoint([$first, $second, $first])->getElements());
+        static::assertSame([$lineString], new GeometricMultiLineString([$lineString])->getElements());
+        static::assertSame([$polygon], new GeometricMultiPolygon([$polygon])->getElements());
 
         $collection = new GeometryCollectionImmutable(0, [$polygon]);
         static::assertSame([$polygon], $collection->getElements());

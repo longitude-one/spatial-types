@@ -52,7 +52,7 @@ class PointTest extends TestCase
      */
     public function testConstructsLatitude(): void
     {
-        static::assertSame(45.1, (new PointImmutable(-1.1, '45.1N'))->getY());
+        static::assertSame(45.1, new PointImmutable(-1.1, '45.1N')->getY());
     }
 
     /**
@@ -60,7 +60,7 @@ class PointTest extends TestCase
      */
     public function testConstructsLongitude(): void
     {
-        static::assertSame(-1.1, (new PointImmutable('1.1W', 45.1))->getX());
+        static::assertSame(-1.1, new PointImmutable('1.1W', 45.1)->getX());
     }
 
     /**

@@ -42,7 +42,7 @@ class ConcreteTypeContractTest extends TestCase
     {
         foreach (self::layouts() as $dimension => [$hasM, $hasZ, $coordinates, $otherCoordinates]) {
             foreach ([SpatialModelEnum::GEOMETRY, SpatialModelEnum::GEOGRAPHY] as $family) {
-                yield sprintf('%s %s', $dimension, $family->value) => [
+                yield \sprintf('%s %s', $dimension, $family->value) => [
                     $family,
                     $hasM,
                     $hasZ,
@@ -121,8 +121,8 @@ class ConcreteTypeContractTest extends TestCase
     private static function createSpatialTypes(string $dimension, SpatialModelEnum $family, array $coordinates, array $otherCoordinates): array
     {
         $familyNamespace = SpatialModelEnum::GEOMETRY === $family ? 'Geometry' : 'Geography';
-        $collectionClass = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\%sCollectionImmutable', $dimension, $familyNamespace, $familyNamespace);
-        $namespace = sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\\', $dimension, $familyNamespace);
+        $collectionClass = \sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\%sCollectionImmutable', $dimension, $familyNamespace, $familyNamespace);
+        $namespace = \sprintf('LongitudeOne\SpatialTypes\Types\%s\%s\\', $dimension, $familyNamespace);
         $pointClass = $namespace.'PointImmutable';
         $lineStringClass = $namespace.'LineStringImmutable';
         $multiPointClass = $namespace.'MultiPointImmutable';
