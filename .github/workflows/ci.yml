@@ -1,5 +1,10 @@
 name: PHP CI
 
+# Cancel superseded pull request runs to avoid spending resources on obsolete commits.
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 on:
     schedule:
         - cron: '5 16 * * 3'
@@ -43,24 +48,15 @@ jobs:
                   php-version: '8.4'
                   coverage: pcov
                   tools: composer:v2
-                  extensions: mbstring
 
             - name: Install dependencies
-              run: composer update -vvv --prefer-dist
+              run: composer update
 
             - name: List libraries
               run: composer show
 
             - name: Run test suite with coverage
               run: composer test
-
-            - name: Upload coverage to Codecov
-              if: ${{ env.HAS_CC_SECRET == 'true' }}
-              uses: codecov/codecov-action@v7
-              with:
-                  token: ${{ secrets.CODECOV_TOKEN }}
-                  files: .phpunit-cache/coverage.xml
-                  slug: longitude-one/spatial-types
 
             - name: Install PHP-CS-Fixer
               run: composer update --working-dir=quality/php-cs-fixer
@@ -89,6 +85,22 @@ jobs:
             - name: Run PHPStan
               run: ./quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M -v
 
+            - name: Coverage check
+              uses: ericsizemore/phpunit-coverage-check-action@2.0.0
+              with:
+                clover_file: '.phpunit-cache/coverage.xml'
+                threshold: 96
+
+            - name: Upload coverage to Codecov
+              if: ${{ env.HAS_CC_SECRET == 'true' }}
+              uses: codecov/codecov-action@v7
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  files: .phpunit-cache/coverage.xml
+                  slug: longitude-one/spatial-types
+
+
+
     next-version-build:
         needs: stable-build
         name: PHP 8.5
@@ -115,7 +127,6 @@ jobs:
                   php-version: '8.5'
                   coverage: pcov
                   tools: composer:v2
-                  extensions: mbstring
 
             - name: Install dependencies
               run: composer update -vvv --prefer-dist
