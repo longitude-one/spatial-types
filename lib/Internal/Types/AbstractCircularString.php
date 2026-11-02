@@ -35,7 +35,7 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
      */
     public function appendArc(MutablePointInterface $passingPoint, MutablePointInterface $destinationPoint): static
     {
-        if (0 === count($this->points) % 2) {
+        if (0 === \count($this->points) % 2) {
             throw new InvalidValueException('Appending an arc requires an origin followed by complete point pairs.');
         }
 
@@ -58,8 +58,8 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
      */
     public function replaceArc(int $index, MutablePointInterface $passingPoint, MutablePointInterface $destinationPoint): static
     {
-        if ($index < 0 || $index >= intdiv(max(0, count($this->points) - 1), 2)) {
-            throw new OutOfBoundsException(sprintf('Arc index %d does not address three existing points.', $index));
+        if ($index < 0 || $index >= intdiv(max(0, \count($this->points) - 1), 2)) {
+            throw new OutOfBoundsException(\sprintf('Arc index %d does not address three existing points.', $index));
         }
 
         array_splice($this->points, 2 * $index + 1, 2, [$passingPoint, $destinationPoint]);

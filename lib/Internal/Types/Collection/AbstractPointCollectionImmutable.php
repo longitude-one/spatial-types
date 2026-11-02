@@ -49,9 +49,9 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
             throw new OutOfBoundsException('The current collection of points is empty.');
         }
 
-        $index %= count($this->points);
+        $index %= \count($this->points);
 
-        return $this->points[$index < 0 ? count($this->points) + $index : $index];
+        return $this->points[$index < 0 ? \count($this->points) + $index : $index];
     }
 
     /** @return ImmutablePointInterface[] */
@@ -80,7 +80,7 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
      */
     protected function addPoint(array|ImmutablePointInterface $point): static
     {
-        if (is_array($point)) {
+        if (\is_array($point)) {
             $point = $this->createPointFromCoordinates($point);
         }
 
@@ -96,7 +96,7 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
     protected function addPoints(array $points): static
     {
         foreach ($points as $point) {
-            if (!is_array($point) && !$point instanceof ImmutablePointInterface) {
+            if (!\is_array($point) && !$point instanceof ImmutablePointInterface) {
                 throw new InvalidValueException('Argument shall contain an array of ImmutablePointInterface or an array of coordinates.');
             }
 

@@ -53,7 +53,7 @@ final class SpatialArrayHydrator
     {
         $hydratedPoints = [];
         foreach ($points as $point) {
-            if (!is_array($point) && !$point instanceof ImmutablePointInterface) {
+            if (!\is_array($point) && !$point instanceof ImmutablePointInterface) {
                 throw new InvalidValueException('The array must contain only objects implementing ImmutablePointInterface or array of coordinates.');
             }
 
@@ -92,7 +92,7 @@ final class SpatialArrayHydrator
     {
         $lineStrings = [];
         foreach ($rings as $ring) {
-            if (!is_array($ring) && !$ring instanceof ImmutableLineStringInterface) {
+            if (!\is_array($ring) && !$ring instanceof ImmutableLineStringInterface) {
                 throw new InvalidValueException('The array must contain only objects implementing ImmutableLineStringInterface or array of ImmutablePointInterface or "array of array of coordinates".');
             }
 

@@ -52,7 +52,7 @@ class MultiPolygonWithReplacementTest extends TestCase
         $replacement = $multiPolygon->withPoint(0, 0, 0, Coordinates::xy(-1, -1));
 
         static::assertNotSame($multiPolygon, $replacement);
-        static::assertSame($multiPolygon::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($multiPolygon::class, new \ReflectionClass($replacement)->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
         static::assertSame([[[[-1, -1], [10, 0], [0, 10], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $replacement->toArray());

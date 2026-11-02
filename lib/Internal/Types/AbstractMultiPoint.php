@@ -50,7 +50,7 @@ abstract class AbstractMultiPoint extends AbstractMutableCollection implements M
     /** @param array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface $element Mutable member or coordinate array */
     protected function hydrateElement(mixed $element): MutablePointInterface
     {
-        if (is_array($element)) {
+        if (\is_array($element)) {
             $element = MutablePointHydrator::hydrate($element, new SpatialContext($this->spatialReference, $this->family, $this->getDimension()));
         }
         if (!$element instanceof MutablePointInterface) {

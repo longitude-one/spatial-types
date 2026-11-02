@@ -80,10 +80,10 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
             throw new OutOfBoundsException('The current surface has no patches.');
         }
 
-        $index = $index % count($this->getPatches());
+        $index %= \count($this->getPatches());
 
         if ($index < 0) {
-            $index = count($this->getPatches()) + $index;
+            $index = \count($this->getPatches()) + $index;
         }
 
         return $this->getPatches()[$index];
@@ -169,7 +169,7 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
 
         return $this->withReplacedPatch(
             $patchIndex,
-            fn (ImmutablePolygonInterface $patch): ImmutablePolygonInterface => $patch->withPoint($ringIndex, $pointIndex, $coordinates)
+            static fn (ImmutablePolygonInterface $patch): ImmutablePolygonInterface => $patch->withPoint($ringIndex, $pointIndex, $coordinates)
         );
     }
 
@@ -189,7 +189,7 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
 
         return $this->withReplacedPatch(
             $patchIndex,
-            fn (ImmutablePolygonInterface $patch): ImmutablePolygonInterface => $patch->withRing($ringIndex, $coordinates)
+            static fn (ImmutablePolygonInterface $patch): ImmutablePolygonInterface => $patch->withRing($ringIndex, $coordinates)
         );
     }
 
@@ -231,7 +231,7 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
      */
     protected function addPatch(array|ImmutablePolygonInterface $patch): static
     {
-        if (is_array($patch)) {
+        if (\is_array($patch)) {
             $patch = $this->createPolygonFromCoordinates($patch);
         }
 
@@ -266,7 +266,7 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
      */
     private function normalizePatchIndex(int $patchIndex): int
     {
-        $patchCount = count($this->patches);
+        $patchCount = \count($this->patches);
         if (0 === $patchCount) {
             throw new OutOfBoundsException('The current surface has no patches.');
         }

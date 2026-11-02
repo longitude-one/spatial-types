@@ -40,7 +40,7 @@ class SpatialWithLineStringTest extends TestCase
         $replacement = $multiLineString->withLineString(-1, [[4, 4], [5, 5]]);
 
         static::assertNotSame($multiLineString, $replacement);
-        static::assertSame($multiLineString::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($multiLineString::class, new \ReflectionClass($replacement)->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
         static::assertSame([[[0, 0], [1, 1]], [[4, 4], [5, 5]]], $replacement->toArray());
@@ -60,7 +60,7 @@ class SpatialWithLineStringTest extends TestCase
         $replacement = $polygon->withRing(0, [[-1, -1], [11, -1], [-1, 11], [-1, -1]]);
 
         static::assertNotSame($polygon, $replacement);
-        static::assertSame($polygon::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($polygon::class, new \ReflectionClass($replacement)->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $polygon->toArray());
         static::assertSame([[[-1, -1], [11, -1], [-1, 11], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $replacement->toArray());

@@ -112,8 +112,8 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
      */
     public function insertPatch(int $index, MutablePolygonInterface $patch): static
     {
-        if ($index < 0 || $index > count($this->patches)) {
-            throw new OutOfBoundsException(sprintf('Patch index %d is outside the insertion range.', $index));
+        if ($index < 0 || $index > \count($this->patches)) {
+            throw new OutOfBoundsException(\sprintf('Patch index %d is outside the insertion range.', $index));
         }
         $this->checkPatchComponents($patch);
         array_splice($this->patches, $index, 0, [$patch]);
@@ -270,7 +270,7 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     {
         $hydrated = [];
         foreach ($patches as $patch) {
-            if (is_array($patch)) {
+            if (\is_array($patch)) {
                 $patch = match ($this->getDimension()) {
                     CoordinateDimensionEnum::XYZ => new Dimension3z\Polygon($patch, $this->spatialReference, $this->family),
                     CoordinateDimensionEnum::XYZM => new Dimension4zm\Polygon($patch, $this->spatialReference, $this->family),
@@ -290,8 +290,8 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     /** @param int $index Existing zero-based patch index */
     private function requirePatchIndex(int $index): void
     {
-        if ($index < 0 || $index >= count($this->patches)) {
-            throw new OutOfBoundsException(sprintf('Patch index %d does not address an existing patch.', $index));
+        if ($index < 0 || $index >= \count($this->patches)) {
+            throw new OutOfBoundsException(\sprintf('Patch index %d does not address an existing patch.', $index));
         }
     }
 }

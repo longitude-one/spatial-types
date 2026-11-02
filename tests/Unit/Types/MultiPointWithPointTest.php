@@ -49,7 +49,7 @@ class MultiPointWithPointTest extends TestCase
         $replacement = $multiPoint->withPoint(-1, Coordinates::xym(7, 8, 9));
 
         static::assertNotSame($multiPoint, $replacement);
-        static::assertSame($multiPoint::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($multiPoint::class, new \ReflectionClass($replacement)->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertTrue($replacement->hasM());
         static::assertFalse($replacement->hasZ());

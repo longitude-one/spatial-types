@@ -53,7 +53,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -84,7 +84,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -130,7 +130,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -161,7 +161,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -192,7 +192,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -223,7 +223,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -254,7 +254,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());
@@ -285,7 +285,7 @@ class PartiallyNullCompoundCurveTest extends TestCase
         static::assertNotSame($line, $copy->getCurve(0));
         static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
         static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
         static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
         static::assertSame(4326, $compound->getSrid());

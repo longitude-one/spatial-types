@@ -36,7 +36,7 @@ class CircularStringImmutabilityTest extends TestCase
     public function testRejectEmptyPointReplacement(): void
     {
         $this->expectException(OutOfBoundsException::class);
-        (new CircularStringImmutable([]))->withPoint(0, Coordinates::xy(1, 2));
+        new CircularStringImmutable([])->withPoint(0, Coordinates::xy(1, 2));
     }
 
     /** Replacement coordinates cannot change the curve layout. */

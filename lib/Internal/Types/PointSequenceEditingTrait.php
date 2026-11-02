@@ -38,8 +38,8 @@ trait PointSequenceEditingTrait
      */
     public function insertPoint(int $index, MutablePointInterface $point): static
     {
-        if ($index < 0 || $index > count($this->points)) {
-            throw new OutOfBoundsException(sprintf('Point index %d is outside the insertion range.', $index));
+        if ($index < 0 || $index > \count($this->points)) {
+            throw new OutOfBoundsException(\sprintf('Point index %d is outside the insertion range.', $index));
         }
 
         array_splice($this->points, $index, 0, [$point]);

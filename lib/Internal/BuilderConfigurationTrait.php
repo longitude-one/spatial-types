@@ -82,7 +82,7 @@ trait BuilderConfigurationTrait
     public function srid(int|SpatialReference $srid): self
     {
         $copy = clone $this;
-        $copy->reference = is_int($srid) ? SpatialReference::fromSrid($srid) : $srid;
+        $copy->reference = \is_int($srid) ? SpatialReference::fromSrid($srid) : $srid;
 
         return $copy;
     }

@@ -72,7 +72,7 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(MultiPointImmutable::class))->newInstance([$point]);
+            new \ReflectionClass(MultiPointImmutable::class)->newInstance([$point]);
         } finally {
             static::assertSame([1, null], $point->toArray());
             static::assertSame(4326, $point->getSrid());
@@ -86,7 +86,7 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(MultiLineString::class))->newInstance([[$immutable]]);
+            new \ReflectionClass(MultiLineString::class)->newInstance([[$immutable]]);
         } finally {
             static::assertSame([1, 2], $immutable->toArray());
             static::assertSame(4326, $immutable->getSrid());
@@ -100,7 +100,7 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(MultiLineString::class))->newInstance([$immutable]);
+            new \ReflectionClass(MultiLineString::class)->newInstance([$immutable]);
         } finally {
             static::assertSame(4326, $immutable->getSrid());
             static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -114,7 +114,7 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(MultiPoint::class))->newInstance([$immutable]);
+            new \ReflectionClass(MultiPoint::class)->newInstance([$immutable]);
         } finally {
             static::assertSame(4326, $immutable->getSrid());
             static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -128,7 +128,7 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(MultiPolygon::class))->newInstance([$immutable]);
+            new \ReflectionClass(MultiPolygon::class)->newInstance([$immutable]);
         } finally {
             static::assertSame(4326, $immutable->getSrid());
             static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
@@ -159,7 +159,7 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(SpatialCollection::class))->newInstance([$immutable]);
+            new \ReflectionClass(SpatialCollection::class)->newInstance([$immutable]);
         } finally {
             static::assertSame(4326, $immutable->getSrid());
             static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());

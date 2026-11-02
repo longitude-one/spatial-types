@@ -84,7 +84,7 @@ class PolyhedralSurfaceTest extends TestCase
         static::assertSame([], $surface->toArray());
         static::assertSame(['type' => 'PolyhedralSurface', 'coordinates' => [], 'srid' => 0], $surface->jsonSerialize());
         $copy = $surface->withSpatialReference(SpatialReference::epsg(4326));
-        static::assertSame($class, (new \ReflectionClass($copy))->getName());
+        static::assertSame($class, new \ReflectionClass($copy)->getName());
         static::assertSame(4326, $copy->getSrid());
         static::assertSame(0, $surface->getSrid());
         $this->expectException(OutOfBoundsException::class);
@@ -119,7 +119,7 @@ class PolyhedralSurfaceTest extends TestCase
         static::assertSame($coordinates, $surface->toArray());
         static::assertSame($surface->getPatch(1), $surface->getPatch(-1));
         static::assertSame($surface->getPatch(0), $surface->getPatch(2));
-        static::assertSame($coordinates, (new $class($surface->getPatches(), 4326))->toArray());
+        static::assertSame($coordinates, new $class($surface->getPatches(), 4326)->toArray());
         $copies = [
             $surface->withArrayOfCoordinates($coordinates),
             $surface->withPatch(0, $coordinates[0]),
@@ -128,7 +128,7 @@ class PolyhedralSurfaceTest extends TestCase
             $surface->withSpatialReference(SpatialReference::epsg(4326)),
         ];
         foreach ($copies as $copy) {
-            static::assertSame($class, (new \ReflectionClass($copy))->getName());
+            static::assertSame($class, new \ReflectionClass($copy)->getName());
             static::assertSame($surface->getFamily(), $copy->getFamily());
             static::assertTrue($surface->hasSameDimension($copy));
             static::assertSame($coordinates, $copy->toArray());
@@ -157,7 +157,7 @@ class PolyhedralSurfaceTest extends TestCase
         $surface = new $class([$coordinates[0]], 4326);
         $point = $surface->hasM() ? Coordinates::xyzm(-1, 0, 0, 7) : Coordinates::xyz(-1, 0, 0);
         $copy = $surface->withPoint(0, -1, 0, $point);
-        static::assertSame($class, (new \ReflectionClass($copy))->getName());
+        static::assertSame($class, new \ReflectionClass($copy)->getName());
         static::assertSame([$coordinates[0]], $surface->toArray());
         static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(0)->getX());
         static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(-1)->getX());

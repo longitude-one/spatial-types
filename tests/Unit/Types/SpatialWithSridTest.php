@@ -73,13 +73,13 @@ class SpatialWithSridTest extends TestCase
     private static function assertCopiedTree(ImmutableSpatialInterface $source, ImmutableSpatialInterface $copy): void
     {
         static::assertNotSame($source, $copy);
-        static::assertSame($source::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame($source::class, new \ReflectionClass($copy)->getName());
         static::assertSame($source->toArray(), $copy->toArray());
         static::assertSame(2154, $copy->getSrid());
 
         $sourceChildren = self::childrenOf($source);
         $copyChildren = self::childrenOf($copy);
-        static::assertCount(count($sourceChildren), $copyChildren);
+        static::assertCount(\count($sourceChildren), $copyChildren);
 
         foreach ($sourceChildren as $index => $sourceChild) {
             self::assertCopiedTree($sourceChild, $copyChildren[$index]);

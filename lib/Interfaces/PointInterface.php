@@ -31,9 +31,9 @@ interface PointInterface extends SpatialInterface
     /**
      * Is this point equal to another point?
      *
-     * @param PointInterface $point The point to compare
+     * @param self $point The point to compare
      */
-    public function equalsTo(PointInterface $point): bool;
+    public function equalsTo(self $point): bool;
 
     /**
      * Return the normalized coordinates of this point.

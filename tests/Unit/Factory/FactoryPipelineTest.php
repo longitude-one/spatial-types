@@ -61,14 +61,14 @@ class FactoryPipelineTest extends TestCase
     {
         yield 'line string contains an unsupported typed value' => [
             static function (SpatialFactory $factory): void {
-                (new \ReflectionMethod($factory, 'createLineString'))->invoke($factory, [new \stdClass()], new SpatialContext());
+                new \ReflectionMethod($factory, 'createLineString')->invoke($factory, [new \stdClass()], new SpatialContext());
             },
             'objects implementing ImmutablePointInterface',
         ];
 
         yield 'polygon contains an unsupported typed value' => [
             static function (SpatialFactory $factory): void {
-                (new \ReflectionMethod($factory, 'createPolygon'))->invoke($factory, [new \stdClass()], new SpatialContext());
+                new \ReflectionMethod($factory, 'createPolygon')->invoke($factory, [new \stdClass()], new SpatialContext());
             },
             'objects implementing ImmutableLineStringInterface',
         ];
@@ -150,7 +150,7 @@ class FactoryPipelineTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('The M coordinate must be a number or null.');
 
-        (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
+        new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate')->invoke(
             new CoordinatesHydrator(),
             [1, 2, false],
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM)
@@ -165,7 +165,7 @@ class FactoryPipelineTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('The Z coordinate must be a number or null.');
 
-        (new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate'))->invoke(
+        new \ReflectionMethod(CoordinatesHydrator::class, 'hydrate')->invoke(
             new CoordinatesHydrator(),
             [1, 2, 'not-a-number'],
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
@@ -211,7 +211,7 @@ class FactoryPipelineTest extends TestCase
      */
     public function testPointFactoryPreservesNullOrdinate(): void
     {
-        $point = (new GeometricPointFactory())->create(
+        $point = new GeometricPointFactory()->create(
             new Coordinates(1, 2),
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
         );
@@ -239,7 +239,7 @@ class FactoryPipelineTest extends TestCase
         self::expectException(InvalidValueException::class);
         self::expectExceptionMessageIsOrContains('No factories are registered for the Geography family');
 
-        (new SpatialFactoryRegistry(self::geometricFactories()))->pointFactory(SpatialModelEnum::GEOGRAPHY);
+        new SpatialFactoryRegistry(self::geometricFactories())->pointFactory(SpatialModelEnum::GEOGRAPHY);
     }
 
     /**

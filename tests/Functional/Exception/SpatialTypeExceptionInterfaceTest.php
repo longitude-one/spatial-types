@@ -87,7 +87,7 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
         } catch (SpatialTypeExceptionInterface $exception) {
             static::assertInstanceOf($exceptionClass, $exception);
         } catch (\Exception) {
-            static::fail(sprintf('%s should be caught.', $exceptionClass));
+            static::fail(\sprintf('%s should be caught.', $exceptionClass));
         }
     }
 

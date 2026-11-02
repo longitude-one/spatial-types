@@ -89,7 +89,7 @@ class CompoundCurveTest extends TestCase
         ], SpatialReference::epsg(4326));
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
 
-        static::assertSame(CompoundCurveImmutable::class, (new \ReflectionClass($copy))->getName());
+        static::assertSame(CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
         static::assertSame(4326, $compound->getSrid());
         static::assertSame(4326, $compound->getCurve(0)->getSrid());
         static::assertSame(3857, $copy->getSrid());

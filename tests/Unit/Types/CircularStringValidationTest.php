@@ -54,7 +54,7 @@ class CircularStringValidationTest extends TestCase
     public function testEmptyPointAccess(): void
     {
         $this->expectException(OutOfBoundsException::class);
-        (new CircularStringImmutable([]))->getPoint(0);
+        new CircularStringImmutable([])->getPoint(0);
     }
 
     /** Line strings share the approved curve category. */
@@ -76,6 +76,6 @@ class CircularStringValidationTest extends TestCase
     public function testRejectInvalidMember(): void
     {
         $this->expectException(InvalidValueException::class);
-        (new \ReflectionClass(CircularStringImmutable::class))->newInstance([false, [1, 1], [2, 0]]);
+        new \ReflectionClass(CircularStringImmutable::class)->newInstance([false, [1, 1], [2, 0]]);
     }
 }

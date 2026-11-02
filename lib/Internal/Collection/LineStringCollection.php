@@ -66,15 +66,15 @@ final class LineStringCollection
             throw new OutOfBoundsException('The current collection of line strings is empty.');
         }
 
-        $index %= count($this->lineStrings);
+        $index %= \count($this->lineStrings);
 
-        return $this->lineStrings[$index < 0 ? count($this->lineStrings) + $index : $index];
+        return $this->lineStrings[$index < 0 ? \count($this->lineStrings) + $index : $index];
     }
 
     /** Return the number of line strings. */
     public function count(): int
     {
-        return count($this->lineStrings);
+        return \count($this->lineStrings);
     }
 
     /**

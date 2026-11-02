@@ -90,7 +90,7 @@ final class MutableComponentGuard
      */
     private static function isComplete(int $identity, array $states): bool
     {
-        if (!array_key_exists($identity, $states)) {
+        if (!\array_key_exists($identity, $states)) {
             return false;
         }
         if (!$states[$identity]) {

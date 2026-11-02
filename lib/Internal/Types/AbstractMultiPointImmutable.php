@@ -119,7 +119,7 @@ abstract class AbstractMultiPointImmutable extends AbstractPointCollectionImmuta
      */
     private function normalizePointIndex(int $pointIndex): int
     {
-        $pointCount = count($this->points);
+        $pointCount = \count($this->points);
         if (0 === $pointCount) {
             throw new OutOfBoundsException('The current collection of points is empty.');
         }

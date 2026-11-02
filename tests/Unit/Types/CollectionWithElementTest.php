@@ -39,7 +39,7 @@ class CollectionWithElementTest extends TestCase
         $replacement = $collection->withElement(-1, new PointImmutable(5, 6, 2154));
 
         static::assertNotSame($collection, $replacement);
-        static::assertSame($collection::class, (new \ReflectionClass($replacement))->getName());
+        static::assertSame($collection::class, new \ReflectionClass($replacement)->getName());
         static::assertSame(2154, $replacement->getSrid());
         static::assertSame([[1, 2], [3, 4]], $collection->toArray());
         static::assertSame([[1, 2], [5, 6]], $replacement->toArray());

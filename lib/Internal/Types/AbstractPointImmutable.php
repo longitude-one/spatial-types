@@ -40,7 +40,7 @@ abstract class AbstractPointImmutable extends AbstractSpatialTypeImmutable imple
     public function withCoordinates(Coordinates $coordinates): static
     {
         if ($this->getDimension() !== $coordinates->dimension) {
-            throw new InvalidDimensionException(sprintf('The %s coordinates are incompatible with the %s point dimension.', $coordinates->dimension->value, $this->getDimension()->value));
+            throw new InvalidDimensionException(\sprintf('The %s coordinates are incompatible with the %s point dimension.', $coordinates->dimension->value, $this->getDimension()->value));
         }
 
         $point = clone $this;

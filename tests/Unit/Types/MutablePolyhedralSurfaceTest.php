@@ -49,7 +49,7 @@ class MutablePolyhedralSurfaceTest extends TestCase
         $this->expectException(InvalidDimensionException::class);
 
         try {
-            (new \ReflectionMethod($surface, 'setArrayOfCoordinates'))->invoke($surface, [[[[3, 4, 5]]], [[[6, 7, 8, 9]]]]);
+            new \ReflectionMethod($surface, 'setArrayOfCoordinates')->invoke($surface, [[[[3, 4, 5]]], [[[6, 7, 8, 9]]]]);
         } finally {
             static::assertSame([$patch], $surface->getPatches());
             static::assertSame($ring, $patch->getRing(0));
@@ -110,7 +110,7 @@ class MutablePolyhedralSurfaceTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(PolyhedralSurface::class))->newInstance([$patch]);
+            new \ReflectionClass(PolyhedralSurface::class)->newInstance([$patch]);
         } finally {
             static::assertSame([[[1, 2, 3]]], $patch->toArray());
             static::assertSame(4326, $patch->getSrid());
@@ -121,7 +121,7 @@ class MutablePolyhedralSurfaceTest extends TestCase
     public function testImmutableSourceIsolation(): void
     {
         $immutable = new PolyhedralSurfaceImmutable([[[[1, 2, 3]]]], 4326);
-        $surface = (new \ReflectionClass(PolyhedralSurface::class))->newInstance($immutable->toArray(), 4326);
+        $surface = new \ReflectionClass(PolyhedralSurface::class)->newInstance($immutable->toArray(), 4326);
         $surface->getPatch(0)->getRing(0)->getPoint(0)->setX(9);
         static::assertSame([[[[9, 2, 3]]]], $surface->toArray());
         static::assertSame([[[[1, 2, 3]]]], $immutable->toArray());
@@ -135,7 +135,7 @@ class MutablePolyhedralSurfaceTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionClass(PolyhedralSurfaceImmutable::class))->newInstance([$patch]);
+            new \ReflectionClass(PolyhedralSurfaceImmutable::class)->newInstance([$patch]);
         } finally {
             static::assertSame([[[0, null, 8]]], $patch->toArray());
             static::assertSame(4326, $patch->getSrid());
@@ -191,11 +191,11 @@ class MutablePolyhedralSurfaceTest extends TestCase
         static::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $surface->getType());
         static::assertSame(CoordinateDimensionEnum::XYZ, $surface->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $surface->getFamily());
-        static::assertFalse((new \ReflectionClass($surface))->hasMethod('withPatch'));
-        static::assertFalse((new \ReflectionClass($surface))->hasMethod('withArrayOfCoordinates'));
-        static::assertFalse((new \ReflectionClass($surface))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($surface))->hasMethod('setDimension'));
-        static::assertSame('static', (string) (new \ReflectionMethod($surface, 'setPoint'))->getReturnType());
+        static::assertFalse(new \ReflectionClass($surface)->hasMethod('withPatch'));
+        static::assertFalse(new \ReflectionClass($surface)->hasMethod('withArrayOfCoordinates'));
+        static::assertFalse(new \ReflectionClass($surface)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($surface)->hasMethod('setDimension'));
+        static::assertSame('static', (string) new \ReflectionMethod($surface, 'setPoint')->getReturnType());
     }
 
     /** Shared point identity changes every occurrence; equal-valued points remain independent. */

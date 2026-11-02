@@ -68,7 +68,7 @@ class PointWithSridTest extends TestCase
         $pointWithSrid = $point->withSrid(2154);
 
         static::assertNotSame($point, $pointWithSrid);
-        static::assertSame($point::class, (new \ReflectionClass($pointWithSrid))->getName());
+        static::assertSame($point::class, new \ReflectionClass($pointWithSrid)->getName());
         static::assertSame($point->toArray(), $pointWithSrid->toArray());
         static::assertSame(4326, $point->getSrid());
         static::assertSame(2154, $pointWithSrid->getSrid());

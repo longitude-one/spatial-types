@@ -39,7 +39,7 @@ final readonly class SpatialFactoryRegistry
         $registeredFactories = [];
         foreach ($familyFactories as $factories) {
             if (isset($registeredFactories[$factories->family->name])) {
-                throw new InvalidValueException(sprintf('Factories are already registered for the %s family.', $factories->family->value));
+                throw new InvalidValueException(\sprintf('Factories are already registered for the %s family.', $factories->family->value));
             }
 
             $registeredFactories[$factories->family->name] = $factories;
@@ -88,7 +88,7 @@ final readonly class SpatialFactoryRegistry
     private function forFamily(SpatialModelEnum $family): FamilyFactories
     {
         if (!isset($this->familyFactories[$family->name])) {
-            throw new InvalidValueException(sprintf('No factories are registered for the %s family.', $family->value));
+            throw new InvalidValueException(\sprintf('No factories are registered for the %s family.', $family->value));
         }
 
         return $this->familyFactories[$family->name];

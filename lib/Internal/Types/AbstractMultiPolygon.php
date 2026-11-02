@@ -56,7 +56,7 @@ abstract class AbstractMultiPolygon extends AbstractMutableCollection implements
     /** @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|MutableLineStringInterface>|MutablePolygonInterface $element Mutable member or coordinate array */
     protected function hydrateElement(mixed $element): MutablePolygonInterface
     {
-        if (is_array($element)) {
+        if (\is_array($element)) {
             $element = match ($this->getDimension()) {
                 CoordinateDimensionEnum::XY => new Dimension2\Polygon($element, $this->spatialReference, $this->family),
                 CoordinateDimensionEnum::XYZ => new Dimension3z\Polygon($element, $this->spatialReference, $this->family),

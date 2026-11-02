@@ -79,7 +79,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
     /** Return the final component's endpoint, or null. */
     public function getEndPoint(): ?MutablePointInterface
     {
-        return [] === $this->curves ? null : $this->curves[count($this->curves) - 1]->getEndPoint();
+        return [] === $this->curves ? null : $this->curves[\count($this->curves) - 1]->getEndPoint();
     }
 
     /** Return the declared family. */
@@ -106,8 +106,8 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
      */
     public function insertCurve(int $index, MutableCircularStringInterface|MutableLineStringInterface $curve): static
     {
-        if ($index < 0 || $index > count($this->curves)) {
-            throw new OutOfBoundsException(sprintf('Curve index %d is outside the insertion range.', $index));
+        if ($index < 0 || $index > \count($this->curves)) {
+            throw new OutOfBoundsException(\sprintf('Curve index %d is outside the insertion range.', $index));
         }
         array_splice($this->curves, $index, 0, [$curve]);
 
@@ -200,8 +200,8 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
     /** @param int $index Existing zero-based component index */
     private function requireCurveIndex(int $index): void
     {
-        if ($index < 0 || $index >= count($this->curves)) {
-            throw new OutOfBoundsException(sprintf('Curve index %d does not address an existing curve.', $index));
+        if ($index < 0 || $index >= \count($this->curves)) {
+            throw new OutOfBoundsException(\sprintf('Curve index %d does not address an existing curve.', $index));
         }
     }
 }

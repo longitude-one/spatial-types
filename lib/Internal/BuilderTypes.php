@@ -45,7 +45,7 @@ final class BuilderTypes
      */
     public static function create(string $type, array $arguments, CoordinateDimensionEnum $dimension, SpatialModelEnum $family, SpatialReference $reference, bool $mutable): SpatialInterface
     {
-        if ('PolyhedralSurface' === $type && !in_array($dimension, [CoordinateDimensionEnum::XYZ, CoordinateDimensionEnum::XYZM], true)) {
+        if ('PolyhedralSurface' === $type && !\in_array($dimension, [CoordinateDimensionEnum::XYZ, CoordinateDimensionEnum::XYZM], true)) {
             throw new InvalidDimensionException('PolyhedralSurface is supported only for XYZ and XYZM.');
         }
 
@@ -53,10 +53,10 @@ final class BuilderTypes
         $class = self::className($type, $dimension, $family, $mutable);
 
         if (!class_exists($class)) {
-            throw new InvalidDimensionException(sprintf('%s is unavailable in %s.', $type, $dimension->value));
+            throw new InvalidDimensionException(\sprintf('%s is unavailable in %s.', $type, $dimension->value));
         }
 
-        $created = (new ConstructorReflection($class))->newInstanceArgs(self::constructorArguments($type, $arguments, $family, $reference, $mutable));
+        $created = new ConstructorReflection($class)->newInstanceArgs(self::constructorArguments($type, $arguments, $family, $reference, $mutable));
         if (!$created instanceof SpatialInterface) {
             throw new InvalidValueException('The selected class is not a spatial type.');
         }
@@ -95,7 +95,7 @@ final class BuilderTypes
         foreach ($values as $value) {
             if ($value instanceof SpatialInterface) {
                 ImmutableComponentGuard::check($value);
-            } elseif (is_array($value)) {
+            } elseif (\is_array($value)) {
                 self::checkImmutableComponents($value);
             }
         }
@@ -115,7 +115,7 @@ final class BuilderTypes
             if ($value instanceof SpatialInterface && !$value instanceof MutableSpatialInterface) {
                 throw new InvalidValueException('Mutable builder output requires mutable spatial components.');
             }
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 self::checkMutableComponents($value);
             }
         }

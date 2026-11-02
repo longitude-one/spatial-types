@@ -189,7 +189,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($compound, 'addCurve'))->invoke($compound, $immutable);
+            new \ReflectionMethod($compound, 'addCurve')->invoke($compound, $immutable);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());
@@ -206,7 +206,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(CompoundCurve::class))->newInstance([$immutable]);
+            new \ReflectionClass(CompoundCurve::class)->newInstance([$immutable]);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());
@@ -225,7 +225,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($compound, 'insertCurve'))->invoke($compound, 0, $immutable);
+            new \ReflectionMethod($compound, 'insertCurve')->invoke($compound, 0, $immutable);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());
@@ -242,7 +242,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(\TypeError::class);
 
         try {
-            (new \ReflectionMethod($compound, 'setCurve'))->invoke($compound, 0, $immutable);
+            new \ReflectionMethod($compound, 'setCurve')->invoke($compound, 0, $immutable);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());
@@ -259,7 +259,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($compound, 'setCurves'))->invoke($compound, [$curve, $immutable]);
+            new \ReflectionMethod($compound, 'setCurves')->invoke($compound, [$curve, $immutable]);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());
@@ -354,7 +354,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionMethod($compound, 'setCurves'))->invoke($compound, [$curve, new CompoundCurve()]);
+            new \ReflectionMethod($compound, 'setCurves')->invoke($compound, [$curve, new CompoundCurve()]);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());
@@ -420,11 +420,11 @@ class MutableCompoundCurveTest extends TestCase
         static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
         static::assertSame(CoordinateDimensionEnum::XY, $compound->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $compound->getFamily());
-        static::assertFalse((new \ReflectionClass($compound))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($compound))->hasMethod('withSpatialReference'));
-        static::assertFalse((new \ReflectionClass($compound))->hasMethod('withCurves'));
-        static::assertFalse((new \ReflectionClass($compound))->hasMethod('setDimension'));
-        static::assertSame('static', (string) (new \ReflectionMethod($compound, 'setCurves'))->getReturnType());
+        static::assertFalse(new \ReflectionClass($compound)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($compound)->hasMethod('withSpatialReference'));
+        static::assertFalse(new \ReflectionClass($compound)->hasMethod('withCurves'));
+        static::assertFalse(new \ReflectionClass($compound)->hasMethod('setDimension'));
+        static::assertSame('static', (string) new \ReflectionMethod($compound, 'setCurves')->getReturnType());
     }
 
     /** Context updates remain local. */
@@ -522,7 +522,7 @@ class MutableCompoundCurveTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         try {
-            (new \ReflectionClass(CompoundCurve::class))->newInstance([[[1, 2]]]);
+            new \ReflectionClass(CompoundCurve::class)->newInstance([[[1, 2]]]);
         } finally {
             static::assertSame([$curve], $compound->getCurves());
             static::assertSame([[[0, null]]], $compound->toArray());

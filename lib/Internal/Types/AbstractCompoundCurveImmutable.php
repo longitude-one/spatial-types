@@ -61,9 +61,9 @@ abstract class AbstractCompoundCurveImmutable extends AbstractSpatialTypeImmutab
         if ([] === $this->curves) {
             throw new OutOfBoundsException('The current collection of curves is empty.');
         }
-        $index %= count($this->curves);
+        $index %= \count($this->curves);
 
-        return $this->curves[$index < 0 ? count($this->curves) + $index : $index];
+        return $this->curves[$index < 0 ? \count($this->curves) + $index : $index];
     }
 
     /** @return ImmutableCurveInterface[] */
@@ -141,12 +141,12 @@ abstract class AbstractCompoundCurveImmutable extends AbstractSpatialTypeImmutab
     {
         $coordinates = [];
         foreach ($curve->toArray() as $point) {
-            if (!is_array($point)) {
+            if (!\is_array($point)) {
                 throw new InvalidValueException('A compound curve component must expose point coordinate tuples.');
             }
             $tuple = [];
             foreach ($point as $ordinate) {
-                if (null !== $ordinate && !is_int($ordinate) && !is_float($ordinate)) {
+                if (null !== $ordinate && !\is_int($ordinate) && !\is_float($ordinate)) {
                     throw new InvalidValueException('A compound curve component must expose numeric or null ordinates.');
                 }
                 $tuple[] = $ordinate;

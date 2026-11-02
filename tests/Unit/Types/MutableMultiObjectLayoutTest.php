@@ -98,13 +98,13 @@ class MutableMultiObjectLayoutTest extends TestCase
         static::assertSame(SpatialModelEnum::GEOMETRY, $lines->getFamily());
         static::assertSame(SpatialModelEnum::GEOMETRY, $polygons->getFamily());
         static::assertSame(SpatialModelEnum::GEOMETRY, $collection->getFamily());
-        static::assertFalse((new \ReflectionClass($points))->hasMethod('withPoint'));
-        static::assertFalse((new \ReflectionClass($lines))->hasMethod('withLineString'));
-        static::assertFalse((new \ReflectionClass($polygons))->hasMethod('withPolygon'));
-        static::assertFalse((new \ReflectionClass($collection))->hasMethod('withElement'));
-        static::assertFalse((new \ReflectionClass($collection))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($points))->hasMethod('setDimension'));
-        static::assertSame('static', (string) (new \ReflectionMethod($collection, 'setElements'))->getReturnType());
+        static::assertFalse(new \ReflectionClass($points)->hasMethod('withPoint'));
+        static::assertFalse(new \ReflectionClass($lines)->hasMethod('withLineString'));
+        static::assertFalse(new \ReflectionClass($polygons)->hasMethod('withPolygon'));
+        static::assertFalse(new \ReflectionClass($collection)->hasMethod('withElement'));
+        static::assertFalse(new \ReflectionClass($collection)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($points)->hasMethod('setDimension'));
+        static::assertSame('static', (string) new \ReflectionMethod($collection, 'setElements')->getReturnType());
     }
 
     /** Each collection kind hydrates mutable descendants in the declared layout. */

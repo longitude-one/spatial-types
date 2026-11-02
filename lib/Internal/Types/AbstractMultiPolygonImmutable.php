@@ -80,10 +80,10 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
             throw new OutOfBoundsException('The current collection of polygons is empty.');
         }
 
-        $index = $index % count($this->getPolygons());
+        $index %= \count($this->getPolygons());
 
         if ($index < 0) {
-            $index = count($this->getPolygons()) + $index;
+            $index = \count($this->getPolygons()) + $index;
         }
 
         return $this->getPolygons()[$index];
@@ -132,7 +132,7 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
 
         return $this->withReplacedPolygon(
             $polygonIndex,
-            fn (ImmutablePolygonInterface $polygon): ImmutablePolygonInterface => $polygon->withPoint($ringIndex, $pointIndex, $coordinates)
+            static fn (ImmutablePolygonInterface $polygon): ImmutablePolygonInterface => $polygon->withPoint($ringIndex, $pointIndex, $coordinates)
         );
     }
 
@@ -172,7 +172,7 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
 
         return $this->withReplacedPolygon(
             $polygonIndex,
-            fn (ImmutablePolygonInterface $polygon): ImmutablePolygonInterface => $polygon->withRing($ringIndex, $coordinates)
+            static fn (ImmutablePolygonInterface $polygon): ImmutablePolygonInterface => $polygon->withRing($ringIndex, $coordinates)
         );
     }
 
@@ -214,7 +214,7 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
      */
     protected function addPolygon(array|ImmutablePolygonInterface $polygon): static
     {
-        if (is_array($polygon)) {
+        if (\is_array($polygon)) {
             $polygon = $this->createPolygonFromCoordinates($polygon);
         }
 
@@ -249,7 +249,7 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
      */
     private function normalizePolygonIndex(int $polygonIndex): int
     {
-        $polygonCount = count($this->polygons);
+        $polygonCount = \count($this->polygons);
         if (0 === $polygonCount) {
             throw new OutOfBoundsException('The current collection of polygons is empty.');
         }

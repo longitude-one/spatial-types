@@ -90,10 +90,10 @@ class PointTest extends TestCase
         static::assertContains(MutablePointInterface::class, class_implements($point));
         static::assertContains(MutableSpatialInterface::class, class_implements($point));
         static::assertNotContains(ImmutableSpatialInterface::class, class_implements($point));
-        static::assertFalse((new \ReflectionClass($point))->hasMethod('withCoordinates'));
-        static::assertFalse((new \ReflectionClass($point))->hasMethod('withSpatialReference'));
-        static::assertFalse((new \ReflectionClass($point))->hasMethod('withSrid'));
-        static::assertFalse((new \ReflectionClass($point))->hasMethod('setDimension'));
+        static::assertFalse(new \ReflectionClass($point)->hasMethod('withCoordinates'));
+        static::assertFalse(new \ReflectionClass($point)->hasMethod('withSpatialReference'));
+        static::assertFalse(new \ReflectionClass($point)->hasMethod('withSrid'));
+        static::assertFalse(new \ReflectionClass($point)->hasMethod('setDimension'));
     }
 
     /** Rejected abscissa parsing preserves receiver. */
@@ -144,7 +144,7 @@ class PointTest extends TestCase
         $point = new Point(1, 2);
 
         try {
-            (new \ReflectionMethod($point, 'setX'))->invoke($point, []);
+            new \ReflectionMethod($point, 'setX')->invoke($point, []);
             static::fail('Arrays are not coordinate input.');
         } catch (\TypeError) {
             static::assertSame([1, 2], $point->toArray());

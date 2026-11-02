@@ -50,7 +50,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePointInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(CircularStringImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(CircularStringImmutable::class)->newInstance([$mutable]);
     }
 
     /** Collection rejects mutable input without conversion. */
@@ -59,7 +59,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePointInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(GeometryCollectionImmutable::class))->newInstance(0, [$mutable]);
+        new \ReflectionClass(GeometryCollectionImmutable::class)->newInstance(0, [$mutable]);
     }
 
     /** CompoundCurve rejects mutable input without conversion. */
@@ -68,7 +68,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutableCurveInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(CompoundCurveImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(CompoundCurveImmutable::class)->newInstance([$mutable]);
     }
 
     /** XY tuples produce immutable points while preserving partial nulls. */
@@ -77,9 +77,9 @@ class ImmutableComponentContractTest extends TestCase
         $source = new MultiPolygonImmutable([[[[0, null], [2, 3]]]], 4326);
         $copy = $source->withSpatialReference(SpatialReference::epsg(2154));
 
-        static::assertTrue(is_a((new \ReflectionClass($copy->getPolygon(0)))->getName(), ImmutableSpatialInterface::class, true));
-        static::assertTrue(is_a((new \ReflectionClass($copy->getPolygon(0)->getRing(0)))->getName(), ImmutableSpatialInterface::class, true));
-        static::assertTrue(is_a((new \ReflectionClass($copy->getPolygon(0)->getRing(0)->getPoint(0)))->getName(), ImmutableSpatialInterface::class, true));
+        static::assertTrue(is_a(new \ReflectionClass($copy->getPolygon(0))->getName(), ImmutableSpatialInterface::class, true));
+        static::assertTrue(is_a(new \ReflectionClass($copy->getPolygon(0)->getRing(0))->getName(), ImmutableSpatialInterface::class, true));
+        static::assertTrue(is_a(new \ReflectionClass($copy->getPolygon(0)->getRing(0)->getPoint(0))->getName(), ImmutableSpatialInterface::class, true));
         static::assertSame([[[[0, null], [2, 3]]]], $copy->toArray());
         static::assertSame(2154, $copy->getPolygon(0)->getRing(0)->getPoint(0)->getSrid());
         static::assertSame(4326, $source->getPolygon(0)->getRing(0)->getPoint(0)->getSrid());
@@ -94,7 +94,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePointInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(LineStringImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(LineStringImmutable::class)->newInstance([$mutable]);
     }
 
     /** MultiLineString rejects mutable input without conversion. */
@@ -103,7 +103,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutableLineStringInterface::class);
         $this->expectException(\TypeError::class);
 
-        (new \ReflectionClass(MultiLineStringImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(MultiLineStringImmutable::class)->newInstance([$mutable]);
     }
 
     /** MultiPoint rejects mutable input without conversion. */
@@ -112,7 +112,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePointInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(MultiPointImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(MultiPointImmutable::class)->newInstance([$mutable]);
     }
 
     /** MultiPolygon rejects mutable input without conversion. */
@@ -121,7 +121,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePolygonInterface::class);
         $this->expectException(\TypeError::class);
 
-        (new \ReflectionClass(MultiPolygonImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(MultiPolygonImmutable::class)->newInstance([$mutable]);
     }
 
     /** A marker cannot hide mutable descendants of a custom collection. */
@@ -142,7 +142,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePointInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(PolygonImmutable::class))->newInstance([[$mutable]]);
+        new \ReflectionClass(PolygonImmutable::class)->newInstance([[$mutable]]);
     }
 
     /** Polygon rejects mutable input without conversion. */
@@ -151,7 +151,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutableLineStringInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(PolygonImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(PolygonImmutable::class)->newInstance([$mutable]);
     }
 
     /** PolyhedralSurface rejects mutable input without conversion. */
@@ -160,7 +160,7 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutablePolygonInterface::class);
         $this->expectException(\TypeError::class);
 
-        (new \ReflectionClass(PolyhedralSurfaceImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(PolyhedralSurfaceImmutable::class)->newInstance([$mutable]);
     }
 
     /** A rejected replacement preserves source membership and supplied objects. */
@@ -190,6 +190,6 @@ class ImmutableComponentContractTest extends TestCase
         $mutable = static::createStub(MutableLineStringInterface::class);
         $this->expectException(InvalidValueException::class);
 
-        (new \ReflectionClass(TriangleImmutable::class))->newInstance([$mutable]);
+        new \ReflectionClass(TriangleImmutable::class)->newInstance([$mutable]);
     }
 }

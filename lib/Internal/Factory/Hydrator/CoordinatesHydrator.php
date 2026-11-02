@@ -42,8 +42,8 @@ final class CoordinatesHydrator
     public function hydrate(array $coordinates, SpatialContext $context): Coordinates
     {
         $coordinateCount = $context->dimension->coordinateDimension();
-        if (count($coordinates) > $coordinateCount) {
-            throw new InvalidDimensionException(sprintf('The array must contain exactly %d coordinates to create a %s point.', $coordinateCount, $context->dimension->value));
+        if (\count($coordinates) > $coordinateCount) {
+            throw new InvalidDimensionException(\sprintf('The array must contain exactly %d coordinates to create a %s point.', $coordinateCount, $context->dimension->value));
         }
 
         $this->validateRequiredCoordinates($coordinates, $coordinateCount);
@@ -68,8 +68,8 @@ final class CoordinatesHydrator
      */
     private function numericCoordinate(mixed $coordinate, string $name): float|int|null
     {
-        if (null !== $coordinate && !is_float($coordinate) && !is_int($coordinate)) {
-            throw new InvalidValueException(sprintf('The %s coordinate must be a number or null.', $name));
+        if (null !== $coordinate && !\is_float($coordinate) && !\is_int($coordinate)) {
+            throw new InvalidValueException(\sprintf('The %s coordinate must be a number or null.', $name));
         }
 
         return $coordinate;
@@ -112,8 +112,8 @@ final class CoordinatesHydrator
         $coordinateNames = ['first', 'second', 'third', 'fourth'];
 
         foreach (range(0, $coordinateCount - 1) as $index) {
-            if (!array_key_exists($index, $coordinates)) {
-                throw new MissingValueException(sprintf('The %s coordinate of array is missing.', $coordinateNames[$index] ?? 'unknown'));
+            if (!\array_key_exists($index, $coordinates)) {
+                throw new MissingValueException(\sprintf('The %s coordinate of array is missing.', $coordinateNames[$index] ?? 'unknown'));
             }
         }
     }

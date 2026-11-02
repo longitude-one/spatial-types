@@ -52,8 +52,8 @@ trait PointBehaviorTrait
     private static function integerEqualsFloat(int $integer, float $floating): bool
     {
         // The exclusive upper bound is exact even when PHP_INT_MAX rounds up as a float.
-        return $floating >= PHP_INT_MIN
-            && $floating < -(float) PHP_INT_MIN
+        return $floating >= \PHP_INT_MIN
+            && $floating < -(float) \PHP_INT_MIN
             && floor($floating) === $floating
             && (int) $floating === $integer;
     }
@@ -66,11 +66,11 @@ trait PointBehaviorTrait
      */
     private static function ordinatesEqual(float|int|null $first, float|int|null $second): bool
     {
-        if (is_int($first) && is_float($second)) {
+        if (\is_int($first) && \is_float($second)) {
             return self::integerEqualsFloat($first, $second);
         }
 
-        if (is_float($first) && is_int($second)) {
+        if (\is_float($first) && \is_int($second)) {
             return self::integerEqualsFloat($second, $first);
         }
 
@@ -173,19 +173,19 @@ trait PointBehaviorTrait
             $parsedCoordinate = $parser->parse();
         } catch (GeoParserRangeException $e) {
             $messages = [
-                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
-                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
-                GeoParserRangeException::MINUTES_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, DiagnosticValueFormatter::format((string) $coordinate)),
-                GeoParserRangeException::SECONDS_OUT_OF_RANGE => sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::LATITUDE_OUT_OF_RANGE => \sprintf(InvalidValueException::OUT_OF_RANGE_LATITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::LONGITUDE_OUT_OF_RANGE => \sprintf(InvalidValueException::OUT_OF_RANGE_LONGITUDE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::MINUTES_OUT_OF_RANGE => \sprintf(InvalidValueException::OUT_OF_RANGE_MINUTE, DiagnosticValueFormatter::format((string) $coordinate)),
+                GeoParserRangeException::SECONDS_OUT_OF_RANGE => \sprintf(InvalidValueException::OUT_OF_RANGE_SECOND, DiagnosticValueFormatter::format((string) $coordinate)),
             ];
             $message = $messages[$e->getCode()] ?? DiagnosticValueFormatter::format($e->getMessage());
 
             throw new InvalidValueException($message, $e->getCode(), $e);
         } catch (UnexpectedValueException $e) {
-            throw new InvalidValueException(sprintf('Invalid coordinate value, got "%s".', DiagnosticValueFormatter::format((string) $coordinate)), $e->getCode(), $e);
+            throw new InvalidValueException(\sprintf('Invalid coordinate value, got "%s".', DiagnosticValueFormatter::format((string) $coordinate)), $e->getCode(), $e);
         }
 
-        if (is_array($parsedCoordinate)) {
+        if (\is_array($parsedCoordinate)) {
             throw new InvalidValueException('Invalid coordinate value, coordinate cannot be an array.');
         }
 
@@ -202,7 +202,7 @@ trait PointBehaviorTrait
      */
     final protected function hasOnlyNullCoordinates(float|int|string|null ...$coordinates): bool
     {
-        $this->empty = count($coordinates) === count(array_filter($coordinates, static fn (float|int|string|null $coordinate): bool => null === $coordinate));
+        $this->empty = \count($coordinates) === \count(array_filter($coordinates, static fn (float|int|string|null $coordinate): bool => null === $coordinate));
 
         return $this->empty;
     }
@@ -217,7 +217,7 @@ trait PointBehaviorTrait
     protected function initializeM(float|int|null $m): static
     {
         // @codeCoverageIgnoreStart
-        throw new BadMethodCallException(sprintf('The M ordinate "%s" cannot be assigned to a point with the %s dimension.', $m, $this->getDimension()->value));
+        throw new BadMethodCallException(\sprintf('The M ordinate "%s" cannot be assigned to a point with the %s dimension.', $m, $this->getDimension()->value));
         // @codeCoverageIgnoreEnd
     }
 
@@ -259,7 +259,7 @@ trait PointBehaviorTrait
     protected function initializeZ(float|int|null $z): static
     {
         // @codeCoverageIgnoreStart
-        throw new BadMethodCallException(sprintf('The Z ordinate "%s" cannot be assigned to a point with the %s dimension.', $z, $this->getDimension()->value));
+        throw new BadMethodCallException(\sprintf('The Z ordinate "%s" cannot be assigned to a point with the %s dimension.', $z, $this->getDimension()->value));
         // @codeCoverageIgnoreEnd
     }
 
@@ -273,7 +273,7 @@ trait PointBehaviorTrait
      */
     protected function setCartesianCoordinate(float|int|string|null $coordinate): float|int|null
     {
-        if (null === $coordinate || is_integer($coordinate) || is_float($coordinate)) {
+        if (null === $coordinate || \is_int($coordinate) || \is_float($coordinate)) {
             // We don't check the range of the value.
             return $coordinate;
         }

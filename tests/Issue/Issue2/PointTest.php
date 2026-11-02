@@ -35,7 +35,7 @@ class PointTest extends TestCase
      */
     public function testConstructsNegativeSouthLatitude(): void
     {
-        static::assertSame(-40, (new PointImmutable(0, '-40S'))->getLatitude());
+        static::assertSame(-40, new PointImmutable(0, '-40S')->getLatitude());
     }
 
     /**
@@ -43,6 +43,6 @@ class PointTest extends TestCase
      */
     public function testConstructsNegativeWestLongitude(): void
     {
-        static::assertSame(-40, (new PointImmutable('-40W', 0))->getLongitude());
+        static::assertSame(-40, new PointImmutable('-40W', 0)->getLongitude());
     }
 }
