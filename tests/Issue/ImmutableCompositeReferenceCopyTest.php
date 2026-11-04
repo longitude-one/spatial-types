@@ -30,6 +30,9 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /** Composite copies retain the complete reference at every unchanged level.
+ *
+ * {@link https://github.com/longitude-one/spatial-types/issues/77}
+ *
  * @internal
  *
  * @coversNothing

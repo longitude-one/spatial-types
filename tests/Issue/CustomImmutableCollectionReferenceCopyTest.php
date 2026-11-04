@@ -23,6 +23,9 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable;
 use PHPUnit\Framework\TestCase;
 
 /** Regression for the exact custom-composite scenario reviewed on PR #83.
+ *
+ * {@link https://github.com/longitude-one/spatial-types/issues/77}
+ *
  * @internal
  *
  * @coversNothing

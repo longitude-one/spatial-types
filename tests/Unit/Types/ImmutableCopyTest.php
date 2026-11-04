@@ -22,6 +22,9 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use PHPUnit\Framework\TestCase;
 
 /** Public reference-neutral copying in every supported layout and family.
+ *
+ * {@link https://github.com/longitude-one/spatial-types/issues/77}
+ *
  * @internal
  *
  * @coversNothing

@@ -28,6 +28,9 @@ use LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PolygonImmutable;
 use PHPUnit\Framework\TestCase;
 
 /** Collection edits copy nested multi-objects without changing their references.
+ *
+ * {@link https://github.com/longitude-one/spatial-types/issues/77}
+ *
  * @internal
  *
  * @coversNothing

@@ -21,6 +21,9 @@ use LongitudeOne\SpatialTypes\Value\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /** Regression coverage for authority-qualified immutable copies.
+ *
+ * {@link https://github.com/longitude-one/spatial-types/issues/77}
+ *
  * @internal
  *
  * @coversNothing

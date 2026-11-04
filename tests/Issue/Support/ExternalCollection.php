@@ -25,6 +25,9 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable;
 
 /** Third-party immutable collection from the independent #77 reproduction.
+ *
+ * {@link https://github.com/longitude-one/spatial-types/issues/77}
+ *
  * @internal
  */
 final readonly class ExternalCollection implements ImmutableCollectionInterface
