@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Internal;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\CircularStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\LineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\PointInterface;
@@ -28,10 +29,13 @@ trait BuilderAdditionTrait
     /**
      * Add curve.
      *
-     * @param CircularStringInterface|LineStringInterface $curve curve value
+     * @param SpatialInterface $curve curve value
      */
-    public function addCurve(CircularStringInterface|LineStringInterface $curve): self
+    public function addCurve(SpatialInterface $curve): self
     {
+        if (!$curve instanceof CircularStringInterface && !$curve instanceof LineStringInterface) {
+            throw new InvalidValueException('addCurve() requires CircularStringInterface or LineStringInterface components.');
+        }
         $this->requireAggregate(['CompoundCurve']);
 
         return $this->addComponent($curve);
@@ -52,10 +56,13 @@ trait BuilderAdditionTrait
     /**
      * Add line string.
      *
-     * @param LineStringInterface $lineString lineString value
+     * @param SpatialInterface $lineString lineString value
      */
-    public function addLineString(LineStringInterface $lineString): self
+    public function addLineString(SpatialInterface $lineString): self
     {
+        if (!$lineString instanceof LineStringInterface) {
+            throw new InvalidValueException('addLineString() requires LineStringInterface components.');
+        }
         $this->requireAggregate(['MultiLineString']);
 
         return $this->addComponent($lineString);
@@ -64,10 +71,13 @@ trait BuilderAdditionTrait
     /**
      * Add patch.
      *
-     * @param PolygonInterface $patch patch value
+     * @param SpatialInterface $patch patch value
      */
-    public function addPatch(PolygonInterface $patch): self
+    public function addPatch(SpatialInterface $patch): self
     {
+        if (!$patch instanceof PolygonInterface) {
+            throw new InvalidValueException('addPatch() requires PolygonInterface components.');
+        }
         $this->requireAggregate(['PolyhedralSurface']);
 
         return $this->addComponent($patch);
@@ -93,10 +103,13 @@ trait BuilderAdditionTrait
     /**
      * Add point component.
      *
-     * @param PointInterface $point point value
+     * @param SpatialInterface $point point value
      */
-    public function addPointComponent(PointInterface $point): self
+    public function addPointComponent(SpatialInterface $point): self
     {
+        if (!$point instanceof PointInterface) {
+            throw new InvalidValueException('addPointComponent() requires PointInterface components.');
+        }
         $this->requireAggregate(['LineString', 'CircularString', 'MultiPoint']);
 
         return $this->addComponent($point);
@@ -105,10 +118,13 @@ trait BuilderAdditionTrait
     /**
      * Add polygon.
      *
-     * @param PolygonInterface $polygon polygon value
+     * @param SpatialInterface $polygon polygon value
      */
-    public function addPolygon(PolygonInterface $polygon): self
+    public function addPolygon(SpatialInterface $polygon): self
     {
+        if (!$polygon instanceof PolygonInterface) {
+            throw new InvalidValueException('addPolygon() requires PolygonInterface components.');
+        }
         $this->requireAggregate(['MultiPolygon']);
 
         return $this->addComponent($polygon);
@@ -117,10 +133,13 @@ trait BuilderAdditionTrait
     /**
      * Add ring.
      *
-     * @param LineStringInterface $ring ring value
+     * @param SpatialInterface $ring ring value
      */
-    public function addRing(LineStringInterface $ring): self
+    public function addRing(SpatialInterface $ring): self
     {
+        if (!$ring instanceof LineStringInterface) {
+            throw new InvalidValueException('addRing() requires LineStringInterface components.');
+        }
         $this->requireAggregate(['Polygon', 'Triangle']);
 
         return $this->addComponent($ring);
