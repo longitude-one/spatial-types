@@ -46,6 +46,8 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
             throw new InvalidValueException('Appending an arc requires an origin followed by complete point pairs.');
         }
 
+        MutableComponentGuard::check($passingPoint, $this);
+        MutableComponentGuard::check($destinationPoint, $this);
         $this->points[] = $passingPoint;
         $this->points[] = $destinationPoint;
 
@@ -75,6 +77,8 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
             throw new OutOfBoundsException(\sprintf('Arc index %d does not address three existing points.', $index));
         }
 
+        MutableComponentGuard::check($passingPoint, $this);
+        MutableComponentGuard::check($destinationPoint, $this);
         array_splice($this->points, 2 * $index + 1, 2, [$passingPoint, $destinationPoint]);
 
         return $this;
@@ -86,6 +90,7 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
         if (!$point instanceof MutablePointInterface) {
             throw new InvalidValueException('A mutable circular string requires MutablePointInterface components.');
         }
+        MutableComponentGuard::check($point, $this);
         $this->points[0] = $point;
 
         return $this;
