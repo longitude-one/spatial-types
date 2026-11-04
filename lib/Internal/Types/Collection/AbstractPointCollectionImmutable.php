@@ -38,6 +38,18 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
     /** @var ImmutablePointInterface[] */
     protected array $points = [];
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->points = array_map(
+            static fn (ImmutablePointInterface $component): ImmutablePointInterface => self::copyComponent($component),
+            $this->points
+        );
+
+        return $copy;
+    }
+
     /**
      * Return a point using the collection index convention.
      *
@@ -104,17 +116,5 @@ abstract class AbstractPointCollectionImmutable extends AbstractSpatialTypeImmut
         }
 
         return $this;
-    }
-
-    /** Copy every descendant while retaining its individual spatial reference. */
-    protected function copyPreservingReferences(): static
-    {
-        $copy = clone $this;
-        $copy->points = array_map(
-            static fn (ImmutablePointInterface $component): ImmutablePointInterface => self::copyComponent($component),
-            $this->points
-        );
-
-        return $copy;
     }
 }

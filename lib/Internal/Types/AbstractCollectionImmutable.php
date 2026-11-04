@@ -47,6 +47,18 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
         $this->addElements($elements);
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->elements = array_map(
+            static fn (ImmutableSpatialInterface $component): ImmutableSpatialInterface => self::copyComponent($component),
+            $this->elements
+        );
+
+        return $copy;
+    }
+
     /**
      * Get an array of spatial objects in the collection.
      *
@@ -164,18 +176,6 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
         }
 
         return $this;
-    }
-
-    /** Copy every descendant while retaining its individual spatial reference. */
-    protected function copyPreservingReferences(): static
-    {
-        $copy = clone $this;
-        $copy->elements = array_map(
-            static fn (ImmutableSpatialInterface $component): ImmutableSpatialInterface => self::copyComponent($component),
-            $this->elements
-        );
-
-        return $copy;
     }
 
     /**

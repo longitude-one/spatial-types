@@ -57,6 +57,18 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
         $this->addPolygons($polygons);
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->polygons = array_map(
+            static fn (ImmutablePolygonInterface $component): ImmutablePolygonInterface => self::copyComponent($component),
+            $this->polygons
+        );
+
+        return $copy;
+    }
+
     /**
      * Return the polygons in this multi-polygon.
      *
@@ -238,18 +250,6 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
         }
 
         return $this;
-    }
-
-    /** Copy every descendant while retaining its individual spatial reference. */
-    protected function copyPreservingReferences(): static
-    {
-        $copy = clone $this;
-        $copy->polygons = array_map(
-            static fn (ImmutablePolygonInterface $component): ImmutablePolygonInterface => self::copyComponent($component),
-            $this->polygons
-        );
-
-        return $copy;
     }
 
     /**

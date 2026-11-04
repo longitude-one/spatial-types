@@ -21,6 +21,12 @@ extend `AbstractSpatialType` through `AbstractPoint`, with concrete
 coordinate initialization and parsing between `AbstractPoint` and
 `AbstractPointImmutable`; mutable points do not inherit copy operations.
 
+All immutable branches implement `ImmutableSpatialInterface::copy(): static`.
+The common base copies leaf values; aggregate storage owners recursively copy
+their spatial descendants while retaining each descendant's own declared
+context. Custom implementations must provide the same public contract; see
+[custom immutable implementations](immutability.md#custom-immutable-implementations).
+
 ```text
 AbstractSpatialTypeImmutable
 ├── AbstractCompoundCurveImmutable

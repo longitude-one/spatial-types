@@ -46,6 +46,18 @@ abstract class AbstractCircularStringImmutable extends AbstractSpatialTypeImmuta
         $this->addPoints($points);
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->points = array_map(
+            static fn (ImmutablePointInterface $component): ImmutablePointInterface => self::copyComponent($component),
+            $this->points
+        );
+
+        return $copy;
+    }
+
     /** @return ImmutablePointInterface[] */
     public function getElements(): array
     {
@@ -175,17 +187,5 @@ abstract class AbstractCircularStringImmutable extends AbstractSpatialTypeImmuta
         }
 
         return $this;
-    }
-
-    /** Copy every descendant while retaining its individual spatial reference. */
-    protected function copyPreservingReferences(): static
-    {
-        $copy = clone $this;
-        $copy->points = array_map(
-            static fn (ImmutablePointInterface $component): ImmutablePointInterface => self::copyComponent($component),
-            $this->points
-        );
-
-        return $copy;
     }
 }

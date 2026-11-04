@@ -42,11 +42,13 @@ abstract class AbstractSpatialTypeImmutable extends AbstractSpatialType implemen
      */
     final protected static function copyComponent(ImmutableSpatialInterface $component): ImmutableSpatialInterface
     {
-        if ($component instanceof self) {
-            return $component->copyPreservingReferences();
-        }
+        return $component->copy();
+    }
 
-        return $component->withSpatialReference($component->getSpatialReference());
+    /** Return an independent value with its original declared context. */
+    public function copy(): static
+    {
+        return clone $this;
     }
 
     /**
@@ -73,12 +75,6 @@ abstract class AbstractSpatialTypeImmutable extends AbstractSpatialType implemen
     public function withSrid(int $srid): static
     {
         return $this->withSpatialReference(SpatialReference::fromSrid($srid));
-    }
-
-    /** Return an independent value with its original declared context. */
-    protected function copyPreservingReferences(): static
-    {
-        return clone $this;
     }
 
     /**

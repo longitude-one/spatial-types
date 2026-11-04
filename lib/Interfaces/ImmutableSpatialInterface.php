@@ -22,6 +22,15 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 interface ImmutableSpatialInterface extends SpatialInterface
 {
     /**
+     * Return a deep copy preserving this value's concrete type, coordinates,
+     * family, dimension, complete spatial reference and membership order.
+     * Every spatial descendant is independently copied with its own context.
+     * Immutable auxiliary values, including Coordinates and SpatialReference,
+     * may be shared. The original spatial graph remains unchanged.
+     */
+    public function copy(): static;
+
+    /**
      * Convert this spatial object to its array representation.
      *
      * The array contains only nested arrays of floats and integers, or is empty

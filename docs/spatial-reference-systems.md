@@ -18,11 +18,15 @@ Coordinate tuples are hydrated using the receiving aggregate's reference.
 `withSpatialReference()` instead deeply copies members with the requested
 reference. Neither operation transforms coordinates.
 
-Component replacement on the supplied immutable types preserves the complete
+Immutable `copy()` and component replacement preserve the complete
 reference of every unchanged component, including its authority and identifier.
 Nested components keep their individual references even when they differ from
 their parent's reference. The components are still deeply copied; the original
 geometry and its coordinates remain unchanged.
+This includes accepted custom immutable components, whose `copy(): static`
+implementation must follow the same contract. See
+[custom immutable implementations](immutability.md#custom-immutable-implementations)
+for the interface migration requirement.
 
 ```php
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;

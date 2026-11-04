@@ -55,6 +55,18 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
         $this->addRings($rings);
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->boundary = new PolygonBoundary(array_map(
+            static fn (ImmutableLineStringInterface $component): ImmutableLineStringInterface => self::copyComponent($component),
+            $this->getRings()
+        ));
+
+        return $copy;
+    }
+
     /**
      * Return the rings in this polygon.
      *
@@ -242,18 +254,6 @@ abstract class AbstractPolygonImmutable extends AbstractSpatialTypeImmutable imp
         }
 
         return $this;
-    }
-
-    /** Copy every descendant while retaining its individual spatial reference. */
-    protected function copyPreservingReferences(): static
-    {
-        $copy = clone $this;
-        $copy->boundary = new PolygonBoundary(array_map(
-            static fn (ImmutableLineStringInterface $component): ImmutableLineStringInterface => self::copyComponent($component),
-            $this->getRings()
-        ));
-
-        return $copy;
     }
 
     /**

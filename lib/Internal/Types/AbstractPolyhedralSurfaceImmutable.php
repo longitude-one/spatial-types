@@ -57,6 +57,18 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
         $this->addPatches($patches);
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->patches = array_map(
+            static fn (ImmutablePolygonInterface $component): ImmutablePolygonInterface => self::copyComponent($component),
+            $this->patches
+        );
+
+        return $copy;
+    }
+
     /**
      * Return the polygons in this polyhedral surface.
      *
@@ -255,18 +267,6 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
         }
 
         return $this;
-    }
-
-    /** Copy every descendant while retaining its individual spatial reference. */
-    protected function copyPreservingReferences(): static
-    {
-        $copy = clone $this;
-        $copy->patches = array_map(
-            static fn (ImmutablePolygonInterface $component): ImmutablePolygonInterface => self::copyComponent($component),
-            $this->patches
-        );
-
-        return $copy;
     }
 
     /**

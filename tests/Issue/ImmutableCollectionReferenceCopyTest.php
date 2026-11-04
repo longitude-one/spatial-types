@@ -34,14 +34,15 @@ use PHPUnit\Framework\TestCase;
  */
 final class ImmutableCollectionReferenceCopyTest extends TestCase
 {
-    /** External immutable implementations receive their full original reference. */
-    public function testExternalComponentReceivesItsCompleteReference(): void
+    /** External immutable implementations supply their own reference-neutral copy. */
+    public function testExternalComponentSuppliesItsNeutralCopy(): void
     {
         $reference = new SpatialReference(123, 'CUSTOM');
         $component = static::createMock(ImmutableSpatialInterface::class);
         $componentCopy = clone $component;
         $component->method('getSpatialReference')->willReturn($reference);
-        $component->expects(static::once())->method('withSpatialReference')->with($reference)->willReturn($componentCopy);
+        $component->expects(static::once())->method('copy')->willReturn($componentCopy);
+        $component->expects(static::never())->method('withSpatialReference');
         $source = new GeographyCollectionImmutable(4326, [
             new PointImmutable(0, 0, 4326),
             $component,
