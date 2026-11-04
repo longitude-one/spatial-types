@@ -99,12 +99,12 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         static::assertSame([], $collection->getElements());
     }
 
-    /** Incompatible declared contexts remain representable during classification. */
+    /** Different families and references remain representable with matching layouts. */
     public function testMutableMixedContextMembers(): void
     {
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Point(null, null, null, 3857, SpatialModelEnum::GEOGRAPHY);
-        $line = new \LongitudeOne\SpatialTypes\Types\Dimension3m\LineString([], 2154);
-        $collection = new SpatialCollection([$point, $line], 4326);
+        $line = new \LongitudeOne\SpatialTypes\Types\Dimension3z\LineString([], 2154);
+        $collection = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$point, $line], 4326);
 
         $point->setZ(1);
         static::assertSame([null, null, 1], $point->toArray());

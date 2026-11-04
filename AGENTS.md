@@ -111,7 +111,7 @@ Use `LongitudeOne\Core\Enum\GeometryTypeEnum` for geometry types.
 
 Concrete types live under `LongitudeOne\SpatialTypes\Types`, with `Dimension2` (XY), `Dimension3z` (XYZ), `Dimension3m` (XYM), and `Dimension4zm` (XYZM) namespaces, each containing `Geometry` and `Geography` families.
 
-Pass spatial references and collection elements through the supported constructors or factories, preserving technical member typing and coordinate-layout contracts. Functional family, dimension, reference, and geometry validity rules are not checked automatically.
+Pass spatial references and collection elements through the supported constructors or factories, preserving technical member typing and coordinate-layout contracts. Mutable composite components must match the receiver's coordinate layout. Functional family, reference, immutable aggregate dimension compatibility, and geometry validity rules are not checked automatically.
 
 ## Implementation Autonomy
 

@@ -135,21 +135,21 @@ class MutableMultiObjectOwnershipTest extends TestCase
         }
     }
 
-    /** Supplied mutable objects keep their own context and layout until explicitly changed. */
-    public function testSharedMismatchedContext(): void
+    /** Supplied mutable objects keep their own family and reference until explicitly changed. */
+    public function testSharedMismatchedFamilyAndReference(): void
     {
-        $point = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Point(1, null, 7, 4326, SpatialModelEnum::GEOGRAPHY);
+        $point = new Point(1, null, 4326, SpatialModelEnum::GEOGRAPHY);
         $points = new MultiPoint([$point], 2154);
         static::assertSame($point, $points->getElement(0));
-        static::assertSame([[1, null, 7]], $points->toArray());
+        static::assertSame([[1, null]], $points->toArray());
         static::assertSame(CoordinateDimensionEnum::XY, $points->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
         static::assertSame(SpatialModelEnum::GEOMETRY, $points->getFamily());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame(4326, $point->getSrid());
         static::assertSame($points, $points->setFamily(SpatialModelEnum::GEOMETRY));
         static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame([1, null, 7], $point->toArray());
+        static::assertSame([1, null], $point->toArray());
     }
 
     /** Construction rejects immutable members without altering their source. */

@@ -95,15 +95,15 @@ class MutableCompoundCurveTest extends TestCase
         }
     }
 
-    /** Functional context compatibility is left to explicit validation. */
-    public function testDifferentComponentLayoutsRemainRepresentable(): void
+    /** Matching layouts retain differing family and reference contexts. */
+    public function testDifferentComponentContextsRemainRepresentable(): void
     {
         $line = new LineString([[0, null]], 4326);
-        $arc = new \LongitudeOne\SpatialTypes\Types\Dimension3m\CircularString([[9, 8, null]], 2154, SpatialModelEnum::GEOGRAPHY);
+        $arc = new CircularString([[9, 8]], 2154, SpatialModelEnum::GEOGRAPHY);
         $compound = new CompoundCurve([$line, $arc]);
-        static::assertSame([[[0, null]], [[9, 8, null]]], $compound->toArray());
+        static::assertSame([[[0, null]], [[9, 8]]], $compound->toArray());
         static::assertSame(CoordinateDimensionEnum::XY, $compound->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $arc->getDimension());
+        static::assertSame(CoordinateDimensionEnum::XY, $arc->getDimension());
         static::assertSame(2154, $arc->getSrid());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
     }

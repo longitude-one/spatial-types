@@ -172,15 +172,15 @@ class MutablePolygonTest extends TestCase
         }
     }
 
-    /** Supplied components keep their own layout, family and reference. */
+    /** Supplied components keep their own family and reference. */
     public function testDifferentRingContextRemainsRepresentable(): void
     {
-        $ring = new \LongitudeOne\SpatialTypes\Types\Dimension3m\LineString([[0, null, 9]], 4326, SpatialModelEnum::GEOGRAPHY);
+        $ring = new LineString([[0, null]], 4326, SpatialModelEnum::GEOGRAPHY);
         $polygon = new Polygon([$ring], 2154);
         static::assertSame($ring, $polygon->getRing(0));
-        static::assertSame([[[0, null, 9]]], $polygon->toArray());
+        static::assertSame([[[0, null]]], $polygon->toArray());
         static::assertSame(CoordinateDimensionEnum::XY, $polygon->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $ring->getDimension());
+        static::assertSame(CoordinateDimensionEnum::XY, $ring->getDimension());
         static::assertSame(4326, $ring->getSrid());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $ring->getFamily());
     }

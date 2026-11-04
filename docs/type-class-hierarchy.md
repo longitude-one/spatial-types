@@ -149,7 +149,8 @@ AbstractSpatialType
 context propagation. Each `MutableMulti<Type>Interface` refines member reads to
 the corresponding mutable type. `SpatialCollection` accepts mutable spatial
 objects, including nested collections, through `MutableSpatialInterface`.
-`MutableComponentGuard` rejects immutable descendants without geometric checks.
+`MutableComponentGuard` rejects immutable descendants, containment cycles and
+coordinate layouts incompatible with the mutable receiver, without geometric checks.
 Mutable implementations remain independent of immutable classes and expose no
 copy operations. The public operations and ownership rules are documented in
 [mutable multi-objects and spatial collections](instantiable-spatial-types.md#mutable-multi-objects-and-spatial-collections).

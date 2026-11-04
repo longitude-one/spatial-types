@@ -151,6 +151,7 @@ abstract class AbstractPointSequence extends AbstractSpatialType implements Muta
                 throw new InvalidValueException('Mutable point sequences accept only mutable points or coordinate tuples.');
             }
 
+            MutableComponentGuard::check($point, $this);
             $hydrated[] = $point;
         }
 

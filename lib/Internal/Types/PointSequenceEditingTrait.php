@@ -32,6 +32,7 @@ trait PointSequenceEditingTrait
         if (!$point instanceof MutablePointInterface) {
             throw new InvalidValueException('A mutable point sequence requires MutablePointInterface components.');
         }
+        MutableComponentGuard::check($point, $this);
         $this->points[] = $point;
 
         return $this;
@@ -50,6 +51,7 @@ trait PointSequenceEditingTrait
             throw new OutOfBoundsException(\sprintf('Point index %d is outside the insertion range.', $index));
         }
 
+        MutableComponentGuard::check($point, $this);
         array_splice($this->points, $index, 0, [$point]);
 
         return $this;
@@ -84,6 +86,7 @@ trait PointSequenceEditingTrait
             throw new InvalidValueException('A mutable point sequence requires MutablePointInterface components.');
         }
         $this->requirePointIndex($index);
+        MutableComponentGuard::check($point, $this);
         array_splice($this->points, $index, 1, [$point]);
 
         return $this;

@@ -354,8 +354,9 @@ mixed collections retain their positions.
 EMPTY members remain representable in MultiPoint, MultiLineString,
 MultiPolygon and GeometryCollection, in both families and all supported
 layouts, for mutable and immutable variants. Member references, order and
-cardinality are preserved; no family, layout, reference or geometric
-validation is added. Applications that need to evaluate emptiness must use
+cardinality are preserved. Mutable members must match their aggregate
+layout; family, reference and geometric validity remain consumer concerns.
+Applications that need to evaluate emptiness must use
 `spatial-validator`.
 
 `withLineString($index, [])` replaces a member with an empty line string without
@@ -673,6 +674,24 @@ type provides no serialization, decoding or linearization.
 `CompoundCurveFactory::create()` accepts explicit supported curve components;
 see [public factories](public-factories.md).
 
+## Mutable dimensional consistency
+
+Every mutable composite checks its supplied components and descendants during
+construction and membership edits. The declared XY, XYZ, XYM or XYZM layout must
+match exactly, including for EMPTY components: XYZ and XYM are different layouts.
+This applies to paths, compound curves, polygons, triangles, polyhedral surfaces,
+multi-objects and nested spatial collections. Coordinate tuples continue to use
+the receiver's declared layout.
+
+An incompatible spatial object raises `InvalidDimensionException`, implementing
+`SpatialTypeExceptionInterface`, before membership changes. Supplied objects are
+never reprojected, truncated or converted. Matching objects retain their identity,
+family and spatial reference. Geometric validity remains an explicit consumer
+concern.
+
+**Compatibility change:** mixed-layout mutable aggregates are no longer accepted.
+Immutable aggregate contracts are unchanged.
+
 ## Mutable line strings and circular strings
 
 `Types\Dimension2`, `Types\Dimension3z`, `Types\Dimension3m` and
@@ -688,7 +707,8 @@ including the existing X/Y coordinate-string parser. Numeric and null Z/M values
 follow the corresponding point constructor. Immutable point objects are rejected
 without conversion. Supplied mutable points keep their identity, ordinates,
 family and reference; construction and membership edits do not synchronize them.
-Functional compatibility and geometric validity remain consumer concerns.
+Family/reference compatibility and geometric validity remain consumer concerns.
+All supplied points must match the receiver's coordinate layout.
 
 | Operation                        | Effect                                                      |
 |----------------------------------|-------------------------------------------------------------|
@@ -771,8 +791,9 @@ SpatialModelEnum $family = SpatialModelEnum::GEOMETRY)`.
 
 Only `MutableLineStringInterface` and `MutableCircularStringInterface` components
 are accepted. Coordinate arrays, immutable curves and nested compound curves are
-rejected without conversion. Components retain their own declared layout,
-family and reference; compatibility and geometric continuity require explicit
+rejected without conversion. Components and their points must match the
+compound curve's layout. They retain their identity, family and reference;
+family/reference compatibility and geometric continuity require explicit
 validation. Incomplete and empty component sequences remain representable.
 
 | Operation                      | Behavior                                            |
@@ -843,8 +864,8 @@ new Triangle(array $rings, int|SpatialReference $srid = 0,
 
 Each input ring is a `MutableLineStringInterface` or an array of mutable points
 and coordinate tuples. Arrays create mutable line strings and points using the
-surface's current layout, family and reference. Supplied spatial objects retain
-their own context and identity. Immutable rings and points are rejected without
+surface's current layout, family and reference. Supplied rings and points must
+match that layout and retain their family, reference and identity. Immutable rings and points are rejected without
 conversion, including immutable points exposed by a custom ring.
 
 | Operation                                        | Effect                                              |
@@ -922,7 +943,8 @@ new PolyhedralSurface(array $patches = [], int|SpatialReference $srid = 0,
 Each patch is a `MutablePolygonInterface` or an array of rings, using the
 [mutable polygon input contract](#mutable-polygons-and-triangles).
 Arrays create mutable polygons, rings and points in the surface's layout,
-family and reference. Supplied components retain their own context and identity;
+family and reference. Supplied patches, rings and points must match the surface's
+layout and retain their family, reference and identity;
 immutable patches, rings and points are rejected without conversion, including
 immutable descendants exposed by custom mutable components.
 
@@ -1012,8 +1034,9 @@ new MultiPoint(array $elements = [], int|SpatialReference $srid = 0,
 
 Construction and `setElements()` support the listed coordinate arrays. Arrays
 create mutable descendants in the receiver's current layout, family and
-reference. Supplied spatial objects retain their own context, layout and
-identity. Immutable members and immutable descendants are rejected without
+reference. Supplied spatial objects and descendants must match the receiver's
+layout and retain their family, reference and identity. Immutable members and
+immutable descendants are rejected without
 conversion or cloning. A mutable triangle implements `MutablePolygonInterface`
 and can therefore be retained by a mutable multi-polygon.
 
@@ -1091,8 +1114,9 @@ Spatial type and coordinate layout remain fixed. Mutable aggregates expose no
 `with…` operations or dimension setter.
 
 EMPTY members, incomplete ordinates, duplicate points, open rings and other
-geometrically invalid representable data are retained. Editing does not validate,
-repair, transform or convert dimensions. ISO/IEC CD 13249-3:201x(E), clause 9.1.1,
+geometrically invalid representable data are retained. Construction and editing
+check coordinate-layout compatibility without geometric validation, repair,
+transformation or dimensional conversion. ISO/IEC CD 13249-3:201x(E), clause 9.1.1,
 defines the collection model and its validity requirements, including shared
 spatial references. This representation API leaves those functional checks to
 explicit [spatial-validator](validators.md) use.

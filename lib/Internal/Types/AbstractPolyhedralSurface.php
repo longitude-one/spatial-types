@@ -281,6 +281,7 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
                 }
             }
         }
+        MutableComponentGuard::check($patch, $this);
     }
 
     /**
