@@ -132,7 +132,7 @@ class MutablePolyhedralSurfaceTest extends TestCase
     public function testImmutableSurfaceRejectsMutablePatch(): void
     {
         $patch = new Polygon([[[0, null, 8]]], 4326);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionClass(PolyhedralSurfaceImmutable::class)->newInstance([$patch]);

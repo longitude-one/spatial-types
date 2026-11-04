@@ -24,6 +24,7 @@ use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePolygonInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension2;
 use LongitudeOne\SpatialTypes\Types\Dimension3m;
@@ -52,9 +53,12 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
         $this->rings = $this->hydrateRings($rings);
     }
 
-    /** @param MutableLineStringInterface $ring Ring retained without cloning */
-    public function addRing(MutableLineStringInterface $ring): static
+    /** @param SpatialInterface $ring Ring retained without cloning */
+    public function addRing(SpatialInterface $ring): static
     {
+        if (!$ring instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable polygon requires MutableLineStringInterface rings.');
+        }
         $this->checkRingPoints($ring);
         $this->rings[] = $ring;
 
@@ -94,11 +98,14 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
     }
 
     /**
-     * @param int                        $index Zero-based insertion index, up to the ring count
-     * @param MutableLineStringInterface $ring  Ring retained without cloning
+     * @param int              $index Zero-based insertion index, up to the ring count
+     * @param SpatialInterface $ring  Ring retained without cloning
      */
-    public function insertRing(int $index, MutableLineStringInterface $ring): static
+    public function insertRing(int $index, SpatialInterface $ring): static
     {
+        if (!$ring instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable polygon requires MutableLineStringInterface rings.');
+        }
         if ($index < 0 || $index > \count($this->rings)) {
             throw new OutOfBoundsException(\sprintf('Ring index %d is outside the insertion range.', $index));
         }
@@ -142,23 +149,29 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
     }
 
     /**
-     * @param int                   $ringIndex  Existing zero-based ring index
-     * @param int                   $pointIndex Existing zero-based point index within the ring
-     * @param MutablePointInterface $point      Point retained without cloning
+     * @param int              $ringIndex  Existing zero-based ring index
+     * @param int              $pointIndex Existing zero-based point index within the ring
+     * @param SpatialInterface $point      Point retained without cloning
      */
-    public function setPoint(int $ringIndex, int $pointIndex, MutablePointInterface $point): static
+    public function setPoint(int $ringIndex, int $pointIndex, SpatialInterface $point): static
     {
+        if (!$point instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable polygon requires MutablePointInterface point components.');
+        }
         $this->getRing($ringIndex)->setPoint($pointIndex, $point);
 
         return $this;
     }
 
     /**
-     * @param int                        $index Existing zero-based ring index
-     * @param MutableLineStringInterface $ring  Ring retained without cloning
+     * @param int              $index Existing zero-based ring index
+     * @param SpatialInterface $ring  Ring retained without cloning
      */
-    public function setRing(int $index, MutableLineStringInterface $ring): static
+    public function setRing(int $index, SpatialInterface $ring): static
     {
+        if (!$ring instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable polygon requires MutableLineStringInterface rings.');
+        }
         $this->requireRingIndex($index);
         $this->checkRingPoints($ring);
         array_splice($this->rings, $index, 1, [$ring]);

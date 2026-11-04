@@ -17,9 +17,11 @@ declare(strict_types=1);
 namespace LongitudeOne\SpatialTypes\Internal\Types;
 
 use LongitudeOne\Core\Enum\SpatialModelEnum;
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableCollectionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableSpatialInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /** Shared atomic ordered membership and declared context.
@@ -50,11 +52,13 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
     }
 
     /**
-     * @param MutableSpatialInterface $element Member retained without copying
-     *
-     * @phpstan-param T $element */
-    public function addElement(MutableSpatialInterface $element): static
+     * @param SpatialInterface $element Member retained without copying
+     */
+    public function addElement(SpatialInterface $element): static
     {
+        if (!$element instanceof MutableSpatialInterface) {
+            throw new InvalidValueException('A mutable collection requires MutableSpatialInterface elements.');
+        }
         $this->elements[] = $this->hydrateElement($element);
 
         return $this;
@@ -85,13 +89,14 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                     $index   Insertion index, including the member count
-     * @param MutableSpatialInterface $element Member retained without copying
-     *
-     * @phpstan-param T $element
+     * @param int              $index   Insertion index, including the member count
+     * @param SpatialInterface $element Member retained without copying
      */
-    public function insertElement(int $index, MutableSpatialInterface $element): static
+    public function insertElement(int $index, SpatialInterface $element): static
     {
+        if (!$element instanceof MutableSpatialInterface) {
+            throw new InvalidValueException('A mutable collection requires MutableSpatialInterface elements.');
+        }
         if ($index < 0 || $index > \count($this->elements)) {
             throw new OutOfBoundsException(\sprintf('Member index %d is outside the insertion range.', $index));
         }
@@ -111,13 +116,14 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                     $index   Existing zero-based member index
-     * @param MutableSpatialInterface $element Replacement retained without copying
-     *
-     * @phpstan-param T $element
+     * @param int              $index   Existing zero-based member index
+     * @param SpatialInterface $element Replacement retained without copying
      */
-    public function setElement(int $index, MutableSpatialInterface $element): static
+    public function setElement(int $index, SpatialInterface $element): static
     {
+        if (!$element instanceof MutableSpatialInterface) {
+            throw new InvalidValueException('A mutable collection requires MutableSpatialInterface elements.');
+        }
         $this->requireElementIndex($index);
         $checked = $this->hydrateElement($element);
         array_splice($this->elements, $index, 1, [$checked]);
@@ -187,7 +193,7 @@ abstract class AbstractMutableCollection extends AbstractSpatialType implements 
     }
 
     /**
-     * @param T|TInput $element Member or supported coordinate array
+     * @param SpatialInterface|TInput $element Member or supported coordinate array to validate
      *
      * @return T
      */

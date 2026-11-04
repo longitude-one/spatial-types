@@ -96,7 +96,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $invalid = new PolygonImmutable([[[3, 4, 5]]]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($surface, 'addPatch')->invoke($surface, $invalid);
@@ -122,7 +122,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $invalid = new PolygonImmutable([[[3, 4, 5]]]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($surface, 'insertPatch')->invoke($surface, 0, $invalid);
@@ -148,7 +148,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $invalid = new PolygonImmutable([[[3, 4, 5]]]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($surface, 'setPatch')->invoke($surface, 0, $invalid);
@@ -174,7 +174,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $invalid = new PointImmutable(3, 4, 5);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($surface, 'setPoint')->invoke($surface, 0, 0, 0, $invalid);
@@ -200,7 +200,7 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $invalid = new LineStringImmutable([[3, 4, 5]]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($surface, 'setRing')->invoke($surface, 0, 0, $invalid);

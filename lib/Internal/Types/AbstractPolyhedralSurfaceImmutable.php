@@ -263,6 +263,9 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
     protected function addPatches(array $patches): static
     {
         foreach ($patches as $patch) {
+            if (!\is_array($patch) && !$patch instanceof ImmutablePolygonInterface) {
+                throw new InvalidValueException('PolyhedralSurfaceImmutable requires ImmutablePolygonInterface patches or polygon coordinate arrays.');
+            }
             $this->addPatch($patch);
         }
 

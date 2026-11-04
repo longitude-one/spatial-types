@@ -101,7 +101,7 @@ class ImmutableComponentContractTest extends TestCase
     public function testMultiLineStringRejectsMutableComponents(): void
     {
         $mutable = static::createStub(MutableLineStringInterface::class);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         new \ReflectionClass(MultiLineStringImmutable::class)->newInstance([$mutable]);
     }
@@ -119,7 +119,7 @@ class ImmutableComponentContractTest extends TestCase
     public function testMultiPolygonRejectsMutableComponents(): void
     {
         $mutable = static::createStub(MutablePolygonInterface::class);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         new \ReflectionClass(MultiPolygonImmutable::class)->newInstance([$mutable]);
     }
@@ -158,7 +158,7 @@ class ImmutableComponentContractTest extends TestCase
     public function testPolyhedralSurfaceRejectsMutableComponents(): void
     {
         $mutable = static::createStub(MutablePolygonInterface::class);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         new \ReflectionClass(PolyhedralSurfaceImmutable::class)->newInstance([$mutable]);
     }

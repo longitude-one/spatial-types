@@ -63,7 +63,7 @@ class MutableCircularStringTest extends TestCase
         $mutable = new Point(3, 4);
         $immutable = new PointImmutable(5, 6);
         $curve = new CircularString([$origin, $passing, $destination]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($curve, 'appendArc')->invoke($curve, $mutable, $immutable);
@@ -305,7 +305,7 @@ class MutableCircularStringTest extends TestCase
         $mutable = new Point(3, 4);
         $immutable = new PointImmutable(5, 6);
         $curve = new CircularString([$origin, $passing, $destination]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($curve, 'setOrigin')->invoke($curve, $immutable);
@@ -364,7 +364,7 @@ class MutableCircularStringTest extends TestCase
         $mutable = new Point(3, 4);
         $immutable = new PointImmutable(5, 6);
         $curve = new CircularString([$origin, $passing, $destination]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($curve, 'replaceArc')->invoke($curve, 0, $mutable, $immutable);

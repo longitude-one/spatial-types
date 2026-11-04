@@ -20,6 +20,7 @@ use LongitudeOne\Core\Enum\GeometryTypeEnum;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableMultiPointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Internal\Factory\SpatialContext;
 
 /** Mutable MultiPoint members without geometric validation.
@@ -47,7 +48,7 @@ abstract class AbstractMultiPoint extends AbstractMutableCollection implements M
         return array_map(static fn (MutablePointInterface $element): array => $element->toArray(), $this->getElements());
     }
 
-    /** @param array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface $element Mutable member or coordinate array */
+    /** @param array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|SpatialInterface $element Mutable member or coordinate array to validate */
     protected function hydrateElement(mixed $element): MutablePointInterface
     {
         if (\is_array($element)) {

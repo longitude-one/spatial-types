@@ -40,7 +40,7 @@ class MutableLineStringTest extends TestCase
     {
         $point = new Point(1, 2);
         $line = new LineString([$point]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($line, 'addPoint')->invoke($line, new PointImmutable(3, 4));
@@ -114,7 +114,7 @@ class MutableLineStringTest extends TestCase
         $point = new Point(1, 2);
         $line = new LineString([$point]);
         $immutable = new PointImmutable(3, 4);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($line, 'insertPoint')->invoke($line, 0, $immutable);
@@ -294,7 +294,7 @@ class MutableLineStringTest extends TestCase
     {
         $point = new Point(1, 2);
         $line = new LineString([$point]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($line, 'setPoint')->invoke($line, 0, new PointImmutable(3, 4));

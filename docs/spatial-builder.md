@@ -40,19 +40,25 @@ EMPTY object. A later addition does not change membership of earlier builds.
 
 ## Direct and progressive operations
 
-| Direct creation | Selection | Additions on the selected builder |
-| --- | --- | --- |
-| `point($x = null, $y = null, $z = null, $m = null): PointInterface` | — | — |
-| `createLineString(array $points): LineStringInterface` | `lineString()` | `addPoint(...)`, `addPointComponent(PointInterface $point)` |
-| `createCircularString(array $points): CircularStringInterface` | `circularString()` | `addPoint(...)`, `addPointComponent(PointInterface $point)` |
-| `createMultiPoint(array $points): MultiPointInterface` | `multiPoint()` | `addPoint(...)`, `addPointComponent(PointInterface $point)` |
-| `createCompoundCurve(array $curves = []): CompoundCurveInterface` | `compoundCurve()` | `addCurve(LineStringInterface\|CircularStringInterface $curve)` |
-| `createPolygon(array $rings): PolygonInterface` | `polygon()` | `addRing(LineStringInterface $ring)` |
-| `createTriangle(array $rings): TriangleInterface` | `triangle()` | `addRing(LineStringInterface $ring)` |
-| `createMultiLineString(array $lineStrings): MultiLineStringInterface` | `multiLineString()` | `addLineString(LineStringInterface $lineString)` |
-| `createMultiPolygon(array $polygons): MultiPolygonInterface` | `multiPolygon()` | `addPolygon(PolygonInterface $polygon)` |
-| `createPolyhedralSurface(array $patches = []): PolyhedralSurfaceInterface` | `polyhedralSurface()` | `addPatch(PolygonInterface $patch)` |
-| `createCollection(array $elements = []): CollectionInterface` | `collection()` | `addElement(SpatialInterface $element)` |
+Component additions accept `SpatialInterface` and reject the wrong spatial kind
+or representation with `InvalidValueException`, implementing
+`SpatialTypeExceptionInterface`. A rejected addition preserves accumulated
+components and supplied objects. Non-spatial arguments still raise PHP
+`TypeError`. The table identifies the component interfaces required for success.
+
+| Direct creation | Selection | Additions on the selected builder | Required component |
+| --- | --- | --- | --- |
+| `point($x = null, $y = null, $z = null, $m = null): PointInterface` | — | — | — |
+| `createLineString(array $points): LineStringInterface` | `lineString()` | `addPoint(...)`, `addPointComponent(SpatialInterface $point)` | `PointInterface` |
+| `createCircularString(array $points): CircularStringInterface` | `circularString()` | `addPoint(...)`, `addPointComponent(SpatialInterface $point)` | `PointInterface` |
+| `createMultiPoint(array $points): MultiPointInterface` | `multiPoint()` | `addPoint(...)`, `addPointComponent(SpatialInterface $point)` | `PointInterface` |
+| `createCompoundCurve(array $curves = []): CompoundCurveInterface` | `compoundCurve()` | `addCurve(SpatialInterface $curve)` | `LineStringInterface` or `CircularStringInterface` |
+| `createPolygon(array $rings): PolygonInterface` | `polygon()` | `addRing(SpatialInterface $ring)` | `LineStringInterface` |
+| `createTriangle(array $rings): TriangleInterface` | `triangle()` | `addRing(SpatialInterface $ring)` | `LineStringInterface` |
+| `createMultiLineString(array $lineStrings): MultiLineStringInterface` | `multiLineString()` | `addLineString(SpatialInterface $lineString)` | `LineStringInterface` |
+| `createMultiPolygon(array $polygons): MultiPolygonInterface` | `multiPolygon()` | `addPolygon(SpatialInterface $polygon)` | `PolygonInterface` |
+| `createPolyhedralSurface(array $patches = []): PolyhedralSurfaceInterface` | `polyhedralSurface()` | `addPatch(SpatialInterface $patch)` | `PolygonInterface` |
+| `createCollection(array $elements = []): CollectionInterface` | `collection()` | `addElement(SpatialInterface $element)` | `SpatialInterface` |
 
 `point()` and `addPoint()` have the same native signature in all layouts:
 `float|int|string|null $x = null`, `float|int|string|null $y = null`,

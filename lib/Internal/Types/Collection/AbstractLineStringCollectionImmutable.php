@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Internal\Types\Collection;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\ImmutablePointInterface;
@@ -67,6 +68,9 @@ abstract class AbstractLineStringCollectionImmutable extends AbstractSpatialType
     protected function addLineStringMembers(array $lineStrings): static
     {
         foreach ($lineStrings as $lineString) {
+            if (!\is_array($lineString) && !$lineString instanceof ImmutableLineStringInterface) {
+                throw new InvalidValueException('MultiLineStringImmutable requires ImmutableLineStringInterface components or line-string coordinate arrays.');
+            }
             $this->addLineStringMember($lineString);
         }
 
