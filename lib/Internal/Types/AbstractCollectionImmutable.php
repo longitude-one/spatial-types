@@ -100,13 +100,16 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
      * The replacement must implement ImmutableSpatialInterface. Every unchanged element is copied to keep the returned collection
      * independent from its source.
      *
-     * @param int                       $elementIndex index of the element to replace; negative indexes count from the end
-     * @param ImmutableSpatialInterface $element      replacement spatial element
+     * @param int              $elementIndex index of the element to replace; negative indexes count from the end
+     * @param SpatialInterface $element      replacement spatial element
      *
      * @throws OutOfBoundsException when the collection has no elements
      */
-    public function withElement(int $elementIndex, ImmutableSpatialInterface $element): static
+    public function withElement(int $elementIndex, SpatialInterface $element): static
     {
+        if (!$element instanceof ImmutableSpatialInterface) {
+            throw new InvalidValueException('An immutable collection requires ImmutableSpatialInterface elements.');
+        }
         $elementIndex = $this->normalizeElementIndex($elementIndex);
         $collection = clone $this;
         $collection->elements = [];

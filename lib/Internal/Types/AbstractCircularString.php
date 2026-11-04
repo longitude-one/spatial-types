@@ -21,6 +21,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableCircularStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /** Mutable circular point sequences and structural arc editing.
  * @internal
@@ -30,11 +31,17 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
     use PointSequenceEditingTrait;
 
     /**
-     * @param MutablePointInterface $passingPoint     Intermediate point
-     * @param MutablePointInterface $destinationPoint End point
+     * @param SpatialInterface $passingPoint     Intermediate point
+     * @param SpatialInterface $destinationPoint End point
      */
-    public function appendArc(MutablePointInterface $passingPoint, MutablePointInterface $destinationPoint): static
+    public function appendArc(SpatialInterface $passingPoint, SpatialInterface $destinationPoint): static
     {
+        if (!$passingPoint instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable circular string requires MutablePointInterface components.');
+        }
+        if (!$destinationPoint instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable circular string requires MutablePointInterface components.');
+        }
         if (0 === \count($this->points) % 2) {
             throw new InvalidValueException('Appending an arc requires an origin followed by complete point pairs.');
         }
@@ -52,12 +59,18 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
     }
 
     /**
-     * @param int                   $index            Zero-based arc index
-     * @param MutablePointInterface $passingPoint     Replacement intermediate point
-     * @param MutablePointInterface $destinationPoint Replacement shared endpoint
+     * @param int              $index            Zero-based arc index
+     * @param SpatialInterface $passingPoint     Replacement intermediate point
+     * @param SpatialInterface $destinationPoint Replacement shared endpoint
      */
-    public function replaceArc(int $index, MutablePointInterface $passingPoint, MutablePointInterface $destinationPoint): static
+    public function replaceArc(int $index, SpatialInterface $passingPoint, SpatialInterface $destinationPoint): static
     {
+        if (!$passingPoint instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable circular string requires MutablePointInterface components.');
+        }
+        if (!$destinationPoint instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable circular string requires MutablePointInterface components.');
+        }
         if ($index < 0 || $index >= intdiv(max(0, \count($this->points) - 1), 2)) {
             throw new OutOfBoundsException(\sprintf('Arc index %d does not address three existing points.', $index));
         }
@@ -67,9 +80,12 @@ abstract class AbstractCircularString extends AbstractPointSequence implements M
         return $this;
     }
 
-    /** @param MutablePointInterface $point Origin retained without cloning */
-    public function setOrigin(MutablePointInterface $point): static
+    /** @param SpatialInterface $point Origin retained without cloning */
+    public function setOrigin(SpatialInterface $point): static
     {
+        if (!$point instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable circular string requires MutablePointInterface components.');
+        }
         $this->points[0] = $point;
 
         return $this;

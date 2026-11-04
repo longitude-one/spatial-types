@@ -24,6 +24,7 @@ use LongitudeOne\SpatialTypes\Interfaces\MutableCircularStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableCompoundCurveInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 
 /** Mutable ordered curve storage without geometric validation.
@@ -48,9 +49,12 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
         $this->setCurves($curves);
     }
 
-    /** @param MutableCircularStringInterface|MutableLineStringInterface $curve Component retained without cloning */
-    public function addCurve(MutableCircularStringInterface|MutableLineStringInterface $curve): static
+    /** @param SpatialInterface $curve Component retained without cloning */
+    public function addCurve(SpatialInterface $curve): static
     {
+        if (!$curve instanceof MutableCircularStringInterface && !$curve instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable compound curve requires MutableLineStringInterface or MutableCircularStringInterface components.');
+        }
         $this->curves[] = $curve;
 
         return $this;
@@ -101,11 +105,14 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
     }
 
     /**
-     * @param int                                                       $index Zero-based insertion index, up to the component count
-     * @param MutableCircularStringInterface|MutableLineStringInterface $curve Component retained without cloning
+     * @param int              $index Zero-based insertion index, up to the component count
+     * @param SpatialInterface $curve Component retained without cloning
      */
-    public function insertCurve(int $index, MutableCircularStringInterface|MutableLineStringInterface $curve): static
+    public function insertCurve(int $index, SpatialInterface $curve): static
     {
+        if (!$curve instanceof MutableCircularStringInterface && !$curve instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable compound curve requires MutableLineStringInterface or MutableCircularStringInterface components.');
+        }
         if ($index < 0 || $index > \count($this->curves)) {
             throw new OutOfBoundsException(\sprintf('Curve index %d is outside the insertion range.', $index));
         }
@@ -124,11 +131,14 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
     }
 
     /**
-     * @param int                                                       $index Existing zero-based component index
-     * @param MutableCircularStringInterface|MutableLineStringInterface $curve Component retained without cloning
+     * @param int              $index Existing zero-based component index
+     * @param SpatialInterface $curve Component retained without cloning
      */
-    public function setCurve(int $index, MutableCircularStringInterface|MutableLineStringInterface $curve): static
+    public function setCurve(int $index, SpatialInterface $curve): static
     {
+        if (!$curve instanceof MutableCircularStringInterface && !$curve instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable compound curve requires MutableLineStringInterface or MutableCircularStringInterface components.');
+        }
         $this->requireCurveIndex($index);
         array_splice($this->curves, $index, 1, [$curve]);
 

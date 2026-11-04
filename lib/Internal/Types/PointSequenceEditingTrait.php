@@ -16,28 +16,36 @@ declare(strict_types=1);
 
 namespace LongitudeOne\SpatialTypes\Internal\Types;
 
+use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 
 /** Atomic membership editing shared by mutable linear and circular paths.
  * @internal
  */
 trait PointSequenceEditingTrait
 {
-    /** @param MutablePointInterface $point Point retained without cloning */
-    public function addPoint(MutablePointInterface $point): static
+    /** @param SpatialInterface $point Point retained without cloning */
+    public function addPoint(SpatialInterface $point): static
     {
+        if (!$point instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable point sequence requires MutablePointInterface components.');
+        }
         $this->points[] = $point;
 
         return $this;
     }
 
     /**
-     * @param int                   $index Zero-based insertion index, up to the point count
-     * @param MutablePointInterface $point Point retained without cloning
+     * @param int              $index Zero-based insertion index, up to the point count
+     * @param SpatialInterface $point Point retained without cloning
      */
-    public function insertPoint(int $index, MutablePointInterface $point): static
+    public function insertPoint(int $index, SpatialInterface $point): static
     {
+        if (!$point instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable point sequence requires MutablePointInterface components.');
+        }
         if ($index < 0 || $index > \count($this->points)) {
             throw new OutOfBoundsException(\sprintf('Point index %d is outside the insertion range.', $index));
         }
@@ -67,11 +75,14 @@ trait PointSequenceEditingTrait
     }
 
     /**
-     * @param int                   $index Existing zero-based point index
-     * @param MutablePointInterface $point Point retained without cloning
+     * @param int              $index Existing zero-based point index
+     * @param SpatialInterface $point Point retained without cloning
      */
-    public function setPoint(int $index, MutablePointInterface $point): static
+    public function setPoint(int $index, SpatialInterface $point): static
     {
+        if (!$point instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable point sequence requires MutablePointInterface components.');
+        }
         $this->requirePointIndex($index);
         array_splice($this->points, $index, 1, [$point]);
 

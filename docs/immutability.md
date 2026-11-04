@@ -170,8 +170,12 @@ and a ring's `getPoint()` returns `ImmutablePointInterface`.
 Coordinate arrays remain supported and create immutable descendants. Mutable
 objects, including mutable descendants inside a supplied custom aggregate, are
 rejected without conversion or modification of the source or supplied objects.
-Invalid array members raise `InvalidValueException`; incompatible typed
-arguments can raise PHP `TypeError`. This ownership check does not validate
+Invalid array members and incompatible spatial components raise
+`InvalidValueException`, implementing `SpatialTypeExceptionInterface`.
+Concrete single-component methods accept `SpatialInterface` and check the
+required immutable component contract internally; interface signatures retain
+their specific types. Non-spatial arguments to those methods still raise PHP
+`TypeError`. This ownership check does not validate
 geometry, family, coordinate-dimension or reference compatibility.
 
 ## Why coordinates are immutable

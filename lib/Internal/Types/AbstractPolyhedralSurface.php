@@ -25,6 +25,7 @@ use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePolyhedralSurfaceInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 use LongitudeOne\SpatialTypes\Types\Dimension3z;
 use LongitudeOne\SpatialTypes\Types\Dimension4zm;
@@ -54,9 +55,12 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
         $this->patches = $this->hydratePatches($patches);
     }
 
-    /** @param MutablePolygonInterface $patch Patch retained without cloning */
-    public function addPatch(MutablePolygonInterface $patch): static
+    /** @param SpatialInterface $patch Patch retained without cloning */
+    public function addPatch(SpatialInterface $patch): static
     {
+        if (!$patch instanceof MutablePolygonInterface) {
+            throw new InvalidValueException('A mutable surface requires MutablePolygonInterface patches.');
+        }
         $this->checkPatchComponents($patch);
         $this->patches[] = $patch;
 
@@ -64,11 +68,14 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                        $patchIndex Existing zero-based patch index
-     * @param MutableLineStringInterface $ring       Ring retained without cloning
+     * @param int              $patchIndex Existing zero-based patch index
+     * @param SpatialInterface $ring       Ring retained without cloning
      */
-    public function addRing(int $patchIndex, MutableLineStringInterface $ring): static
+    public function addRing(int $patchIndex, SpatialInterface $ring): static
     {
+        if (!$ring instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable surface requires MutableLineStringInterface rings.');
+        }
         $this->getPatch($patchIndex)->addRing($ring);
 
         return $this;
@@ -107,11 +114,14 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                     $index Zero-based insertion index, up to the patch count
-     * @param MutablePolygonInterface $patch Patch retained without cloning
+     * @param int              $index Zero-based insertion index, up to the patch count
+     * @param SpatialInterface $patch Patch retained without cloning
      */
-    public function insertPatch(int $index, MutablePolygonInterface $patch): static
+    public function insertPatch(int $index, SpatialInterface $patch): static
     {
+        if (!$patch instanceof MutablePolygonInterface) {
+            throw new InvalidValueException('A mutable surface requires MutablePolygonInterface patches.');
+        }
         if ($index < 0 || $index > \count($this->patches)) {
             throw new OutOfBoundsException(\sprintf('Patch index %d is outside the insertion range.', $index));
         }
@@ -122,12 +132,15 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                        $patchIndex Existing zero-based patch index
-     * @param int                        $ringIndex  Zero-based insertion index, up to the ring count
-     * @param MutableLineStringInterface $ring       Ring retained without cloning
+     * @param int              $patchIndex Existing zero-based patch index
+     * @param int              $ringIndex  Zero-based insertion index, up to the ring count
+     * @param SpatialInterface $ring       Ring retained without cloning
      */
-    public function insertRing(int $patchIndex, int $ringIndex, MutableLineStringInterface $ring): static
+    public function insertRing(int $patchIndex, int $ringIndex, SpatialInterface $ring): static
     {
+        if (!$ring instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable surface requires MutableLineStringInterface rings.');
+        }
         $this->getPatch($patchIndex)->insertRing($ringIndex, $ring);
 
         return $this;
@@ -178,11 +191,14 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                     $index Existing zero-based patch index
-     * @param MutablePolygonInterface $patch Patch retained without cloning
+     * @param int              $index Existing zero-based patch index
+     * @param SpatialInterface $patch Patch retained without cloning
      */
-    public function setPatch(int $index, MutablePolygonInterface $patch): static
+    public function setPatch(int $index, SpatialInterface $patch): static
     {
+        if (!$patch instanceof MutablePolygonInterface) {
+            throw new InvalidValueException('A mutable surface requires MutablePolygonInterface patches.');
+        }
         $this->requirePatchIndex($index);
         $this->checkPatchComponents($patch);
         array_splice($this->patches, $index, 1, [$patch]);
@@ -191,25 +207,31 @@ abstract class AbstractPolyhedralSurface extends AbstractSpatialType implements 
     }
 
     /**
-     * @param int                   $patchIndex Existing zero-based patch index
-     * @param int                   $ringIndex  Existing zero-based ring index within the patch
-     * @param int                   $pointIndex Existing zero-based point index within the ring
-     * @param MutablePointInterface $point      Point retained without cloning
+     * @param int              $patchIndex Existing zero-based patch index
+     * @param int              $ringIndex  Existing zero-based ring index within the patch
+     * @param int              $pointIndex Existing zero-based point index within the ring
+     * @param SpatialInterface $point      Point retained without cloning
      */
-    public function setPoint(int $patchIndex, int $ringIndex, int $pointIndex, MutablePointInterface $point): static
+    public function setPoint(int $patchIndex, int $ringIndex, int $pointIndex, SpatialInterface $point): static
     {
+        if (!$point instanceof MutablePointInterface) {
+            throw new InvalidValueException('A mutable surface requires MutablePointInterface point components.');
+        }
         $this->getPatch($patchIndex)->setPoint($ringIndex, $pointIndex, $point);
 
         return $this;
     }
 
     /**
-     * @param int                        $patchIndex Existing zero-based patch index
-     * @param int                        $ringIndex  Existing zero-based ring index within the patch
-     * @param MutableLineStringInterface $ring       Ring retained without cloning
+     * @param int              $patchIndex Existing zero-based patch index
+     * @param int              $ringIndex  Existing zero-based ring index within the patch
+     * @param SpatialInterface $ring       Ring retained without cloning
      */
-    public function setRing(int $patchIndex, int $ringIndex, MutableLineStringInterface $ring): static
+    public function setRing(int $patchIndex, int $ringIndex, SpatialInterface $ring): static
     {
+        if (!$ring instanceof MutableLineStringInterface) {
+            throw new InvalidValueException('A mutable surface requires MutableLineStringInterface rings.');
+        }
         $this->getPatch($patchIndex)->setRing($ringIndex, $ring);
 
         return $this;

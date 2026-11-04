@@ -246,6 +246,9 @@ abstract class AbstractMultiPolygonImmutable extends AbstractSpatialTypeImmutabl
     protected function addPolygons(array $polygons): static
     {
         foreach ($polygons as $polygon) {
+            if (!\is_array($polygon) && !$polygon instanceof ImmutablePolygonInterface) {
+                throw new InvalidValueException('MultiPolygonImmutable requires ImmutablePolygonInterface components or polygon coordinate arrays.');
+            }
             $this->addPolygon($polygon);
         }
 

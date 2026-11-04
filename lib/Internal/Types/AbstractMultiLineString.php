@@ -22,6 +22,7 @@ use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableMultiLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2;
 use LongitudeOne\SpatialTypes\Types\Dimension3m;
 use LongitudeOne\SpatialTypes\Types\Dimension3z;
@@ -52,7 +53,7 @@ abstract class AbstractMultiLineString extends AbstractMutableCollection impleme
         return array_map(static fn (MutableLineStringInterface $element): array => $element->toArray(), $this->getElements());
     }
 
-    /** @param array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|MutableLineStringInterface $element Mutable member or coordinate array */
+    /** @param array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|SpatialInterface $element Mutable member or coordinate array to validate */
     protected function hydrateElement(mixed $element): MutableLineStringInterface
     {
         if (\is_array($element)) {

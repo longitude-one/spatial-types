@@ -186,7 +186,7 @@ class MutableCompoundCurveTest extends TestCase
         $curve = new LineString([[0, null]], 4326);
         $immutable = new LineStringImmutable([[3, 4]], 2154);
         $compound = new CompoundCurve([$curve]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($compound, 'addCurve')->invoke($compound, $immutable);
@@ -222,7 +222,7 @@ class MutableCompoundCurveTest extends TestCase
         $curve = new LineString([[0, null]], 4326);
         $immutable = new LineStringImmutable([[3, 4]], 2154);
         $compound = new CompoundCurve([$curve]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($compound, 'insertCurve')->invoke($compound, 0, $immutable);
@@ -239,7 +239,7 @@ class MutableCompoundCurveTest extends TestCase
         $curve = new LineString([[0, null]], 4326);
         $immutable = new LineStringImmutable([[3, 4]], 2154);
         $compound = new CompoundCurve([$curve]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($compound, 'setCurve')->invoke($compound, 0, $immutable);

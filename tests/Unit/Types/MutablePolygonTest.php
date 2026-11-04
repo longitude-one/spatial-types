@@ -213,7 +213,7 @@ class MutablePolygonTest extends TestCase
         $ring = new LineString([[0, null]], 4326);
         $immutable = new LineStringImmutable([[3, 4]], 2154);
         $polygon = new Polygon([$ring]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($polygon, 'addRing')->invoke($polygon, $immutable);
@@ -245,7 +245,7 @@ class MutablePolygonTest extends TestCase
         $ring = new LineString([[0, null]], 4326);
         $immutable = new LineStringImmutable([[3, 4]], 2154);
         $polygon = new Polygon([$ring]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($polygon, 'insertRing')->invoke($polygon, 0, $immutable);
@@ -277,7 +277,7 @@ class MutablePolygonTest extends TestCase
         $ring = new LineString([[0, null]]);
         $polygon = new Polygon([$ring]);
         $point = new PointImmutable(3, 4);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($polygon, 'setPoint')->invoke($polygon, 0, 0, $point);
@@ -308,7 +308,7 @@ class MutablePolygonTest extends TestCase
         $ring = new LineString([[0, null]], 4326);
         $immutable = new LineStringImmutable([[3, 4]], 2154);
         $polygon = new Polygon([$ring]);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($polygon, 'setRing')->invoke($polygon, 0, $immutable);

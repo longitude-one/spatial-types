@@ -23,6 +23,7 @@ use LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutableMultiPolygonInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePointInterface;
 use LongitudeOne\SpatialTypes\Interfaces\MutablePolygonInterface;
+use LongitudeOne\SpatialTypes\Interfaces\SpatialInterface;
 use LongitudeOne\SpatialTypes\Types\Dimension2;
 use LongitudeOne\SpatialTypes\Types\Dimension3m;
 use LongitudeOne\SpatialTypes\Types\Dimension3z;
@@ -53,7 +54,7 @@ abstract class AbstractMultiPolygon extends AbstractMutableCollection implements
         return array_map(static fn (MutablePolygonInterface $element): array => $element->toArray(), $this->getElements());
     }
 
-    /** @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|MutableLineStringInterface>|MutablePolygonInterface $element Mutable member or coordinate array */
+    /** @param array<array<array{0: float|int|string|null, 1: float|int|string|null, 2?: float|int|null, 3?: float|int|null}|MutablePointInterface>|MutableLineStringInterface>|SpatialInterface $element Mutable member or coordinate array to validate */
     protected function hydrateElement(mixed $element): MutablePolygonInterface
     {
         if (\is_array($element)) {

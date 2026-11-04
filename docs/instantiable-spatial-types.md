@@ -519,7 +519,7 @@ Surface topology is not checked. Editing a shared vertex does not silently
 move neighboring faces.
 Empty surfaces reject indexed access and indexed replacements.
 
-`GeometryCollectionImmutable::withElement(int $elementIndex, ImmutableSpatialInterface
+`GeometryCollectionImmutable::withElement(int $elementIndex, SpatialInterface
 $element): static` and `GeographyCollectionImmutable::withElement(...)` replace one
 element implementing `ImmutableSpatialInterface` and deeply copy the unchanged elements.
 
@@ -537,6 +537,39 @@ contained objects are immutable too, so the retrieved object graph is safe to
 share.
 
 ## Diagnostic messages
+
+### Incompatible spatial components
+
+Composite constructors and component replacement or mutation operations reject
+incompatible spatial objects with `InvalidValueException`, which implements
+`SpatialTypeExceptionInterface`. Messages identify the expected component contract.
+For example, an immutable multi-polygon rejects a mutable polygon:
+
+```php
+use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable;
+use LongitudeOne\SpatialTypes\Types\Dimension2\Polygon;
+
+try {
+    new MultiPolygonImmutable([new Polygon([])]);
+} catch (SpatialTypeExceptionInterface $exception) {
+    // The component must implement ImmutablePolygonInterface.
+}
+```
+
+Concrete single-component methods accept `SpatialInterface` so that they can
+report incompatible spatial objects through this exception contract. Their
+interfaces retain the more specific component parameter types. Accepted
+components remain unchanged: mutable and immutable objects are never converted
+or mixed, and the required point, curve, ring or polygon interface is enforced.
+Rejected mutations leave membership and supplied objects unchanged.
+
+Non-spatial arguments to these single-component methods still raise PHP
+`TypeError`. Coordinate parsing errors and errors originating in custom component
+implementations retain their own exception contracts. Geometric validity and
+family, dimension or reference compatibility remain explicit consumer checks.
+
+### Formatting untrusted values
 
 Untrusted values included in exceptions raised by this library are formatted with
 `LongitudeOne\Core\Diagnostic\DiagnosticValueFormatter` (spatial-core 1.1+).
@@ -754,8 +787,9 @@ validation. Incomplete and empty component sequences remain representable.
 
 All indices are zero-based. Negative indices and missing components raise
 `OutOfBoundsException`; indexed access does not wrap. Invalid component arrays
-raise `InvalidValueException`, while incompatible typed mutation arguments raise
-PHP `TypeError`. Failures preserve membership and supplied components.
+and incompatible spatial mutation arguments raise `InvalidValueException`.
+Non-spatial arguments to single-component mutations raise PHP `TypeError`.
+Failures preserve membership and supplied components.
 Successful mutations return the receiver as `static` for chaining. No `with…`
 methods or dimension setter are exposed.
 
@@ -1003,8 +1037,9 @@ constructor and complete replacement. Indices start at zero. Access,
 replacement and removal require existing members; insertion accepts indices
 from zero through the count. Invalid addressing raises `OutOfBoundsException`.
 Wrong mutable member kinds, invalid membership arrays and immutable descendants
-raise `InvalidValueException`; immutable arguments to typed single-member
-mutators raise PHP `TypeError`. Technical input or addressing failures preserve
+raise `InvalidValueException`, including immutable spatial arguments to single-member
+mutators. Non-spatial arguments to those mutators raise PHP `TypeError`.
+Technical input or addressing failures preserve
 membership and referenced descendants, including late failures during complete
 replacement. Successful mutations return the receiver as `static`.
 

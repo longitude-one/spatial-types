@@ -107,7 +107,7 @@ class MutableMultiObjectFailureTest extends TestCase
         $point = new Point(1, null, 4326);
         $aggregate = new SpatialCollection([$point]);
         $immutable = new PointImmutable(7, 8, 4326);
-        $this->expectException(\TypeError::class);
+        $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionMethod($aggregate, 'insertElement')->invoke($aggregate, 1, $immutable);
