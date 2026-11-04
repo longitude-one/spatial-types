@@ -32,6 +32,18 @@ abstract class AbstractLineStringCollectionImmutable extends AbstractSpatialType
     /** @var ImmutableLineStringInterface[] */
     protected array $lineStrings = [];
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    public function copy(): static
+    {
+        $copy = clone $this;
+        $copy->lineStrings = array_map(
+            static fn (ImmutableLineStringInterface $component): ImmutableLineStringInterface => self::copyComponent($component),
+            $this->lineStrings
+        );
+
+        return $copy;
+    }
+
     /**
      * @param array<array{0: float|int|string|null, 1: float|int|string|null, 2 ?: float|int|null, 3 ?: float|int|null}|ImmutablePointInterface>|ImmutableLineStringInterface $lineString Line string or its point tuples
      *

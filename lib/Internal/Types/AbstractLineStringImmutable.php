@@ -104,7 +104,7 @@ abstract class AbstractLineStringImmutable extends AbstractPointCollectionImmuta
         $pointIndex = $this->normalizePointIndex($pointIndex);
         $lineString = clone $this;
         $lineString->points = array_map(
-            static fn (ImmutablePointInterface $point): ImmutablePointInterface => $point->withSrid($point->getSrid()),
+            static fn (ImmutablePointInterface $point): ImmutablePointInterface => self::copyComponent($point),
             $this->points
         );
         $lineString->points[$pointIndex] = $lineString->points[$pointIndex]->withCoordinates($coordinates);

@@ -36,6 +36,9 @@ example must be calculated by an external coordinate transformer.
 `LineStringImmutable`, `CircularStringImmutable`, `MultiPointImmutable`, and `PolygonImmutable` provide an equally immutable
 point-replacement operation. `withPoint()` returns a deep copy: the source
 aggregate, its rings, and its points remain unchanged.
+Unchanged immutable components retain their complete
+individual spatial references, including authority metadata, at every nesting
+level. See [aggregate references](spatial-reference-systems.md#aggregate-references).
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable;
@@ -84,12 +87,57 @@ $replacedMultiPolygon = $multiPolygon->withPolygon(0, [
 `GeometryCollectionImmutable` and `GeographyCollectionImmutable` use `withElement()` to replace
 one indexed element. The replacement must implement `ImmutableSpatialInterface`; unchanged elements are deeply copied.
 
+## Independent copies
+
+`ImmutableSpatialInterface::copy(): static` creates a deep copy without changing
+the represented value. The concrete spatial type, coordinates, family, dimension,
+membership order, and each component's complete spatial reference are preserved.
+Every spatial descendant is a distinct instance; immutable auxiliary values
+such as `Coordinates` and `SpatialReference` may be shared.
+
+```php
+$independentLine = $line->copy();
+assert($independentLine !== $line);
+assert($independentLine->getPoint(0) !== $line->getPoint(0));
+assert($independentLine->toArray() === $line->toArray());
+```
+
+| Operation | Reference behavior |
+| --- | --- |
+| `copy()` | Preserve every component's own complete reference |
+| Component replacement, such as `withPoint()` or `withElement()` | Copy unchanged components through their `copy()` contract |
+| `withSpatialReference()` / `withSrid()` | Apply the requested reference recursively |
+
+### Custom immutable implementations
+
+**Breaking change:** every implementation of `ImmutableSpatialInterface`,
+including implementations of its derived interfaces, must now provide
+`public function copy(): static`. Classes supplied by this library already
+implement it. Consumers that only use those classes need no migration.
+
+A custom composite must copy each spatial child through its `copy()` method
+while preserving the composite's own declared context. For a wrapper around an
+immutable collection, the method can delegate to the wrapped value:
+
+```php
+public function copy(): static
+{
+    return new self($this->inner->copy());
+}
+```
+
+Calling `withSpatialReference($this->getSpatialReference())` is not an equivalent
+copy: that operation propagates the parent's reference and can overwrite a
+child's different authority or identifier. A shallow `clone` is sufficient for
+a point whose auxiliary values are immutable, but does not deeply copy a
+composite's spatial children.
+
 ## Read, copy and mutation contracts
 
 | Contract | Operations |
 | --- | --- |
 | `SpatialInterface` and type interfaces such as `PointInterface` | Read coordinates, metadata and members |
-| `ImmutableSpatialInterface` and `Immutable<Type>Interface` | Read operations and the applicable `with…` operations |
+| `ImmutableSpatialInterface` and `Immutable<Type>Interface` | Read operations, `copy()`, and the applicable `with…` operations |
 | `MutableSpatialInterface` and `Mutable<Type>Interface` | Read operations and mutation contracts; no `with…` operations |
 
 `MutableSpatialInterface` declares `setFamily(SpatialModelEnum $family)`,

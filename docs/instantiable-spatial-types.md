@@ -467,6 +467,13 @@ which those evaluations operate.
 
 Every spatial type with the `Immutable` suffix is immutable through the public API: construction sets its
 ordinates, SRID, and aggregate membership, and no public mutator exists.
+`ImmutableSpatialInterface::copy(): static` returns a deep copy preserving the
+concrete type, coordinates, family, dimension, membership order and each
+component's individual complete spatial reference. Spatial descendants are
+distinct copies; immutable coordinate and reference values may be shared.
+Custom implementations must implement this new required method; see the
+[breaking interface migration](immutability.md#custom-immutable-implementations).
+
 `withCoordinates(Coordinates $coordinates): static` returns a point with
 replacement coordinates of the same dimension; `withSpatialReference(SpatialReference $reference): static`
 returns one with the same coordinates and a new declared reference.

@@ -18,6 +18,31 @@ Coordinate tuples are hydrated using the receiving aggregate's reference.
 `withSpatialReference()` instead deeply copies members with the requested
 reference. Neither operation transforms coordinates.
 
+Immutable `copy()` and component replacement preserve the complete
+reference of every unchanged component, including its authority and identifier.
+Nested components keep their individual references even when they differ from
+their parent's reference. The components are still deeply copied; the original
+geometry and its coordinates remain unchanged.
+This includes accepted custom immutable components, whose `copy(): static`
+implementation must follow the same contract. See
+[custom immutable implementations](immutability.md#custom-immutable-implementations)
+for the interface migration requirement.
+
+```php
+use LongitudeOne\SpatialTypes\Reference\SpatialReference;
+
+$reference = SpatialReference::epsg(4326);
+$line = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable([
+    new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable(1, 2, $reference),
+    new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable(3, 4, $reference),
+], $reference);
+$copy = $line->withPoint(0, \LongitudeOne\SpatialTypes\Value\Coordinates::xy(10, 20));
+
+assert('EPSG' === $copy->getPoint(1)->getSpatialReference()->authority);
+assert(4326 === $copy->getPoint(1)->getSrid());
+assert([3, 4] === $copy->getPoint(1)->toArray());
+```
+
 Spatial-reference compatibility is a functional validation concern and must be
 checked explicitly by consumers. See [Spatial validation](validators.md).
 

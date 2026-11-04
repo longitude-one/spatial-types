@@ -30,6 +30,28 @@ use LongitudeOne\SpatialTypes\Reference\SpatialReference;
 abstract class AbstractSpatialTypeImmutable extends AbstractSpatialType implements ImmutableSpatialInterface
 {
     /**
+     * Copy a component without replacing its declared reference.
+     *
+     * @template T of ImmutableSpatialInterface
+     *
+     * @param ImmutableSpatialInterface $component Component to copy
+     *
+     * @phpstan-param T $component
+     *
+     * @phpstan-return T
+     */
+    final protected static function copyComponent(ImmutableSpatialInterface $component): ImmutableSpatialInterface
+    {
+        return $component->copy();
+    }
+
+    /** Return an independent value with its original declared context. */
+    public function copy(): static
+    {
+        return clone $this;
+    }
+
+    /**
      * Return a copy declared with the supplied spatial reference.
      *
      * @param SpatialReference $reference Target spatial reference
