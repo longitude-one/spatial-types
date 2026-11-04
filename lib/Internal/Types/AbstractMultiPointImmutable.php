@@ -73,7 +73,7 @@ abstract class AbstractMultiPointImmutable extends AbstractPointCollectionImmuta
         $pointIndex = $this->normalizePointIndex($pointIndex);
         $multiPoint = clone $this;
         $multiPoint->points = array_map(
-            static fn (ImmutablePointInterface $point): ImmutablePointInterface => $point->withSrid($point->getSrid()),
+            static fn (ImmutablePointInterface $point): ImmutablePointInterface => self::copyComponent($point),
             $this->points
         );
         $multiPoint->points[$pointIndex] = $multiPoint->points[$pointIndex]->withCoordinates($coordinates);

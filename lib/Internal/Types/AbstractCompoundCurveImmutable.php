@@ -118,6 +118,18 @@ abstract class AbstractCompoundCurveImmutable extends AbstractSpatialTypeImmutab
         ), $reference);
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    protected function copyPreservingReferences(): static
+    {
+        $copy = clone $this;
+        $copy->curves = array_map(
+            static fn (ImmutableCurveInterface $component): ImmutableCurveInterface => self::copyComponent($component),
+            $this->curves
+        );
+
+        return $copy;
+    }
+
     /**
      * Append a typed component without altering its interpolation.
      *

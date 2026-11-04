@@ -146,7 +146,7 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
         $surface->patches = [];
 
         foreach ($this->patches as $index => $patch) {
-            $surface->addPatch($index === $patchIndex ? $coordinates : $patch->withSpatialReference($patch->getSpatialReference()));
+            $surface->addPatch($index === $patchIndex ? $coordinates : self::copyComponent($patch));
         }
 
         return $surface;
@@ -257,6 +257,18 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
         return $this;
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    protected function copyPreservingReferences(): static
+    {
+        $copy = clone $this;
+        $copy->patches = array_map(
+            static fn (ImmutablePolygonInterface $component): ImmutablePolygonInterface => self::copyComponent($component),
+            $this->patches
+        );
+
+        return $copy;
+    }
+
     /**
      * Normalize a polygon index according to the polyhedral surface accessor convention.
      *
@@ -290,7 +302,7 @@ abstract class AbstractPolyhedralSurfaceImmutable extends AbstractSpatialTypeImm
         foreach ($this->patches as $index => $patch) {
             $surface->patches[] = $index === $patchIndex
                 ? $transform($patch)
-                : $patch->withSpatialReference($patch->getSpatialReference());
+                : self::copyComponent($patch);
         }
 
         return $surface;

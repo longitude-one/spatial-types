@@ -100,7 +100,7 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
         $collection->elements = [];
 
         foreach ($this->elements as $index => $currentElement) {
-            $collection->addElement($index === $elementIndex ? $element : $currentElement->withSrid($currentElement->getSrid()));
+            $collection->addElement($index === $elementIndex ? $element : self::copyComponent($currentElement));
         }
 
         return $collection;
@@ -164,6 +164,18 @@ abstract class AbstractCollectionImmutable extends AbstractSpatialTypeImmutable 
         }
 
         return $this;
+    }
+
+    /** Copy every descendant while retaining its individual spatial reference. */
+    protected function copyPreservingReferences(): static
+    {
+        $copy = clone $this;
+        $copy->elements = array_map(
+            static fn (ImmutableSpatialInterface $component): ImmutableSpatialInterface => self::copyComponent($component),
+            $this->elements
+        );
+
+        return $copy;
     }
 
     /**

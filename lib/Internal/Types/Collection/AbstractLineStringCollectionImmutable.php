@@ -61,6 +61,18 @@ abstract class AbstractLineStringCollectionImmutable extends AbstractSpatialType
         return $this;
     }
 
+    /** Copy every descendant while retaining its individual spatial reference. */
+    protected function copyPreservingReferences(): static
+    {
+        $copy = clone $this;
+        $copy->lineStrings = array_map(
+            static fn (ImmutableLineStringInterface $component): ImmutableLineStringInterface => self::copyComponent($component),
+            $this->lineStrings
+        );
+
+        return $copy;
+    }
+
     /** @return ImmutableLineStringInterface[] */
     protected function lineStringMembers(): array
     {

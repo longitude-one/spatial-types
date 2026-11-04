@@ -36,6 +36,9 @@ example must be calculated by an external coordinate transformer.
 `LineStringImmutable`, `CircularStringImmutable`, `MultiPointImmutable`, and `PolygonImmutable` provide an equally immutable
 point-replacement operation. `withPoint()` returns a deep copy: the source
 aggregate, its rings, and its points remain unchanged.
+Unchanged components of the supplied immutable types retain their complete
+individual spatial references, including authority metadata, at every nesting
+level. See [aggregate references](spatial-reference-systems.md#aggregate-references).
 
 ```php
 use LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable;

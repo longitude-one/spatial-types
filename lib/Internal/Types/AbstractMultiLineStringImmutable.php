@@ -125,7 +125,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
         $multiLineString->lineStrings = [];
 
         foreach ($this->lineStrings as $index => $lineString) {
-            $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : $lineString->withSpatialReference($lineString->getSpatialReference()));
+            $multiLineString->addLineString($index === $lineStringIndex ? $coordinates : self::copyComponent($lineString));
         }
 
         return $multiLineString;
@@ -145,7 +145,7 @@ abstract class AbstractMultiLineStringImmutable extends AbstractLineStringCollec
         $lineStringIndex = $this->normalizeLineStringIndex($lineStringIndex);
         $multiLineString = clone $this;
         $multiLineString->lineStrings = array_map(
-            static fn (ImmutableLineStringInterface $lineString): ImmutableLineStringInterface => $lineString->withSrid($lineString->getSrid()),
+            static fn (ImmutableLineStringInterface $lineString): ImmutableLineStringInterface => self::copyComponent($lineString),
             $this->lineStrings
         );
         $multiLineString->lineStrings[$lineStringIndex] = $multiLineString->lineStrings[$lineStringIndex]->withPoint($pointIndex, $coordinates);
