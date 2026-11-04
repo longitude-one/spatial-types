@@ -57,12 +57,15 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new MultiLineString([$line]);
         $polygons = new MultiPolygon([$polygon]);
         $nested = new SpatialCollection([]);
-        $collection = new SpatialCollection([$point, $line, $arc, $compound, $polygon, $triangle, $surface, $points, $lines, $polygons, $nested]);
-        static::assertSame([$point, $line, $arc, $compound, $polygon, $triangle, $surface, $points, $lines, $polygons, $nested], $collection->getElements());
+        $collection = new SpatialCollection([$point, $line, $arc, $compound, $polygon, $triangle, $points, $lines, $polygons, $nested]);
+        static::assertSame([$point, $line, $arc, $compound, $polygon, $triangle, $points, $lines, $polygons, $nested], $collection->getElements());
         static::assertSame($collection, $collection->setFamily(SpatialModelEnum::GEOGRAPHY)->setSrid(2154));
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $triangle->getFamily());
+        $surfaceCollection = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$surface]);
+        $surfaceCollection->setFamily(SpatialModelEnum::GEOGRAPHY)->setSrid(2154);
+        static::assertSame($surface, $surfaceCollection->getElement(0));
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
         static::assertSame(2154, $surface->getPatch(0)->getRing(0)->getPoint(0)->getSrid());
         static::assertSame(2154, $arc->getPoint(0)->getSrid());

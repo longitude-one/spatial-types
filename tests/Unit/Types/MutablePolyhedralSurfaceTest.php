@@ -219,12 +219,12 @@ class MutablePolyhedralSurfaceTest extends TestCase
         static::assertSame($shared, $second->getRing(0)->getPoint(0));
     }
 
-    /** Construction retains supplied nested objects without synchronizing context or layout. */
+    /** Construction retains supplied nested objects without synchronizing family or reference. */
     public function testSuppliedNestedComponents(): void
     {
         $point = new Point(0, null, 8, 4326, SpatialModelEnum::GEOGRAPHY);
         $ring = new LineString([$point], 3857);
-        $surface = new PolyhedralSurface([[$ring], [[$point]], new \LongitudeOne\SpatialTypes\Types\Dimension3m\Polygon([[[1, 2, 9]]])], 2154);
+        $surface = new PolyhedralSurface([[$ring], [[$point]], new Polygon([[[1, 2, 9]]])], 2154);
         static::assertSame($ring, $surface->getPatch(0)->getRing(0));
         static::assertSame($point, $surface->getPatch(1)->getRing(0)->getPoint(0));
         static::assertSame(2154, $surface->getPatch(0)->getSrid());
@@ -232,7 +232,7 @@ class MutablePolyhedralSurfaceTest extends TestCase
         static::assertSame(4326, $point->getSrid());
         static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         static::assertSame(CoordinateDimensionEnum::XYZ, $surface->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $surface->getPatch(2)->getDimension());
+        static::assertSame(CoordinateDimensionEnum::XYZ, $surface->getPatch(2)->getDimension());
         static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]], [[[1, 2, 9]]]], $surface->toArray());
     }
 

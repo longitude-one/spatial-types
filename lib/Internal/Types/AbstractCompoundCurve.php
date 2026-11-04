@@ -55,6 +55,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
         if (!$curve instanceof MutableCircularStringInterface && !$curve instanceof MutableLineStringInterface) {
             throw new InvalidValueException('A mutable compound curve requires MutableLineStringInterface or MutableCircularStringInterface components.');
         }
+        MutableComponentGuard::check($curve, $this);
         $this->curves[] = $curve;
 
         return $this;
@@ -116,6 +117,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
         if ($index < 0 || $index > \count($this->curves)) {
             throw new OutOfBoundsException(\sprintf('Curve index %d is outside the insertion range.', $index));
         }
+        MutableComponentGuard::check($curve, $this);
         array_splice($this->curves, $index, 0, [$curve]);
 
         return $this;
@@ -140,6 +142,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
             throw new InvalidValueException('A mutable compound curve requires MutableLineStringInterface or MutableCircularStringInterface components.');
         }
         $this->requireCurveIndex($index);
+        MutableComponentGuard::check($curve, $this);
         array_splice($this->curves, $index, 1, [$curve]);
 
         return $this;
@@ -153,6 +156,7 @@ abstract class AbstractCompoundCurve extends AbstractSpatialType implements Muta
             if (!$curve instanceof MutableLineStringInterface && !$curve instanceof MutableCircularStringInterface) {
                 throw new InvalidValueException('A mutable compound curve requires mutable line-string or circular-string components.');
             }
+            MutableComponentGuard::check($curve, $this);
             $checked[] = $curve;
         }
         $this->curves = $checked;

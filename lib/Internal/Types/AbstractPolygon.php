@@ -218,6 +218,7 @@ abstract class AbstractPolygon extends AbstractSpatialType implements MutablePol
                 throw new InvalidValueException('Mutable polygon rings require mutable point components.');
             }
         }
+        MutableComponentGuard::check($ring, $this);
     }
 
     /**
