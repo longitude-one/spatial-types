@@ -269,7 +269,7 @@ trait PointBehaviorTrait
      *
      * @param float|int|string|null $coordinate the coordinate to set
      *
-     * @throws InvalidValueException when coordinate is invalid, RangeException is never thrown
+     * @throws InvalidValueException when coordinate is invalid
      */
     protected function setCartesianCoordinate(float|int|string|null $coordinate): float|int|null
     {
