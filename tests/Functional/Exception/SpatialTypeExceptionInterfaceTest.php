@@ -19,13 +19,10 @@ namespace LongitudeOne\SpatialTypes\Tests\Functional\Exception;
 use Exception;
 use LongitudeOne\SpatialTypes\Exception\BadMethodCallException;
 use LongitudeOne\SpatialTypes\Exception\InvalidDimensionException;
-use LongitudeOne\SpatialTypes\Exception\InvalidFamilyException;
-use LongitudeOne\SpatialTypes\Exception\InvalidSridException;
 use LongitudeOne\SpatialTypes\Exception\InvalidValueException;
 use LongitudeOne\SpatialTypes\Exception\LogicException;
 use LongitudeOne\SpatialTypes\Exception\MissingValueException;
 use LongitudeOne\SpatialTypes\Exception\OutOfBoundsException;
-use LongitudeOne\SpatialTypes\Exception\RangeException;
 use LongitudeOne\SpatialTypes\Exception\SpatialTypeExceptionInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -39,12 +36,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers \LongitudeOne\SpatialTypes\Exception\BadMethodCallException
  * @covers \LongitudeOne\SpatialTypes\Exception\InvalidDimensionException
- * @covers \LongitudeOne\SpatialTypes\Exception\InvalidFamilyException
- * @covers \LongitudeOne\SpatialTypes\Exception\InvalidSridException
  * @covers \LongitudeOne\SpatialTypes\Exception\InvalidValueException
  * @covers \LongitudeOne\SpatialTypes\Exception\MissingValueException
  * @covers \LongitudeOne\SpatialTypes\Exception\OutOfBoundsException
- * @covers \LongitudeOne\SpatialTypes\Exception\RangeException
  */
 class SpatialTypeExceptionInterfaceTest extends TestCase
 {
@@ -59,17 +53,11 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
 
         yield 'InvalidDimensionException' => [InvalidDimensionException::class];
 
-        yield 'InvalidFamilyException' => [InvalidFamilyException::class];
-
-        yield 'InvalidSridException' => [InvalidSridException::class];
-
         yield 'InvalidValueException' => [InvalidValueException::class];
 
         yield 'MissingValueException' => [MissingValueException::class];
 
         yield 'OutOfBoundsException' => [OutOfBoundsException::class];
-
-        yield 'RangeException' => [RangeException::class];
     }
     // phpcs:disable Squiz.Commenting.FunctionComment.IncorrectTypeHint
     // phpcs:disable Squiz.Commenting.FunctionComment.MissingParamComment
