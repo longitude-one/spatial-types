@@ -82,8 +82,3 @@ This classification establishes no separate automatic compatibility guarantee
 for internal symbols and does not change the project's existing
 backward-compatibility or versioning policy. The public-contract stabilization
 review for the 1.0.0 baseline remains a separate work item.
-
-The unused public exceptions `InvalidFamilyException`, `InvalidSridException`
-and `RangeException` have been removed. See the
-[exception inventory and migration guide](exception-cleanup.md) for the
-approved decisions, compatibility impact and retained parsing exceptions.
