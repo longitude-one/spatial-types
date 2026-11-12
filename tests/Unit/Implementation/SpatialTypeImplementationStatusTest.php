@@ -89,7 +89,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
     {
         self::assertFalse(GeometryTypeEnum::CURVE->isInstantiable());
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::CURVE.');
+        $this->expectExceptionMessageIsOrContains('Implementation status is not applicable to non-instantiable GeometryTypeEnum::CURVE.');
 
         SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CURVE);
     }
@@ -173,7 +173,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
     {
         self::assertFalse(GeometryTypeEnum::GEOMETRY->isInstantiable());
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::GEOMETRY.');
+        $this->expectExceptionMessageIsOrContains('Implementation status is not applicable to non-instantiable GeometryTypeEnum::GEOMETRY.');
 
         SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEOMETRY);
     }
@@ -292,7 +292,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
     {
         self::assertFalse(GeometryTypeEnum::SOLID->isInstantiable());
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SOLID.');
+        $this->expectExceptionMessageIsOrContains('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SOLID.');
 
         SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::SOLID);
     }
@@ -313,7 +313,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
     {
         self::assertFalse(GeometryTypeEnum::SURFACE->isInstantiable());
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SURFACE.');
+        $this->expectExceptionMessageIsOrContains('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SURFACE.');
 
         SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::SURFACE);
     }

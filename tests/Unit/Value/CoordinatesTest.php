@@ -64,7 +64,7 @@ class CoordinatesTest extends TestCase
     public function testConstructorRejectsUnexpectedElevationForTwoDimensionalCoordinates(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessage('do not match the XY coordinate dimension');
+        self::expectExceptionMessageIsOrContains('do not match the XY coordinate dimension');
 
         new Coordinates(CoordinateDimensionEnum::XY, 1, 2, 3);
     }
@@ -123,7 +123,7 @@ class CoordinatesTest extends TestCase
     public function testReplacingElevationRejectsTwoDimensionalCoordinates(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessage('has no Z ordinate');
+        self::expectExceptionMessageIsOrContains('has no Z ordinate');
 
         Coordinates::xy(1, 2)->withZ(3);
     }

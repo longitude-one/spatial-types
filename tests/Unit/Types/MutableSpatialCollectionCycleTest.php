@@ -53,7 +53,7 @@ class MutableSpatialCollectionCycleTest extends TestCase
         $cyclic = self::createStub(MutableCollectionInterface::class);
         $cyclic->method('getElements')->willReturn([$cyclic]);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Mutable aggregate members must not form reference cycles.');
+        $this->expectExceptionMessageIsOrContains('Mutable aggregate members must not form reference cycles.');
         new SpatialCollection([$cyclic]);
     }
 
@@ -63,7 +63,7 @@ class MutableSpatialCollectionCycleTest extends TestCase
         $point = new Point(1, null, 4326);
         $collection = new SpatialCollection([$point], 2154);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Mutable aggregate members must not form reference cycles.');
+        $this->expectExceptionMessageIsOrContains('Mutable aggregate members must not form reference cycles.');
 
         try {
             $collection->addElement($collection);
@@ -81,7 +81,7 @@ class MutableSpatialCollectionCycleTest extends TestCase
         $point = new Point(1, null, 4326);
         $collection = new SpatialCollection([$point], 2154);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Mutable aggregate members must not form reference cycles.');
+        $this->expectExceptionMessageIsOrContains('Mutable aggregate members must not form reference cycles.');
 
         try {
             $collection->insertElement(1, $collection);
@@ -99,7 +99,7 @@ class MutableSpatialCollectionCycleTest extends TestCase
         $point = new Point(1, null, 4326);
         $collection = new SpatialCollection([$point], 2154);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Mutable aggregate members must not form reference cycles.');
+        $this->expectExceptionMessageIsOrContains('Mutable aggregate members must not form reference cycles.');
 
         try {
             $collection->setElement(0, $collection);
@@ -117,7 +117,7 @@ class MutableSpatialCollectionCycleTest extends TestCase
         $point = new Point(1, null, 4326);
         $collection = new SpatialCollection([$point], 2154);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Mutable aggregate members must not form reference cycles.');
+        $this->expectExceptionMessageIsOrContains('Mutable aggregate members must not form reference cycles.');
 
         try {
             $collection->setElements([$point, $collection]);

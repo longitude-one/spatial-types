@@ -128,7 +128,7 @@ class ImmutableComponentContractTest extends TestCase
         $nested = self::createStub(ImmutableCollectionInterface::class);
         $nested->method('getElements')->willReturn([$mutable]);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('Immutable aggregates require exclusively immutable spatial components.');
+        $this->expectExceptionMessageIsOrContains('Immutable aggregates require exclusively immutable spatial components.');
 
         new GeometryCollectionImmutable(0, [$nested]);
     }

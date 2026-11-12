@@ -35,7 +35,7 @@ class Issue79Test extends TestCase
         $invalid = new PolygonImmutable([]);
         $destination = new \LongitudeOne\SpatialTypes\Types\Dimension2\Point(2, 0, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutablePointInterface');
+        $this->expectExceptionMessageIsOrContains('MutablePointInterface');
 
         try {
             $curve->appendArc($invalid, $destination);
@@ -53,7 +53,7 @@ class Issue79Test extends TestCase
         $invalid = new PolygonImmutable([]);
         $destination = new \LongitudeOne\SpatialTypes\Types\Dimension2\Point(4, 0, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutablePointInterface');
+        $this->expectExceptionMessageIsOrContains('MutablePointInterface');
 
         try {
             $curve->replaceArc(0, $invalid, $destination);
@@ -86,7 +86,7 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable(4326, [$point]);
         $replacement = new \LongitudeOne\SpatialTypes\Types\Dimension2\Point(3, 4, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutableSpatialInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutableSpatialInterface');
 
         try {
             $source->withElement(0, $replacement);
@@ -103,7 +103,7 @@ class Issue79Test extends TestCase
     {
         $polygon = new Polygon([]);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         new \ReflectionClass(MultiPolygonImmutable::class)->newInstance([$polygon]);
     }
@@ -113,7 +113,7 @@ class Issue79Test extends TestCase
     {
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable(1, 2);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         new \ReflectionClass(MultiPolygonImmutable::class)->newInstance([$point]);
     }
@@ -123,7 +123,7 @@ class Issue79Test extends TestCase
     {
         $line = new \LongitudeOne\SpatialTypes\Types\Dimension3m\LineString([[1, 2, 9]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutableLineStringInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutableLineStringInterface');
 
         new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable::class)->newInstance([$line], 4326);
     }
@@ -133,7 +133,7 @@ class Issue79Test extends TestCase
     {
         $polygon = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Polygon([[[1, 2, 3, 4]]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         try {
             new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurfaceImmutable::class)->newInstance([$polygon], 2154);
@@ -148,7 +148,7 @@ class Issue79Test extends TestCase
     {
         $polygon = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon([[[1, 2, 3]]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable::class)->newInstance([$polygon], 4326);
     }
@@ -160,7 +160,7 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension2\SpatialCollection([$point], 4326);
         $immutable = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable(3, 4, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableSpatialInterface');
+        $this->expectExceptionMessageIsOrContains('MutableSpatialInterface');
 
         try {
             $source->setElement(0, $immutable);
@@ -178,7 +178,7 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPoint([$point], 4326);
         $replacement = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable(3, 4, 8, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableSpatialInterface');
+        $this->expectExceptionMessageIsOrContains('MutableSpatialInterface');
 
         try {
             $source->addElement($replacement);
@@ -197,7 +197,7 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$polygon], 4326);
         $replacement = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Point(5, 6, 7, 8, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('mutable Polygon');
+        $this->expectExceptionMessageIsOrContains('mutable Polygon');
 
         try {
             $source->setElement(0, $replacement);
@@ -215,7 +215,7 @@ class Issue79Test extends TestCase
         $surface = new \LongitudeOne\SpatialTypes\Types\Dimension3z\PolyhedralSurface([$patch], 4326);
         $ring = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineStringImmutable([[4, 5, 6]], 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableLineStringInterface');
+        $this->expectExceptionMessageIsOrContains('MutableLineStringInterface');
 
         try {
             $surface->addRing(0, $ring);
@@ -234,7 +234,7 @@ class Issue79Test extends TestCase
         $patch = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon([$ring], 4326);
         $surface = new \LongitudeOne\SpatialTypes\Types\Dimension3z\PolyhedralSurface([$patch], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableLineStringInterface');
+        $this->expectExceptionMessageIsOrContains('MutableLineStringInterface');
 
         try {
             $surface->insertRing(0, 1, $point);

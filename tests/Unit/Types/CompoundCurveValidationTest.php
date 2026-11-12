@@ -91,7 +91,7 @@ class CompoundCurveValidationTest extends TestCase
         $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('toArray')->willReturn([[0, false]]);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
+        $this->expectExceptionMessageIsOrContains('A compound curve component must expose numeric or null ordinates.');
 
         new CompoundCurveImmutable([$component]);
     }
@@ -102,7 +102,7 @@ class CompoundCurveValidationTest extends TestCase
         $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('toArray')->willReturn([[0, '2']]);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
+        $this->expectExceptionMessageIsOrContains('A compound curve component must expose numeric or null ordinates.');
 
         new CompoundCurveImmutable([$component]);
     }

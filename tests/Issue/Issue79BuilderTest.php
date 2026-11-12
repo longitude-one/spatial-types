@@ -34,7 +34,7 @@ class Issue79BuilderTest extends TestCase
         $builder = SpatialBuilder::create()->multiPolygon();
         $polygon = new Polygon([[[1, 2]]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('exclusively immutable spatial components');
+        $this->expectExceptionMessageIsOrContains('exclusively immutable spatial components');
 
         try {
             $builder->addPolygon($polygon);
@@ -50,7 +50,7 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->compoundCurve();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('CircularStringInterface or LineStringInterface');
+        $this->expectExceptionMessageIsOrContains('CircularStringInterface or LineStringInterface');
 
         try {
             $builder->addCurve(new CompoundCurveImmutable([]));
@@ -77,7 +77,7 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->multiLineString();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('LineStringInterface');
+        $this->expectExceptionMessageIsOrContains('LineStringInterface');
 
         try {
             $builder->addLineString(new PointImmutable(1, 2));
@@ -91,7 +91,7 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(\LongitudeOne\Core\Enum\CoordinateDimensionEnum::XYZ)->polyhedralSurface();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('PolygonInterface');
+        $this->expectExceptionMessageIsOrContains('PolygonInterface');
 
         try {
             $builder->addPatch(new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(1, 2, 3));
@@ -105,7 +105,7 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->lineString()->addPoint(1, 2);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('PointInterface');
+        $this->expectExceptionMessageIsOrContains('PointInterface');
 
         try {
             $builder->addPointComponent(new PolygonImmutable([]));
@@ -119,7 +119,7 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->multiPolygon();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('PolygonInterface');
+        $this->expectExceptionMessageIsOrContains('PolygonInterface');
 
         try {
             $builder->addPolygon(new PointImmutable(1, 2));
@@ -133,7 +133,7 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->polygon();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('LineStringInterface');
+        $this->expectExceptionMessageIsOrContains('LineStringInterface');
 
         try {
             $builder->addRing(new PointImmutable(1, 2));
