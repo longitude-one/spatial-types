@@ -56,7 +56,7 @@ jobs:
               run: composer show
 
             - name: Run test suite with coverage
-              run: composer test
+              run: composer coverage
 
             - name: Install PHP-CS-Fixer
               run: composer update --working-dir=quality/php-cs-fixer
@@ -88,15 +88,24 @@ jobs:
             - name: Coverage check
               uses: ericsizemore/phpunit-coverage-check-action@2.0.0
               with:
-                clover_file: '.phpunit-cache/coverage.xml'
+                clover_file: 'build/coverage/clover.xml'
                 threshold: 96
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: '22'
+            - name: Install Markdown tools
+              run: npm install --ignore-scripts
+            - name: Check Markdown
+              run: composer markdown
 
             - name: Upload coverage to Codecov
               if: ${{ env.HAS_CC_SECRET == 'true' }}
               uses: codecov/codecov-action@v7
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
-                  files: .phpunit-cache/coverage.xml
+                  files: build/coverage/clover.xml
                   slug: longitude-one/spatial-types
 
 

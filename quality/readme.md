@@ -4,15 +4,17 @@
 
 ```bash
 # install quality tools
-composer upgrade-quality-tools
+composer update-tools
 # install library-dependencies if not already done
 composer update
+# install Markdown tools
+npm install --ignore-scripts
 # launch quality checks
 composer quality
 # launch test
 composer test
 # launch test with coverage information
-composer test-local
+composer coverage
 ```
  
 In this repository we use PHP_CodeSniffer (phpcs), PHP CS Fixer, PHP Mess Detector (phpmd), and PHPStan to enforce and improve code quality: 
