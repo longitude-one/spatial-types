@@ -1,147 +1,166 @@
-name: PHP CI
-
-# Cancel superseded pull request runs to avoid spending resources on obsolete commits.
-concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
-on:
-    schedule:
-        - cron: '5 16 * * 3'
-    pull_request:
-        paths-ignore:
-            - '**.md'
-            - LICENSE
-
+name: CI
+'on':
+  pull_request: {}
+  schedule:
+    - cron: 11 16 * * 3
+  workflow_dispatch: {}
 permissions:
-    contents: read
-    pull-requests: read
-
+  contents: read
+  pull-requests: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-    stable-build:
-        name: PHP 8.4
-        runs-on: ubuntu-latest
+  changes:
+    name: Select relevant checks
+    runs-on: ubuntu-24.04
+    outputs:
+      code: ${{ steps.select.outputs.code }}
+      markdown: ${{ steps.select.outputs.markdown }}
+      matrix: ${{ steps.select.outputs.matrix }}
+    steps:
+      - name: Inspect changed paths
+        id: select
+        uses: actions/github-script@v8
+        with:
+          script: >
+            const scheduled = context.eventName !== 'pull_request';
+
+            let code = scheduled;
+
+            let markdown = scheduled;
+
+            if (!scheduled) {
+              const files = await github.paginate(github.rest.pulls.listFiles, {
+                ...context.repo, pull_number: context.issue.number, per_page: 100
+              });
+              const paths = files.flatMap(file => [file.filename, file.previous_filename].filter(Boolean));
+              const markdownOnly = path => path.endsWith('.md') || path.startsWith('docs/') ||
+                ['package.json', 'package-lock.json'].includes(path) || path.startsWith('.markdownlint');
+              code = paths.some(path => path !== 'LICENSE' && !markdownOnly(path));
+              markdown = paths.some(path => markdownOnly(path) || path.startsWith('.github/'));
+            }
+
+            core.setOutput('code', String(code));
+
+            core.setOutput('markdown', String(markdown));
+
+            const stable = [{"php": "8.4", "coverage": true}, {"php": "8.5", "coverage": false}];
+
+            const experimental = [];
+
+            core.setOutput('matrix', JSON.stringify({include: scheduled ? [...stable, ...experimental] :
+            stable}));
+  tests:
+    name: ${{ matrix.php }}
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      COMPOSER_NO_INTERACTION: '1'
+      HAS_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN != '' }}
+    strategy:
+      fail-fast: ${{ github.event_name == 'pull_request' }}
+      matrix: ${{ fromJSON(needs.changes.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Prepare Composer cache
+        run: echo "COMPOSER_CACHE_DIR=$RUNNER_TEMP/composer-cache" >> "$GITHUB_ENV"
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: ${{ matrix.coverage && 'pcov' || 'none' }}
+          tools: composer:v2
+          extensions: mbstring
+      - name: Cache Composer downloads
+        uses: actions/cache@v6
+        with:
+          path: ${{ runner.temp }}/composer-cache
+          key: >-
+            ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('composer.json',
+            'quality/php-cs-fixer/composer.json', 'quality/php-stan/composer.json',
+            'quality/php-mess-detector/composer.json', 'quality/php-code-sniffer/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-${{ matrix.php }}-
+      - name: Validate Composer metadata
+        run: composer validate --strict
+      - name: Resolve and install current dependencies
+        run: composer update --prefer-dist --no-interaction ${{ !matrix.coverage && '--ignore-platform-req=ext-pcov' || '' }}
+      - name: Run tests without coverage
+        if: ${{ !matrix.coverage }}
+        run: composer test
+      - name: Generate Clover coverage only
+        if: matrix.coverage
+        run: composer coverage-ci
+      - name: Check coverage threshold
+        if: matrix.coverage
+        run: composer coverage-check
+      - name: Update isolated PHP quality tools
+        run: composer update-tools --no-interaction
+        if: matrix.coverage
+      - name: Check PHP formatting
+        run: composer cs-check
+        if: matrix.coverage
+      - name: Run PHPStan
+        run: composer phpstan
+        if: matrix.coverage
+      - name: Run PHPMD
+        run: composer phpmd
+        if: matrix.coverage
+      - name: Run PHP_CodeSniffer
+        run: composer phpcs
+        if: matrix.coverage
+      - name: Send Clover report to Codecov
+        if: matrix.coverage && env.HAS_CODECOV_TOKEN == 'true'
+        uses: codecov/codecov-action@v7.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: longitude-one/spatial-types
+          files: build/coverage/clover.xml
+          disable_search: true
+          fail_ci_if_error: true
+  markdown:
+    name: Markdown
+    needs: changes
+    if: needs.changes.outputs.markdown == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Cache npm downloads
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+      - name: Install Markdown tools
+        run: npm install --ignore-scripts
+      - name: Check Markdown
+        run: npm run lint:markdown
+  ci:
+    name: CI
+    if: ${{ always() }}
+    needs:
+      - changes
+      - tests
+      - markdown
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require all relevant checks to succeed
         env:
-            HAS_CC_SECRET: ${{ secrets.CODECOV_TOKEN != '' }}
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v7
-
-            - name: Validate composer.json
-              run: composer validate --strict
-
-            - name: Get Composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache Composer packages
-              uses: actions/cache@v6
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ format('{0}-composer-php84-{1}', runner.os, hashFiles('composer.json', 'quality/php-cs-fixer/composer.json', 'quality/php-code-sniffer/composer.json', 'quality/php-mess-detector/composer.json', 'quality/php-stan/composer.json')) }}
-                  restore-keys: |
-                      ${{ format('{0}-composer-php84-', runner.os) }}
-
-            - name: Set up PHP 8.4
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.4'
-                  coverage: pcov
-                  tools: composer:v2
-
-            - name: Install dependencies
-              run: composer update
-
-            - name: List libraries
-              run: composer show
-
-            - name: Run test suite with coverage
-              run: composer coverage
-
-            - name: Install PHP-CS-Fixer
-              run: composer update --working-dir=quality/php-cs-fixer
-
-            - name: Run PHP-CS-Fixer
-              run: ./quality/php-cs-fixer/vendor/bin/php-cs-fixer fix --config=quality/php-cs-fixer/.php-cs-fixer.php --dry-run --allow-risky=yes --diff
-
-            - name: Install PHP-Mess Detector
-              run: composer update --working-dir=quality/php-mess-detector
-
-            - name: Run PHP-Mess Detector on lib
-              run: ./quality/php-mess-detector/vendor/bin/phpmd analyze lib --format text --ruleset quality/php-mess-detector/ruleset.yml
-
-            - name: Run PHP-Mess Detector on tests
-              run: ./quality/php-mess-detector/vendor/bin/phpmd analyze tests --format text --ruleset quality/php-mess-detector/test-ruleset.yml
-
-            - name: Install PHP CodeSniffer
-              run: composer update --working-dir=quality/php-code-sniffer
-
-            - name: Run PHP CodeSniffer
-              run: ./quality/php-code-sniffer/vendor/bin/phpcs --standard=quality/php-code-sniffer/phpcs.xml -s
-
-            - name: Install PHPStan
-              run: composer update --working-dir=quality/php-stan
-
-            - name: Run PHPStan
-              run: ./quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M -v
-
-            - name: Coverage check
-              uses: ericsizemore/phpunit-coverage-check-action@2.0.0
-              with:
-                clover_file: 'build/coverage/clover.xml'
-                threshold: 96
-
-            - name: Set up Node.js
-              uses: actions/setup-node@v7
-              with:
-                  node-version: '22'
-            - name: Install Markdown tools
-              run: npm install --ignore-scripts
-            - name: Check Markdown
-              run: composer markdown
-
-            - name: Upload coverage to Codecov
-              if: ${{ env.HAS_CC_SECRET == 'true' }}
-              uses: codecov/codecov-action@v7
-              with:
-                  token: ${{ secrets.CODECOV_TOKEN }}
-                  files: build/coverage/clover.xml
-                  slug: longitude-one/spatial-types
-
-
-
-    next-version-build:
-        needs: stable-build
-        name: PHP 8.5
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v7
-
-            - name: Get Composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache Composer packages
-              uses: actions/cache@v6
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ format('{0}-composer-php85-{1}', runner.os, hashFiles('composer.json')) }}
-                  restore-keys: |
-                      ${{ format('{0}-composer-php85-', runner.os) }}
-
-            - name: Set up PHP 8.5
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.5'
-                  coverage: pcov
-                  tools: composer:v2
-
-            - name: Install dependencies
-              run: composer update -vvv --prefer-dist
-
-            - name: List libraries
-              run: composer show
-
-            - name: Run test suite
-              run: composer test
+          RESULTS: ${{ toJSON(needs) }}
+        run: |-
+          python3 - <<'PYTHON'
+          import json, os, sys
+          results = json.loads(os.environ['RESULTS'])
+          failed = [name for name, job in results.items() if job['result'] not in ('success', 'skipped')]
+          if results['changes']['result'] != 'success' or failed:
+              print('Failed or cancelled checks:', ', '.join(failed))
+              sys.exit(1)
+          print('All relevant checks passed.')
+          PYTHON
