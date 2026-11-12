@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -133,20 +134,20 @@ class EmptyPointTest extends TestCase
     #[DataProvider('provideEmptyPoints')]
     public function testEmptyPointCanBeCreated(ImmutablePointInterface $point): void
     {
-        static::assertSame(4326, $point->getSrid());
-        static::assertNull($point->getCoordinates());
-        static::assertNull($point->getLongitude());
-        static::assertNull($point->getLatitude());
-        static::assertNull($point->getX());
-        static::assertNull($point->getY());
-        static::assertSame([], $point->toArray());
+        self::assertSame(4326, $point->getSrid());
+        self::assertNull($point->getCoordinates());
+        self::assertNull($point->getLongitude());
+        self::assertNull($point->getLatitude());
+        self::assertNull($point->getX());
+        self::assertNull($point->getY());
+        self::assertSame([], $point->toArray());
 
         if ($point->hasZ()) {
-            static::assertNull($point->getZ());
+            self::assertNull($point->getZ());
         }
 
         if ($point->hasM()) {
-            static::assertNull($point->getM());
+            self::assertNull($point->getM());
         }
     }
 
@@ -161,8 +162,8 @@ class EmptyPointTest extends TestCase
     {
         $point = FromIndexedArrayFactory::createPoint([], 4326, $family, $dimension);
 
-        static::assertSame([], $point->toArray());
-        static::assertSame(4326, $point->getSrid());
+        self::assertSame([], $point->toArray());
+        self::assertSame(4326, $point->getSrid());
     }
 
     /**
@@ -172,7 +173,7 @@ class EmptyPointTest extends TestCase
     {
         $point = new GeometryPoint(null, 2);
 
-        static::assertSame([null, 2], $point->toArray());
+        self::assertSame([null, 2], $point->toArray());
     }
 
     /**
@@ -186,6 +187,6 @@ class EmptyPointTest extends TestCase
     {
         $replacement = $point->withCoordinates($coordinates);
 
-        static::assertEquals($coordinates, $replacement->getCoordinates());
+        self::assertEquals($coordinates, $replacement->getCoordinates());
     }
 }

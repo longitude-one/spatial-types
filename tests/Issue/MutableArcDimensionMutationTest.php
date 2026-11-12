@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -40,17 +41,17 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->appendArc($compatible, $incompatible);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $arc->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
-            static::assertSame([3, 4, 5], $incompatible->toArray());
-            static::assertSame([3, 3], $compatible->toArray());
-            static::assertSame(2154, $arc->getSrid());
+            self::assertSame([$origin, $passing, $destination], $arc->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
+            self::assertSame([3, 4, 5], $incompatible->toArray());
+            self::assertSame([3, 3], $compatible->toArray());
+            self::assertSame(2154, $arc->getSrid());
             $arc->setSrid(4326);
-            static::assertSame(4326, $origin->getSrid());
-            static::assertSame(4326, $passing->getSrid());
-            static::assertSame(4326, $destination->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
-            static::assertSame(0, $compatible->getSrid());
+            self::assertSame(4326, $origin->getSrid());
+            self::assertSame(4326, $passing->getSrid());
+            self::assertSame(4326, $destination->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
+            self::assertSame(0, $compatible->getSrid());
         }
     }
 
@@ -68,17 +69,17 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->appendArc($incompatible, $compatible);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $arc->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
-            static::assertSame([3, 4, 5], $incompatible->toArray());
-            static::assertSame([3, 3], $compatible->toArray());
-            static::assertSame(2154, $arc->getSrid());
+            self::assertSame([$origin, $passing, $destination], $arc->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
+            self::assertSame([3, 4, 5], $incompatible->toArray());
+            self::assertSame([3, 3], $compatible->toArray());
+            self::assertSame(2154, $arc->getSrid());
             $arc->setSrid(4326);
-            static::assertSame(4326, $origin->getSrid());
-            static::assertSame(4326, $passing->getSrid());
-            static::assertSame(4326, $destination->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
-            static::assertSame(0, $compatible->getSrid());
+            self::assertSame(4326, $origin->getSrid());
+            self::assertSame(4326, $passing->getSrid());
+            self::assertSame(4326, $destination->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
+            self::assertSame(0, $compatible->getSrid());
         }
     }
 
@@ -92,11 +93,11 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->setOrigin($point);
         } finally {
-            static::assertSame([], $arc->getPoints());
-            static::assertSame([], $arc->toArray());
+            self::assertSame([], $arc->getPoints());
+            self::assertSame([], $arc->toArray());
             $arc->setSrid(4326);
-            static::assertSame(0, $point->getSrid());
-            static::assertSame([3, 4, 5], $point->toArray());
+            self::assertSame(0, $point->getSrid());
+            self::assertSame([3, 4, 5], $point->toArray());
         }
     }
 
@@ -109,7 +110,7 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->appendArc(new XYM\Point(1, 1, 2), new XYZ\Point(2, 0, 3));
         } finally {
-            static::assertSame([[0, 0, 1]], $arc->toArray());
+            self::assertSame([[0, 0, 1]], $arc->toArray());
         }
     }
 
@@ -127,17 +128,17 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->replaceArc(0, $compatible, $incompatible);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $arc->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
-            static::assertSame([3, 4, 5], $incompatible->toArray());
-            static::assertSame([3, 3], $compatible->toArray());
-            static::assertSame(2154, $arc->getSrid());
+            self::assertSame([$origin, $passing, $destination], $arc->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
+            self::assertSame([3, 4, 5], $incompatible->toArray());
+            self::assertSame([3, 3], $compatible->toArray());
+            self::assertSame(2154, $arc->getSrid());
             $arc->setSrid(4326);
-            static::assertSame(4326, $origin->getSrid());
-            static::assertSame(4326, $passing->getSrid());
-            static::assertSame(4326, $destination->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
-            static::assertSame(0, $compatible->getSrid());
+            self::assertSame(4326, $origin->getSrid());
+            self::assertSame(4326, $passing->getSrid());
+            self::assertSame(4326, $destination->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
+            self::assertSame(0, $compatible->getSrid());
         }
     }
 
@@ -155,17 +156,17 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->replaceArc(0, $incompatible, $compatible);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $arc->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
-            static::assertSame([3, 4, 5], $incompatible->toArray());
-            static::assertSame([3, 3], $compatible->toArray());
-            static::assertSame(2154, $arc->getSrid());
+            self::assertSame([$origin, $passing, $destination], $arc->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
+            self::assertSame([3, 4, 5], $incompatible->toArray());
+            self::assertSame([3, 3], $compatible->toArray());
+            self::assertSame(2154, $arc->getSrid());
             $arc->setSrid(4326);
-            static::assertSame(4326, $origin->getSrid());
-            static::assertSame(4326, $passing->getSrid());
-            static::assertSame(4326, $destination->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
-            static::assertSame(0, $compatible->getSrid());
+            self::assertSame(4326, $origin->getSrid());
+            self::assertSame(4326, $passing->getSrid());
+            self::assertSame(4326, $destination->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
+            self::assertSame(0, $compatible->getSrid());
         }
     }
 
@@ -183,17 +184,17 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->setOrigin($incompatible);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $arc->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
-            static::assertSame([3, 4, 5], $incompatible->toArray());
-            static::assertSame([3, 3], $compatible->toArray());
-            static::assertSame(2154, $arc->getSrid());
+            self::assertSame([$origin, $passing, $destination], $arc->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $arc->toArray());
+            self::assertSame([3, 4, 5], $incompatible->toArray());
+            self::assertSame([3, 3], $compatible->toArray());
+            self::assertSame(2154, $arc->getSrid());
             $arc->setSrid(4326);
-            static::assertSame(4326, $origin->getSrid());
-            static::assertSame(4326, $passing->getSrid());
-            static::assertSame(4326, $destination->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
-            static::assertSame(0, $compatible->getSrid());
+            self::assertSame(4326, $origin->getSrid());
+            self::assertSame(4326, $passing->getSrid());
+            self::assertSame(4326, $destination->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
+            self::assertSame(0, $compatible->getSrid());
         }
     }
 
@@ -206,7 +207,7 @@ class MutableArcDimensionMutationTest extends TestCase
         try {
             $arc->replaceArc(0, new XYM\Point(3, 3, 4), new XYZ\Point(4, 0, 5));
         } finally {
-            static::assertSame([[0, 0, 1], [1, 1, 2], [2, 0, 3]], $arc->toArray());
+            self::assertSame([[0, 0, 1], [1, 1, 2], [2, 0, 3]], $arc->toArray());
         }
     }
 }

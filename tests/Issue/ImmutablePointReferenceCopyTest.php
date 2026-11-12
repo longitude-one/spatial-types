@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -38,17 +39,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xy(10, 20));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20], [3, 4]], $copy->toArray());
-        static::assertSame([[1, 2], [3, 4]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20], [3, 4]], $copy->toArray());
+        self::assertSame([[1, 2], [3, 4]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xy geography multipoint copies retain each point's reference. */
@@ -63,17 +64,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xy(10, 20));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20], [3, 4]], $copy->toArray());
-        static::assertSame([[1, 2], [3, 4]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20], [3, 4]], $copy->toArray());
+        self::assertSame([[1, 2], [3, 4]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xy geometry linestring copies retain each point's reference. */
@@ -88,17 +89,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xy(10, 20));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20], [3, 4]], $copy->toArray());
-        static::assertSame([[1, 2], [3, 4]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20], [3, 4]], $copy->toArray());
+        self::assertSame([[1, 2], [3, 4]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xy geometry multipoint copies retain each point's reference. */
@@ -113,17 +114,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xy(10, 20));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20], [3, 4]], $copy->toArray());
-        static::assertSame([[1, 2], [3, 4]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20], [3, 4]], $copy->toArray());
+        self::assertSame([[1, 2], [3, 4]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xym geography linestring copies retain each point's reference. */
@@ -138,17 +139,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xym(10, 20, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xym geography multipoint copies retain each point's reference. */
@@ -163,17 +164,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xym(10, 20, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xym geometry linestring copies retain each point's reference. */
@@ -188,17 +189,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xym(10, 20, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xym geometry multipoint copies retain each point's reference. */
@@ -213,17 +214,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xym(10, 20, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 70], [3, 4, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 7], [3, 4, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyz geography linestring copies retain each point's reference. */
@@ -238,17 +239,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyz(10, 20, 30));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
-        static::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyz geography multipoint copies retain each point's reference. */
@@ -263,17 +264,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyz(10, 20, 30));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
-        static::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyz geometry linestring copies retain each point's reference. */
@@ -288,17 +289,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyz(10, 20, 30));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
-        static::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyz geometry multipoint copies retain each point's reference. */
@@ -313,17 +314,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyz(10, 20, 30));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
-        static::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30], [4, 5, 6]], $copy->toArray());
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyzm geography linestring copies retain each point's reference. */
@@ -338,17 +339,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyzm(10, 20, 30, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyzm geography multipoint copies retain each point's reference. */
@@ -363,17 +364,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyzm(10, 20, 30, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyzm geometry linestring copies retain each point's reference. */
@@ -388,17 +389,17 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyzm(10, 20, 30, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 
     /** Xyzm geometry multipoint copies retain each point's reference. */
@@ -413,16 +414,16 @@ final class ImmutablePointReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xyzm(10, 20, 30, 70));
 
-        static::assertSame($reference, $copy->getSpatialReference());
-        static::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertSame(2154, $copy->getPoint(1)->getSrid());
-        static::assertNotSame($source, $copy);
-        static::assertNotSame($source->getPoint(0), $copy->getPoint(0));
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
-        static::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
-        static::assertSame($reference, $source->getPoint(0)->getSpatialReference());
-        static::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $copy->getSpatialReference());
+        self::assertSame($reference, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertSame(2154, $copy->getPoint(1)->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertNotSame($source->getPoint(0), $copy->getPoint(0));
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20, 30, 70], [4, 5, 6, 8]], $copy->toArray());
+        self::assertSame([[1, 2, 3, 7], [4, 5, 6, 8]], $source->toArray());
+        self::assertSame($reference, $source->getPoint(0)->getSpatialReference());
+        self::assertSame($otherReference, $source->getPoint(1)->getSpatialReference());
     }
 }

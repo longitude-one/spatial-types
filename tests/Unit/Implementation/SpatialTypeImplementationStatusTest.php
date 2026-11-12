@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -32,8 +33,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testBrepSolid(): void
     {
-        static::assertTrue(GeometryTypeEnum::BREPSOLID->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::BREPSOLID));
+        self::assertTrue(GeometryTypeEnum::BREPSOLID->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::BREPSOLID));
     }
 
     /**
@@ -41,8 +42,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testCircle(): void
     {
-        static::assertTrue(GeometryTypeEnum::CIRCLE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCLE));
+        self::assertTrue(GeometryTypeEnum::CIRCLE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCLE));
     }
 
     /**
@@ -50,8 +51,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testCircularString(): void
     {
-        static::assertTrue(GeometryTypeEnum::CIRCULARSTRING->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCULARSTRING));
+        self::assertTrue(GeometryTypeEnum::CIRCULARSTRING->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CIRCULARSTRING));
     }
 
     /**
@@ -59,8 +60,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testClothoid(): void
     {
-        static::assertTrue(GeometryTypeEnum::CLOTHOID->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CLOTHOID));
+        self::assertTrue(GeometryTypeEnum::CLOTHOID->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CLOTHOID));
     }
 
     /**
@@ -68,8 +69,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testCompoundCurve(): void
     {
-        static::assertTrue(GeometryTypeEnum::COMPOUNDCURVE->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDCURVE));
+        self::assertTrue(GeometryTypeEnum::COMPOUNDCURVE->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDCURVE));
     }
 
     /**
@@ -77,8 +78,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testCompoundSurface(): void
     {
-        static::assertTrue(GeometryTypeEnum::COMPOUNDSURFACE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDSURFACE));
+        self::assertTrue(GeometryTypeEnum::COMPOUNDSURFACE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::COMPOUNDSURFACE));
     }
 
     /**
@@ -86,7 +87,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testCurveIsRejected(): void
     {
-        static::assertFalse(GeometryTypeEnum::CURVE->isInstantiable());
+        self::assertFalse(GeometryTypeEnum::CURVE->isInstantiable());
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::CURVE.');
 
@@ -98,8 +99,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testCurvePolygon(): void
     {
-        static::assertTrue(GeometryTypeEnum::CURVEPOLYGON->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CURVEPOLYGON));
+        self::assertTrue(GeometryTypeEnum::CURVEPOLYGON->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::CURVEPOLYGON));
     }
 
     /**
@@ -107,8 +108,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testEllipticalCurve(): void
     {
-        static::assertTrue(GeometryTypeEnum::ELLIPTICALCURVE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::ELLIPTICALCURVE));
+        self::assertTrue(GeometryTypeEnum::ELLIPTICALCURVE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::ELLIPTICALCURVE));
     }
 
     /**
@@ -116,7 +117,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testEveryEnumCaseIsCovered(): void
     {
-        static::assertSame([
+        self::assertSame([
             'BREPSOLID',
             'CIRCLE',
             'CIRCULARSTRING',
@@ -152,8 +153,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testGeodesicString(): void
     {
-        static::assertTrue(GeometryTypeEnum::GEODESICSTRING->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEODESICSTRING));
+        self::assertTrue(GeometryTypeEnum::GEODESICSTRING->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEODESICSTRING));
     }
 
     /**
@@ -161,8 +162,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testGeometryCollection(): void
     {
-        static::assertTrue(GeometryTypeEnum::GEOMETRYCOLLECTION->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEOMETRYCOLLECTION));
+        self::assertTrue(GeometryTypeEnum::GEOMETRYCOLLECTION->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::GEOMETRYCOLLECTION));
     }
 
     /**
@@ -170,7 +171,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testGeometryIsRejected(): void
     {
-        static::assertFalse(GeometryTypeEnum::GEOMETRY->isInstantiable());
+        self::assertFalse(GeometryTypeEnum::GEOMETRY->isInstantiable());
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::GEOMETRY.');
 
@@ -182,8 +183,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testLineString(): void
     {
-        static::assertTrue(GeometryTypeEnum::LINESTRING->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::LINESTRING));
+        self::assertTrue(GeometryTypeEnum::LINESTRING->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::LINESTRING));
     }
 
     /**
@@ -191,8 +192,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testMultiCurve(): void
     {
-        static::assertTrue(GeometryTypeEnum::MULTICURVE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTICURVE));
+        self::assertTrue(GeometryTypeEnum::MULTICURVE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTICURVE));
     }
 
     /**
@@ -200,8 +201,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testMultiLineString(): void
     {
-        static::assertTrue(GeometryTypeEnum::MULTILINESTRING->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTILINESTRING));
+        self::assertTrue(GeometryTypeEnum::MULTILINESTRING->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTILINESTRING));
     }
 
     /**
@@ -209,8 +210,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testMultiPoint(): void
     {
-        static::assertTrue(GeometryTypeEnum::MULTIPOINT->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTIPOINT));
+        self::assertTrue(GeometryTypeEnum::MULTIPOINT->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTIPOINT));
     }
 
     /**
@@ -218,8 +219,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testMultiPolygon(): void
     {
-        static::assertTrue(GeometryTypeEnum::MULTIPOLYGON->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTIPOLYGON));
+        self::assertTrue(GeometryTypeEnum::MULTIPOLYGON->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTIPOLYGON));
     }
 
     /**
@@ -227,8 +228,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testMultiSurface(): void
     {
-        static::assertTrue(GeometryTypeEnum::MULTISURFACE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTISURFACE));
+        self::assertTrue(GeometryTypeEnum::MULTISURFACE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::MULTISURFACE));
     }
 
     /**
@@ -239,11 +240,11 @@ class SpatialTypeImplementationStatusTest extends TestCase
         foreach (GeometryTypeEnum::cases() as $type) {
             try {
                 SpatialTypeImplementationStatus::isFullyImplemented($type);
-                static::assertTrue($type->isInstantiable(), $type->name);
+                self::assertTrue($type->isInstantiable(), $type->name);
             } catch (InvalidValueException) {
-                static::assertFalse($type->isInstantiable(), $type->name);
+                self::assertFalse($type->isInstantiable(), $type->name);
             } catch (LogicException $exception) {
-                static::fail($exception->getMessage());
+                self::fail($exception->getMessage());
             }
         }
     }
@@ -253,8 +254,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testNurbsCurve(): void
     {
-        static::assertTrue(GeometryTypeEnum::NURBSCURVE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::NURBSCURVE));
+        self::assertTrue(GeometryTypeEnum::NURBSCURVE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::NURBSCURVE));
     }
 
     /**
@@ -262,8 +263,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testPoint(): void
     {
-        static::assertTrue(GeometryTypeEnum::POINT->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POINT));
+        self::assertTrue(GeometryTypeEnum::POINT->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POINT));
     }
 
     /**
@@ -271,8 +272,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testPolygon(): void
     {
-        static::assertTrue(GeometryTypeEnum::POLYGON->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POLYGON));
+        self::assertTrue(GeometryTypeEnum::POLYGON->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POLYGON));
     }
 
     /**
@@ -280,8 +281,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testPolyhedralSurface(): void
     {
-        static::assertTrue(GeometryTypeEnum::POLYHEDRALSURFACE->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POLYHEDRALSURFACE));
+        self::assertTrue(GeometryTypeEnum::POLYHEDRALSURFACE->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::POLYHEDRALSURFACE));
     }
 
     /**
@@ -289,7 +290,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testSolidIsRejected(): void
     {
-        static::assertFalse(GeometryTypeEnum::SOLID->isInstantiable());
+        self::assertFalse(GeometryTypeEnum::SOLID->isInstantiable());
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SOLID.');
 
@@ -301,8 +302,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testSpiralCurve(): void
     {
-        static::assertTrue(GeometryTypeEnum::SPIRALCURVE->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::SPIRALCURVE));
+        self::assertTrue(GeometryTypeEnum::SPIRALCURVE->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::SPIRALCURVE));
     }
 
     /**
@@ -310,7 +311,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testSurfaceIsRejected(): void
     {
-        static::assertFalse(GeometryTypeEnum::SURFACE->isInstantiable());
+        self::assertFalse(GeometryTypeEnum::SURFACE->isInstantiable());
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Implementation status is not applicable to non-instantiable GeometryTypeEnum::SURFACE.');
 
@@ -322,8 +323,8 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testTin(): void
     {
-        static::assertTrue(GeometryTypeEnum::TIN->isInstantiable());
-        static::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::TIN));
+        self::assertTrue(GeometryTypeEnum::TIN->isInstantiable());
+        self::assertFalse(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::TIN));
     }
 
     /**
@@ -331,7 +332,7 @@ class SpatialTypeImplementationStatusTest extends TestCase
      */
     public function testTriangle(): void
     {
-        static::assertTrue(GeometryTypeEnum::TRIANGLE->isInstantiable());
-        static::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::TRIANGLE));
+        self::assertTrue(GeometryTypeEnum::TRIANGLE->isInstantiable());
+        self::assertTrue(SpatialTypeImplementationStatus::isFullyImplemented(GeometryTypeEnum::TRIANGLE));
     }
 }

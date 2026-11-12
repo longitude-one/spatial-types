@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -48,10 +49,10 @@ final class ImmutableCompositeReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, Coordinates::xy(10, 20));
 
-        static::assertSame($emptyReference, $copy->getPoint(1)->getSpatialReference());
-        static::assertNotSame($source->getPoint(1), $copy->getPoint(1));
-        static::assertSame([[10, 20], [], [3, 4]], $copy->toArray());
-        static::assertSame([[1, 2], [], [3, 4]], $source->toArray());
+        self::assertSame($emptyReference, $copy->getPoint(1)->getSpatialReference());
+        self::assertNotSame($source->getPoint(1), $copy->getPoint(1));
+        self::assertSame([[10, 20], [], [3, 4]], $copy->toArray());
+        self::assertSame([[1, 2], [], [3, 4]], $source->toArray());
     }
 
     /** Nested collections also retain circular-string and compound-curve references. */
@@ -78,21 +79,21 @@ final class ImmutableCompositeReferenceCopyTest extends TestCase
 
         $copy = $source->withElement(0, $replacement);
         $nested = $copy->getElements()[1];
-        static::assertInstanceOf(GeometryCollectionImmutable::class, $nested);
+        self::assertInstanceOf(GeometryCollectionImmutable::class, $nested);
         $compound = $nested->getElements()[0];
-        static::assertInstanceOf(CompoundCurveImmutable::class, $compound);
+        self::assertInstanceOf(CompoundCurveImmutable::class, $compound);
         $circular = $compound->getCurve(0);
-        static::assertInstanceOf(CircularStringImmutable::class, $circular);
+        self::assertInstanceOf(CircularStringImmutable::class, $circular);
 
-        static::assertSame($replacement, $copy->getElements()[0]);
-        static::assertSame($collectionReference, $nested->getSpatialReference());
-        static::assertSame($reference, $compound->getSpatialReference());
-        static::assertSame($curveReference, $circular->getSpatialReference());
-        static::assertSame($pointReference, $circular->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $compound->getCurve(1)->getSpatialReference());
-        static::assertNotSame($source->getElements()[1], $nested);
-        static::assertSame([[10, 20], [[[[1, 1], [2, 2], [3, 1]], []]]], $copy->toArray());
-        static::assertSame([[0, 0], [[[[1, 1], [2, 2], [3, 1]], []]]], $source->toArray());
+        self::assertSame($replacement, $copy->getElements()[0]);
+        self::assertSame($collectionReference, $nested->getSpatialReference());
+        self::assertSame($reference, $compound->getSpatialReference());
+        self::assertSame($curveReference, $circular->getSpatialReference());
+        self::assertSame($pointReference, $circular->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $compound->getCurve(1)->getSpatialReference());
+        self::assertNotSame($source->getElements()[1], $nested);
+        self::assertSame([[10, 20], [[[[1, 1], [2, 2], [3, 1]], []]]], $copy->toArray());
+        self::assertSame([[0, 0], [[[[1, 1], [2, 2], [3, 1]], []]]], $source->toArray());
     }
 
     /** Both multi-line editing operations copy an unchanged line without homogenizing it. */
@@ -112,15 +113,15 @@ final class ImmutableCompositeReferenceCopyTest extends TestCase
         $pointCopy = $source->withPoint(0, 0, Coordinates::xy(10, 20));
         $lineCopy = $source->withLineString(0, [[10, 20], [30, 40]]);
 
-        static::assertSame($lineReference, $pointCopy->getLineString(1)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getLineString(1)->getPoint(0)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getLineString(1)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getLineString(1)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getLineString(1), $pointCopy->getLineString(1));
-        static::assertNotSame($source->getLineString(1)->getPoint(0), $lineCopy->getLineString(1)->getPoint(0));
-        static::assertSame([[[10, 20], [1, 1]], [[2, 2], [3, 3]]], $pointCopy->toArray());
-        static::assertSame([[[10, 20], [30, 40]], [[2, 2], [3, 3]]], $lineCopy->toArray());
-        static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $source->toArray());
+        self::assertSame($lineReference, $pointCopy->getLineString(1)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getLineString(1)->getPoint(0)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getLineString(1)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getLineString(1)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getLineString(1), $pointCopy->getLineString(1));
+        self::assertNotSame($source->getLineString(1)->getPoint(0), $lineCopy->getLineString(1)->getPoint(0));
+        self::assertSame([[[10, 20], [1, 1]], [[2, 2], [3, 3]]], $pointCopy->toArray());
+        self::assertSame([[[10, 20], [30, 40]], [[2, 2], [3, 3]]], $lineCopy->toArray());
+        self::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $source->toArray());
     }
 
     /** All multi-polygon edits preserve the unchanged polygon hierarchy. */
@@ -146,20 +147,20 @@ final class ImmutableCompositeReferenceCopyTest extends TestCase
         $ringCopy = $source->withRing(0, 0, [[0, 0], [6, 0], [0, 6], [0, 0]]);
         $polygonCopy = $source->withPolygon(0, [[[0, 0], [7, 0], [0, 7], [0, 0]]]);
 
-        static::assertSame($polygonReference, $pointCopy->getPolygon(1)->getSpatialReference());
-        static::assertSame($ringReference, $pointCopy->getPolygon(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getPolygon(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $ringCopy->getPolygon(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($polygonReference, $polygonCopy->getPolygon(1)->getSpatialReference());
-        static::assertSame($ringReference, $polygonCopy->getPolygon(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $polygonCopy->getPolygon(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getPolygon(1), $pointCopy->getPolygon(1));
-        static::assertNotSame($source->getPolygon(1)->getRing(0), $ringCopy->getPolygon(1)->getRing(0));
-        static::assertNotSame($source->getPolygon(1)->getRing(0)->getPoint(0), $polygonCopy->getPolygon(1)->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, 0], [5, 0], [0, 4], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $pointCopy->toArray());
-        static::assertSame([[[[0, 0], [6, 0], [0, 6], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $ringCopy->toArray());
-        static::assertSame([[[[0, 0], [7, 0], [0, 7], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $polygonCopy->toArray());
-        static::assertSame([[[[0, 0], [4, 0], [0, 4], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $source->toArray());
+        self::assertSame($polygonReference, $pointCopy->getPolygon(1)->getSpatialReference());
+        self::assertSame($ringReference, $pointCopy->getPolygon(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getPolygon(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $ringCopy->getPolygon(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($polygonReference, $polygonCopy->getPolygon(1)->getSpatialReference());
+        self::assertSame($ringReference, $polygonCopy->getPolygon(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $polygonCopy->getPolygon(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getPolygon(1), $pointCopy->getPolygon(1));
+        self::assertNotSame($source->getPolygon(1)->getRing(0), $ringCopy->getPolygon(1)->getRing(0));
+        self::assertNotSame($source->getPolygon(1)->getRing(0)->getPoint(0), $polygonCopy->getPolygon(1)->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, 0], [5, 0], [0, 4], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $pointCopy->toArray());
+        self::assertSame([[[[0, 0], [6, 0], [0, 6], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $ringCopy->toArray());
+        self::assertSame([[[[0, 0], [7, 0], [0, 7], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $polygonCopy->toArray());
+        self::assertSame([[[[0, 0], [4, 0], [0, 4], [0, 0]]], [[[10, 10], [14, 10], [10, 14], [10, 10]]]], $source->toArray());
     }
 
     /** Point and ring editing preserve unrelated rings and nested point references. */
@@ -181,15 +182,15 @@ final class ImmutableCompositeReferenceCopyTest extends TestCase
         $pointCopy = $source->withPoint(0, 1, Coordinates::xy(5, 0));
         $ringCopy = $source->withRing(0, [[0, 0], [6, 0], [0, 6], [0, 0]]);
 
-        static::assertSame($ringReference, $pointCopy->getRing(1)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getRing(1)->getPoint(0)->getSpatialReference());
-        static::assertSame($ringReference, $ringCopy->getRing(1)->getSpatialReference());
-        static::assertSame($pointReference, $ringCopy->getRing(1)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getRing(1), $pointCopy->getRing(1));
-        static::assertNotSame($source->getRing(1)->getPoint(0), $ringCopy->getRing(1)->getPoint(0));
-        static::assertSame([[[0, 0], [5, 0], [0, 4], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $pointCopy->toArray());
-        static::assertSame([[[0, 0], [6, 0], [0, 6], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $ringCopy->toArray());
-        static::assertSame([[[0, 0], [4, 0], [0, 4], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $source->toArray());
+        self::assertSame($ringReference, $pointCopy->getRing(1)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getRing(1)->getPoint(0)->getSpatialReference());
+        self::assertSame($ringReference, $ringCopy->getRing(1)->getSpatialReference());
+        self::assertSame($pointReference, $ringCopy->getRing(1)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getRing(1), $pointCopy->getRing(1));
+        self::assertNotSame($source->getRing(1)->getPoint(0), $ringCopy->getRing(1)->getPoint(0));
+        self::assertSame([[[0, 0], [5, 0], [0, 4], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $pointCopy->toArray());
+        self::assertSame([[[0, 0], [6, 0], [0, 6], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $ringCopy->toArray());
+        self::assertSame([[[0, 0], [4, 0], [0, 4], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $source->toArray());
     }
 
     /** Triangle point copies keep closure and each unaffected point's metadata. */
@@ -208,9 +209,9 @@ final class ImmutableCompositeReferenceCopyTest extends TestCase
 
         $copy = $source->withPoint(0, 0, Coordinates::xy(-1, -1));
 
-        static::assertSame($pointReference, $copy->getRing(0)->getPoint(1)->getSpatialReference());
-        static::assertNotSame($source->getRing(0)->getPoint(1), $copy->getRing(0)->getPoint(1));
-        static::assertSame([[[-1, -1], [4, 0], [0, 4], [-1, -1]]], $copy->toArray());
-        static::assertSame([[[0, 0], [4, 0], [0, 4], [0, 0]]], $source->toArray());
+        self::assertSame($pointReference, $copy->getRing(0)->getPoint(1)->getSpatialReference());
+        self::assertNotSame($source->getRing(0)->getPoint(1), $copy->getRing(0)->getPoint(1));
+        self::assertSame([[[-1, -1], [4, 0], [0, 4], [-1, -1]]], $copy->toArray());
+        self::assertSame([[[0, 0], [4, 0], [0, 4], [0, 0]]], $source->toArray());
     }
 }

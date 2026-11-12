@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -63,11 +64,11 @@ class PointWithSridTest extends TestCase
     {
         $pointWithSrid = $point->withSrid(2154);
 
-        static::assertNotSame($point, $pointWithSrid);
-        static::assertSame($point::class, new \ReflectionClass($pointWithSrid)->getName());
-        static::assertSame($point->toArray(), $pointWithSrid->toArray());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(2154, $pointWithSrid->getSrid());
+        self::assertNotSame($point, $pointWithSrid);
+        self::assertSame($point::class, new \ReflectionClass($pointWithSrid)->getName());
+        self::assertSame($point->toArray(), $pointWithSrid->toArray());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(2154, $pointWithSrid->getSrid());
     }
 
     /**
@@ -78,7 +79,7 @@ class PointWithSridTest extends TestCase
         $initialPoint = new GeometryPoint2D(1, 2, 4326);
         $clonedPoint = $initialPoint->withSrid(4326);
 
-        static::assertEquals($clonedPoint, $initialPoint);
-        static::assertNotSame($clonedPoint, $initialPoint);
+        self::assertEquals($clonedPoint, $initialPoint);
+        self::assertNotSame($clonedPoint, $initialPoint);
     }
 }

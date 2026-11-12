@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -29,8 +30,8 @@ class SridDefaultTest extends TestCase
     {
         $point = new PointImmutable(1, 2);
 
-        static::assertSame(0, $point->getSrid());
-        static::assertSame(0, $point->getSpatialReference()->srid());
-        static::assertSame(0, $point->jsonSerialize()['srid']);
+        self::assertSame(0, $point->getSrid());
+        self::assertSame(0, $point->getSpatialReference()->srid());
+        self::assertSame(0, $point->jsonSerialize()['srid']);
     }
 }

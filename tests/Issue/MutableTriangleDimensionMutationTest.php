@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -35,11 +36,11 @@ class MutableTriangleDimensionMutationTest extends TestCase
         try {
             $aggregate->addRing($incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getRings());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getRings());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -54,11 +55,11 @@ class MutableTriangleDimensionMutationTest extends TestCase
         try {
             $aggregate->insertRing(1, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getRings());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getRings());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -73,11 +74,11 @@ class MutableTriangleDimensionMutationTest extends TestCase
         try {
             $aggregate->setRing(0, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getRings());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getRings());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 }

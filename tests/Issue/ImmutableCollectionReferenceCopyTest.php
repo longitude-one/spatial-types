@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -40,8 +41,8 @@ final class ImmutableCollectionReferenceCopyTest extends TestCase
         $component = static::createMock(ImmutableSpatialInterface::class);
         $componentCopy = clone $component;
         $component->method('getSpatialReference')->willReturn($reference);
-        $component->expects(static::once())->method('copy')->willReturn($componentCopy);
-        $component->expects(static::never())->method('withSpatialReference');
+        $component->expects($this->once())->method('copy')->willReturn($componentCopy);
+        $component->expects($this->never())->method('withSpatialReference');
         $source = new GeographyCollectionImmutable(4326, [
             new PointImmutable(0, 0, 4326),
             $component,
@@ -49,8 +50,8 @@ final class ImmutableCollectionReferenceCopyTest extends TestCase
 
         $copy = $source->withElement(0, new PointImmutable(10, 20, 4326));
 
-        static::assertSame($component, $source->getElements()[1]);
-        static::assertSame($componentCopy, $copy->getElements()[1]);
+        self::assertSame($component, $source->getElements()[1]);
+        self::assertSame($componentCopy, $copy->getElements()[1]);
     }
 
     /** Nested EMPTY surfaces are still independently copied with their authority. */
@@ -67,10 +68,10 @@ final class ImmutableCollectionReferenceCopyTest extends TestCase
         $copy = $source->withElement(0, new PointImmutable(10, 20, $reference));
         $surfaceCopy = $copy->getElements()[1];
 
-        static::assertSame($surfaceReference, $surfaceCopy->getSpatialReference());
-        static::assertNotSame($surface, $surfaceCopy);
-        static::assertSame([[10, 20], []], $copy->toArray());
-        static::assertSame([[0, 0], []], $source->toArray());
+        self::assertSame($surfaceReference, $surfaceCopy->getSpatialReference());
+        self::assertNotSame($surface, $surfaceCopy);
+        self::assertSame([[10, 20], []], $copy->toArray());
+        self::assertSame([[0, 0], []], $source->toArray());
     }
 
     /** Nested multilines keep their line and point metadata. */
@@ -90,11 +91,11 @@ final class ImmutableCollectionReferenceCopyTest extends TestCase
 
         $copy = $source->withElement(0, new PointImmutable(10, 20, $reference));
         $multiLine = $copy->getElements()[1];
-        static::assertInstanceOf(MultiLineStringImmutable::class, $multiLine);
-        static::assertSame($pointReference, $multiLine->getLineString(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getElements()[1], $multiLine);
-        static::assertSame([[10, 20], [[[1, 2], [3, 4]]]], $copy->toArray());
-        static::assertSame([[0, 0], [[[1, 2], [3, 4]]]], $source->toArray());
+        self::assertInstanceOf(MultiLineStringImmutable::class, $multiLine);
+        self::assertSame($pointReference, $multiLine->getLineString(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getElements()[1], $multiLine);
+        self::assertSame([[10, 20], [[[1, 2], [3, 4]]]], $copy->toArray());
+        self::assertSame([[0, 0], [[[1, 2], [3, 4]]]], $source->toArray());
     }
 
     /** Nested multipoints retain distinct point references and EMPTY values. */
@@ -112,11 +113,11 @@ final class ImmutableCollectionReferenceCopyTest extends TestCase
 
         $copy = $source->withElement(0, new PointImmutable(10, 20, $reference));
         $multiPoint = $copy->getElements()[1];
-        static::assertInstanceOf(MultiPointImmutable::class, $multiPoint);
-        static::assertSame($pointReference, $multiPoint->getPoint(1)->getSpatialReference());
-        static::assertNotSame($source->getElements()[1], $multiPoint);
-        static::assertSame([[10, 20], [[1, 2], []]], $copy->toArray());
-        static::assertSame([[0, 0], [[1, 2], []]], $source->toArray());
+        self::assertInstanceOf(MultiPointImmutable::class, $multiPoint);
+        self::assertSame($pointReference, $multiPoint->getPoint(1)->getSpatialReference());
+        self::assertNotSame($source->getElements()[1], $multiPoint);
+        self::assertSame([[10, 20], [[1, 2], []]], $copy->toArray());
+        self::assertSame([[0, 0], [[1, 2], []]], $source->toArray());
     }
 
     /** Nested multipolygons retain metadata down to their points. */
@@ -140,10 +141,10 @@ final class ImmutableCollectionReferenceCopyTest extends TestCase
 
         $copy = $source->withElement(0, new PointImmutable(10, 20, $reference));
         $multiPolygon = $copy->getElements()[1];
-        static::assertInstanceOf(MultiPolygonImmutable::class, $multiPolygon);
-        static::assertSame($pointReference, $multiPolygon->getPolygon(0)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getElements()[1], $multiPolygon);
-        static::assertSame([[10, 20], [[[[1, 2], [3, 4], [5, 6], [1, 2]]]]], $copy->toArray());
-        static::assertSame([[0, 0], [[[[1, 2], [3, 4], [5, 6], [1, 2]]]]], $source->toArray());
+        self::assertInstanceOf(MultiPolygonImmutable::class, $multiPolygon);
+        self::assertSame($pointReference, $multiPolygon->getPolygon(0)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getElements()[1], $multiPolygon);
+        self::assertSame([[10, 20], [[[[1, 2], [3, 4], [5, 6], [1, 2]]]]], $copy->toArray());
+        self::assertSame([[0, 0], [[[[1, 2], [3, 4], [5, 6], [1, 2]]]]], $source->toArray());
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -49,7 +50,7 @@ class MutableDimensionAggregateConstructionTest extends TestCase
     public function testCustomCurveDescendantCannotBypassLayout(): void
     {
         $point = new XYZ\Point(1, 2, 3);
-        $curve = static::createStub(\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface::class);
+        $curve = self::createStub(\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface::class);
         $curve->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $curve->method('getElements')->willReturn([$point]);
         $curve->method('getStartPoint')->willReturn(null);
@@ -60,8 +61,8 @@ class MutableDimensionAggregateConstructionTest extends TestCase
         try {
             $collection->addElement($curve);
         } finally {
-            static::assertSame([], $collection->getElements());
-            static::assertSame([1, 2, 3], $point->toArray());
+            self::assertSame([], $collection->getElements());
+            self::assertSame([1, 2, 3], $point->toArray());
         }
     }
 

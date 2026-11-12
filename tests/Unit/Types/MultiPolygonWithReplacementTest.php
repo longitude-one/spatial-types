@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -47,13 +48,13 @@ class MultiPolygonWithReplacementTest extends TestCase
         $multiPolygon = self::createMultiPolygon();
         $replacement = $multiPolygon->withPoint(0, 0, 0, Coordinates::xy(-1, -1));
 
-        static::assertNotSame($multiPolygon, $replacement);
-        static::assertSame($multiPolygon::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
-        static::assertSame([[[[-1, -1], [10, 0], [0, 10], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $replacement->toArray());
-        static::assertNotSame($multiPolygon->getPolygon(0), $replacement->getPolygon(0));
-        static::assertNotSame($multiPolygon->getPolygon(1), $replacement->getPolygon(1));
+        self::assertNotSame($multiPolygon, $replacement);
+        self::assertSame($multiPolygon::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
+        self::assertSame([[[[-1, -1], [10, 0], [0, 10], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $replacement->toArray());
+        self::assertNotSame($multiPolygon->getPolygon(0), $replacement->getPolygon(0));
+        self::assertNotSame($multiPolygon->getPolygon(1), $replacement->getPolygon(1));
     }
 
     /**
@@ -67,11 +68,11 @@ class MultiPolygonWithReplacementTest extends TestCase
             [[41, 1], [42, 1], [41, 2], [41, 1]],
         ]);
 
-        static::assertNotSame($multiPolygon, $replacement);
-        static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
-        static::assertSame([[[[40, 0], [50, 0], [40, 10], [40, 0]], [[41, 1], [42, 1], [41, 2], [41, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $replacement->toArray());
-        static::assertNotSame($multiPolygon->getPolygon(0), $replacement->getPolygon(0));
-        static::assertNotSame($multiPolygon->getPolygon(1), $replacement->getPolygon(1));
+        self::assertNotSame($multiPolygon, $replacement);
+        self::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
+        self::assertSame([[[[40, 0], [50, 0], [40, 10], [40, 0]], [[41, 1], [42, 1], [41, 2], [41, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $replacement->toArray());
+        self::assertNotSame($multiPolygon->getPolygon(0), $replacement->getPolygon(0));
+        self::assertNotSame($multiPolygon->getPolygon(1), $replacement->getPolygon(1));
     }
 
     /**
@@ -82,10 +83,10 @@ class MultiPolygonWithReplacementTest extends TestCase
         $multiPolygon = self::createMultiPolygon();
         $replacement = $multiPolygon->withRing(-1, 0, [[19, -1], [31, -1], [19, 11], [19, -1]]);
 
-        static::assertNotSame($multiPolygon, $replacement);
-        static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
-        static::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[19, -1], [31, -1], [19, 11], [19, -1]]]], $replacement->toArray());
-        static::assertNotSame($multiPolygon->getPolygon(0), $replacement->getPolygon(0));
-        static::assertNotSame($multiPolygon->getPolygon(1), $replacement->getPolygon(1));
+        self::assertNotSame($multiPolygon, $replacement);
+        self::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[20, 0], [30, 0], [20, 10], [20, 0]]]], $multiPolygon->toArray());
+        self::assertSame([[[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], [[[19, -1], [31, -1], [19, 11], [19, -1]]]], $replacement->toArray());
+        self::assertNotSame($multiPolygon->getPolygon(0), $replacement->getPolygon(0));
+        self::assertNotSame($multiPolygon->getPolygon(1), $replacement->getPolygon(1));
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -37,16 +38,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiLineString([new LineString([$point], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
-        static::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
-        static::assertSame($point, $aggregate->getElement(0)->getPoint(0));
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
+        self::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
+        self::assertSame($point, $aggregate->getElement(0)->getPoint(0));
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -55,16 +56,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiLineString([new LineString([$point], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
-        static::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
-        static::assertNull($point->getSpatialReference()->authority);
-        static::assertSame($point, $aggregate->getElement(0)->getPoint(0));
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
-        static::assertSame('EPSG', $point->getSpatialReference()->authority);
-        static::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
+        self::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
+        self::assertNull($point->getSpatialReference()->authority);
+        self::assertSame($point, $aggregate->getElement(0)->getPoint(0));
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
+        self::assertSame('EPSG', $point->getSpatialReference()->authority);
+        self::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -73,16 +74,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiLineString([new LineString([$point], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSrid(2154, false));
-        static::assertSame(2154, $aggregate->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($point, $aggregate->getElement(0)->getPoint(0));
-        static::assertSame($aggregate, $aggregate->setSrid(2154));
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(2154, $owner->getElement(0)->getSrid());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSrid(2154, false));
+        self::assertSame(2154, $aggregate->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($point, $aggregate->getElement(0)->getPoint(0));
+        self::assertSame($aggregate, $aggregate->setSrid(2154));
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(2154, $owner->getElement(0)->getSrid());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -91,16 +92,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiPoint([$point], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
-        static::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
-        static::assertSame($point, $aggregate->getElement(0));
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
+        self::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
+        self::assertSame($point, $aggregate->getElement(0));
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -109,16 +110,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiPoint([$point], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
-        static::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
-        static::assertNull($point->getSpatialReference()->authority);
-        static::assertSame($point, $aggregate->getElement(0));
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
-        static::assertSame('EPSG', $point->getSpatialReference()->authority);
-        static::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
+        self::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
+        self::assertNull($point->getSpatialReference()->authority);
+        self::assertSame($point, $aggregate->getElement(0));
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
+        self::assertSame('EPSG', $point->getSpatialReference()->authority);
+        self::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -127,16 +128,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiPoint([$point], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSrid(2154, false));
-        static::assertSame(2154, $aggregate->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($point, $aggregate->getElement(0));
-        static::assertSame($aggregate, $aggregate->setSrid(2154));
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(2154, $owner->getElement(0)->getSrid());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSrid(2154, false));
+        self::assertSame(2154, $aggregate->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($point, $aggregate->getElement(0));
+        self::assertSame($aggregate, $aggregate->setSrid(2154));
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(2154, $owner->getElement(0)->getSrid());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -145,16 +146,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiPolygon([new Polygon([new LineString([$point], 4326)], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
-        static::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
-        static::assertSame($point, $aggregate->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
+        self::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
+        self::assertSame($point, $aggregate->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -163,16 +164,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiPolygon([new Polygon([new LineString([$point], 4326)], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
-        static::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
-        static::assertNull($point->getSpatialReference()->authority);
-        static::assertSame($point, $aggregate->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
-        static::assertSame('EPSG', $point->getSpatialReference()->authority);
-        static::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
+        self::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
+        self::assertNull($point->getSpatialReference()->authority);
+        self::assertSame($point, $aggregate->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
+        self::assertSame('EPSG', $point->getSpatialReference()->authority);
+        self::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -181,16 +182,16 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new MultiPolygon([new Polygon([new LineString([$point], 4326)], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSrid(2154, false));
-        static::assertSame(2154, $aggregate->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($point, $aggregate->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame($aggregate, $aggregate->setSrid(2154));
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(2154, $owner->getElement(0)->getSrid());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSrid(2154, false));
+        self::assertSame(2154, $aggregate->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($point, $aggregate->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame($aggregate, $aggregate->setSrid(2154));
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(2154, $owner->getElement(0)->getSrid());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -199,15 +200,15 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new SpatialCollection([new SpatialCollection([new MultiPolygon([new Polygon([new LineString([$point], 4326)], 4326)], 4326)], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
-        static::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
-        static::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $aggregate->getFamily());
+        self::assertSame([SpatialModelEnum::GEOMETRY], [$point->getFamily()]);
+        self::assertSame($aggregate, $aggregate->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getElement(0)->getFamily());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -216,15 +217,15 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new SpatialCollection([new SpatialCollection([new MultiPolygon([new Polygon([new LineString([$point], 4326)], 4326)], 4326)], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
-        static::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
-        static::assertNull($point->getSpatialReference()->authority);
-        static::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
-        static::assertSame('EPSG', $point->getSpatialReference()->authority);
-        static::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154), false));
+        self::assertSame('EPSG', $aggregate->getSpatialReference()->authority);
+        self::assertNull($point->getSpatialReference()->authority);
+        self::assertSame($aggregate, $aggregate->setSpatialReference(SpatialReference::epsg(2154)));
+        self::assertSame('EPSG', $point->getSpatialReference()->authority);
+        self::assertSame('EPSG', $owner->getElement(0)->getSpatialReference()->authority);
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 
     /** Both propagation settings preserve coordinates and shared instance identity. */
@@ -233,14 +234,14 @@ class MutableMultiObjectContextTest extends TestCase
         $point = new Point(0, null, 4326);
         $aggregate = new SpatialCollection([new SpatialCollection([new MultiPolygon([new Polygon([new LineString([$point], 4326)], 4326)], 4326)], 4326)], 4326);
         $owner = new SpatialCollection([$point, $aggregate]);
-        static::assertSame($aggregate, $aggregate->setSrid(2154, false));
-        static::assertSame(2154, $aggregate->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($aggregate, $aggregate->setSrid(2154));
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(2154, $owner->getElement(0)->getSrid());
-        static::assertSame(0, $owner->getSrid());
-        static::assertSame([0, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
+        self::assertSame($aggregate, $aggregate->setSrid(2154, false));
+        self::assertSame(2154, $aggregate->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($aggregate, $aggregate->setSrid(2154));
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(2154, $owner->getElement(0)->getSrid());
+        self::assertSame(0, $owner->getSrid());
+        self::assertSame([0, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $aggregate->getDimension());
     }
 }

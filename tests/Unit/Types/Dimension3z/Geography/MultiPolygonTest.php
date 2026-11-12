@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -50,14 +51,14 @@ class MultiPolygonTest extends TestCase
     public function testGetDimension(): void
     {
         $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
-        static::assertTrue($multiPolygon->hasZ());
-        static::assertFalse($multiPolygon->hasM());
+        self::assertTrue($multiPolygon->hasZ());
+        self::assertFalse($multiPolygon->hasM());
         $polygon = $multiPolygon->getPolygon(0);
-        static::assertTrue($polygon->hasZ());
-        static::assertFalse($polygon->hasM());
+        self::assertTrue($polygon->hasZ());
+        self::assertFalse($polygon->hasM());
         foreach ($polygon->getRings() as $ring) {
-            static::assertTrue($ring->hasZ());
-            static::assertFalse($ring->hasM());
+            self::assertTrue($ring->hasZ());
+            self::assertFalse($ring->hasM());
         }
     }
 
@@ -68,11 +69,11 @@ class MultiPolygonTest extends TestCase
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
         $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
-        static::assertSame($expected, $multiPolygon->getFamily());
+        self::assertSame($expected, $multiPolygon->getFamily());
         $polygon = $multiPolygon->getPolygon(0);
-        static::assertSame($expected, $polygon->getFamily());
+        self::assertSame($expected, $polygon->getFamily());
         foreach ($polygon->getRings() as $ring) {
-            static::assertSame($expected, $ring->getFamily());
+            self::assertSame($expected, $ring->getFamily());
         }
     }
 
@@ -82,7 +83,7 @@ class MultiPolygonTest extends TestCase
     public function testGetType(): void
     {
         $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $multiPolygon->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $multiPolygon->getType());
     }
 
     /**
@@ -91,8 +92,8 @@ class MultiPolygonTest extends TestCase
     public function testJsonSerialize(): void
     {
         $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE);
-        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":0}', json_encode($multiPolygon));
+        self::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":0}', json_encode($multiPolygon));
         $multiPolygon = new MultiPolygonImmutable(self::DEFAULT_COORDINATE, 4326);
-        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":4326}', json_encode($multiPolygon));
+        self::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2,3],[3,4,5],[3,6,42.195],[1,2,3]]]],"srid":4326}', json_encode($multiPolygon));
     }
 }

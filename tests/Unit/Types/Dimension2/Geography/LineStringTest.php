@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -33,12 +34,12 @@ class LineStringTest extends TestCase
     public function testConstructorWithCartesianPoints(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
-        static::assertCount(2, $lineString->getPoints());
-        static::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
+        self::assertCount(2, $lineString->getPoints());
+        self::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
 
         $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4), new PointImmutable(1, 2)]);
-        static::assertCount(3, $lineString->getPoints());
-        static::assertEquals([[1, 2], [3, 4], [1, 2]], $lineString->toArray());
+        self::assertCount(3, $lineString->getPoints());
+        self::assertEquals([[1, 2], [3, 4], [1, 2]], $lineString->toArray());
     }
 
     /**
@@ -47,12 +48,12 @@ class LineStringTest extends TestCase
     public function testConstructorWithGeodesicPoints(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
-        static::assertCount(2, $lineString->getPoints());
-        static::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
+        self::assertCount(2, $lineString->getPoints());
+        self::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
 
         $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326), new PointImmutable('40W', '40S', 4326)], 4326);
-        static::assertCount(3, $lineString->getPoints());
-        static::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $lineString->toArray());
+        self::assertCount(3, $lineString->getPoints());
+        self::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $lineString->toArray());
     }
 
     /**
@@ -61,8 +62,8 @@ class LineStringTest extends TestCase
     public function testEmptyConstructor(): void
     {
         $lineString = new LineStringImmutable([]);
-        static::assertEmpty($lineString->getPoints());
-        static::assertEquals([], $lineString->toArray());
-        static::assertEquals([], $lineString->getPoints());
+        self::assertEmpty($lineString->getPoints());
+        self::assertEquals([], $lineString->toArray());
+        self::assertEquals([], $lineString->getPoints());
     }
 }

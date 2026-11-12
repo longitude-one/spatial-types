@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -32,11 +33,11 @@ class XymContractTest extends TestCase
     {
         $point = new GeometricPoint(1, 2, 3, 2154);
 
-        static::assertSame(1, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame([1, 2, 3], $point->toArray());
-        static::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":2154}', json_encode($point));
+        self::assertSame(1, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame([1, 2, 3], $point->toArray());
+        self::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":2154}', json_encode($point));
     }
 
     /**
@@ -46,10 +47,10 @@ class XymContractTest extends TestCase
     {
         $point = new GeographicPoint('1W', '2N', 3, 4326);
 
-        static::assertSame(-1, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame([-1, 2, 3], $point->toArray());
-        static::assertSame('{"type":"Point","coordinates":[-1,2,3],"srid":4326}', json_encode($point));
+        self::assertSame(-1, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame([-1, 2, 3], $point->toArray());
+        self::assertSame('{"type":"Point","coordinates":[-1,2,3],"srid":4326}', json_encode($point));
     }
 }

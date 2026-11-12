@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -59,31 +60,31 @@ class TriangleTest extends TestCase
     public function testConstructionAndCopies(string $class, array $ring): void
     {
         $triangle = new $class([$ring], 4326);
-        static::assertInstanceOf(PolygonInterface::class, $triangle);
-        static::assertSame(GeometryTypeEnum::TRIANGLE, $triangle->getType());
-        static::assertSame([$ring], $triangle->toArray());
-        static::assertSame('Triangle', $triangle->jsonSerialize()['type']);
-        static::assertSame(str_contains($class, '3z') || str_contains($class, '4zm'), $triangle->hasZ());
-        static::assertSame(str_contains($class, '3m') || str_contains($class, '4zm'), $triangle->hasM());
-        static::assertSame($triangle->getFamily(), $triangle->getRing(0)->getFamily());
-        static::assertTrue($triangle->hasSameDimension($triangle->getRing(0)));
-        static::assertSame([$ring], new $class([$triangle->getRing(0)], 4326)->toArray());
-        static::assertSame([$ring], new $class([$triangle->getRing(0)->getPoints()], 4326)->toArray());
+        self::assertInstanceOf(PolygonInterface::class, $triangle);
+        self::assertSame(GeometryTypeEnum::TRIANGLE, $triangle->getType());
+        self::assertSame([$ring], $triangle->toArray());
+        self::assertSame('Triangle', $triangle->jsonSerialize()['type']);
+        self::assertSame(str_contains($class, '3z') || str_contains($class, '4zm'), $triangle->hasZ());
+        self::assertSame(str_contains($class, '3m') || str_contains($class, '4zm'), $triangle->hasM());
+        self::assertSame($triangle->getFamily(), $triangle->getRing(0)->getFamily());
+        self::assertTrue($triangle->hasSameDimension($triangle->getRing(0)));
+        self::assertSame([$ring], new $class([$triangle->getRing(0)], 4326)->toArray());
+        self::assertSame([$ring], new $class([$triangle->getRing(0)->getPoints()], 4326)->toArray());
 
         $copies = [$triangle->withRing(-1, $ring), $triangle->withArrayOfCoordinates([$ring]), $triangle->withSrid(3857), $triangle->withSpatialReference(SpatialReference::epsg(4326))];
         foreach ($copies as $copy) {
-            static::assertSame($class, new \ReflectionClass($copy)->getName());
-            static::assertSame($triangle->getFamily(), $copy->getFamily());
-            static::assertTrue($triangle->hasSameDimension($copy));
-            static::assertSame([$ring], $copy->toArray());
-            static::assertNotSame($triangle->getRing(0), $copy->getRing(0));
-            static::assertNotSame($triangle->getRing(0)->getPoint(0), $copy->getRing(0)->getPoint(0));
-            static::assertSame($copy->getSrid(), $copy->getRing(0)->getPoint(0)->getSrid());
+            self::assertSame($class, new \ReflectionClass($copy)->getName());
+            self::assertSame($triangle->getFamily(), $copy->getFamily());
+            self::assertTrue($triangle->hasSameDimension($copy));
+            self::assertSame([$ring], $copy->toArray());
+            self::assertNotSame($triangle->getRing(0), $copy->getRing(0));
+            self::assertNotSame($triangle->getRing(0)->getPoint(0), $copy->getRing(0)->getPoint(0));
+            self::assertSame($copy->getSrid(), $copy->getRing(0)->getPoint(0)->getSrid());
         }
-        static::assertSame(4326, $triangle->getSrid());
-        static::assertSame(3857, $copies[2]->getSrid());
-        static::assertSame('EPSG', $copies[3]->getRing(0)->getPoint(0)->getSpatialReference()->authority);
-        static::assertSame([$ring], $triangle->toArray());
+        self::assertSame(4326, $triangle->getSrid());
+        self::assertSame(3857, $copies[2]->getSrid());
+        self::assertSame('EPSG', $copies[3]->getRing(0)->getPoint(0)->getSpatialReference()->authority);
+        self::assertSame([$ring], $triangle->toArray());
     }
 
     /**
@@ -102,15 +103,15 @@ class TriangleTest extends TestCase
         $replacementRing[3] = $replacementRing[0];
         $replacement = new $class([$replacementRing], 4326);
         $coordinates = $replacement->getRing(0)->getPoint(0)->getCoordinates();
-        static::assertInstanceOf(Coordinates::class, $coordinates);
+        self::assertInstanceOf(Coordinates::class, $coordinates);
         foreach ([0, -1] as $index) {
             $copy = $triangle->withPoint(0, $index, $coordinates);
-            static::assertSame($class, new \ReflectionClass($copy)->getName());
-            static::assertSame([$replacementRing], $copy->toArray());
-            static::assertSame([$ring], $triangle->toArray());
-            static::assertSame(4326, $copy->getSrid());
-            static::assertNotSame($point, $copy->getRing(0)->getPoint(0));
-            static::assertSame($copy->getRing(0)->getPoint(0)->toArray(), $copy->getRing(0)->getPoint(-1)->toArray());
+            self::assertSame($class, new \ReflectionClass($copy)->getName());
+            self::assertSame([$replacementRing], $copy->toArray());
+            self::assertSame([$ring], $triangle->toArray());
+            self::assertSame(4326, $copy->getSrid());
+            self::assertNotSame($point, $copy->getRing(0)->getPoint(0));
+            self::assertSame($copy->getRing(0)->getPoint(0)->toArray(), $copy->getRing(0)->getPoint(-1)->toArray());
         }
     }
 

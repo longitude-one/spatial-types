@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -74,15 +75,15 @@ class PolyhedralSurfaceTest extends TestCase
     public function testEmptySurface(string $class): void
     {
         $surface = new $class();
-        static::assertTrue($surface->hasZ());
-        static::assertSame([], $surface->getElements());
-        static::assertSame([], $surface->getPatches());
-        static::assertSame([], $surface->toArray());
-        static::assertSame(['type' => 'PolyhedralSurface', 'coordinates' => [], 'srid' => 0], $surface->jsonSerialize());
+        self::assertTrue($surface->hasZ());
+        self::assertSame([], $surface->getElements());
+        self::assertSame([], $surface->getPatches());
+        self::assertSame([], $surface->toArray());
+        self::assertSame(['type' => 'PolyhedralSurface', 'coordinates' => [], 'srid' => 0], $surface->jsonSerialize());
         $copy = $surface->withSpatialReference(SpatialReference::epsg(4326));
-        static::assertSame($class, new \ReflectionClass($copy)->getName());
-        static::assertSame(4326, $copy->getSrid());
-        static::assertSame(0, $surface->getSrid());
+        self::assertSame($class, new \ReflectionClass($copy)->getName());
+        self::assertSame(4326, $copy->getSrid());
+        self::assertSame(0, $surface->getSrid());
         $this->expectException(OutOfBoundsException::class);
         $surface->getPatch(0);
     }
@@ -110,12 +111,12 @@ class PolyhedralSurfaceTest extends TestCase
     {
         $coordinates = self::coordinates($class);
         $surface = new $class($coordinates, 4326);
-        static::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $surface->getType());
-        static::assertSame(str_contains($class, '4zm'), $surface->hasM());
-        static::assertSame($coordinates, $surface->toArray());
-        static::assertSame($surface->getPatch(1), $surface->getPatch(-1));
-        static::assertSame($surface->getPatch(0), $surface->getPatch(2));
-        static::assertSame($coordinates, new $class($surface->getPatches(), 4326)->toArray());
+        self::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $surface->getType());
+        self::assertSame(str_contains($class, '4zm'), $surface->hasM());
+        self::assertSame($coordinates, $surface->toArray());
+        self::assertSame($surface->getPatch(1), $surface->getPatch(-1));
+        self::assertSame($surface->getPatch(0), $surface->getPatch(2));
+        self::assertSame($coordinates, new $class($surface->getPatches(), 4326)->toArray());
         $copies = [
             $surface->withArrayOfCoordinates($coordinates),
             $surface->withPatch(0, $coordinates[0]),
@@ -124,21 +125,21 @@ class PolyhedralSurfaceTest extends TestCase
             $surface->withSpatialReference(SpatialReference::epsg(4326)),
         ];
         foreach ($copies as $copy) {
-            static::assertSame($class, new \ReflectionClass($copy)->getName());
-            static::assertSame($surface->getFamily(), $copy->getFamily());
-            static::assertTrue($surface->hasSameDimension($copy));
-            static::assertSame($coordinates, $copy->toArray());
+            self::assertSame($class, new \ReflectionClass($copy)->getName());
+            self::assertSame($surface->getFamily(), $copy->getFamily());
+            self::assertTrue($surface->hasSameDimension($copy));
+            self::assertSame($coordinates, $copy->toArray());
             foreach ($surface->getPatches() as $index => $patch) {
-                static::assertNotSame($patch, $copy->getPatch($index));
-                static::assertNotSame($patch->getRing(0), $copy->getPatch($index)->getRing(0));
-                static::assertNotSame($patch->getRing(0)->getPoint(0), $copy->getPatch($index)->getRing(0)->getPoint(0));
-                static::assertSame($copy->getSrid(), $copy->getPatch($index)->getRing(0)->getPoint(0)->getSrid());
+                self::assertNotSame($patch, $copy->getPatch($index));
+                self::assertNotSame($patch->getRing(0), $copy->getPatch($index)->getRing(0));
+                self::assertNotSame($patch->getRing(0)->getPoint(0), $copy->getPatch($index)->getRing(0)->getPoint(0));
+                self::assertSame($copy->getSrid(), $copy->getPatch($index)->getRing(0)->getPoint(0)->getSrid());
             }
         }
-        static::assertSame(3857, $copies[3]->getSrid());
-        static::assertSame('EPSG', $copies[4]->getPatch(0)->getSpatialReference()->authority);
-        static::assertSame(4326, $surface->getSrid());
-        static::assertSame($coordinates, $surface->toArray());
+        self::assertSame(3857, $copies[3]->getSrid());
+        self::assertSame('EPSG', $copies[4]->getPatch(0)->getSpatialReference()->authority);
+        self::assertSame(4326, $surface->getSrid());
+        self::assertSame($coordinates, $surface->toArray());
     }
 
     /**
@@ -153,11 +154,11 @@ class PolyhedralSurfaceTest extends TestCase
         $surface = new $class([$coordinates[0]], 4326);
         $point = $surface->hasM() ? Coordinates::xyzm(-1, 0, 0, 7) : Coordinates::xyz(-1, 0, 0);
         $copy = $surface->withPoint(0, -1, 0, $point);
-        static::assertSame($class, new \ReflectionClass($copy)->getName());
-        static::assertSame([$coordinates[0]], $surface->toArray());
-        static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(0)->getX());
-        static::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(-1)->getX());
-        static::assertNotSame($surface->getPatch(0), $copy->getPatch(0));
+        self::assertSame($class, new \ReflectionClass($copy)->getName());
+        self::assertSame([$coordinates[0]], $surface->toArray());
+        self::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(0)->getX());
+        self::assertSame(-1, $copy->getPatch(0)->getRing(0)->getPoint(-1)->getX());
+        self::assertNotSame($surface->getPatch(0), $copy->getPatch(0));
     }
 
     /**
@@ -173,8 +174,8 @@ class PolyhedralSurfaceTest extends TestCase
         $surface = new $class($coordinates, $reference);
         foreach ([$surface->withPatch(0, $coordinates[0]), $surface->withRing(0, 0, $coordinates[0][0])] as $copy) {
             foreach ($copy->getPatches() as $patch) {
-                static::assertTrue($reference->equals($patch->getSpatialReference()));
-                static::assertTrue($reference->equals($patch->getRing(0)->getPoint(0)->getSpatialReference()));
+                self::assertTrue($reference->equals($patch->getSpatialReference()));
+                self::assertTrue($reference->equals($patch->getRing(0)->getPoint(0)->getSpatialReference()));
             }
         }
     }

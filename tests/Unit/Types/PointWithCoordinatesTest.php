@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -61,13 +62,13 @@ class PointWithCoordinatesTest extends TestCase
      */
     public function testEqualsToRejectsDifferentMeasureOrElevation(): void
     {
-        static::assertFalse(
+        self::assertFalse(
             new GeometryPoint3Dm(1, 2, 3)->equalsTo(new GeometryPoint3Dm(1, 2, 4))
         );
-        static::assertFalse(
+        self::assertFalse(
             new GeometryPoint3Dz(1, 2, 3)->equalsTo(new GeometryPoint3Dz(1, 2, 4))
         );
-        static::assertFalse(
+        self::assertFalse(
             new GeometryPoint4Dzm(1, 2, 3, 4)->equalsTo(new GeometryPoint4Dzm(1, 2, 3, 5))
         );
     }
@@ -84,12 +85,12 @@ class PointWithCoordinatesTest extends TestCase
         $originalCoordinates = $point->getCoordinates();
         $pointWithCoordinates = $point->withCoordinates($coordinates);
 
-        static::assertNotSame($point, $pointWithCoordinates);
-        static::assertSame($point::class, new \ReflectionClass($pointWithCoordinates)->getName());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(4326, $pointWithCoordinates->getSrid());
-        static::assertEquals($originalCoordinates, $point->getCoordinates());
-        static::assertEquals($coordinates, $pointWithCoordinates->getCoordinates());
+        self::assertNotSame($point, $pointWithCoordinates);
+        self::assertSame($point::class, new \ReflectionClass($pointWithCoordinates)->getName());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(4326, $pointWithCoordinates->getSrid());
+        self::assertEquals($originalCoordinates, $point->getCoordinates());
+        self::assertEquals($coordinates, $pointWithCoordinates->getCoordinates());
     }
 
     /**

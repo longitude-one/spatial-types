@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -37,17 +38,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -60,17 +61,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -83,17 +84,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -106,17 +107,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -129,17 +130,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -152,17 +153,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -175,17 +176,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -198,17 +199,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 2], [0, 2, 3], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -221,17 +222,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -244,17 +245,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -267,17 +268,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -290,17 +291,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -313,17 +314,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -336,17 +337,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOGRAPHY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -359,17 +360,17 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$first, $second], 4326);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPolygonImmutable([$first, $populated, $second], 4326);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 
     /** Zero membership and all-EMPTY membership differ in storage, not emptiness. */
@@ -382,16 +383,16 @@ final class AllEmptyMultiPolygonTest extends TestCase
         $all = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $second], 4326, SpatialModelEnum::GEOMETRY);
         $mixed = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$first, $populated, $second], 4326, SpatialModelEnum::GEOMETRY);
 
-        static::assertSame([], $zero->getElements());
-        static::assertCount(2, $all->getElements());
-        static::assertSame([$first, $second], $all->getElements());
-        static::assertSame([[], []], $all->toArray());
-        static::assertCount(3, $mixed->getElements());
-        static::assertSame([$first, $populated, $second], $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
-        static::assertSame(4326, $all->getSrid());
-        static::assertSame(4326, $mixed->getSrid());
+        self::assertSame([], $zero->getElements());
+        self::assertCount(2, $all->getElements());
+        self::assertSame([$first, $second], $all->getElements());
+        self::assertSame([[], []], $all->toArray());
+        self::assertCount(3, $mixed->getElements());
+        self::assertSame([$first, $populated, $second], $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1, 1], [2, 0, 1, 2], [0, 2, 1, 3], [0, 0, 1, 1]]], []], $mixed->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $all->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $all->getFamily());
+        self::assertSame(4326, $all->getSrid());
+        self::assertSame(4326, $mixed->getSrid());
     }
 }

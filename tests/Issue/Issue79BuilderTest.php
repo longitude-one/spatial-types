@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -38,9 +39,9 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addPolygon($polygon);
         } finally {
-            static::assertSame([], $builder->build()->toArray());
-            static::assertSame([[[1, 2]]], $polygon->toArray());
-            static::assertSame(4326, $polygon->getSrid());
+            self::assertSame([], $builder->build()->toArray());
+            self::assertSame([[[1, 2]]], $polygon->toArray());
+            self::assertSame(4326, $polygon->getSrid());
         }
     }
 
@@ -54,7 +55,7 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addCurve(new CompoundCurveImmutable([]));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -67,7 +68,7 @@ class Issue79BuilderTest extends TestCase
         try {
             new \ReflectionMethod($builder, 'addRing')->invoke($builder, new \stdClass());
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -81,7 +82,7 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addLineString(new PointImmutable(1, 2));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -95,7 +96,7 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addPatch(new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(1, 2, 3));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -109,7 +110,7 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addPointComponent(new PolygonImmutable([]));
         } finally {
-            static::assertSame([[1, 2]], $builder->build()->toArray());
+            self::assertSame([[1, 2]], $builder->build()->toArray());
         }
     }
 
@@ -123,7 +124,7 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addPolygon(new PointImmutable(1, 2));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -137,7 +138,7 @@ class Issue79BuilderTest extends TestCase
         try {
             $builder->addRing(new PointImmutable(1, 2));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -29,6 +30,6 @@ class BadMethodCallExceptionTest extends TestCase
     public function testCreate(): void
     {
         $exception = BadMethodCallException::create('Foo::getM', CoordinateDimensionEnum::XYZ);
-        static::assertSame('The method "Foo::getM" cannot be called with a spatial object with dimensions "XYZ".', $exception->getMessage());
+        self::assertSame('The method "Foo::getM" cannot be called with a spatial object with dimensions "XYZ".', $exception->getMessage());
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -37,8 +38,8 @@ class CollectionTest extends TestCase
         $nestedCollection = new GeometryCollectionImmutable(4326, [$point]);
         $collection = new GeometryCollectionImmutable(4326, [$nestedCollection]);
 
-        static::assertSame([$nestedCollection], $collection->getElements());
-        static::assertSame([$point], $nestedCollection->getElements());
-        static::assertSame([[[1, 2]]], $collection->toArray());
+        self::assertSame([$nestedCollection], $collection->getElements());
+        self::assertSame([$point], $nestedCollection->getElements());
+        self::assertSame([[[1, 2]]], $collection->toArray());
     }
 }

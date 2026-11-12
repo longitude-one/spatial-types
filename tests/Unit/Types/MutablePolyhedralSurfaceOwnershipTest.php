@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -45,15 +46,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionClass(PolyhedralSurface::class)->newInstance([[[$invalid]]]);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -71,15 +72,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionClass(PolyhedralSurface::class)->newInstance([[$invalid]]);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -97,15 +98,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionMethod($surface, 'addPatch')->invoke($surface, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -123,15 +124,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionMethod($surface, 'insertPatch')->invoke($surface, 0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -149,15 +150,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionMethod($surface, 'setPatch')->invoke($surface, 0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -175,15 +176,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionMethod($surface, 'setPoint')->invoke($surface, 0, 0, 0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -201,15 +202,15 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         try {
             new \ReflectionMethod($surface, 'setRing')->invoke($surface, 0, 0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -222,24 +223,24 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalidRing = static::createStub(MutableLineStringInterface::class);
+        $invalidRing = self::createStub(MutableLineStringInterface::class);
         $invalidRing->method('getPoints')->willReturn([$immutable]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$invalidRing]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->addPatch($invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -252,24 +253,24 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalidRing = static::createStub(MutableLineStringInterface::class);
+        $invalidRing = self::createStub(MutableLineStringInterface::class);
         $invalidRing->method('getPoints')->willReturn([$immutable]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$invalidRing]);
         $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionClass(PolyhedralSurface::class)->newInstance([$invalid]);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -282,24 +283,24 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalidRing = static::createStub(MutableLineStringInterface::class);
+        $invalidRing = self::createStub(MutableLineStringInterface::class);
         $invalidRing->method('getPoints')->willReturn([$immutable]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$invalidRing]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->insertPatch(0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -312,24 +313,24 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalidRing = static::createStub(MutableLineStringInterface::class);
+        $invalidRing = self::createStub(MutableLineStringInterface::class);
         $invalidRing->method('getPoints')->willReturn([$immutable]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$invalidRing]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->setPatch(0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -342,22 +343,22 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new LineStringImmutable([[3, 4, 5]]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->addPatch($invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -370,22 +371,22 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new LineStringImmutable([[3, 4, 5]]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             new \ReflectionClass(PolyhedralSurface::class)->newInstance([$invalid]);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -398,22 +399,22 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new LineStringImmutable([[3, 4, 5]]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->insertPatch(0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -426,22 +427,22 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new LineStringImmutable([[3, 4, 5]]);
-        $invalid = static::createStub(MutablePolygonInterface::class);
+        $invalid = self::createStub(MutablePolygonInterface::class);
         $invalid->method('getRings')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->setPatch(0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -454,23 +455,23 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalid = static::createStub(MutableLineStringInterface::class);
+        $invalid = self::createStub(MutableLineStringInterface::class);
         $invalid->method('getPoints')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->addRing(0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
-            static::assertSame([3, 4, 5], $immutable->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
+            self::assertSame([3, 4, 5], $immutable->toArray());
         }
     }
 
@@ -483,23 +484,23 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalid = static::createStub(MutableLineStringInterface::class);
+        $invalid = self::createStub(MutableLineStringInterface::class);
         $invalid->method('getPoints')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->insertRing(0, 0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
-            static::assertSame([3, 4, 5], $immutable->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
+            self::assertSame([3, 4, 5], $immutable->toArray());
         }
     }
 
@@ -512,23 +513,23 @@ class MutablePolyhedralSurfaceOwnershipTest extends TestCase
         $surface = new PolyhedralSurface([$patch], 2154);
         $owner = new PolyhedralSurface([$patch]);
         $immutable = new PointImmutable(3, 4, 5);
-        $invalid = static::createStub(MutableLineStringInterface::class);
+        $invalid = self::createStub(MutableLineStringInterface::class);
         $invalid->method('getPoints')->willReturn([$immutable]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $surface->setRing(0, 0, $invalid);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
-            static::assertSame([3, 4, 5], $immutable->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
+            self::assertSame([3, 4, 5], $immutable->toArray());
         }
     }
 }

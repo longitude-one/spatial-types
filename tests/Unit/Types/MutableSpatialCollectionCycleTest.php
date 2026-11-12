@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -33,23 +34,23 @@ class MutableSpatialCollectionCycleTest extends TestCase
     {
         $point = new Point(1, null, 4326);
         $collection = new SpatialCollection([$point], 2154);
-        $cyclic = static::createStub(MutableCollectionInterface::class);
+        $cyclic = self::createStub(MutableCollectionInterface::class);
         $cyclic->method('getElements')->willReturn([$cyclic]);
         $this->expectException(InvalidValueException::class);
 
         try {
             $collection->setElements([new Point(7, 8), $cyclic]);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
     /** Pre-existing cyclic input from a custom component is rejected on construction. */
     public function testConstructorRejectsAlreadyCyclicMember(): void
     {
-        $cyclic = static::createStub(MutableCollectionInterface::class);
+        $cyclic = self::createStub(MutableCollectionInterface::class);
         $cyclic->method('getElements')->willReturn([$cyclic]);
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Mutable aggregate members must not form reference cycles.');
@@ -67,10 +68,10 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->addElement($collection);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([1, null], $point->toArray());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([1, null], $point->toArray());
         }
     }
 
@@ -85,10 +86,10 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->insertElement(1, $collection);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([1, null], $point->toArray());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([1, null], $point->toArray());
         }
     }
 
@@ -103,10 +104,10 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->setElement(0, $collection);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([1, null], $point->toArray());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([1, null], $point->toArray());
         }
     }
 
@@ -121,10 +122,10 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->setElements([$point, $collection]);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([1, null], $point->toArray());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([1, null], $point->toArray());
         }
     }
 
@@ -137,9 +138,9 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->addElement($collection);
         } finally {
-            static::assertSame([], $collection->getElements());
-            static::assertSame(4326, $collection->getSrid());
-            static::assertSame(CoordinateDimensionEnum::XYM, $collection->getDimension());
+            self::assertSame([], $collection->getElements());
+            self::assertSame(4326, $collection->getSrid());
+            self::assertSame(CoordinateDimensionEnum::XYM, $collection->getDimension());
         }
     }
 
@@ -152,9 +153,9 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->addElement($collection);
         } finally {
-            static::assertSame([], $collection->getElements());
-            static::assertSame(4326, $collection->getSrid());
-            static::assertSame(CoordinateDimensionEnum::XYZ, $collection->getDimension());
+            self::assertSame([], $collection->getElements());
+            self::assertSame(4326, $collection->getSrid());
+            self::assertSame(CoordinateDimensionEnum::XYZ, $collection->getDimension());
         }
     }
 
@@ -167,9 +168,9 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->addElement($collection);
         } finally {
-            static::assertSame([], $collection->getElements());
-            static::assertSame(4326, $collection->getSrid());
-            static::assertSame(CoordinateDimensionEnum::XYZM, $collection->getDimension());
+            self::assertSame([], $collection->getElements());
+            self::assertSame(4326, $collection->getSrid());
+            self::assertSame(CoordinateDimensionEnum::XYZM, $collection->getDimension());
         }
     }
 
@@ -186,13 +187,13 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->addElement($nested);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame([$point], $owner->getElements());
-            static::assertSame($bridge, $nested->getElement(0));
-            static::assertSame([$collection], $bridge->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame([$point], $owner->getElements());
+            self::assertSame($bridge, $nested->getElement(0));
+            self::assertSame([$collection], $bridge->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         }
     }
 
@@ -209,13 +210,13 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->insertElement(1, $nested);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame([$point], $owner->getElements());
-            static::assertSame($bridge, $nested->getElement(0));
-            static::assertSame([$collection], $bridge->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame([$point], $owner->getElements());
+            self::assertSame($bridge, $nested->getElement(0));
+            self::assertSame([$collection], $bridge->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         }
     }
 
@@ -232,13 +233,13 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->setElement(0, $nested);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame([$point], $owner->getElements());
-            static::assertSame($bridge, $nested->getElement(0));
-            static::assertSame([$collection], $bridge->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame([$point], $owner->getElements());
+            self::assertSame($bridge, $nested->getElement(0));
+            self::assertSame([$collection], $bridge->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         }
     }
 
@@ -255,13 +256,13 @@ class MutableSpatialCollectionCycleTest extends TestCase
         try {
             $collection->setElements([$point, $nested]);
         } finally {
-            static::assertSame([$point], $collection->getElements());
-            static::assertSame([$point], $owner->getElements());
-            static::assertSame($bridge, $nested->getElement(0));
-            static::assertSame([$collection], $bridge->getElements());
-            static::assertSame(2154, $collection->getSrid());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+            self::assertSame([$point], $collection->getElements());
+            self::assertSame([$point], $owner->getElements());
+            self::assertSame($bridge, $nested->getElement(0));
+            self::assertSame([$collection], $bridge->getElements());
+            self::assertSame(2154, $collection->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         }
     }
 
@@ -273,16 +274,16 @@ class MutableSpatialCollectionCycleTest extends TestCase
         $left = new SpatialCollection([$shared], 4326);
         $right = new SpatialCollection([$shared], 4326);
         $collection = new SpatialCollection([$left, $right, $shared, $shared], 4326);
-        static::assertSame($collection, $collection->addElement($shared)->insertElement(0, $shared)->setElement(1, $right));
-        static::assertSame($collection, $collection->setElements([$left, $right, $shared, $shared]));
-        static::assertSame([$left, $right, $shared, $shared], $collection->getElements());
-        static::assertSame($shared, $left->getElement(0));
-        static::assertSame($shared, $right->getElement(0));
-        static::assertSame($collection, $collection->setSrid(2154)->setFamily(SpatialModelEnum::GEOGRAPHY)->setSpatialReference(SpatialReference::epsg(2154)));
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame('EPSG', $point->getSpatialReference()->authority);
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame([[[[1, null]]], [[[1, null]]], [[1, null]], [[1, null]]], $collection->toArray());
-        static::assertSame($point, $shared->getElement(0));
+        self::assertSame($collection, $collection->addElement($shared)->insertElement(0, $shared)->setElement(1, $right));
+        self::assertSame($collection, $collection->setElements([$left, $right, $shared, $shared]));
+        self::assertSame([$left, $right, $shared, $shared], $collection->getElements());
+        self::assertSame($shared, $left->getElement(0));
+        self::assertSame($shared, $right->getElement(0));
+        self::assertSame($collection, $collection->setSrid(2154)->setFamily(SpatialModelEnum::GEOGRAPHY)->setSpatialReference(SpatialReference::epsg(2154)));
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame('EPSG', $point->getSpatialReference()->authority);
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame([[[[1, null]]], [[[1, null]]], [[1, null]], [[1, null]]], $collection->toArray());
+        self::assertSame($point, $shared->getElement(0));
     }
 }

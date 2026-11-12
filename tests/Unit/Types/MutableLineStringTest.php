@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -41,7 +42,7 @@ class MutableLineStringTest extends TestCase
         try {
             new \ReflectionMethod($line, 'addPoint')->invoke($line, new PointImmutable(3, 4));
         } finally {
-            static::assertSame([$point], $line->getPoints());
+            self::assertSame([$point], $line->getPoints());
         }
     }
 
@@ -54,8 +55,8 @@ class MutableLineStringTest extends TestCase
         try {
             new \ReflectionClass(LineString::class)->newInstance([$point]);
         } finally {
-            static::assertSame([1, 2], $point->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([1, 2], $point->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -69,10 +70,10 @@ class MutableLineStringTest extends TestCase
         try {
             $line->setArrayOfCoordinates([[3, 4], ['not a coordinate', 5]]);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $line->getSrid());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $line->getSrid());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -80,13 +81,13 @@ class MutableLineStringTest extends TestCase
     public function testEmptyAndIncompletePathsRemainEditable(): void
     {
         $line = new LineString([]);
-        static::assertNull($line->getStartPoint());
-        static::assertNull($line->getEndPoint());
+        self::assertNull($line->getStartPoint());
+        self::assertNull($line->getEndPoint());
         $line->addPoint(new Point(0, null));
         $line->addPoint(new Point(0, null));
         $line->setPoint(1, new Point(1, 2));
-        static::assertSame([[0, null], [1, 2]], $line->toArray());
-        static::assertSame($line, $line->setArrayOfCoordinates([]));
+        self::assertSame([[0, null], [1, 2]], $line->toArray());
+        self::assertSame($line, $line->setArrayOfCoordinates([]));
     }
 
     /** Extra coordinates are rejected without mutation. */
@@ -99,8 +100,8 @@ class MutableLineStringTest extends TestCase
         try {
             $line->setArrayOfCoordinates([[3, 4], [5, 6, 7]]);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
         }
     }
 
@@ -115,9 +116,9 @@ class MutableLineStringTest extends TestCase
         try {
             new \ReflectionMethod($line, 'insertPoint')->invoke($line, 0, $immutable);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([1, 2], $point->toArray());
-            static::assertSame([3, 4], $immutable->toArray());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([1, 2], $point->toArray());
+            self::assertSame([3, 4], $immutable->toArray());
         }
     }
 
@@ -129,32 +130,32 @@ class MutableLineStringTest extends TestCase
         $last = new Point(4, 5);
         $replacement = new Point(null, 6);
         $line = new LineString([]);
-        static::assertSame($line, $line->addPoint($first)->insertPoint(1, $last)->insertPoint(1, $middle));
-        static::assertSame([$first, $middle, $last], $line->getPoints());
-        static::assertSame($first, $line->getStartPoint());
-        static::assertSame($last, $line->getEndPoint());
-        static::assertSame($middle, $line->getPoint(1));
-        static::assertSame($line, $line->setPoint(1, $replacement)->removePoint(0));
-        static::assertSame([$replacement, $last], $line->getElements());
-        static::assertSame([[null, 6], [4, 5]], $line->toArray());
-        static::assertSame($line, $line->setArrayOfCoordinates([[0, null], [null, null]]));
-        static::assertSame([[0, null], []], $line->toArray());
-        static::assertInstanceOf(Point::class, $line->getPoint(0));
-        static::assertSame([0, null], $first->toArray());
-        static::assertSame([null, 6], $replacement->toArray());
+        self::assertSame($line, $line->addPoint($first)->insertPoint(1, $last)->insertPoint(1, $middle));
+        self::assertSame([$first, $middle, $last], $line->getPoints());
+        self::assertSame($first, $line->getStartPoint());
+        self::assertSame($last, $line->getEndPoint());
+        self::assertSame($middle, $line->getPoint(1));
+        self::assertSame($line, $line->setPoint(1, $replacement)->removePoint(0));
+        self::assertSame([$replacement, $last], $line->getElements());
+        self::assertSame([[null, 6], [4, 5]], $line->toArray());
+        self::assertSame($line, $line->setArrayOfCoordinates([[0, null], [null, null]]));
+        self::assertSame([[0, null], []], $line->toArray());
+        self::assertInstanceOf(Point::class, $line->getPoint(0));
+        self::assertSame([0, null], $first->toArray());
+        self::assertSame([null, 6], $replacement->toArray());
     }
 
     /** Typed contracts expose neither immutable operations nor dimension changes. */
     public function testMutableContractsExcludeCopyAndDimensionSetters(): void
     {
         $line = new LineString([]);
-        static::assertContains(MutableLineStringInterface::class, class_implements($line));
-        static::assertNotContains(ImmutableSpatialInterface::class, class_implements($line));
-        static::assertFalse(new \ReflectionClass($line)->hasMethod('withPoint'));
-        static::assertFalse(new \ReflectionClass($line)->hasMethod('withArrayOfCoordinates'));
-        static::assertFalse(new \ReflectionClass($line)->hasMethod('withSrid'));
-        static::assertFalse(new \ReflectionClass($line)->hasMethod('withSpatialReference'));
-        static::assertFalse(new \ReflectionClass($line)->hasMethod('setDimension'));
+        self::assertContains(MutableLineStringInterface::class, class_implements($line));
+        self::assertNotContains(ImmutableSpatialInterface::class, class_implements($line));
+        self::assertFalse(new \ReflectionClass($line)->hasMethod('withPoint'));
+        self::assertFalse(new \ReflectionClass($line)->hasMethod('withArrayOfCoordinates'));
+        self::assertFalse(new \ReflectionClass($line)->hasMethod('withSrid'));
+        self::assertFalse(new \ReflectionClass($line)->hasMethod('withSpatialReference'));
+        self::assertFalse(new \ReflectionClass($line)->hasMethod('setDimension'));
     }
 
     /** NegativeAccess fails without changing membership or referenced points. */
@@ -167,9 +168,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->getPoint(-1);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -183,9 +184,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->insertPoint(-1, new Point(3, 4));
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -199,9 +200,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->removePoint(-1);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -215,9 +216,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->setPoint(-1, new Point(3, 4));
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -231,9 +232,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->getPoint(1);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -247,9 +248,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->insertPoint(2, new Point(3, 4));
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -263,9 +264,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->removePoint(1);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -279,9 +280,9 @@ class MutableLineStringTest extends TestCase
         try {
             $line->setPoint(1, new Point(3, 4));
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -295,8 +296,8 @@ class MutableLineStringTest extends TestCase
         try {
             new \ReflectionMethod($line, 'setPoint')->invoke($line, 0, new PointImmutable(3, 4));
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([1, 2], $point->toArray());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([1, 2], $point->toArray());
         }
     }
 
@@ -306,16 +307,16 @@ class MutableLineStringTest extends TestCase
         $point = new Point(1, 2, 4326, SpatialModelEnum::GEOGRAPHY);
         $first = new LineString([$point], 2154);
         $second = new LineString([$point]);
-        static::assertSame($point, $first->getPoint(0));
-        static::assertSame($point, $second->getPoint(0));
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame($point, $first->getPoint(0));
+        self::assertSame($point, $second->getPoint(0));
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         $point->setX(null)->setY(0);
-        static::assertSame([[null, 0]], $first->toArray());
-        static::assertSame([[null, 0]], $second->toArray());
+        self::assertSame([[null, 0]], $first->toArray());
+        self::assertSame([[null, 0]], $second->toArray());
         $points = $first->getPoints();
         $points[] = new Point(7, 8);
-        static::assertSame([$point], $first->getPoints());
+        self::assertSame([$point], $first->getPoints());
     }
 
     /** Technical input cannot partially replace coordinate content. */
@@ -328,8 +329,8 @@ class MutableLineStringTest extends TestCase
         try {
             new \ReflectionMethod($line, 'setArrayOfCoordinates')->invoke($line, [[3, 4], [[], 5]]);
         } finally {
-            static::assertSame([$point], $line->getPoints());
-            static::assertSame([[1, 2]], $line->toArray());
+            self::assertSame([$point], $line->getPoints());
+            self::assertSame([[1, 2]], $line->toArray());
         }
     }
 
@@ -337,17 +338,17 @@ class MutableLineStringTest extends TestCase
     public function testThreePointClosureDoesNotImplyLine(): void
     {
         $path = new LineString([[0, 0], [1, 1], [2, 0]]);
-        static::assertSame($path, $path->setPoint(2, new Point(0, 0)));
-        static::assertSame([[0, 0], [1, 1], [0, 0]], $path->toArray());
+        self::assertSame($path, $path->setPoint(2, new Point(0, 0)));
+        self::assertSame([[0, 0], [1, 1], [0, 0]], $path->toArray());
     }
 
     /** Tuple parsing uses the mutable point constructor. */
     public function testTupleParsingUsesPointConstructor(): void
     {
         $line = new LineString([["2°30'E", "48°30'N"]], 4326, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame([[2.5, 48.5]], $line->toArray());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getPoint(0)->getFamily());
-        static::assertSame(GeometryTypeEnum::LINESTRING, $line->getType());
+        self::assertSame([[2.5, 48.5]], $line->toArray());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getPoint(0)->getFamily());
+        self::assertSame(GeometryTypeEnum::LINESTRING, $line->getType());
     }
 }

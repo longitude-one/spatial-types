@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -71,24 +72,24 @@ class PointTest extends TestCase
     public function testEqualsTo(): void
     {
         $point = new PointImmutable(1, 2, 3);
-        static::assertTrue($this->point->equalsTo($point));
-        static::assertTrue($point->equalsTo($this->point));
+        self::assertTrue($this->point->equalsTo($point));
+        self::assertTrue($point->equalsTo($this->point));
 
         $point = new PointImmutable(1, 2, 3, 4326);
-        static::assertFalse($this->point->equalsTo($point));
-        static::assertFalse($point->equalsTo($this->point));
+        self::assertFalse($this->point->equalsTo($point));
+        self::assertFalse($point->equalsTo($this->point));
 
         $this->point = new PointImmutable(1, 2, 3, 4326);
-        static::assertTrue($this->point->equalsTo($point));
-        static::assertTrue($point->equalsTo($this->point));
+        self::assertTrue($this->point->equalsTo($point));
+        self::assertTrue($point->equalsTo($this->point));
 
         $point = new PointImmutable(3, 2, 3, 4326);
-        static::assertFalse($this->point->equalsTo($point));
-        static::assertFalse($point->equalsTo($this->point));
+        self::assertFalse($this->point->equalsTo($point));
+        self::assertFalse($point->equalsTo($this->point));
 
         $point = new PointImmutable(1, 3, 3, 4326);
-        static::assertFalse($this->point->equalsTo($point));
-        static::assertFalse($point->equalsTo($this->point));
+        self::assertFalse($this->point->equalsTo($point));
+        self::assertFalse($point->equalsTo($this->point));
     }
 
     /**
@@ -96,7 +97,7 @@ class PointTest extends TestCase
      */
     public function testGetFamily(): void
     {
-        static::assertSame(SpatialModelEnum::GEOMETRY, $this->point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $this->point->getFamily());
     }
 
     /**
@@ -104,7 +105,7 @@ class PointTest extends TestCase
      */
     public function testGetLatitude(): void
     {
-        static::assertSame(2, $this->point->getLatitude());
+        self::assertSame(2, $this->point->getLatitude());
     }
 
     /**
@@ -112,7 +113,7 @@ class PointTest extends TestCase
      */
     public function testGetLongitude(): void
     {
-        static::assertSame(1, $this->point->getLongitude());
+        self::assertSame(1, $this->point->getLongitude());
     }
 
     /**
@@ -130,7 +131,7 @@ class PointTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(GeometryTypeEnum::POINT, $this->point->getType());
+        self::assertSame(GeometryTypeEnum::POINT, $this->point->getType());
     }
 
     /**
@@ -138,7 +139,7 @@ class PointTest extends TestCase
      */
     public function testGetX(): void
     {
-        static::assertSame(1, $this->point->getX());
+        self::assertSame(1, $this->point->getX());
     }
 
     /**
@@ -146,7 +147,7 @@ class PointTest extends TestCase
      */
     public function testGetY(): void
     {
-        static::assertSame(2, $this->point->getY());
+        self::assertSame(2, $this->point->getY());
     }
 
     /**
@@ -154,7 +155,7 @@ class PointTest extends TestCase
      */
     public function testGetZ(): void
     {
-        static::assertSame(3, $this->point->getZ());
+        self::assertSame(3, $this->point->getZ());
     }
 
     /**
@@ -162,7 +163,7 @@ class PointTest extends TestCase
      */
     public function testHasM(): void
     {
-        static::assertFalse($this->point->hasM());
+        self::assertFalse($this->point->hasM());
     }
 
     /**
@@ -170,7 +171,7 @@ class PointTest extends TestCase
      */
     public function testHasZ(): void
     {
-        static::assertTrue($this->point->hasZ());
+        self::assertTrue($this->point->hasZ());
     }
 
     /**
@@ -178,9 +179,9 @@ class PointTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        static::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":0}', json_encode($this->point));
+        self::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":0}', json_encode($this->point));
         $this->point = new PointImmutable(1, 2, 3, 4326);
-        static::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":4326}', json_encode($this->point));
+        self::assertSame('{"type":"Point","coordinates":[1,2,3],"srid":4326}', json_encode($this->point));
     }
 
     /**
@@ -209,6 +210,6 @@ class PointTest extends TestCase
      */
     public function testToArray(): void
     {
-        static::assertSame([1, 2, 3], $this->point->toArray());
+        self::assertSame([1, 2, 3], $this->point->toArray());
     }
 }

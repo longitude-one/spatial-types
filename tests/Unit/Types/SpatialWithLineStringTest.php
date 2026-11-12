@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -35,13 +36,13 @@ class SpatialWithLineStringTest extends TestCase
         ], 2154);
         $replacement = $multiLineString->withLineString(-1, [[4, 4], [5, 5]]);
 
-        static::assertNotSame($multiLineString, $replacement);
-        static::assertSame($multiLineString::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
-        static::assertSame([[[0, 0], [1, 1]], [[4, 4], [5, 5]]], $replacement->toArray());
-        static::assertNotSame($multiLineString->getLineString(0), $replacement->getLineString(0));
-        static::assertNotSame($multiLineString->getLineString(1), $replacement->getLineString(1));
+        self::assertNotSame($multiLineString, $replacement);
+        self::assertSame($multiLineString::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
+        self::assertSame([[[0, 0], [1, 1]], [[4, 4], [5, 5]]], $replacement->toArray());
+        self::assertNotSame($multiLineString->getLineString(0), $replacement->getLineString(0));
+        self::assertNotSame($multiLineString->getLineString(1), $replacement->getLineString(1));
     }
 
     /**
@@ -55,12 +56,12 @@ class SpatialWithLineStringTest extends TestCase
         ], 2154);
         $replacement = $polygon->withRing(0, [[-1, -1], [11, -1], [-1, 11], [-1, -1]]);
 
-        static::assertNotSame($polygon, $replacement);
-        static::assertSame($polygon::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $polygon->toArray());
-        static::assertSame([[[-1, -1], [11, -1], [-1, 11], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $replacement->toArray());
-        static::assertNotSame($polygon->getRing(0), $replacement->getRing(0));
-        static::assertNotSame($polygon->getRing(1), $replacement->getRing(1));
+        self::assertNotSame($polygon, $replacement);
+        self::assertSame($polygon::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $polygon->toArray());
+        self::assertSame([[[-1, -1], [11, -1], [-1, 11], [-1, -1]], [[1, 1], [2, 1], [1, 2], [1, 1]]], $replacement->toArray());
+        self::assertNotSame($polygon->getRing(0), $replacement->getRing(0));
+        self::assertNotSame($polygon->getRing(1), $replacement->getRing(1));
     }
 }

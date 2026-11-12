@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -38,11 +39,11 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $partial = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PointImmutable(null, 2, null, null, 3857);
         $mixed = new GeometryCollectionImmutable(4326, [$point, $partial, $line]);
 
-        static::assertSame([$point, $line], $empty->getElements());
-        static::assertSame([$point, $partial, $line], $mixed->getElements());
-        static::assertSame([[], [null, 2, null, null], []], $mixed->toArray());
-        static::assertSame(3857, $point->getSrid());
-        static::assertSame(2154, $line->getSrid());
+        self::assertSame([$point, $line], $empty->getElements());
+        self::assertSame([$point, $partial, $line], $mixed->getElements());
+        self::assertSame([[], [null, 2, null, null], []], $mixed->toArray());
+        self::assertSame(3857, $point->getSrid());
+        self::assertSame(2154, $line->getSrid());
     }
 
     /** A line-string replacement changes emptiness without dropping empty neighbours. */
@@ -54,12 +55,12 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $filled = $original->withLineString(1, [[0, 0], [1, 1]]);
         $emptied = $filled->withLineString(1, []);
 
-        static::assertSame([[], []], $original->toArray());
-        static::assertSame([[], [[0, 0], [1, 1]]], $filled->toArray());
-        static::assertSame([[], []], $emptied->toArray());
-        static::assertSame([$first, $second], $original->getElements());
-        static::assertNotSame($first, $filled->getLineString(0));
-        static::assertSame(4326, $filled->getSrid());
+        self::assertSame([[], []], $original->toArray());
+        self::assertSame([[], [[0, 0], [1, 1]]], $filled->toArray());
+        self::assertSame([[], []], $emptied->toArray());
+        self::assertSame([$first, $second], $original->getElements());
+        self::assertNotSame($first, $filled->getLineString(0));
+        self::assertSame(4326, $filled->getSrid());
     }
 
     /** Filling and emptying a point never removes its stored member position. */
@@ -72,14 +73,14 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $emptied = $filled->withPoint(1, Coordinates::xy(null, null));
         $referenceCopy = $original->withSrid(3857);
 
-        static::assertSame([[], []], $original->toArray());
-        static::assertSame([[], [1, null]], $filled->toArray());
-        static::assertSame([[], []], $emptied->toArray());
-        static::assertSame([$first, $second], $original->getElements());
-        static::assertNotSame($first, $filled->getPoint(0));
-        static::assertNotSame($second, $filled->getPoint(1));
-        static::assertSame(4326, $first->getSrid());
-        static::assertSame(3857, $referenceCopy->getPoint(1)->getSrid());
+        self::assertSame([[], []], $original->toArray());
+        self::assertSame([[], [1, null]], $filled->toArray());
+        self::assertSame([[], []], $emptied->toArray());
+        self::assertSame([$first, $second], $original->getElements());
+        self::assertNotSame($first, $filled->getPoint(0));
+        self::assertNotSame($second, $filled->getPoint(1));
+        self::assertSame(4326, $first->getSrid());
+        self::assertSame(3857, $referenceCopy->getPoint(1)->getSrid());
     }
 
     /** A polygon replacement changes emptiness without dropping empty neighbours. */
@@ -91,12 +92,12 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $filled = $original->withPolygon(1, [[[0, 0], [2, 0], [0, 2], [0, 0]]]);
         $emptied = $filled->withPolygon(1, []);
 
-        static::assertSame([[], []], $original->toArray());
-        static::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]]], $filled->toArray());
-        static::assertSame([[], []], $emptied->toArray());
-        static::assertSame([$first, $second], $original->getElements());
-        static::assertNotSame($first, $filled->getPolygon(0));
-        static::assertSame(4326, $filled->getSrid());
+        self::assertSame([[], []], $original->toArray());
+        self::assertSame([[], [[[0, 0], [2, 0], [0, 2], [0, 0]]]], $filled->toArray());
+        self::assertSame([[], []], $emptied->toArray());
+        self::assertSame([$first, $second], $original->getElements());
+        self::assertNotSame($first, $filled->getPolygon(0));
+        self::assertSame(4326, $filled->getSrid());
     }
 
     /** Nested replacement propagates EMPTY classification without modifying the source graph. */
@@ -111,15 +112,15 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $emptied = $filled->withElement(0, $inner);
         $copied = $original->withSrid(3857);
 
-        static::assertSame([[[[]]], []], $original->toArray());
-        static::assertSame([[[1, 2]], []], $filled->toArray());
-        static::assertSame([[[[]]], []], $emptied->toArray());
-        static::assertSame([$inner, $point], $original->getElements());
-        static::assertSame([$members], $inner->getElements());
-        static::assertSame([$point], $members->getElements());
-        static::assertNotSame($point, $filled->getElements()[1]);
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(3857, $copied->getSrid());
+        self::assertSame([[[[]]], []], $original->toArray());
+        self::assertSame([[[1, 2]], []], $filled->toArray());
+        self::assertSame([[[[]]], []], $emptied->toArray());
+        self::assertSame([$inner, $point], $original->getElements());
+        self::assertSame([$members], $inner->getElements());
+        self::assertSame([$point], $members->getElements());
+        self::assertNotSame($point, $filled->getElements()[1]);
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(3857, $copied->getSrid());
     }
 
     /** A stored EMPTY point does not redefine line or polygon EMPTY semantics. */
@@ -128,7 +129,7 @@ final class ImmutableCollectionEmptyReplacementTest extends TestCase
         $point = new PointImmutable();
         $line = new LineStringImmutable([$point]);
         $polygon = new PolygonImmutable([[]]);
-        static::assertSame([$point], $line->getElements());
-        static::assertSame([[]], $polygon->toArray());
+        self::assertSame([$point], $line->getElements());
+        self::assertSame([[]], $polygon->toArray());
     }
 }

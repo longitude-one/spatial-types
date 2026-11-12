@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -76,7 +77,7 @@ class AggregateImmutabilityTest extends TestCase
             'removeElement',
         ] as $method) {
             if (method_exists($aggregate, $method)) {
-                static::assertFalse(new \ReflectionMethod($aggregate, $method)->isPublic(), \sprintf('%s::%s() must not be public.', $aggregate::class, $method));
+                self::assertFalse(new \ReflectionMethod($aggregate, $method)->isPublic(), \sprintf('%s::%s() must not be public.', $aggregate::class, $method));
             }
         }
     }
@@ -89,7 +90,7 @@ class AggregateImmutabilityTest extends TestCase
         $point = new PointImmutable(1, 2, 2154);
         $collection = new GeometryCollectionImmutable(2154, [$point]);
 
-        static::assertSame([$point], $collection->getElements());
-        static::assertSame([[1, 2]], $collection->toArray());
+        self::assertSame([$point], $collection->getElements());
+        self::assertSame([[1, 2]], $collection->toArray());
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -39,15 +40,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->getPatch(1);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -64,15 +65,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->removePatch(1);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -89,15 +90,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setPatch(1, $patch);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -114,15 +115,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setPoint(0, 0, 1, $point);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -139,15 +140,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->removeRing(0, 1);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -164,15 +165,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setRing(0, 1, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -189,15 +190,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setPoint(1, 0, 0, $point);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -214,15 +215,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->addRing(1, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -239,15 +240,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->insertRing(1, 0, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -264,15 +265,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->removeRing(1, 0);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -289,15 +290,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setRing(1, 0, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -314,15 +315,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setPoint(0, 1, 0, $point);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -339,15 +340,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->getPatch(-1);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -364,15 +365,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->insertPatch(-1, $patch);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -389,15 +390,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->removePatch(-1);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -414,15 +415,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setPatch(-1, $patch);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -439,15 +440,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setPoint(0, 0, -1, $point);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -464,15 +465,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->insertRing(0, -1, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -489,15 +490,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->removeRing(0, -1);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -514,15 +515,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->setRing(0, -1, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -539,15 +540,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->insertPatch(2, $patch);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 
@@ -564,15 +565,15 @@ class MutablePolyhedralSurfaceFailureTest extends TestCase
         try {
             $surface->insertRing(0, 2, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame($ring, $patch->getRing(0));
-            static::assertSame($point, $ring->getPoint(0));
-            static::assertSame([[[[0, null, 8]]]], $surface->toArray());
-            static::assertSame([[[[0, null, 8]]]], $owner->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $ring->getSrid());
-            static::assertSame(4326, $patch->getSrid());
-            static::assertSame(2154, $surface->getSrid());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame($ring, $patch->getRing(0));
+            self::assertSame($point, $ring->getPoint(0));
+            self::assertSame([[[[0, null, 8]]]], $surface->toArray());
+            self::assertSame([[[[0, null, 8]]]], $owner->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $ring->getSrid());
+            self::assertSame(4326, $patch->getSrid());
+            self::assertSame(2154, $surface->getSrid());
         }
     }
 }

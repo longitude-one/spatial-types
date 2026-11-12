@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -33,17 +34,17 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         $single = new GeographicMultiPolygon([[]], 4326);
         $mixed = new GeographicMultiPolygon([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], 4326);
 
-        static::assertCount(1, $single->getElements());
-        static::assertSame([$single->getPolygon(0)], $single->getElements());
-        static::assertSame([$single->getPolygon(0)], $single->getPolygons());
-        static::assertInstanceOf(GeographicPolygon::class, $single->getPolygon(0));
-        static::assertSame([[]], $single->toArray());
-        static::assertSame(4326, $single->getPolygon(0)->getSrid());
-        static::assertTrue($single->getPolygon(0)->hasZ());
-        static::assertTrue($single->getPolygon(0)->hasM());
-        static::assertCount(5, $mixed->getElements());
-        static::assertSame($mixed->getPolygons(), $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], $mixed->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([$single->getPolygon(0)], $single->getElements());
+        self::assertSame([$single->getPolygon(0)], $single->getPolygons());
+        self::assertInstanceOf(GeographicPolygon::class, $single->getPolygon(0));
+        self::assertSame([[]], $single->toArray());
+        self::assertSame(4326, $single->getPolygon(0)->getSrid());
+        self::assertTrue($single->getPolygon(0)->hasZ());
+        self::assertTrue($single->getPolygon(0)->hasM());
+        self::assertCount(5, $mixed->getElements());
+        self::assertSame($mixed->getPolygons(), $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], $mixed->toArray());
     }
 
     /** An empty polygon remains one member, distinct from a zero-member collection. */
@@ -53,17 +54,17 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         $single = new GeographicMultiPolygon([$polygon], 4326);
         $zero = new GeographicMultiPolygon([], 4326);
 
-        static::assertCount(1, $single->getElements());
-        static::assertSame([$polygon], $single->getElements());
-        static::assertSame([$polygon], $single->getPolygons());
-        static::assertSame($polygon, $single->getPolygon(0));
-        static::assertSame([[]], $single->toArray());
-        static::assertSame([], $zero->getElements());
-        static::assertSame([], $zero->getPolygons());
-        static::assertSame([], $zero->toArray());
-        static::assertSame(4326, $single->getPolygon(0)->getSrid());
-        static::assertTrue($single->getPolygon(0)->hasZ());
-        static::assertTrue($single->getPolygon(0)->hasM());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([$polygon], $single->getElements());
+        self::assertSame([$polygon], $single->getPolygons());
+        self::assertSame($polygon, $single->getPolygon(0));
+        self::assertSame([[]], $single->toArray());
+        self::assertSame([], $zero->getElements());
+        self::assertSame([], $zero->getPolygons());
+        self::assertSame([], $zero->toArray());
+        self::assertSame(4326, $single->getPolygon(0)->getSrid());
+        self::assertTrue($single->getPolygon(0)->hasZ());
+        self::assertTrue($single->getPolygon(0)->hasM());
     }
 
     /** Coordinate arrays preserve empty members before, between and after polygons. */
@@ -72,17 +73,17 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         $single = new MultiPolygonImmutable([[]], 4326);
         $mixed = new MultiPolygonImmutable([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], 4326);
 
-        static::assertCount(1, $single->getElements());
-        static::assertSame([$single->getPolygon(0)], $single->getElements());
-        static::assertSame([$single->getPolygon(0)], $single->getPolygons());
-        static::assertInstanceOf(PolygonImmutable::class, $single->getPolygon(0));
-        static::assertSame([[]], $single->toArray());
-        static::assertSame(4326, $single->getPolygon(0)->getSrid());
-        static::assertTrue($single->getPolygon(0)->hasZ());
-        static::assertTrue($single->getPolygon(0)->hasM());
-        static::assertCount(5, $mixed->getElements());
-        static::assertSame($mixed->getPolygons(), $mixed->getElements());
-        static::assertSame([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], $mixed->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([$single->getPolygon(0)], $single->getElements());
+        self::assertSame([$single->getPolygon(0)], $single->getPolygons());
+        self::assertInstanceOf(PolygonImmutable::class, $single->getPolygon(0));
+        self::assertSame([[]], $single->toArray());
+        self::assertSame(4326, $single->getPolygon(0)->getSrid());
+        self::assertTrue($single->getPolygon(0)->hasZ());
+        self::assertTrue($single->getPolygon(0)->hasM());
+        self::assertCount(5, $mixed->getElements());
+        self::assertSame($mixed->getPolygons(), $mixed->getElements());
+        self::assertSame([[], [[[0, 0, 1, 2], [4, 0, 1, 2], [4, 3, 1, 2], [0, 0, 1, 2]]], [], [[[10, 0, 1, 2], [14, 0, 1, 2], [14, 3, 1, 2], [10, 0, 1, 2]]], []], $mixed->toArray());
     }
 
     /** An empty polygon remains one member, distinct from a zero-member collection. */
@@ -92,16 +93,16 @@ class EmptyMultiPolygonDimension4zmTest extends TestCase
         $single = new MultiPolygonImmutable([$polygon], 4326);
         $zero = new MultiPolygonImmutable([], 4326);
 
-        static::assertCount(1, $single->getElements());
-        static::assertSame([$polygon], $single->getElements());
-        static::assertSame([$polygon], $single->getPolygons());
-        static::assertSame($polygon, $single->getPolygon(0));
-        static::assertSame([[]], $single->toArray());
-        static::assertSame([], $zero->getElements());
-        static::assertSame([], $zero->getPolygons());
-        static::assertSame([], $zero->toArray());
-        static::assertSame(4326, $single->getPolygon(0)->getSrid());
-        static::assertTrue($single->getPolygon(0)->hasZ());
-        static::assertTrue($single->getPolygon(0)->hasM());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([$polygon], $single->getElements());
+        self::assertSame([$polygon], $single->getPolygons());
+        self::assertSame($polygon, $single->getPolygon(0));
+        self::assertSame([[]], $single->toArray());
+        self::assertSame([], $zero->getElements());
+        self::assertSame([], $zero->getPolygons());
+        self::assertSame([], $zero->toArray());
+        self::assertSame(4326, $single->getPolygon(0)->getSrid());
+        self::assertTrue($single->getPolygon(0)->hasZ());
+        self::assertTrue($single->getPolygon(0)->hasM());
     }
 }

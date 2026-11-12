@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -34,8 +35,8 @@ class SpatialReferenceTest extends TestCase
             new PointImmutable(3, 4, $reference),
         ], $reference);
 
-        static::assertSame($reference, $lineString->getSpatialReference());
-        static::assertSame($reference, $lineString->getPoint(0)->getSpatialReference());
+        self::assertSame($reference, $lineString->getSpatialReference());
+        self::assertSame($reference, $lineString->getPoint(0)->getSpatialReference());
     }
 
     /** Verify that relabelling a reference copies all aggregate descendants. */
@@ -50,8 +51,8 @@ class SpatialReferenceTest extends TestCase
 
         $copy = $lineString->withSpatialReference($target);
 
-        static::assertSame($target, $copy->getSpatialReference());
-        static::assertSame($target, $copy->getPoint(0)->getSpatialReference());
-        static::assertSame($source, $lineString->getSpatialReference());
+        self::assertSame($target, $copy->getSpatialReference());
+        self::assertSame($target, $copy->getPoint(0)->getSpatialReference());
+        self::assertSame($source, $lineString->getSpatialReference());
     }
 }

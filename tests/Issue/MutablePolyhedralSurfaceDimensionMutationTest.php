@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -37,11 +38,11 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $aggregate->addPatch($incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getPatches());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getPatches());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -58,13 +59,13 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $surface->addRing(0, $incompatible);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame([$ring], $patch->getRings());
-            static::assertSame([$point], $ring->getPoints());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame([$ring], $patch->getRings());
+            self::assertSame([$point], $ring->getPoints());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
             $surface->setSrid(4326);
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -79,11 +80,11 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $aggregate->insertPatch(1, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getPatches());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getPatches());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -100,13 +101,13 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $surface->insertRing(0, 1, $incompatible);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame([$ring], $patch->getRings());
-            static::assertSame([$point], $ring->getPoints());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame([$ring], $patch->getRings());
+            self::assertSame([$point], $ring->getPoints());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
             $surface->setSrid(4326);
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -123,13 +124,13 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $surface->setPoint(0, 0, 0, $incompatible);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame([$ring], $patch->getRings());
-            static::assertSame([$point], $ring->getPoints());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame([$ring], $patch->getRings());
+            self::assertSame([$point], $ring->getPoints());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
             $surface->setSrid(4326);
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -144,11 +145,11 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $aggregate->setPatch(0, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getPatches());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getPatches());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -165,13 +166,13 @@ class MutablePolyhedralSurfaceDimensionMutationTest extends TestCase
         try {
             $surface->setRing(0, 0, $incompatible);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame([$ring], $patch->getRings());
-            static::assertSame([$point], $ring->getPoints());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame([$ring], $patch->getRings());
+            self::assertSame([$point], $ring->getPoints());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
             $surface->setSrid(4326);
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 }

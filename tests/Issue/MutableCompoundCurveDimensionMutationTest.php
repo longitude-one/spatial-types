@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -35,11 +36,11 @@ class MutableCompoundCurveDimensionMutationTest extends TestCase
         try {
             $aggregate->addCurve($incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getCurves());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getCurves());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -54,11 +55,11 @@ class MutableCompoundCurveDimensionMutationTest extends TestCase
         try {
             $aggregate->insertCurve(1, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getCurves());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getCurves());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -73,11 +74,11 @@ class MutableCompoundCurveDimensionMutationTest extends TestCase
         try {
             $aggregate->setCurves([$member, $incompatible]);
         } finally {
-            static::assertSame([$member], $aggregate->getCurves());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getCurves());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -92,11 +93,11 @@ class MutableCompoundCurveDimensionMutationTest extends TestCase
         try {
             $aggregate->setCurve(0, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getCurves());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getCurves());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 }

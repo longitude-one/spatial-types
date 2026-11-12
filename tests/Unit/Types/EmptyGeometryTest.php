@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -61,7 +62,7 @@ class EmptyGeometryTest extends TestCase
     #[DataProvider('provideEmptyGeometries')]
     public function testEmptyGeometryCanBeCreated(SpatialInterface $geometry, GeometryTypeEnum $type): void
     {
-        static::assertSame($type, $geometry->getType());
-        static::assertSame([], $geometry->toArray());
+        self::assertSame($type, $geometry->getType());
+        self::assertSame([], $geometry->toArray());
     }
 }

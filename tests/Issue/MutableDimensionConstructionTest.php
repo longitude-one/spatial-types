@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -34,15 +35,15 @@ class MutableDimensionConstructionTest extends TestCase
     {
         $point = new XY\Point(1, 2, 4326, SpatialModelEnum::GEOGRAPHY);
         $line = new XY\LineString([$point, [1, 2]], 2154);
-        static::assertSame($point, $line->getPoint(0));
-        static::assertSame([[1, 2], [1, 2]], $line->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $line->getPoint(1)->getDimension());
-        static::assertInstanceOf(XY\Point::class, $line->getPoint(1));
-        static::assertSame(2154, $line->getPoint(1)->getSrid());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($line, $line->setArrayOfCoordinates([[1, 2]]));
-        static::assertSame([[1, 2]], $line->toArray());
+        self::assertSame($point, $line->getPoint(0));
+        self::assertSame([[1, 2], [1, 2]], $line->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $line->getPoint(1)->getDimension());
+        self::assertInstanceOf(XY\Point::class, $line->getPoint(1));
+        self::assertSame(2154, $line->getPoint(1)->getSrid());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($line, $line->setArrayOfCoordinates([[1, 2]]));
+        self::assertSame([[1, 2]], $line->toArray());
     }
 
     /** Matching objects retain identity and tuples retain the declared layout. */
@@ -50,15 +51,15 @@ class MutableDimensionConstructionTest extends TestCase
     {
         $point = new XYM\Point(1, 2, 4, 4326, SpatialModelEnum::GEOGRAPHY);
         $line = new XYM\LineString([$point, [1, 2, 4]], 2154);
-        static::assertSame($point, $line->getPoint(0));
-        static::assertSame([[1, 2, 4], [1, 2, 4]], $line->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $line->getPoint(1)->getDimension());
-        static::assertInstanceOf(XYM\Point::class, $line->getPoint(1));
-        static::assertSame(2154, $line->getPoint(1)->getSrid());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($line, $line->setArrayOfCoordinates([[1, 2, 4]]));
-        static::assertSame([[1, 2, 4]], $line->toArray());
+        self::assertSame($point, $line->getPoint(0));
+        self::assertSame([[1, 2, 4], [1, 2, 4]], $line->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $line->getPoint(1)->getDimension());
+        self::assertInstanceOf(XYM\Point::class, $line->getPoint(1));
+        self::assertSame(2154, $line->getPoint(1)->getSrid());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($line, $line->setArrayOfCoordinates([[1, 2, 4]]));
+        self::assertSame([[1, 2, 4]], $line->toArray());
     }
 
     /** Existing point objects cannot bypass the receiver's declared layout. */
@@ -70,10 +71,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYM\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -86,10 +87,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYM\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 3, 4], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 3, 4], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -102,10 +103,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYM\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 3], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 3], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -118,10 +119,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XY\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 4], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 4], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -134,10 +135,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XY\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 3, 4], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 3, 4], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -150,10 +151,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XY\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 3], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 3], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -162,15 +163,15 @@ class MutableDimensionConstructionTest extends TestCase
     {
         $point = new XYZ\Point(1, 2, 3, 4326, SpatialModelEnum::GEOGRAPHY);
         $line = new XYZ\LineString([$point, [1, 2, 3]], 2154);
-        static::assertSame($point, $line->getPoint(0));
-        static::assertSame([[1, 2, 3], [1, 2, 3]], $line->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $line->getPoint(1)->getDimension());
-        static::assertInstanceOf(XYZ\Point::class, $line->getPoint(1));
-        static::assertSame(2154, $line->getPoint(1)->getSrid());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($line, $line->setArrayOfCoordinates([[1, 2, 3]]));
-        static::assertSame([[1, 2, 3]], $line->toArray());
+        self::assertSame($point, $line->getPoint(0));
+        self::assertSame([[1, 2, 3], [1, 2, 3]], $line->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $line->getPoint(1)->getDimension());
+        self::assertInstanceOf(XYZ\Point::class, $line->getPoint(1));
+        self::assertSame(2154, $line->getPoint(1)->getSrid());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($line, $line->setArrayOfCoordinates([[1, 2, 3]]));
+        self::assertSame([[1, 2, 3]], $line->toArray());
     }
 
     /** Matching objects retain identity and tuples retain the declared layout. */
@@ -178,15 +179,15 @@ class MutableDimensionConstructionTest extends TestCase
     {
         $point = new XYZM\Point(1, 2, 3, 4, 4326, SpatialModelEnum::GEOGRAPHY);
         $line = new XYZM\LineString([$point, [1, 2, 3, 4]], 2154);
-        static::assertSame($point, $line->getPoint(0));
-        static::assertSame([[1, 2, 3, 4], [1, 2, 3, 4]], $line->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $line->getPoint(1)->getDimension());
-        static::assertInstanceOf(XYZM\Point::class, $line->getPoint(1));
-        static::assertSame(2154, $line->getPoint(1)->getSrid());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($line, $line->setArrayOfCoordinates([[1, 2, 3, 4]]));
-        static::assertSame([[1, 2, 3, 4]], $line->toArray());
+        self::assertSame($point, $line->getPoint(0));
+        self::assertSame([[1, 2, 3, 4], [1, 2, 3, 4]], $line->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $line->getPoint(1)->getDimension());
+        self::assertInstanceOf(XYZM\Point::class, $line->getPoint(1));
+        self::assertSame(2154, $line->getPoint(1)->getSrid());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $line->getPoint(1)->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($line, $line->setArrayOfCoordinates([[1, 2, 3, 4]]));
+        self::assertSame([[1, 2, 3, 4]], $line->toArray());
     }
 
     /** Existing point objects cannot bypass the receiver's declared layout. */
@@ -198,10 +199,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYZM\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 4], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 4], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -214,10 +215,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYZM\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -230,10 +231,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYZM\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 3], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 3], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -246,10 +247,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYZ\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 4], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 4], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -262,10 +263,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYZ\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -278,10 +279,10 @@ class MutableDimensionConstructionTest extends TestCase
         try {
             new XYZ\LineString([$point], 2154);
         } finally {
-            static::assertSame([1, 2, 3, 4], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 3, 4], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZM, $point->getDimension());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 }

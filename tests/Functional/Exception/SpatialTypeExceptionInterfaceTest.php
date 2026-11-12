@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -69,9 +70,9 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
         try {
             throw new $exceptionClass();
         } catch (SpatialTypeExceptionInterface $exception) {
-            static::assertInstanceOf($exceptionClass, $exception);
+            self::assertInstanceOf($exceptionClass, $exception);
         } catch (\Exception) {
-            static::fail(\sprintf('%s should be caught.', $exceptionClass));
+            self::fail(\sprintf('%s should be caught.', $exceptionClass));
         }
     }
 
@@ -83,8 +84,8 @@ class SpatialTypeExceptionInterfaceTest extends TestCase
         try {
             throw new LogicException('Undefined implementation status.');
         } catch (SpatialTypeExceptionInterface $exception) {
-            static::assertInstanceOf(\LogicException::class, $exception);
-            static::assertSame('Undefined implementation status.', $exception->getMessage());
+            self::assertInstanceOf(\LogicException::class, $exception);
+            self::assertSame('Undefined implementation status.', $exception->getMessage());
         }
     }
 }

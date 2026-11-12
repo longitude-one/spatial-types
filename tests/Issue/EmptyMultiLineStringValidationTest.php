@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -34,11 +35,11 @@ class EmptyMultiLineStringValidationTest extends TestCase
         $single = new MultiLineStringImmutable([new LineStringImmutable([], 4326)], 4326);
         $reference = SpatialReference::epsg(2154);
 
-        static::assertSame([], $zero->withSpatialReference($reference)->getElements());
-        static::assertSame([], $zero->withSrid(3857)->toArray());
-        static::assertSame([[]], $single->withSpatialReference($reference)->toArray());
-        static::assertCount(1, $single->withSrid(3857)->getElements());
-        static::assertSame(4326, $single->getLineString(0)->getSrid());
+        self::assertSame([], $zero->withSpatialReference($reference)->getElements());
+        self::assertSame([], $zero->withSrid(3857)->toArray());
+        self::assertSame([[]], $single->withSpatialReference($reference)->toArray());
+        self::assertCount(1, $single->withSrid(3857)->getElements());
+        self::assertSame(4326, $single->getLineString(0)->getSrid());
     }
 
     /** Empty members keep their authority when another member is replaced. */
@@ -48,14 +49,14 @@ class EmptyMultiLineStringValidationTest extends TestCase
         $original = new MultiLineStringImmutable([[], [[1, 2], [3, 4]], []], $reference);
         $replacement = $original->withLineString(1, []);
 
-        static::assertSame([[], [], []], $replacement->toArray());
-        static::assertSame([[], [[1, 2], [3, 4]], []], $original->toArray());
-        static::assertSame($reference, $replacement->getSpatialReference());
-        static::assertSame($reference, $replacement->getLineString(0)->getSpatialReference());
-        static::assertSame($reference, $replacement->getLineString(1)->getSpatialReference());
-        static::assertSame($reference, $replacement->getLineString(2)->getSpatialReference());
-        static::assertNotSame($original->getLineString(0), $replacement->getLineString(0));
-        static::assertNotSame($original->getLineString(2), $replacement->getLineString(2));
+        self::assertSame([[], [], []], $replacement->toArray());
+        self::assertSame([[], [[1, 2], [3, 4]], []], $original->toArray());
+        self::assertSame($reference, $replacement->getSpatialReference());
+        self::assertSame($reference, $replacement->getLineString(0)->getSpatialReference());
+        self::assertSame($reference, $replacement->getLineString(1)->getSpatialReference());
+        self::assertSame($reference, $replacement->getLineString(2)->getSpatialReference());
+        self::assertNotSame($original->getLineString(0), $replacement->getLineString(0));
+        self::assertNotSame($original->getLineString(2), $replacement->getLineString(2));
     }
 
     /** There is no indexed member in a zero-member collection. */

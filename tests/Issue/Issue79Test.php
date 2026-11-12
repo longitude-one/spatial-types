@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -39,9 +40,9 @@ class Issue79Test extends TestCase
         try {
             $curve->appendArc($invalid, $destination);
         } finally {
-            static::assertSame([$origin], $curve->getPoints());
-            static::assertSame([[0, 0]], $curve->toArray());
-            static::assertSame(2154, $destination->getSrid());
+            self::assertSame([$origin], $curve->getPoints());
+            self::assertSame([[0, 0]], $curve->toArray());
+            self::assertSame(2154, $destination->getSrid());
         }
     }
 
@@ -57,9 +58,9 @@ class Issue79Test extends TestCase
         try {
             $curve->replaceArc(0, $invalid, $destination);
         } finally {
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame([4, 0], $destination->toArray());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame([4, 0], $destination->toArray());
         }
     }
 
@@ -70,12 +71,12 @@ class Issue79Test extends TestCase
         $empty = new PolygonImmutable([], 2154);
         $collection = new MultiPolygonImmutable([$polygon, $empty, [[[3, 4]]]], 4326);
 
-        static::assertSame([$polygon, $empty, $collection->getPolygon(2)], $collection->getPolygons());
-        static::assertSame([[[[1, 2]]], [], [[[3, 4]]]], $collection->toArray());
-        static::assertSame(4326, $collection->getSrid());
-        static::assertSame(2154, $collection->getPolygon(1)->getSrid());
-        static::assertInstanceOf(PolygonImmutable::class, $collection->getPolygon(2));
-        static::assertSame([[[1, 2]]], $polygon->toArray());
+        self::assertSame([$polygon, $empty, $collection->getPolygon(2)], $collection->getPolygons());
+        self::assertSame([[[[1, 2]]], [], [[[3, 4]]]], $collection->toArray());
+        self::assertSame(4326, $collection->getSrid());
+        self::assertSame(2154, $collection->getPolygon(1)->getSrid());
+        self::assertInstanceOf(PolygonImmutable::class, $collection->getPolygon(2));
+        self::assertSame([[[1, 2]]], $polygon->toArray());
     }
 
     /** Immutable replacement rejects mutable spatial values before copying members. */
@@ -90,10 +91,10 @@ class Issue79Test extends TestCase
         try {
             $source->withElement(0, $replacement);
         } finally {
-            static::assertSame([$point], $source->getElements());
-            static::assertSame([[1, 2]], $source->toArray());
-            static::assertSame([3, 4], $replacement->toArray());
-            static::assertSame(2154, $replacement->getSrid());
+            self::assertSame([$point], $source->getElements());
+            self::assertSame([[1, 2]], $source->toArray());
+            self::assertSame([3, 4], $replacement->toArray());
+            self::assertSame(2154, $replacement->getSrid());
         }
     }
 
@@ -137,8 +138,8 @@ class Issue79Test extends TestCase
         try {
             new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurfaceImmutable::class)->newInstance([$polygon], 2154);
         } finally {
-            static::assertSame([[[1, 2, 3, 4]]], $polygon->toArray());
-            static::assertSame(4326, $polygon->getSrid());
+            self::assertSame([[[1, 2, 3, 4]]], $polygon->toArray());
+            self::assertSame(4326, $polygon->getSrid());
         }
     }
 
@@ -164,9 +165,9 @@ class Issue79Test extends TestCase
         try {
             $source->setElement(0, $immutable);
         } finally {
-            static::assertSame([$point], $source->getElements());
-            static::assertSame([[1, 2]], $source->toArray());
-            static::assertSame([3, 4], $immutable->toArray());
+            self::assertSame([$point], $source->getElements());
+            self::assertSame([[1, 2]], $source->toArray());
+            self::assertSame([3, 4], $immutable->toArray());
         }
     }
 
@@ -182,10 +183,10 @@ class Issue79Test extends TestCase
         try {
             $source->addElement($replacement);
         } finally {
-            static::assertSame([$point], $source->getElements());
-            static::assertSame([[1, 2, 9]], $source->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([3, 4, 8], $replacement->toArray());
+            self::assertSame([$point], $source->getElements());
+            self::assertSame([[1, 2, 9]], $source->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([3, 4, 8], $replacement->toArray());
         }
     }
 
@@ -201,9 +202,9 @@ class Issue79Test extends TestCase
         try {
             $source->setElement(0, $replacement);
         } finally {
-            static::assertSame([$polygon], $source->getElements());
-            static::assertSame([[[[1, 2, 3, 4]]]], $source->toArray());
-            static::assertSame([5, 6, 7, 8], $replacement->toArray());
+            self::assertSame([$polygon], $source->getElements());
+            self::assertSame([[[[1, 2, 3, 4]]]], $source->toArray());
+            self::assertSame([5, 6, 7, 8], $replacement->toArray());
         }
     }
 
@@ -219,9 +220,9 @@ class Issue79Test extends TestCase
         try {
             $surface->addRing(0, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
-            static::assertSame([[4, 5, 6]], $ring->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([[4, 5, 6]], $ring->toArray());
         }
     }
 
@@ -238,9 +239,9 @@ class Issue79Test extends TestCase
         try {
             $surface->insertRing(0, 1, $point);
         } finally {
-            static::assertSame([$ring], $patch->getRings());
-            static::assertSame([$point], $ring->getPoints());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([$ring], $patch->getRings());
+            self::assertSame([$point], $ring->getPoints());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
         }
     }
 
@@ -253,7 +254,7 @@ class Issue79Test extends TestCase
         try {
             new \ReflectionMethod($source, 'addPoint')->invoke($source, new \stdClass());
         } finally {
-            static::assertSame([[1, 2]], $source->toArray());
+            self::assertSame([[1, 2]], $source->toArray());
         }
     }
 
@@ -266,7 +267,7 @@ class Issue79Test extends TestCase
         try {
             new \ReflectionMethod($source, 'addElement')->invoke($source, 7);
         } finally {
-            static::assertSame([], $source->getElements());
+            self::assertSame([], $source->getElements());
         }
     }
 }

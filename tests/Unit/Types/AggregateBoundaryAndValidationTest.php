@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -82,17 +83,17 @@ class AggregateBoundaryAndValidationTest extends TestCase
         $secondPolygon = new PolygonImmutable([new LineStringImmutable([$second, $third, $first, $second])]);
 
         $multiLineString = new MultiLineStringImmutable([$firstLine, $secondLine]);
-        static::assertSame($firstLine, $multiLineString->getLineString(2));
-        static::assertSame($secondLine, $multiLineString->getLineString(-1));
+        self::assertSame($firstLine, $multiLineString->getLineString(2));
+        self::assertSame($secondLine, $multiLineString->getLineString(-1));
 
         $polygon = new PolygonImmutable([$firstPolygon->getRing(0), $secondPolygon->getRing(0)]);
-        static::assertSame($polygon->getRings(), $polygon->getElements());
-        static::assertSame($firstPolygon->getRing(0), $polygon->getRing(2));
-        static::assertSame($secondPolygon->getRing(0), $polygon->getRing(-1));
+        self::assertSame($polygon->getRings(), $polygon->getElements());
+        self::assertSame($firstPolygon->getRing(0), $polygon->getRing(2));
+        self::assertSame($secondPolygon->getRing(0), $polygon->getRing(-1));
 
         $multiPolygon = new MultiPolygonImmutable([$firstPolygon, $secondPolygon]);
-        static::assertSame($firstPolygon, $multiPolygon->getPolygon(2));
-        static::assertSame($secondPolygon, $multiPolygon->getPolygon(-1));
+        self::assertSame($firstPolygon, $multiPolygon->getPolygon(2));
+        self::assertSame($secondPolygon, $multiPolygon->getPolygon(-1));
     }
 
     /**
@@ -137,9 +138,9 @@ class AggregateBoundaryAndValidationTest extends TestCase
         $polygon = new PolygonImmutable([[[0, 0], [10, 0], [0, 10], [0, 0]]]);
         $replacement = $polygon->withPoint(0, 1, Coordinates::xy(8, 9));
 
-        static::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]]], $polygon->toArray());
-        static::assertSame([[[0, 0], [8, 9], [0, 10], [0, 0]]], $replacement->toArray());
-        static::assertTrue($replacement->getRing(0)->getPoint(0)->equalsTo($replacement->getRing(0)->getPoint(-1)));
+        self::assertSame([[[0, 0], [10, 0], [0, 10], [0, 0]]], $polygon->toArray());
+        self::assertSame([[[0, 0], [8, 9], [0, 10], [0, 0]]], $replacement->toArray());
+        self::assertTrue($replacement->getRing(0)->getPoint(0)->equalsTo($replacement->getRing(0)->getPoint(-1)));
     }
 
     /**
@@ -152,6 +153,6 @@ class AggregateBoundaryAndValidationTest extends TestCase
             [4, 5, 6],
         ]);
 
-        static::assertSame([[1, 2, 3], [4, 5, 6]], $multiPoint->toArray());
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $multiPoint->toArray());
     }
 }

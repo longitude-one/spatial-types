@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -194,13 +195,13 @@ class ConcreteTypeContractTest extends TestCase
         };
 
         foreach ($spatialTypes as [$spatial, $type, $expectedCoordinates]) {
-            static::assertSame($family, $spatial->getFamily());
-            static::assertSame($type, $spatial->getType());
-            static::assertSame($expectedDimension, $spatial->getDimension());
-            static::assertSame($hasM, $spatial->hasM());
-            static::assertSame($hasZ, $spatial->hasZ());
-            static::assertSame($expectedCoordinates, $spatial->toArray());
-            static::assertSame([
+            self::assertSame($family, $spatial->getFamily());
+            self::assertSame($type, $spatial->getType());
+            self::assertSame($expectedDimension, $spatial->getDimension());
+            self::assertSame($hasM, $spatial->hasM());
+            self::assertSame($hasZ, $spatial->hasZ());
+            self::assertSame($expectedCoordinates, $spatial->toArray());
+            self::assertSame([
                 'type' => $type->value,
                 'coordinates' => $expectedCoordinates,
                 'srid' => 4326,

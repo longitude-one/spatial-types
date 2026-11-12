@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -37,14 +38,14 @@ final class ImmutableCopyTest extends TestCase
         $emptyCopy = $empty->copy();
         $partialCopy = $partial->copy();
 
-        static::assertNotSame($empty, $emptyCopy);
-        static::assertNotSame($partial, $partialCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame([1, null, 3, null], $partialCopy->toArray());
-        static::assertSame($reference, $emptyCopy->getSpatialReference());
-        static::assertSame($reference, $partialCopy->getSpatialReference());
-        static::assertSame([], $empty->toArray());
-        static::assertSame([1, null, 3, null], $partial->toArray());
+        self::assertNotSame($empty, $emptyCopy);
+        self::assertNotSame($partial, $partialCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame([1, null, 3, null], $partialCopy->toArray());
+        self::assertSame($reference, $emptyCopy->getSpatialReference());
+        self::assertSame($reference, $partialCopy->getSpatialReference());
+        self::assertSame([], $empty->toArray());
+        self::assertSame([1, null, 3, null], $partial->toArray());
     }
 
     /** Xy geography copies preserve context and independently copy repeated members. */
@@ -60,27 +61,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2], $pointCopy->toArray());
-        static::assertSame([[1, 2], [1, 2]], $lineCopy->toArray());
-        static::assertSame([1, 2], $point->toArray());
-        static::assertSame([[1, 2], [1, 2]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XY, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2], $pointCopy->toArray());
+        self::assertSame([[1, 2], [1, 2]], $lineCopy->toArray());
+        self::assertSame([1, 2], $point->toArray());
+        self::assertSame([[1, 2], [1, 2]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XY, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xy geometry copies preserve context and independently copy repeated members. */
@@ -96,27 +97,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2], $pointCopy->toArray());
-        static::assertSame([[1, 2], [1, 2]], $lineCopy->toArray());
-        static::assertSame([1, 2], $point->toArray());
-        static::assertSame([[1, 2], [1, 2]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XY, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2], $pointCopy->toArray());
+        self::assertSame([[1, 2], [1, 2]], $lineCopy->toArray());
+        self::assertSame([1, 2], $point->toArray());
+        self::assertSame([[1, 2], [1, 2]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XY, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xym geography copies preserve context and independently copy repeated members. */
@@ -132,27 +133,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2, 7], $pointCopy->toArray());
-        static::assertSame([[1, 2, 7], [1, 2, 7]], $lineCopy->toArray());
-        static::assertSame([1, 2, 7], $point->toArray());
-        static::assertSame([[1, 2, 7], [1, 2, 7]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XYM, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2, 7], $pointCopy->toArray());
+        self::assertSame([[1, 2, 7], [1, 2, 7]], $lineCopy->toArray());
+        self::assertSame([1, 2, 7], $point->toArray());
+        self::assertSame([[1, 2, 7], [1, 2, 7]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XYM, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYM, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xym geometry copies preserve context and independently copy repeated members. */
@@ -168,27 +169,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2, 7], $pointCopy->toArray());
-        static::assertSame([[1, 2, 7], [1, 2, 7]], $lineCopy->toArray());
-        static::assertSame([1, 2, 7], $point->toArray());
-        static::assertSame([[1, 2, 7], [1, 2, 7]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XYM, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2, 7], $pointCopy->toArray());
+        self::assertSame([[1, 2, 7], [1, 2, 7]], $lineCopy->toArray());
+        self::assertSame([1, 2, 7], $point->toArray());
+        self::assertSame([[1, 2, 7], [1, 2, 7]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XYM, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYM, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xyz geography copies preserve context and independently copy repeated members. */
@@ -204,27 +205,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2, 3], $pointCopy->toArray());
-        static::assertSame([[1, 2, 3], [1, 2, 3]], $lineCopy->toArray());
-        static::assertSame([1, 2, 3], $point->toArray());
-        static::assertSame([[1, 2, 3], [1, 2, 3]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2, 3], $pointCopy->toArray());
+        self::assertSame([[1, 2, 3], [1, 2, 3]], $lineCopy->toArray());
+        self::assertSame([1, 2, 3], $point->toArray());
+        self::assertSame([[1, 2, 3], [1, 2, 3]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xyz geometry copies preserve context and independently copy repeated members. */
@@ -240,27 +241,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2, 3], $pointCopy->toArray());
-        static::assertSame([[1, 2, 3], [1, 2, 3]], $lineCopy->toArray());
-        static::assertSame([1, 2, 3], $point->toArray());
-        static::assertSame([[1, 2, 3], [1, 2, 3]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2, 3], $pointCopy->toArray());
+        self::assertSame([[1, 2, 3], [1, 2, 3]], $lineCopy->toArray());
+        self::assertSame([1, 2, 3], $point->toArray());
+        self::assertSame([[1, 2, 3], [1, 2, 3]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xyzm geography copies preserve context and independently copy repeated members. */
@@ -276,27 +277,27 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2, 3, 7], $pointCopy->toArray());
-        static::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $lineCopy->toArray());
-        static::assertSame([1, 2, 3, 7], $point->toArray());
-        static::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2, 3, 7], $pointCopy->toArray());
+        self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $lineCopy->toArray());
+        self::assertSame([1, 2, 3, 7], $point->toArray());
+        self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 
     /** Xyzm geometry copies preserve context and independently copy repeated members. */
@@ -312,26 +313,26 @@ final class ImmutableCopyTest extends TestCase
         $lineCopy = $line->copy();
         $emptyCopy = $emptyLine->copy();
 
-        static::assertNotSame($point, $pointCopy);
-        static::assertNotSame($line, $lineCopy);
-        static::assertNotSame($point, $lineCopy->getPoint(0));
-        static::assertNotSame($point, $lineCopy->getPoint(1));
-        static::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
-        static::assertSame([1, 2, 3, 7], $pointCopy->toArray());
-        static::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $lineCopy->toArray());
-        static::assertSame([1, 2, 3, 7], $point->toArray());
-        static::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $line->toArray());
-        static::assertSame($pointReference, $pointCopy->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
-        static::assertSame($lineReference, $lineCopy->getSpatialReference());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $pointCopy->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $lineCopy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
-        static::assertNotSame($emptyLine, $emptyCopy);
-        static::assertSame([], $emptyCopy->toArray());
-        static::assertSame($lineReference, $emptyCopy->getSpatialReference());
-        static::assertSame([], $emptyLine->toArray());
+        self::assertNotSame($point, $pointCopy);
+        self::assertNotSame($line, $lineCopy);
+        self::assertNotSame($point, $lineCopy->getPoint(0));
+        self::assertNotSame($point, $lineCopy->getPoint(1));
+        self::assertNotSame($lineCopy->getPoint(0), $lineCopy->getPoint(1));
+        self::assertSame([1, 2, 3, 7], $pointCopy->toArray());
+        self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $lineCopy->toArray());
+        self::assertSame([1, 2, 3, 7], $point->toArray());
+        self::assertSame([[1, 2, 3, 7], [1, 2, 3, 7]], $line->toArray());
+        self::assertSame($pointReference, $pointCopy->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $lineCopy->getPoint(1)->getSpatialReference());
+        self::assertSame($lineReference, $lineCopy->getSpatialReference());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $pointCopy->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $lineCopy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $pointCopy->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $lineCopy->getFamily());
+        self::assertNotSame($emptyLine, $emptyCopy);
+        self::assertSame([], $emptyCopy->toArray());
+        self::assertSame($lineReference, $emptyCopy->getSpatialReference());
+        self::assertSame([], $emptyLine->toArray());
     }
 }

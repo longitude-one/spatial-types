@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -29,6 +30,6 @@ class InvalidDimensionExceptionTest extends TestCase
     public function testInstance(): void
     {
         $exception = new InvalidDimensionException();
-        static::assertInstanceOf(SpatialTypeExceptionInterface::class, $exception);
+        self::assertInstanceOf(SpatialTypeExceptionInterface::class, $exception);
     }
 }

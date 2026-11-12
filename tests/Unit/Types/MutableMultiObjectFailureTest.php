@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -48,7 +49,7 @@ class MutableMultiObjectFailureTest extends TestCase
     public function testCustomImmutableDescendant(): void
     {
         $immutable = new PointImmutable(1, 2, 4326);
-        $line = static::createStub(MutableLineStringInterface::class);
+        $line = self::createStub(MutableLineStringInterface::class);
         $line->method('getElements')->willReturn([$immutable]);
         $aggregate = new SpatialCollection([]);
         $this->expectException(InvalidValueException::class);
@@ -56,8 +57,8 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->addElement($line);
         } finally {
-            static::assertSame([], $aggregate->getElements());
-            static::assertSame([1, 2], $immutable->toArray());
+            self::assertSame([], $aggregate->getElements());
+            self::assertSame([1, 2], $immutable->toArray());
         }
     }
 
@@ -72,10 +73,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->getElement(1);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -90,10 +91,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->getElement(-1);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -108,8 +109,8 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'insertElement')->invoke($aggregate, 1, $immutable);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([7, 8], $immutable->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([7, 8], $immutable->toArray());
         }
     }
 
@@ -124,10 +125,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->insertElement(2, $replacement);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -142,10 +143,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->insertElement(-1, $replacement);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -159,9 +160,9 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[[7, 8]], [[1, 2, 3]]]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -177,11 +178,11 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame([$member], $owner->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame([$member], $owner->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -195,9 +196,9 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[7, 8], [1, 2, 3]]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -213,11 +214,11 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame([$member], $owner->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame([$member], $owner->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -231,9 +232,9 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [[[[7, 8]]], [[[1, 2, 3]]]]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -249,11 +250,11 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame([$member], $owner->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame([$member], $owner->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -268,10 +269,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->removeElement(1);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -286,10 +287,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->removeElement(-1);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -304,10 +305,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->setElement(1, $replacement);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -322,10 +323,10 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             $aggregate->setElement(-1, $replacement);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([[1, null]], $aggregate->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([7, 8], $replacement->toArray());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([[1, null]], $aggregate->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([7, 8], $replacement->toArray());
         }
     }
 
@@ -341,11 +342,11 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'setElements')->invoke($aggregate, [$member, $immutable]);
         } finally {
-            static::assertSame([$member], $aggregate->getElements());
-            static::assertSame([$member], $owner->getElements());
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getElements());
+            self::assertSame([$member], $owner->getElements());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(2154, $aggregate->getSrid());
         }
     }
 
@@ -360,8 +361,8 @@ class MutableMultiObjectFailureTest extends TestCase
         try {
             new \ReflectionMethod($aggregate, 'addElement')->invoke($aggregate, $line);
         } finally {
-            static::assertSame([$point], $aggregate->getElements());
-            static::assertSame([$point], $line->getPoints());
+            self::assertSame([$point], $aggregate->getElements());
+            self::assertSame([$point], $line->getPoints());
         }
     }
 }

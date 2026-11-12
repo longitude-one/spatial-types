@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -38,8 +39,8 @@ final class RepresentationWithoutValidationTest extends TestCase
         $curve = new CircularStringImmutable([new PointImmutable(), new PointImmutable(1, 1)]);
         $copy = $curve->withArrayOfCoordinates([[2, 2]]);
 
-        static::assertSame([[], [1, 1]], $curve->toArray());
-        static::assertSame([[2, 2]], $copy->toArray());
+        self::assertSame([[], [1, 1]], $curve->toArray());
+        self::assertSame([[2, 2]], $copy->toArray());
     }
 
     /** Compound curve stores disconnected and empty components. */
@@ -52,11 +53,11 @@ final class RepresentationWithoutValidationTest extends TestCase
         ]);
         $copy = $curve->withSrid(4326);
 
-        static::assertSame([[[0, 0], [1, 1]], [[5, 5]], []], $curve->toArray());
-        static::assertSame([[[0, 0], [1, 1]], [[5, 5]], []], $copy->toArray());
-        static::assertSame(0, $curve->getCurve(0)->getSrid());
-        static::assertSame(4326, $copy->getCurve(0)->getSrid());
-        static::assertNull($copy->getEndPoint());
+        self::assertSame([[[0, 0], [1, 1]], [[5, 5]], []], $curve->toArray());
+        self::assertSame([[[0, 0], [1, 1]], [[5, 5]], []], $copy->toArray());
+        self::assertSame(0, $curve->getCurve(0)->getSrid());
+        self::assertSame(4326, $copy->getCurve(0)->getSrid());
+        self::assertNull($copy->getEndPoint());
     }
 
     /** Empty ring still rejects indexed replacement. */
@@ -75,11 +76,11 @@ final class RepresentationWithoutValidationTest extends TestCase
         $collection = new GeometryCollectionImmutable(2154, [$member, new GeometryCollectionImmutable()]);
         $copy = $collection->withElement(1, new PointImmutable(4, 5, 3857));
 
-        static::assertSame($member, $collection->getElements()[0]);
-        static::assertSame(4326, $collection->getElements()[0]->getSrid());
-        static::assertSame(2154, $collection->getSrid());
-        static::assertSame(3857, $copy->getElements()[1]->getSrid());
-        static::assertInstanceOf(GeometryCollectionImmutable::class, $collection->getElements()[1]);
+        self::assertSame($member, $collection->getElements()[0]);
+        self::assertSame(4326, $collection->getElements()[0]->getSrid());
+        self::assertSame(2154, $collection->getSrid());
+        self::assertSame(3857, $copy->getElements()[1]->getSrid());
+        self::assertInstanceOf(GeometryCollectionImmutable::class, $collection->getElements()[1]);
     }
 
     /** Spatial reference retains unvalidated identifiers and authorities. */
@@ -88,9 +89,9 @@ final class RepresentationWithoutValidationTest extends TestCase
         $reference = new SpatialReference(-1, '');
         $point = new PointImmutable(1, 2, $reference);
 
-        static::assertSame(-1, $point->getSrid());
-        static::assertSame('', $point->getSpatialReference()->authority);
-        static::assertSame($reference, $point->getSpatialReference());
+        self::assertSame(-1, $point->getSrid());
+        self::assertSame('', $point->getSpatialReference()->authority);
+        self::assertSame($reference, $point->getSpatialReference());
     }
 
     /** Xy duplicate replacement preserves original. */
@@ -99,10 +100,10 @@ final class RepresentationWithoutValidationTest extends TestCase
         $line = new LineStringImmutable([[0, 0], [1, 1]], 4326);
         $copy = $line->withPoint(1, Coordinates::xy(0, 0));
 
-        static::assertSame([[0, 0], [0, 0]], $copy->toArray());
-        static::assertSame([[0, 0], [1, 1]], $line->toArray());
-        static::assertSame(4326, $copy->getSrid());
-        static::assertSame(LineStringImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame([[0, 0], [0, 0]], $copy->toArray());
+        self::assertSame([[0, 0], [1, 1]], $line->toArray());
+        self::assertSame(4326, $copy->getSrid());
+        self::assertSame(LineStringImmutable::class, new \ReflectionClass($copy)->getName());
     }
 
     /** Xym triangle stores open boundaries and holes. */
@@ -111,11 +112,11 @@ final class RepresentationWithoutValidationTest extends TestCase
         $triangle = new TriangleImmutable([[[0, 0, 7], [1, 0, 8]], [[2, 2, 9]]]);
         $copy = $triangle->withArrayOfCoordinates([[[3, 3, 10]]]);
 
-        static::assertSame([[[0, 0, 7], [1, 0, 8]], [[2, 2, 9]]], $triangle->toArray());
-        static::assertSame([[[3, 3, 10]]], $copy->toArray());
-        static::assertSame(TriangleImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertTrue($copy->hasM());
-        static::assertFalse($copy->hasZ());
+        self::assertSame([[[0, 0, 7], [1, 0, 8]], [[2, 2, 9]]], $triangle->toArray());
+        self::assertSame([[[3, 3, 10]]], $copy->toArray());
+        self::assertSame(TriangleImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertTrue($copy->hasM());
+        self::assertFalse($copy->hasZ());
     }
 
     /** Xyz geography stores numeric ranges without validation. */
@@ -124,9 +125,9 @@ final class RepresentationWithoutValidationTest extends TestCase
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\PointImmutable(181, 91, 5, 4326);
         $copy = $point->withCoordinates(Coordinates::xyz(-181, -91, 6));
 
-        static::assertSame([181, 91, 5], $point->toArray());
-        static::assertSame([-181, -91, 6], $copy->toArray());
-        static::assertSame(4326, $copy->getSrid());
+        self::assertSame([181, 91, 5], $point->toArray());
+        self::assertSame([-181, -91, 6], $copy->toArray());
+        self::assertSame(4326, $copy->getSrid());
     }
 
     /** Xyzm geography stores open polygon replacement. */
@@ -135,11 +136,11 @@ final class RepresentationWithoutValidationTest extends TestCase
         $polygon = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolygonImmutable([[[181, 91, 5, 7]]], 4326);
         $copy = $polygon->withRing(0, [[182, 92, 6, 8], [183, 93, 7, 9]]);
 
-        static::assertSame([[[181, 91, 5, 7]]], $polygon->toArray());
-        static::assertSame([[[182, 92, 6, 8], [183, 93, 7, 9]]], $copy->toArray());
-        static::assertTrue($copy->hasZ());
-        static::assertTrue($copy->hasM());
-        static::assertSame(4326, $copy->getSrid());
+        self::assertSame([[[181, 91, 5, 7]]], $polygon->toArray());
+        self::assertSame([[[182, 92, 6, 8], [183, 93, 7, 9]]], $copy->toArray());
+        self::assertTrue($copy->hasZ());
+        self::assertTrue($copy->hasM());
+        self::assertSame(4326, $copy->getSrid());
     }
 
     /** Xyzm surface stores unclosed patch replacement. */
@@ -148,9 +149,9 @@ final class RepresentationWithoutValidationTest extends TestCase
         $surface = new PolyhedralSurfaceImmutable([[[[0, 0, 0, 7]]]], 4326);
         $copy = $surface->withRing(0, 0, [[181, 91, 1, 8], [182, 92, 2, 9]]);
 
-        static::assertSame([[[[0, 0, 0, 7]]]], $surface->toArray());
-        static::assertSame([[[[181, 91, 1, 8], [182, 92, 2, 9]]]], $copy->toArray());
-        static::assertSame(4326, $copy->getSrid());
+        self::assertSame([[[[0, 0, 0, 7]]]], $surface->toArray());
+        self::assertSame([[[[181, 91, 1, 8], [182, 92, 2, 9]]]], $copy->toArray());
+        self::assertSame(4326, $copy->getSrid());
     }
 
     /** Xyz surface stores disconnected and empty patches. */
@@ -163,7 +164,7 @@ final class RepresentationWithoutValidationTest extends TestCase
         ]);
         $copy = $surface->withPatch(0, [[[4, 4, 4]]]);
 
-        static::assertSame([[[[0, 0, 0], [1, 0, 0]]], [[[10, 10, 10]]], []], $surface->toArray());
-        static::assertSame([[[[4, 4, 4]]], [[[10, 10, 10]]], []], $copy->toArray());
+        self::assertSame([[[[0, 0, 0], [1, 0, 0]]], [[[10, 10, 10]]], []], $surface->toArray());
+        self::assertSame([[[[4, 4, 4]]], [[[10, 10, 10]]], []], $copy->toArray());
     }
 }

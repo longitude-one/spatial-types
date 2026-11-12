@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -36,7 +37,7 @@ class GeometryCollectionTest extends TestCase
         $nestedCollection = new GeometryCollectionImmutable();
         $geometryCollection = new GeometryCollectionImmutable(0, [$nestedCollection]);
 
-        static::assertSame([$nestedCollection], $geometryCollection->getElements());
+        self::assertSame([$nestedCollection], $geometryCollection->getElements());
     }
 
     /**
@@ -46,7 +47,7 @@ class GeometryCollectionTest extends TestCase
     {
         $polygon = new GeometricPolygon([]);
         $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
-        static::assertSame([$polygon], $geometryCollection->getElements());
+        self::assertSame([$polygon], $geometryCollection->getElements());
     }
 
     /**
@@ -54,7 +55,7 @@ class GeometryCollectionTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, new GeometryCollectionImmutable()->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, new GeometryCollectionImmutable()->getType());
     }
 
     /**
@@ -64,7 +65,7 @@ class GeometryCollectionTest extends TestCase
     {
         $polygon = new GeometricPolygon([]);
         $geometryCollection = new GeometryCollectionImmutable(0, [$polygon]);
-        static::assertTrue($geometryCollection->hasElement($polygon));
+        self::assertTrue($geometryCollection->hasElement($polygon));
     }
 
     /**
@@ -73,8 +74,8 @@ class GeometryCollectionTest extends TestCase
     public function testToArray(): void
     {
         $polygon = new GeometricPolygon([], 4326);
-        static::assertSame([], new GeometryCollectionImmutable()->toArray());
+        self::assertSame([], new GeometryCollectionImmutable()->toArray());
         $geometryCollection = new GeometryCollectionImmutable(4326, [$polygon, new PointImmutable(1, 2, 4326)]);
-        static::assertSame([[], [1, 2]], $geometryCollection->toArray());
+        self::assertSame([[], [1, 2]], $geometryCollection->toArray());
     }
 }

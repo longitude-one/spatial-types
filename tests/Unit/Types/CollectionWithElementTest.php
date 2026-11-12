@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -34,12 +35,12 @@ class CollectionWithElementTest extends TestCase
 
         $replacement = $collection->withElement(-1, new PointImmutable(5, 6, 2154));
 
-        static::assertNotSame($collection, $replacement);
-        static::assertSame($collection::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame([[1, 2], [3, 4]], $collection->toArray());
-        static::assertSame([[1, 2], [5, 6]], $replacement->toArray());
-        static::assertNotSame($collection->getElements()[0], $replacement->getElements()[0]);
-        static::assertNotSame($collection->getElements()[1], $replacement->getElements()[1]);
+        self::assertNotSame($collection, $replacement);
+        self::assertSame($collection::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame([[1, 2], [3, 4]], $collection->toArray());
+        self::assertSame([[1, 2], [5, 6]], $replacement->toArray());
+        self::assertNotSame($collection->getElements()[0], $replacement->getElements()[0]);
+        self::assertNotSame($collection->getElements()[1], $replacement->getElements()[1]);
     }
 }

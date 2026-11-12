@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -44,14 +45,14 @@ class MultiPointWithPointTest extends TestCase
         $multiPoint = new MultiPointImmutable([[1, 2, 3], [4, 5, 6]], 2154);
         $replacement = $multiPoint->withPoint(-1, Coordinates::xym(7, 8, 9));
 
-        static::assertNotSame($multiPoint, $replacement);
-        static::assertSame($multiPoint::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertTrue($replacement->hasM());
-        static::assertFalse($replacement->hasZ());
-        static::assertSame([[1, 2, 3], [4, 5, 6]], $multiPoint->toArray());
-        static::assertSame([[1, 2, 3], [7, 8, 9]], $replacement->toArray());
-        static::assertNotSame($multiPoint->getPoint(0), $replacement->getPoint(0));
-        static::assertNotSame($multiPoint->getPoint(1), $replacement->getPoint(1));
+        self::assertNotSame($multiPoint, $replacement);
+        self::assertSame($multiPoint::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertTrue($replacement->hasM());
+        self::assertFalse($replacement->hasZ());
+        self::assertSame([[1, 2, 3], [4, 5, 6]], $multiPoint->toArray());
+        self::assertSame([[1, 2, 3], [7, 8, 9]], $replacement->toArray());
+        self::assertNotSame($multiPoint->getPoint(0), $replacement->getPoint(0));
+        self::assertNotSame($multiPoint->getPoint(1), $replacement->getPoint(1));
     }
 }

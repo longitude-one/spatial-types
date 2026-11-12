@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the LongitudeOne Spatial project.
  *
@@ -54,19 +55,19 @@ class MutableMultiObjectLayoutTest extends TestCase
         $polygons = new MultiPolygon([$polygon]);
         $nested = new SpatialCollection([]);
         $collection = new SpatialCollection([$point, $line, $arc, $compound, $polygon, $triangle, $points, $lines, $polygons, $nested]);
-        static::assertSame([$point, $line, $arc, $compound, $polygon, $triangle, $points, $lines, $polygons, $nested], $collection->getElements());
-        static::assertSame($collection, $collection->setFamily(SpatialModelEnum::GEOGRAPHY)->setSrid(2154));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $triangle->getFamily());
+        self::assertSame([$point, $line, $arc, $compound, $polygon, $triangle, $points, $lines, $polygons, $nested], $collection->getElements());
+        self::assertSame($collection, $collection->setFamily(SpatialModelEnum::GEOGRAPHY)->setSrid(2154));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $triangle->getFamily());
         $surfaceCollection = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$surface]);
         $surfaceCollection->setFamily(SpatialModelEnum::GEOGRAPHY)->setSrid(2154);
-        static::assertSame($surface, $surfaceCollection->getElement(0));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
-        static::assertSame(2154, $surface->getPatch(0)->getRing(0)->getPoint(0)->getSrid());
-        static::assertSame(2154, $arc->getPoint(0)->getSrid());
-        static::assertSame(2154, $nested->getSrid());
-        static::assertSame([0, null], $point->toArray());
+        self::assertSame($surface, $surfaceCollection->getElement(0));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
+        self::assertSame(2154, $surface->getPatch(0)->getRing(0)->getPoint(0)->getSrid());
+        self::assertSame(2154, $arc->getPoint(0)->getSrid());
+        self::assertSame(2154, $nested->getSrid());
+        self::assertSame([0, null], $point->toArray());
     }
 
     /** Empty members and invalid representable geometry are kept. */
@@ -76,10 +77,10 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new MultiLineString([[], [[0, null]]]);
         $polygons = new MultiPolygon([[], [[]], [[[0, null]]]]);
         $collection = new SpatialCollection([$points, $lines, $polygons]);
-        static::assertSame([[], [0, null]], $points->toArray());
-        static::assertSame([[], [[0, null]]], $lines->toArray());
-        static::assertSame([[], [[]], [[[0, null]]]], $polygons->toArray());
-        static::assertSame([[[], [0, null]], [[], [[0, null]]], [[], [[]], [[[0, null]]]]], $collection->toArray());
+        self::assertSame([[], [0, null]], $points->toArray());
+        self::assertSame([[], [[0, null]]], $lines->toArray());
+        self::assertSame([[], [[]], [[[0, null]]]], $polygons->toArray());
+        self::assertSame([[[], [0, null]], [[], [[0, null]]], [[], [[]], [[[0, null]]]]], $collection->toArray());
     }
 
     /** Mutable aggregates expose their mutation contracts without copy or layout mutation methods. */
@@ -89,21 +90,21 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new MultiLineString();
         $polygons = new MultiPolygon();
         $collection = new SpatialCollection();
-        static::assertContains(MutableMultiPointInterface::class, class_implements($points));
-        static::assertContains(MutableMultiLineStringInterface::class, class_implements($lines));
-        static::assertContains(MutableMultiPolygonInterface::class, class_implements($polygons));
-        static::assertContains(MutableSpatialInterface::class, class_implements($collection));
-        static::assertSame(SpatialModelEnum::GEOMETRY, $points->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $lines->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $polygons->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $collection->getFamily());
-        static::assertFalse(new \ReflectionClass($points)->hasMethod('withPoint'));
-        static::assertFalse(new \ReflectionClass($lines)->hasMethod('withLineString'));
-        static::assertFalse(new \ReflectionClass($polygons)->hasMethod('withPolygon'));
-        static::assertFalse(new \ReflectionClass($collection)->hasMethod('withElement'));
-        static::assertFalse(new \ReflectionClass($collection)->hasMethod('withSrid'));
-        static::assertFalse(new \ReflectionClass($points)->hasMethod('setDimension'));
-        static::assertSame('static', (string) new \ReflectionMethod($collection, 'setElements')->getReturnType());
+        self::assertContains(MutableMultiPointInterface::class, class_implements($points));
+        self::assertContains(MutableMultiLineStringInterface::class, class_implements($lines));
+        self::assertContains(MutableMultiPolygonInterface::class, class_implements($polygons));
+        self::assertContains(MutableSpatialInterface::class, class_implements($collection));
+        self::assertSame(SpatialModelEnum::GEOMETRY, $points->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $lines->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $polygons->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $collection->getFamily());
+        self::assertFalse(new \ReflectionClass($points)->hasMethod('withPoint'));
+        self::assertFalse(new \ReflectionClass($lines)->hasMethod('withLineString'));
+        self::assertFalse(new \ReflectionClass($polygons)->hasMethod('withPolygon'));
+        self::assertFalse(new \ReflectionClass($collection)->hasMethod('withElement'));
+        self::assertFalse(new \ReflectionClass($collection)->hasMethod('withSrid'));
+        self::assertFalse(new \ReflectionClass($points)->hasMethod('setDimension'));
+        self::assertSame('static', (string) new \ReflectionMethod($collection, 'setElements')->getReturnType());
     }
 
     /** Each collection kind hydrates mutable descendants in the declared layout. */
@@ -113,24 +114,24 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new MultiLineString([[[0, null]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $polygons = new MultiPolygon([[[[0, null]]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $collection = new SpatialCollection([$points, $lines, $polygons], 4326, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame([[0, null]], $points->toArray());
-        static::assertSame([[[0, null]]], $lines->toArray());
-        static::assertSame([[[[0, null]]]], $polygons->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $points->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $lines->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $polygons->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $collection->getDimension());
-        static::assertInstanceOf(Point::class, $points->getElement(0));
-        static::assertInstanceOf(LineString::class, $lines->getElement(0));
-        static::assertInstanceOf(Polygon::class, $polygons->getElement(0));
-        static::assertInstanceOf(Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
-        static::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
-        static::assertSame([$points, $lines, $polygons], $collection->getElements());
-        static::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
+        self::assertSame([[0, null]], $points->toArray());
+        self::assertSame([[[0, null]]], $lines->toArray());
+        self::assertSame([[[[0, null]]]], $polygons->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $points->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $lines->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $polygons->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $collection->getDimension());
+        self::assertInstanceOf(Point::class, $points->getElement(0));
+        self::assertInstanceOf(LineString::class, $lines->getElement(0));
+        self::assertInstanceOf(Polygon::class, $polygons->getElement(0));
+        self::assertInstanceOf(Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
+        self::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
+        self::assertSame([$points, $lines, $polygons], $collection->getElements());
+        self::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
     }
 
     /** Each collection kind hydrates mutable descendants in the declared layout. */
@@ -140,24 +141,24 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiLineString([[[0, null, 7]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $polygons = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPolygon([[[[0, null, 7]]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $collection = new \LongitudeOne\SpatialTypes\Types\Dimension3m\SpatialCollection([$points, $lines, $polygons], 4326, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame([[0, null, 7]], $points->toArray());
-        static::assertSame([[[0, null, 7]]], $lines->toArray());
-        static::assertSame([[[[0, null, 7]]]], $polygons->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $points->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $lines->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $polygons->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYM, $collection->getDimension());
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Point::class, $points->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\LineString::class, $lines->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Polygon::class, $polygons->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
-        static::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
-        static::assertSame([$points, $lines, $polygons], $collection->getElements());
-        static::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
+        self::assertSame([[0, null, 7]], $points->toArray());
+        self::assertSame([[[0, null, 7]]], $lines->toArray());
+        self::assertSame([[[[0, null, 7]]]], $polygons->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $points->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYM, $lines->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYM, $polygons->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYM, $collection->getDimension());
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Point::class, $points->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\LineString::class, $lines->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Polygon::class, $polygons->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3m\Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
+        self::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
+        self::assertSame([$points, $lines, $polygons], $collection->getElements());
+        self::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
     }
 
     /** Each collection kind hydrates mutable descendants in the declared layout. */
@@ -167,24 +168,24 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiLineString([[[0, null, 5]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $polygons = new \LongitudeOne\SpatialTypes\Types\Dimension3z\MultiPolygon([[[[0, null, 5]]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $collection = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$points, $lines, $polygons], 4326, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame([[0, null, 5]], $points->toArray());
-        static::assertSame([[[0, null, 5]]], $lines->toArray());
-        static::assertSame([[[[0, null, 5]]]], $polygons->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $points->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $lines->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $polygons->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $collection->getDimension());
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\Point::class, $points->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\LineString::class, $lines->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon::class, $polygons->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
-        static::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
-        static::assertSame([$points, $lines, $polygons], $collection->getElements());
-        static::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
+        self::assertSame([[0, null, 5]], $points->toArray());
+        self::assertSame([[[0, null, 5]]], $lines->toArray());
+        self::assertSame([[[[0, null, 5]]]], $polygons->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $points->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $lines->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $polygons->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $collection->getDimension());
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\Point::class, $points->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\LineString::class, $lines->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon::class, $polygons->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension3z\Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
+        self::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
+        self::assertSame([$points, $lines, $polygons], $collection->getElements());
+        self::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
     }
 
     /** Each collection kind hydrates mutable descendants in the declared layout. */
@@ -194,23 +195,23 @@ class MutableMultiObjectLayoutTest extends TestCase
         $lines = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiLineString([[[0, null, 5, 7]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $polygons = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([[[[0, null, 5, 7]]]], 4326, SpatialModelEnum::GEOGRAPHY);
         $collection = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\SpatialCollection([$points, $lines, $polygons], 4326, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame([[0, null, 5, 7]], $points->toArray());
-        static::assertSame([[[0, null, 5, 7]]], $lines->toArray());
-        static::assertSame([[[[0, null, 5, 7]]]], $polygons->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $points->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $lines->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $polygons->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $collection->getDimension());
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Point::class, $points->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\LineString::class, $lines->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Polygon::class, $polygons->getElement(0));
-        static::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
-        static::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
-        static::assertSame([$points, $lines, $polygons], $collection->getElements());
-        static::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
+        self::assertSame([[0, null, 5, 7]], $points->toArray());
+        self::assertSame([[[0, null, 5, 7]]], $lines->toArray());
+        self::assertSame([[[[0, null, 5, 7]]]], $polygons->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $points->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $lines->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $polygons->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $collection->getDimension());
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Point::class, $points->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\LineString::class, $lines->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Polygon::class, $polygons->getElement(0));
+        self::assertInstanceOf(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Point::class, $polygons->getElement(0)->getRing(0)->getPoint(0));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
+        self::assertSame(4326, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
+        self::assertSame([$points, $lines, $polygons], $collection->getElements());
+        self::assertSame(GeometryTypeEnum::MULTIPOINT, $points->getType());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $lines->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $polygons->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $collection->getType());
     }
 }
