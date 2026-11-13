@@ -9,7 +9,8 @@
 [![Downloads](https://img.shields.io/packagist/dm/longitude-one/spatial-types.svg)](https://packagist.org/packages/longitude-one/spatial-types)
 [![Coverage Status](https://coveralls.io/repos/github/longitude-one/spatial-types/badge.svg?branch=main)](https://coveralls.io/github/longitude-one/spatial-types?branch=main)
 
-Spatial-types is a PHP library for creating and manipulating spatial objects such as points, lines, and polygons. It provides mutable and immutable types to represent geometric and geographic data.
+Spatial-types is a PHP library for creating and manipulating spatial objects such as points, lines, and polygons. It provides mutable and immutable types to represent geometric and
+geographic data.
 
 ## Installation
 
