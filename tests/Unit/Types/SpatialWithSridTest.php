@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -72,14 +69,14 @@ class SpatialWithSridTest extends TestCase
      */
     private static function assertCopiedTree(ImmutableSpatialInterface $source, ImmutableSpatialInterface $copy): void
     {
-        static::assertNotSame($source, $copy);
-        static::assertSame($source::class, new \ReflectionClass($copy)->getName());
-        static::assertSame($source->toArray(), $copy->toArray());
-        static::assertSame(2154, $copy->getSrid());
+        self::assertNotSame($source, $copy);
+        self::assertSame($source::class, new \ReflectionClass($copy)->getName());
+        self::assertSame($source->toArray(), $copy->toArray());
+        self::assertSame(2154, $copy->getSrid());
 
         $sourceChildren = self::childrenOf($source);
         $copyChildren = self::childrenOf($copy);
-        static::assertCount(\count($sourceChildren), $copyChildren);
+        self::assertCount(\count($sourceChildren), $copyChildren);
 
         foreach ($sourceChildren as $index => $sourceChild) {
             self::assertCopiedTree($sourceChild, $copyChildren[$index]);
@@ -138,7 +135,7 @@ class SpatialWithSridTest extends TestCase
     {
         $spatialWithSrid = $spatial->withSrid(2154);
 
-        static::assertSame(4326, $spatial->getSrid());
+        self::assertSame(4326, $spatial->getSrid());
         self::assertCopiedTree($spatial, $spatialWithSrid);
     }
 }

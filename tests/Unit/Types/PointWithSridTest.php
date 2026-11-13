@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -67,11 +64,11 @@ class PointWithSridTest extends TestCase
     {
         $pointWithSrid = $point->withSrid(2154);
 
-        static::assertNotSame($point, $pointWithSrid);
-        static::assertSame($point::class, new \ReflectionClass($pointWithSrid)->getName());
-        static::assertSame($point->toArray(), $pointWithSrid->toArray());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(2154, $pointWithSrid->getSrid());
+        self::assertNotSame($point, $pointWithSrid);
+        self::assertSame($point::class, new \ReflectionClass($pointWithSrid)->getName());
+        self::assertSame($point->toArray(), $pointWithSrid->toArray());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(2154, $pointWithSrid->getSrid());
     }
 
     /**
@@ -82,7 +79,7 @@ class PointWithSridTest extends TestCase
         $initialPoint = new GeometryPoint2D(1, 2, 4326);
         $clonedPoint = $initialPoint->withSrid(4326);
 
-        static::assertEquals($clonedPoint, $initialPoint);
-        static::assertNotSame($clonedPoint, $initialPoint);
+        self::assertEquals($clonedPoint, $initialPoint);
+        self::assertNotSame($clonedPoint, $initialPoint);
     }
 }

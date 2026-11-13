@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -43,17 +40,17 @@ class CompoundCurveTest extends TestCase
         $line = new LineStringImmutable([], 4326);
         $circular = new CircularStringImmutable([], 4326);
 
-        static::assertNull($compound->getStartPoint());
-        static::assertNull($compound->getEndPoint());
-        static::assertSame([], $compound->getCurves());
-        static::assertSame([], $compound->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame(4326, $compound->getSrid());
-        static::assertNull($line->getStartPoint());
-        static::assertNull($line->getEndPoint());
-        static::assertNull($circular->getStartPoint());
-        static::assertNull($circular->getEndPoint());
+        self::assertNull($compound->getStartPoint());
+        self::assertNull($compound->getEndPoint());
+        self::assertSame([], $compound->getCurves());
+        self::assertSame([], $compound->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame(4326, $compound->getSrid());
+        self::assertNull($line->getStartPoint());
+        self::assertNull($line->getEndPoint());
+        self::assertNull($circular->getStartPoint());
+        self::assertNull($circular->getEndPoint());
     }
 
     /** Mixed interpolation, order and closure survive through public contracts. */
@@ -63,21 +60,21 @@ class CompoundCurveTest extends TestCase
         $line = new LineStringImmutable([[2, 0, 5], [0, 0, 3]], 4326);
         $compound = new CompoundCurveImmutable([$circular, $line], 4326);
 
-        static::assertContains(CompoundCurveInterface::class, class_implements($compound));
-        static::assertContains(CurveInterface::class, class_implements($compound));
-        static::assertSame([$circular, $line], $compound->getCurves());
-        static::assertSame([$circular, $line], $compound->getElements());
-        static::assertSame($circular, $compound->getCurve(0));
-        static::assertSame($line, $compound->getCurve(-1));
-        static::assertSame($circular, $compound->getCurve(2));
-        static::assertSame($circular->getStartPoint(), $compound->getStartPoint());
-        static::assertSame($line->getEndPoint(), $compound->getEndPoint());
-        static::assertSame([0, 0, 3], $compound->getStartPoint()?->toArray());
-        static::assertSame([2, 0, 5], $circular->getEndPoint()?->toArray());
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame([[[0, 0, 3], [1, 1, 4], [2, 0, 5]], [[2, 0, 5], [0, 0, 3]]], $compound->toArray());
+        self::assertContains(CompoundCurveInterface::class, class_implements($compound));
+        self::assertContains(CurveInterface::class, class_implements($compound));
+        self::assertSame([$circular, $line], $compound->getCurves());
+        self::assertSame([$circular, $line], $compound->getElements());
+        self::assertSame($circular, $compound->getCurve(0));
+        self::assertSame($line, $compound->getCurve(-1));
+        self::assertSame($circular, $compound->getCurve(2));
+        self::assertSame($circular->getStartPoint(), $compound->getStartPoint());
+        self::assertSame($line->getEndPoint(), $compound->getEndPoint());
+        self::assertSame([0, 0, 3], $compound->getStartPoint()?->toArray());
+        self::assertSame([2, 0, 5], $circular->getEndPoint()?->toArray());
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame([[[0, 0, 3], [1, 1, 4], [2, 0, 5]], [[2, 0, 5], [0, 0, 3]]], $compound->toArray());
     }
 
     /** Reference changes deeply copy components and preserve defining ordinates. */
@@ -89,18 +86,18 @@ class CompoundCurveTest extends TestCase
         ], SpatialReference::epsg(4326));
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
 
-        static::assertSame(CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $compound->getCurve(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame('EPSG', $copy->getCurve(0)->getSpatialReference()->authority);
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertNotSame($compound->getCurve(0), $copy->getCurve(0));
-        static::assertNotSame($compound->getStartPoint(), $copy->getStartPoint());
-        static::assertSame([[[0, 0, 3], [1, 1, 4], [2, 0, 5]], [[2, 0, 5], [0, 0, 3]]], $compound->toArray());
-        static::assertSame([[[0, 0, 3], [1, 1, 4], [2, 0, 5]], [[2, 0, 5], [0, 0, 3]]], $copy->toArray());
-        static::assertInstanceOf(CircularStringImmutable::class, $copy->getCurve(0));
-        static::assertInstanceOf(LineStringImmutable::class, $copy->getCurve(1));
+        self::assertSame(CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $compound->getCurve(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame('EPSG', $copy->getCurve(0)->getSpatialReference()->authority);
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertNotSame($compound->getCurve(0), $copy->getCurve(0));
+        self::assertNotSame($compound->getStartPoint(), $copy->getStartPoint());
+        self::assertSame([[[0, 0, 3], [1, 1, 4], [2, 0, 5]], [[2, 0, 5], [0, 0, 3]]], $compound->toArray());
+        self::assertSame([[[0, 0, 3], [1, 1, 4], [2, 0, 5]], [[2, 0, 5], [0, 0, 3]]], $copy->toArray());
+        self::assertInstanceOf(CircularStringImmutable::class, $copy->getCurve(0));
+        self::assertInstanceOf(LineStringImmutable::class, $copy->getCurve(1));
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -42,12 +39,12 @@ class RemovedSpatialPredicatesTest extends TestCase
         $immutable = new LineStringImmutable([[0, 0], [2, 2], [0, 0]]);
         $mutable = new LineString([[0, 0], [2, 2], [0, 0]]);
 
-        static::assertSame([[0, 0], [2, 2], [0, 0]], $immutable->toArray());
-        static::assertSame([[0, 0], [2, 2], [0, 0]], $mutable->toArray());
+        self::assertSame([[0, 0], [2, 2], [0, 0]], $immutable->toArray());
+        self::assertSame([[0, 0], [2, 2], [0, 0]], $mutable->toArray());
         $method = \sprintf('is%s', 'Closed');
-        static::assertFalse(method_exists(CurveInterface::class, $method));
-        static::assertNotContains($method, get_class_methods($immutable));
-        static::assertNotContains($method, get_class_methods($mutable));
+        self::assertFalse(method_exists(CurveInterface::class, $method));
+        self::assertNotContains($method, get_class_methods($immutable));
+        self::assertNotContains($method, get_class_methods($mutable));
     }
 
     /** Emptiness remains representable without exposing an emptiness predicate. */
@@ -56,12 +53,12 @@ class RemovedSpatialPredicatesTest extends TestCase
         $immutable = new PointImmutable();
         $mutable = new Point();
 
-        static::assertSame([], $immutable->toArray());
-        static::assertSame([], $mutable->toArray());
+        self::assertSame([], $immutable->toArray());
+        self::assertSame([], $mutable->toArray());
         $method = \sprintf('is%s', 'Empty');
-        static::assertFalse(method_exists(SpatialInterface::class, $method));
-        static::assertNotContains($method, get_class_methods($immutable));
-        static::assertNotContains($method, get_class_methods($mutable));
+        self::assertFalse(method_exists(SpatialInterface::class, $method));
+        self::assertNotContains($method, get_class_methods($immutable));
+        self::assertNotContains($method, get_class_methods($mutable));
     }
 
     /** MultiPoint membership remains observable without evaluating simplicity. */
@@ -70,11 +67,11 @@ class RemovedSpatialPredicatesTest extends TestCase
         $immutable = new MultiPointImmutable([[1, 2], [1, 2]]);
         $mutable = new MultiPoint([[1, 2], [1, 2]]);
 
-        static::assertSame([[1, 2], [1, 2]], $immutable->toArray());
-        static::assertSame([[1, 2], [1, 2]], $mutable->toArray());
+        self::assertSame([[1, 2], [1, 2]], $immutable->toArray());
+        self::assertSame([[1, 2], [1, 2]], $mutable->toArray());
         $method = \sprintf('is%s', 'Simple');
-        static::assertFalse(method_exists(MultiPointInterface::class, $method));
-        static::assertNotContains($method, get_class_methods($immutable));
-        static::assertNotContains($method, get_class_methods($mutable));
+        self::assertFalse(method_exists(MultiPointInterface::class, $method));
+        self::assertNotContains($method, get_class_methods($immutable));
+        self::assertNotContains($method, get_class_methods($mutable));
     }
 }

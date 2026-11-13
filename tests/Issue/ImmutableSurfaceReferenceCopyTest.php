@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -53,21 +50,21 @@ final class ImmutableSurfaceReferenceCopyTest extends TestCase
         $ringCopy = $source->withRing(0, 0, [[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]);
         $patchCopy = $source->withPatch(0, [[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]]);
 
-        static::assertSame($reference, $pointCopy->getSpatialReference());
-        static::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
-        static::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
-        static::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $pointCopy->toArray());
-        static::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $ringCopy->toArray());
-        static::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $patchCopy->toArray());
-        static::assertSame([[[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $source->toArray());
+        self::assertSame($reference, $pointCopy->getSpatialReference());
+        self::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
+        self::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
+        self::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $pointCopy->toArray());
+        self::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $ringCopy->toArray());
+        self::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $patchCopy->toArray());
+        self::assertSame([[[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $source->toArray());
     }
 
     /** Xyz geometry patches preserve independent polygon, ring and point references. */
@@ -93,21 +90,21 @@ final class ImmutableSurfaceReferenceCopyTest extends TestCase
         $ringCopy = $source->withRing(0, 0, [[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]);
         $patchCopy = $source->withPatch(0, [[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]]);
 
-        static::assertSame($reference, $pointCopy->getSpatialReference());
-        static::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
-        static::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
-        static::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $pointCopy->toArray());
-        static::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $ringCopy->toArray());
-        static::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $patchCopy->toArray());
-        static::assertSame([[[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $source->toArray());
+        self::assertSame($reference, $pointCopy->getSpatialReference());
+        self::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
+        self::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
+        self::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $pointCopy->toArray());
+        self::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $ringCopy->toArray());
+        self::assertSame([[[[0, 0, 0], [5, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $patchCopy->toArray());
+        self::assertSame([[[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]], [[[0, 0, 0], [4, 0, 0], [0, 4, 0], [0, 0, 0]]]], $source->toArray());
     }
 
     /** Xyzm geography patches preserve independent polygon, ring and point references. */
@@ -133,21 +130,21 @@ final class ImmutableSurfaceReferenceCopyTest extends TestCase
         $ringCopy = $source->withRing(0, 0, [[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]);
         $patchCopy = $source->withPatch(0, [[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]);
 
-        static::assertSame($reference, $pointCopy->getSpatialReference());
-        static::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
-        static::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
-        static::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $pointCopy->toArray());
-        static::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $ringCopy->toArray());
-        static::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $patchCopy->toArray());
-        static::assertSame([[[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $source->toArray());
+        self::assertSame($reference, $pointCopy->getSpatialReference());
+        self::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
+        self::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
+        self::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $pointCopy->toArray());
+        self::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $ringCopy->toArray());
+        self::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $patchCopy->toArray());
+        self::assertSame([[[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $source->toArray());
     }
 
     /** Xyzm geometry patches preserve independent polygon, ring and point references. */
@@ -173,20 +170,20 @@ final class ImmutableSurfaceReferenceCopyTest extends TestCase
         $ringCopy = $source->withRing(0, 0, [[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]);
         $patchCopy = $source->withPatch(0, [[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]);
 
-        static::assertSame($reference, $pointCopy->getSpatialReference());
-        static::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
-        static::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
-        static::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
-        static::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
-        static::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
-        static::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $pointCopy->toArray());
-        static::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $ringCopy->toArray());
-        static::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $patchCopy->toArray());
-        static::assertSame([[[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $source->toArray());
+        self::assertSame($reference, $pointCopy->getSpatialReference());
+        self::assertSame($patchReference, $pointCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $pointCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $pointCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($pointReference, $ringCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertSame($patchReference, $patchCopy->getPatch(1)->getSpatialReference());
+        self::assertSame($ringReference, $patchCopy->getPatch(1)->getRing(0)->getSpatialReference());
+        self::assertSame($pointReference, $patchCopy->getPatch(1)->getRing(0)->getPoint(0)->getSpatialReference());
+        self::assertNotSame($source->getPatch(1), $pointCopy->getPatch(1));
+        self::assertNotSame($source->getPatch(1)->getRing(0), $ringCopy->getPatch(1)->getRing(0));
+        self::assertNotSame($source->getPatch(1)->getRing(0)->getPoint(0), $patchCopy->getPatch(1)->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $pointCopy->toArray());
+        self::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $ringCopy->toArray());
+        self::assertSame([[[[0, 0, 0, 7], [5, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $patchCopy->toArray());
+        self::assertSame([[[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]], [[[0, 0, 0, 7], [4, 0, 0, 7], [0, 4, 0, 7], [0, 0, 0, 7]]]], $source->toArray());
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,8 +35,8 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new CircularStringImmutable([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        static::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Closure observes numeric endpoint equivalence without replacing coordinates. */
@@ -47,8 +44,8 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new CircularString([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        static::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Closure observes numeric endpoint equivalence without replacing coordinates. */
@@ -59,8 +56,8 @@ final class NumericEqualityPredicateTest extends TestCase
             new LineStringImmutable([[3, 4], [1.0, 2.0]], 4326),
         ], 4326);
 
-        static::assertSame([[[1, 2], [3, 4]], [[3, 4], [1.0, 2.0]]], $curve->toArray());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([[[1, 2], [3, 4]], [[3, 4], [1.0, 2.0]]], $curve->toArray());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Closure observes numeric endpoint equivalence without replacing coordinates. */
@@ -71,8 +68,8 @@ final class NumericEqualityPredicateTest extends TestCase
             new LineString([[3, 4], [1.0, 2.0]], 4326),
         ], 4326);
 
-        static::assertSame([[[1, 2], [3, 4]], [[3, 4], [1.0, 2.0]]], $curve->toArray());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([[[1, 2], [3, 4]], [[3, 4], [1.0, 2.0]]], $curve->toArray());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** The existing duplicate-position simplicity path uses numeric equivalence too. */
@@ -80,7 +77,7 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new LineStringImmutable([[1, 2], [3, 4], [1.0, 2.0]]);
 
-        static::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
+        self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
     }
 
     /** Numeric duplicates remain stored and make the multipoint non-simple. */
@@ -88,8 +85,8 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $points = new MultiPointImmutable([[1, 2], [1.0, 2.0]], 4326);
 
-        static::assertSame([[1, 2], [1.0, 2.0]], $points->toArray());
-        static::assertSame(4326, $points->getSrid());
+        self::assertSame([[1, 2], [1.0, 2.0]], $points->toArray());
+        self::assertSame(4326, $points->getSrid());
     }
 
     /** Closure observes numeric endpoint equivalence without replacing coordinates. */
@@ -97,8 +94,8 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new LineStringImmutable([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        static::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Closure observes numeric endpoint equivalence without replacing coordinates. */
@@ -106,8 +103,8 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $curve = new LineString([[1, 2], [3, 4], [1.0, 2.0]], 4326);
 
-        static::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([[1, 2], [3, 4], [1.0, 2.0]], $curve->toArray());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Numeric duplicates remain stored and make the multipoint non-simple. */
@@ -115,7 +112,7 @@ final class NumericEqualityPredicateTest extends TestCase
     {
         $points = new MultiPoint([[1, 2], [1.0, 2.0]], 4326);
 
-        static::assertSame([[1, 2], [1.0, 2.0]], $points->toArray());
-        static::assertSame(4326, $points->getSrid());
+        self::assertSame([[1, 2], [1.0, 2.0]], $points->toArray());
+        self::assertSame(4326, $points->getSrid());
     }
 }

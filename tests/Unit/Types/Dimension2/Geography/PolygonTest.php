@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -53,14 +50,14 @@ class PolygonTest extends TestCase
     public function testGetDimension(): void
     {
         $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertFalse($polygon->hasZ());
-        static::assertFalse($polygon->hasM());
+        self::assertFalse($polygon->hasZ());
+        self::assertFalse($polygon->hasM());
         $ring = $polygon->getRing(0);
-        static::assertFalse($ring->hasZ());
-        static::assertFalse($ring->hasM());
+        self::assertFalse($ring->hasZ());
+        self::assertFalse($ring->hasM());
         foreach ($ring->getPoints() as $point) {
-            static::assertFalse($point->hasZ());
-            static::assertFalse($point->hasM());
+            self::assertFalse($point->hasZ());
+            self::assertFalse($point->hasM());
         }
     }
 
@@ -71,11 +68,11 @@ class PolygonTest extends TestCase
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
         $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame($expected, $polygon->getFamily());
+        self::assertSame($expected, $polygon->getFamily());
         $ring = $polygon->getRing(0);
-        static::assertSame($expected, $ring->getFamily());
+        self::assertSame($expected, $ring->getFamily());
         foreach ($ring->getPoints() as $point) {
-            static::assertSame($expected, $point->getFamily());
+            self::assertSame($expected, $point->getFamily());
         }
     }
 
@@ -85,7 +82,7 @@ class PolygonTest extends TestCase
     public function testGetType(): void
     {
         $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame(GeometryTypeEnum::POLYGON, $polygon->getType());
+        self::assertSame(GeometryTypeEnum::POLYGON, $polygon->getType());
     }
 
     /**
@@ -94,8 +91,8 @@ class PolygonTest extends TestCase
     public function testJsonSerialize(): void
     {
         $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]]);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":0}', json_encode($polygon));
+        self::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":0}', json_encode($polygon));
         $polygon = new PolygonImmutable([[[1, 2], [3, 4], [3, 6], [1, 2]]], 4326);
-        static::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
+        self::assertSame('{"type":"Polygon","coordinates":[[[1,2],[3,4],[3,6],[1,2]]],"srid":4326}', json_encode($polygon));
     }
 }

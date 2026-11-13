@@ -1,6 +1,4 @@
 includes:
-#    - vendor/phpstan/phpstan-doctrine/extension.neon
-#    - vendor/phpstan/phpstan-doctrine/rules.neon
 #    - vendor/phpstan/phpstan-phpunit/rules.neon
      - phpstan-baseline.neon
 parameters:
@@ -9,3 +7,4 @@ parameters:
         - ../../quality
         - ../../lib
         - ../../tests
+    ignoreErrors:

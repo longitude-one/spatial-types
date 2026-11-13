@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -40,16 +37,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2], [], [1, 2], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2], [], [1, 2], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension2 Geometry. */
@@ -61,16 +58,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new MultiPointImmutable([$empty], 4326);
         $zero = new MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2], [], [1, 2], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2], [], [1, 2], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension3m Geography. */
@@ -82,16 +79,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2, 4], [], [1, 2, 4], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2, 4], [], [1, 2, 4], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension3m Geometry. */
@@ -103,16 +100,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2, 4], [], [1, 2, 4], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2, 4], [], [1, 2, 4], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension3z Geography. */
@@ -124,16 +121,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2, 3], [], [1, 2, 3], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2, 3], [], [1, 2, 3], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension3z Geometry. */
@@ -145,16 +142,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2, 3], [], [1, 2, 3], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2, 3], [], [1, 2, 3], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension4zm Geography. */
@@ -166,16 +163,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2, 3, 4], [], [1, 2, 3, 4], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2, 3, 4], [], [1, 2, 3, 4], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Preserve empty members in Dimension4zm Geometry. */
@@ -187,16 +184,16 @@ class EmptyMultiPointMembersTest extends TestCase
         $single = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable([$empty], 4326);
         $zero = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\MultiPointImmutable([], 4326);
 
-        static::assertSame([[], [1, 2, 3, 4], [], [1, 2, 3, 4], []], $multiPoint->toArray());
-        static::assertCount(5, $multiPoint->getElements());
-        static::assertSame($empty, $multiPoint->getPoint(0));
-        static::assertSame($empty, $multiPoint->getPoint(-1));
-        static::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
-        static::assertSame([[]], $single->toArray());
-        static::assertCount(1, $single->getElements());
-        static::assertSame([], $zero->getElements());
-        static::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
-        static::assertFalse($empty->equalsTo($point));
+        self::assertSame([[], [1, 2, 3, 4], [], [1, 2, 3, 4], []], $multiPoint->toArray());
+        self::assertCount(5, $multiPoint->getElements());
+        self::assertSame($empty, $multiPoint->getPoint(0));
+        self::assertSame($empty, $multiPoint->getPoint(-1));
+        self::assertSame($multiPoint->getPoints(), $multiPoint->getElements());
+        self::assertSame([[]], $single->toArray());
+        self::assertCount(1, $single->getElements());
+        self::assertSame([], $zero->getElements());
+        self::assertTrue($empty->equalsTo($multiPoint->getPoint(2)));
+        self::assertFalse($empty->equalsTo($point));
     }
 
     /** Immutable copies preserve empty members and the original. */
@@ -208,17 +205,17 @@ class EmptyMultiPointMembersTest extends TestCase
         $renumbered = $original->withSrid(2154);
         $replaced = $original->withPoint(0, Coordinates::xy(3, 4));
 
-        static::assertSame([[], [1, 2], []], $original->toArray());
-        static::assertSame([[], [1, 2], []], $declared->toArray());
-        static::assertSame([[], [1, 2], []], $renumbered->toArray());
-        static::assertSame([[3, 4], [1, 2], []], $replaced->toArray());
-        static::assertSame(4326, $original->getPoint(0)->getSrid());
-        static::assertSame(2154, $renumbered->getPoint(0)->getSrid());
-        static::assertSame(2154, $renumbered->getPoint(2)->getSrid());
-        static::assertSame($reference, $declared->getPoint(0)->getSpatialReference());
-        static::assertSame($reference, $declared->getPoint(2)->getSpatialReference());
-        static::assertNotSame($original->getPoint(2), $replaced->getPoint(2));
-        static::assertNotSame($original->getPoint(0), $declared->getPoint(0));
+        self::assertSame([[], [1, 2], []], $original->toArray());
+        self::assertSame([[], [1, 2], []], $declared->toArray());
+        self::assertSame([[], [1, 2], []], $renumbered->toArray());
+        self::assertSame([[3, 4], [1, 2], []], $replaced->toArray());
+        self::assertSame(4326, $original->getPoint(0)->getSrid());
+        self::assertSame(2154, $renumbered->getPoint(0)->getSrid());
+        self::assertSame(2154, $renumbered->getPoint(2)->getSrid());
+        self::assertSame($reference, $declared->getPoint(0)->getSpatialReference());
+        self::assertSame($reference, $declared->getPoint(2)->getSpatialReference());
+        self::assertNotSame($original->getPoint(2), $replaced->getPoint(2));
+        self::assertNotSame($original->getPoint(0), $declared->getPoint(0));
     }
 
     /** The library JSON export retains member positions. */
@@ -226,8 +223,8 @@ class EmptyMultiPointMembersTest extends TestCase
     {
         $multiPoint = new MultiPointImmutable([new PointImmutable(srid: 4326), new PointImmutable(1, 2, 4326), new PointImmutable(srid: 4326)], 4326);
 
-        static::assertSame('{"type":"MultiPoint","coordinates":[[],[1,2],[]],"srid":4326}', json_encode($multiPoint));
-        static::assertSame('{"type":"MultiPoint","coordinates":[[]],"srid":0}', json_encode(new MultiPointImmutable([new PointImmutable()])));
-        static::assertSame('{"type":"MultiPoint","coordinates":[],"srid":0}', json_encode(new MultiPointImmutable([])));
+        self::assertSame('{"type":"MultiPoint","coordinates":[[],[1,2],[]],"srid":4326}', json_encode($multiPoint));
+        self::assertSame('{"type":"MultiPoint","coordinates":[[]],"srid":0}', json_encode(new MultiPointImmutable([new PointImmutable()])));
+        self::assertSame('{"type":"MultiPoint","coordinates":[],"srid":0}', json_encode(new MultiPointImmutable([])));
     }
 }

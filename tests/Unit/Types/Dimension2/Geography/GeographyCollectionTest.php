@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -40,7 +37,7 @@ class GeographyCollectionTest extends TestCase
         $nestedCollection = new GeographyCollectionImmutable();
         $geographyCollection = new GeographyCollectionImmutable(0, [$nestedCollection]);
 
-        static::assertSame([$nestedCollection], $geographyCollection->getElements());
+        self::assertSame([$nestedCollection], $geographyCollection->getElements());
     }
 
     /**
@@ -50,7 +47,7 @@ class GeographyCollectionTest extends TestCase
     {
         $polygon = new GeographicPolygon([]);
         $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
-        static::assertSame([$polygon], $geographyCollection->getElements());
+        self::assertSame([$polygon], $geographyCollection->getElements());
     }
 
     /**
@@ -58,7 +55,7 @@ class GeographyCollectionTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, new GeographyCollectionImmutable()->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, new GeographyCollectionImmutable()->getType());
     }
 
     /**
@@ -68,7 +65,7 @@ class GeographyCollectionTest extends TestCase
     {
         $polygon = new GeographicPolygon([]);
         $geographyCollection = new GeographyCollectionImmutable(0, [$polygon]);
-        static::assertTrue($geographyCollection->hasElement($polygon));
+        self::assertTrue($geographyCollection->hasElement($polygon));
     }
 
     /**
@@ -77,8 +74,8 @@ class GeographyCollectionTest extends TestCase
     public function testToArray(): void
     {
         $polygon = new GeographicPolygon([], 4326);
-        static::assertSame([], new GeographyCollectionImmutable()->toArray());
+        self::assertSame([], new GeographyCollectionImmutable()->toArray());
         $geographyCollection = new GeographyCollectionImmutable(4326, [$polygon, new PointImmutable(1, 2, 4326)]);
-        static::assertSame([[], [1, 2]], $geographyCollection->toArray());
+        self::assertSame([[], [1, 2]], $geographyCollection->toArray());
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -40,11 +37,11 @@ class CircularStringTest extends TestCase
     {
         $curve = new CircularStringImmutable([], 4326);
 
-        static::assertSame([], $curve->getPoints());
-        static::assertSame([], $curve->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $curve->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $curve->getFamily());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([], $curve->getPoints());
+        self::assertSame([], $curve->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $curve->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $curve->getFamily());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Immutable replacement preserves this concrete layout and family. */
@@ -53,11 +50,11 @@ class CircularStringTest extends TestCase
         $curve = new CircularStringImmutable([[0, 0, 3], [1, 1, 4], [2, 0, 5]], 4326);
         $replacement = $curve->withPoint(1, Coordinates::xym(1, 2, 8));
 
-        static::assertSame(CircularStringImmutable::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame([[0, 0, 3], [1, 1, 4], [2, 0, 5]], $curve->toArray());
-        static::assertSame([[0, 0, 3], [1, 2, 8], [2, 0, 5]], $replacement->toArray());
-        static::assertSame(4326, $replacement->getPoint(1)->getSrid());
-        static::assertNotSame($curve->getPoint(0), $replacement->getPoint(0));
+        self::assertSame(CircularStringImmutable::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame([[0, 0, 3], [1, 1, 4], [2, 0, 5]], $curve->toArray());
+        self::assertSame([[0, 0, 3], [1, 2, 8], [2, 0, 5]], $replacement->toArray());
+        self::assertSame(4326, $replacement->getPoint(1)->getSrid());
+        self::assertNotSame($curve->getPoint(0), $replacement->getPoint(0));
     }
 
     /** Three defining points retain circular interpolation and their ordinates. */
@@ -65,17 +62,17 @@ class CircularStringTest extends TestCase
     {
         $curve = new CircularStringImmutable([[0, 0, 3], [1, 1, 4], [2, 0, 5]], 4326);
 
-        static::assertContains(CurveInterface::class, class_implements($curve));
-        static::assertContains(CircularStringInterface::class, class_implements($curve));
-        static::assertSame(GeometryTypeEnum::CIRCULARSTRING, $curve->getType());
-        static::assertSame(CoordinateDimensionEnum::XYM, $curve->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $curve->getFamily());
-        static::assertSame([[0, 0, 3], [1, 1, 4], [2, 0, 5]], $curve->toArray());
-        static::assertCount(3, $curve->getPoints());
-        static::assertSame($curve->getPoints(), $curve->getElements());
-        static::assertInstanceOf(PointImmutable::class, $curve->getPoint(0));
-        static::assertSame(4326, $curve->getPoint(-1)->getSrid());
-        static::assertSame($curve->getPoint(2), $curve->getPoint(-1));
-        static::assertSame($curve->getPoint(0), $curve->getPoint(3));
+        self::assertContains(CurveInterface::class, class_implements($curve));
+        self::assertContains(CircularStringInterface::class, class_implements($curve));
+        self::assertSame(GeometryTypeEnum::CIRCULARSTRING, $curve->getType());
+        self::assertSame(CoordinateDimensionEnum::XYM, $curve->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $curve->getFamily());
+        self::assertSame([[0, 0, 3], [1, 1, 4], [2, 0, 5]], $curve->toArray());
+        self::assertCount(3, $curve->getPoints());
+        self::assertSame($curve->getPoints(), $curve->getElements());
+        self::assertInstanceOf(PointImmutable::class, $curve->getPoint(0));
+        self::assertSame(4326, $curve->getPoint(-1)->getSrid());
+        self::assertSame($curve->getPoint(2), $curve->getPoint(-1));
+        self::assertSame($curve->getPoint(0), $curve->getPoint(3));
     }
 }

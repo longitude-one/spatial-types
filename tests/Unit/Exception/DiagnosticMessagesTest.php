@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -73,10 +70,10 @@ class DiagnosticMessagesTest extends TestCase
     {
         try {
             new PointImmutable($value, 0);
-            static::fail('An invalid coordinate must be rejected.');
+            self::fail('An invalid coordinate must be rejected.');
         } catch (SpatialTypeExceptionInterface $exception) {
-            static::assertSame('Invalid coordinate value, got "'.$expected.'".', $exception->getMessage());
-            static::assertNotNull($exception->getPrevious());
+            self::assertSame('Invalid coordinate value, got "'.$expected.'".', $exception->getMessage());
+            self::assertNotNull($exception->getPrevious());
         }
     }
 
@@ -90,7 +87,7 @@ class DiagnosticMessagesTest extends TestCase
     public function testMethod(string $value, string $expected): void
     {
         $exception = BadMethodCallException::create($value, CoordinateDimensionEnum::XY);
-        static::assertSame('The method "'.$expected.'" cannot be called with a spatial object with dimensions "XY".', $exception->getMessage());
+        self::assertSame('The method "'.$expected.'" cannot be called with a spatial object with dimensions "XY".', $exception->getMessage());
     }
 
     /**
@@ -106,9 +103,9 @@ class DiagnosticMessagesTest extends TestCase
         try {
             $pointClass = $geographic ? \LongitudeOne\SpatialTypes\Types\Dimension2\Geography\PointImmutable::class : PointImmutable::class;
             new $pointClass($value, 0);
-            static::fail('An out-of-range coordinate must be rejected.');
+            self::fail('An out-of-range coordinate must be rejected.');
         } catch (SpatialTypeExceptionInterface $exception) {
-            static::assertSame($expected, $exception->getMessage());
+            self::assertSame($expected, $exception->getMessage());
         }
     }
 }

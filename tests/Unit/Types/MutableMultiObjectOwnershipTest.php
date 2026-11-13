@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -49,20 +46,20 @@ class MutableMultiObjectOwnershipTest extends TestCase
         $lines = new MultiLineString([$line], 2154, SpatialModelEnum::GEOGRAPHY);
         $polygons = new MultiPolygon([$polygon], 2154, SpatialModelEnum::GEOGRAPHY);
         $owner = new SpatialCollection([$point, $line, $polygon]);
-        static::assertSame($points, $points->setElements([[7, null]]));
-        static::assertSame($lines, $lines->setElements([[[8, null]]]));
-        static::assertSame($polygons, $polygons->setElements([[[[9, null]]]]));
-        static::assertSame([[7, null]], $points->toArray());
-        static::assertSame([[[8, null]]], $lines->toArray());
-        static::assertSame([[[[9, null]]]], $polygons->toArray());
-        static::assertSame([[1, null], [[1, null]], [[[1, null]]]], $owner->toArray());
-        static::assertSame([$point, $line, $polygon], $owner->getElements());
-        static::assertSame(2154, $points->getElement(0)->getSrid());
-        static::assertSame(2154, $lines->getElement(0)->getPoint(0)->getSrid());
-        static::assertSame(2154, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $points->getElement(0)->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lines->getElement(0)->getPoint(0)->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
+        self::assertSame($points, $points->setElements([[7, null]]));
+        self::assertSame($lines, $lines->setElements([[[8, null]]]));
+        self::assertSame($polygons, $polygons->setElements([[[[9, null]]]]));
+        self::assertSame([[7, null]], $points->toArray());
+        self::assertSame([[[8, null]]], $lines->toArray());
+        self::assertSame([[[[9, null]]]], $polygons->toArray());
+        self::assertSame([[1, null], [[1, null]], [[[1, null]]]], $owner->toArray());
+        self::assertSame([$point, $line, $polygon], $owner->getElements());
+        self::assertSame(2154, $points->getElement(0)->getSrid());
+        self::assertSame(2154, $lines->getElement(0)->getPoint(0)->getSrid());
+        self::assertSame(2154, $polygons->getElement(0)->getRing(0)->getPoint(0)->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $points->getElement(0)->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $lines->getElement(0)->getPoint(0)->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygons->getElement(0)->getRing(0)->getPoint(0)->getFamily());
     }
 
     /** Immutable multi-objects reject new mutable members without conversion. */
@@ -74,8 +71,8 @@ class MutableMultiObjectOwnershipTest extends TestCase
         try {
             new \ReflectionClass(MultiPointImmutable::class)->newInstance([$point]);
         } finally {
-            static::assertSame([1, null], $point->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([1, null], $point->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -88,8 +85,8 @@ class MutableMultiObjectOwnershipTest extends TestCase
         try {
             new \ReflectionClass(MultiLineString::class)->newInstance([[$immutable]]);
         } finally {
-            static::assertSame([1, 2], $immutable->toArray());
-            static::assertSame(4326, $immutable->getSrid());
+            self::assertSame([1, 2], $immutable->toArray());
+            self::assertSame(4326, $immutable->getSrid());
         }
     }
 
@@ -102,8 +99,8 @@ class MutableMultiObjectOwnershipTest extends TestCase
         try {
             new \ReflectionClass(MultiLineString::class)->newInstance([$immutable]);
         } finally {
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
         }
     }
 
@@ -116,8 +113,8 @@ class MutableMultiObjectOwnershipTest extends TestCase
         try {
             new \ReflectionClass(MultiPoint::class)->newInstance([$immutable]);
         } finally {
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
         }
     }
 
@@ -130,8 +127,8 @@ class MutableMultiObjectOwnershipTest extends TestCase
         try {
             new \ReflectionClass(MultiPolygon::class)->newInstance([$immutable]);
         } finally {
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
         }
     }
 
@@ -140,16 +137,16 @@ class MutableMultiObjectOwnershipTest extends TestCase
     {
         $point = new Point(1, null, 4326, SpatialModelEnum::GEOGRAPHY);
         $points = new MultiPoint([$point], 2154);
-        static::assertSame($point, $points->getElement(0));
-        static::assertSame([[1, null]], $points->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $points->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $points->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame($points, $points->setFamily(SpatialModelEnum::GEOMETRY));
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame([1, null], $point->toArray());
+        self::assertSame($point, $points->getElement(0));
+        self::assertSame([[1, null]], $points->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $points->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $points->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame($points, $points->setFamily(SpatialModelEnum::GEOMETRY));
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame([1, null], $point->toArray());
     }
 
     /** Construction rejects immutable members without altering their source. */
@@ -161,8 +158,8 @@ class MutableMultiObjectOwnershipTest extends TestCase
         try {
             new \ReflectionClass(SpatialCollection::class)->newInstance([$immutable]);
         } finally {
-            static::assertSame(4326, $immutable->getSrid());
-            static::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
+            self::assertSame(4326, $immutable->getSrid());
+            self::assertSame(SpatialModelEnum::GEOMETRY, $immutable->getFamily());
         }
     }
 }

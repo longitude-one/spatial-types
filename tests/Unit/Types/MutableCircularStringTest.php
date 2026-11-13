@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -47,10 +44,10 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->appendArc($passing, $destination);
         } finally {
-            static::assertSame([$origin, $existing], $curve->getPoints());
-            static::assertSame([[0, 0], [1, 2]], $curve->toArray());
-            static::assertSame([3, 4], $passing->toArray());
-            static::assertSame([5, 6], $destination->toArray());
+            self::assertSame([$origin, $existing], $curve->getPoints());
+            self::assertSame([[0, 0], [1, 2]], $curve->toArray());
+            self::assertSame([3, 4], $passing->toArray());
+            self::assertSame([5, 6], $destination->toArray());
         }
     }
 
@@ -68,10 +65,10 @@ class MutableCircularStringTest extends TestCase
         try {
             new \ReflectionMethod($curve, 'appendArc')->invoke($curve, $mutable, $immutable);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $curve->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-            static::assertSame([3, 4], $mutable->toArray());
-            static::assertSame([5, 6], $immutable->toArray());
+            self::assertSame([$origin, $passing, $destination], $curve->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+            self::assertSame([3, 4], $mutable->toArray());
+            self::assertSame([5, 6], $immutable->toArray());
         }
     }
 
@@ -86,11 +83,11 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->appendArc($passing, $destination);
         } finally {
-            static::assertSame([], $curve->getPoints());
-            static::assertSame([1, 2], $passing->toArray());
-            static::assertSame([3, 4], $destination->toArray());
-            static::assertSame(4326, $passing->getSrid());
-            static::assertSame(4326, $destination->getSrid());
+            self::assertSame([], $curve->getPoints());
+            self::assertSame([1, 2], $passing->toArray());
+            self::assertSame([3, 4], $destination->toArray());
+            self::assertSame(4326, $passing->getSrid());
+            self::assertSame(4326, $destination->getSrid());
         }
     }
 
@@ -103,19 +100,19 @@ class MutableCircularStringTest extends TestCase
         $nextPassing = new Point(5, 6);
         $nextDestination = new Point(7, 8);
         $curve = new CircularString([]);
-        static::assertSame($curve, $curve->setOrigin($origin)->appendArc($passing, $destination)->appendArc($nextPassing, $nextDestination));
-        static::assertSame([$origin, $passing, $destination, $nextPassing, $nextDestination], $curve->getPoints());
+        self::assertSame($curve, $curve->setOrigin($origin)->appendArc($passing, $destination)->appendArc($nextPassing, $nextDestination));
+        self::assertSame([$origin, $passing, $destination, $nextPassing, $nextDestination], $curve->getPoints());
         $replacementPassing = new Point(9, null);
         $replacementDestination = new Point(null, 10);
-        static::assertSame($curve, $curve->replaceArc(0, $replacementPassing, $replacementDestination));
-        static::assertSame($origin, $curve->getPoint(0));
-        static::assertSame($replacementDestination, $curve->getPoint(2));
-        static::assertSame([$origin, $replacementPassing, $replacementDestination, $nextPassing, $nextDestination], $curve->getElements());
-        static::assertSame($curve, $curve->replaceArc(1, $passing, $destination));
-        static::assertSame($replacementDestination, $curve->getPoint(2));
-        static::assertSame([$origin, $replacementPassing, $replacementDestination, $passing, $destination], $curve->getPoints());
-        static::assertSame([3, 4], $destination->toArray());
-        static::assertSame(GeometryTypeEnum::CIRCULARSTRING, $curve->getType());
+        self::assertSame($curve, $curve->replaceArc(0, $replacementPassing, $replacementDestination));
+        self::assertSame($origin, $curve->getPoint(0));
+        self::assertSame($replacementDestination, $curve->getPoint(2));
+        self::assertSame([$origin, $replacementPassing, $replacementDestination, $nextPassing, $nextDestination], $curve->getElements());
+        self::assertSame($curve, $curve->replaceArc(1, $passing, $destination));
+        self::assertSame($replacementDestination, $curve->getPoint(2));
+        self::assertSame([$origin, $replacementPassing, $replacementDestination, $passing, $destination], $curve->getPoints());
+        self::assertSame([3, 4], $destination->toArray());
+        self::assertSame(GeometryTypeEnum::CIRCULARSTRING, $curve->getType());
     }
 
     /** Closure reads current shared point values without repairing endpoints. */
@@ -125,8 +122,8 @@ class MutableCircularStringTest extends TestCase
         $destination = new Point(0, 0);
         $curve = new CircularString([$origin, new Point(1, 1), $destination]);
         $destination->setY(2);
-        static::assertSame([0, 0], $origin->toArray());
-        static::assertSame([[0, 0], [1, 1], [0, 2]], $curve->toArray());
+        self::assertSame([0, 0], $origin->toArray());
+        self::assertSame([[0, 0], [1, 1], [0, 2]], $curve->toArray());
     }
 
     /** Constructor rejects immutable points without conversion. */
@@ -138,7 +135,7 @@ class MutableCircularStringTest extends TestCase
         try {
             new \ReflectionClass(CircularString::class)->newInstance([$point]);
         } finally {
-            static::assertSame([1, 2], $point->toArray());
+            self::assertSame([1, 2], $point->toArray());
         }
     }
 
@@ -156,12 +153,12 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->replaceArc(0, $replacementPassing, $replacementDestination);
         } finally {
-            static::assertSame([], $curve->getPoints());
-            static::assertSame([0, 0], $origin->toArray());
-            static::assertSame([1, 2], $passing->toArray());
-            static::assertSame([3, 4], $destination->toArray());
-            static::assertSame([5, 6], $replacementPassing->toArray());
-            static::assertSame([7, 8], $replacementDestination->toArray());
+            self::assertSame([], $curve->getPoints());
+            self::assertSame([0, 0], $origin->toArray());
+            self::assertSame([1, 2], $passing->toArray());
+            self::assertSame([3, 4], $destination->toArray());
+            self::assertSame([5, 6], $replacementPassing->toArray());
+            self::assertSame([7, 8], $replacementDestination->toArray());
         }
     }
 
@@ -172,16 +169,16 @@ class MutableCircularStringTest extends TestCase
         $point = new Point(null, null);
         $replacement = new Point(3, 4);
         $curve = new CircularString([]);
-        static::assertNull($curve->getStartPoint());
-        static::assertNull($curve->getEndPoint());
-        static::assertSame($curve, $curve->addPoint($origin)->insertPoint(1, $point)->setPoint(0, $replacement));
-        static::assertSame([$replacement, $point], $curve->getPoints());
-        static::assertSame([[3, 4], []], $curve->toArray());
-        static::assertSame($curve, $curve->removePoint(0));
-        static::assertSame([$point], $curve->getPoints());
-        static::assertSame($curve, $curve->setArrayOfCoordinates([[0, null], [2, 3]]));
-        static::assertSame([[0, null], [2, 3]], $curve->toArray());
-        static::assertSame($curve, $curve->setArrayOfCoordinates([]));
+        self::assertNull($curve->getStartPoint());
+        self::assertNull($curve->getEndPoint());
+        self::assertSame($curve, $curve->addPoint($origin)->insertPoint(1, $point)->setPoint(0, $replacement));
+        self::assertSame([$replacement, $point], $curve->getPoints());
+        self::assertSame([[3, 4], []], $curve->toArray());
+        self::assertSame($curve, $curve->removePoint(0));
+        self::assertSame([$point], $curve->getPoints());
+        self::assertSame($curve, $curve->setArrayOfCoordinates([[0, null], [2, 3]]));
+        self::assertSame([[0, null], [2, 3]], $curve->toArray());
+        self::assertSame($curve, $curve->setArrayOfCoordinates([]));
     }
 
     /** IncompleteArc addressing fails without mutation. */
@@ -198,12 +195,12 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->replaceArc(0, $replacementPassing, $replacementDestination);
         } finally {
-            static::assertSame([$origin, $passing], $curve->getPoints());
-            static::assertSame([0, 0], $origin->toArray());
-            static::assertSame([1, 2], $passing->toArray());
-            static::assertSame([3, 4], $destination->toArray());
-            static::assertSame([5, 6], $replacementPassing->toArray());
-            static::assertSame([7, 8], $replacementDestination->toArray());
+            self::assertSame([$origin, $passing], $curve->getPoints());
+            self::assertSame([0, 0], $origin->toArray());
+            self::assertSame([1, 2], $passing->toArray());
+            self::assertSame([3, 4], $destination->toArray());
+            self::assertSame([5, 6], $replacementPassing->toArray());
+            self::assertSame([7, 8], $replacementDestination->toArray());
         }
     }
 
@@ -217,9 +214,9 @@ class MutableCircularStringTest extends TestCase
         try {
             new \ReflectionMethod($curve, 'setArrayOfCoordinates')->invoke($curve, [[1, 2], [3]]);
         } finally {
-            static::assertSame([$point], $curve->getPoints());
-            static::assertSame([[0, null]], $curve->toArray());
-            static::assertSame(4326, $point->getSrid());
+            self::assertSame([$point], $curve->getPoints());
+            self::assertSame([[0, null]], $curve->toArray());
+            self::assertSame(4326, $point->getSrid());
         }
     }
 
@@ -237,12 +234,12 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->replaceArc(1, $replacementPassing, $replacementDestination);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $curve->getPoints());
-            static::assertSame([0, 0], $origin->toArray());
-            static::assertSame([1, 2], $passing->toArray());
-            static::assertSame([3, 4], $destination->toArray());
-            static::assertSame([5, 6], $replacementPassing->toArray());
-            static::assertSame([7, 8], $replacementDestination->toArray());
+            self::assertSame([$origin, $passing, $destination], $curve->getPoints());
+            self::assertSame([0, 0], $origin->toArray());
+            self::assertSame([1, 2], $passing->toArray());
+            self::assertSame([3, 4], $destination->toArray());
+            self::assertSame([5, 6], $replacementPassing->toArray());
+            self::assertSame([7, 8], $replacementDestination->toArray());
         }
     }
 
@@ -250,13 +247,13 @@ class MutableCircularStringTest extends TestCase
     public function testMutableCircularContractExcludesCopyOperations(): void
     {
         $curve = new CircularString([]);
-        static::assertContains(MutableCircularStringInterface::class, class_implements($curve));
-        static::assertNotContains(ImmutableSpatialInterface::class, class_implements($curve));
-        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withPoint'));
-        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withArrayOfCoordinates'));
-        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withSrid'));
-        static::assertFalse(new \ReflectionClass($curve)->hasMethod('withSpatialReference'));
-        static::assertFalse(new \ReflectionClass($curve)->hasMethod('setDimension'));
+        self::assertContains(MutableCircularStringInterface::class, class_implements($curve));
+        self::assertNotContains(ImmutableSpatialInterface::class, class_implements($curve));
+        self::assertFalse(new \ReflectionClass($curve)->hasMethod('withPoint'));
+        self::assertFalse(new \ReflectionClass($curve)->hasMethod('withArrayOfCoordinates'));
+        self::assertFalse(new \ReflectionClass($curve)->hasMethod('withSrid'));
+        self::assertFalse(new \ReflectionClass($curve)->hasMethod('withSpatialReference'));
+        self::assertFalse(new \ReflectionClass($curve)->hasMethod('setDimension'));
     }
 
     /** NegativeArc addressing fails without mutation. */
@@ -273,12 +270,12 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->replaceArc(-1, $replacementPassing, $replacementDestination);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $curve->getPoints());
-            static::assertSame([0, 0], $origin->toArray());
-            static::assertSame([1, 2], $passing->toArray());
-            static::assertSame([3, 4], $destination->toArray());
-            static::assertSame([5, 6], $replacementPassing->toArray());
-            static::assertSame([7, 8], $replacementDestination->toArray());
+            self::assertSame([$origin, $passing, $destination], $curve->getPoints());
+            self::assertSame([0, 0], $origin->toArray());
+            self::assertSame([1, 2], $passing->toArray());
+            self::assertSame([3, 4], $destination->toArray());
+            self::assertSame([5, 6], $replacementPassing->toArray());
+            self::assertSame([7, 8], $replacementDestination->toArray());
         }
     }
 
@@ -292,7 +289,7 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->getPoint(-1);
         } finally {
-            static::assertSame([$point], $curve->getPoints());
+            self::assertSame([$point], $curve->getPoints());
         }
     }
 
@@ -310,10 +307,10 @@ class MutableCircularStringTest extends TestCase
         try {
             new \ReflectionMethod($curve, 'setOrigin')->invoke($curve, $immutable);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $curve->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-            static::assertSame([3, 4], $mutable->toArray());
-            static::assertSame([5, 6], $immutable->toArray());
+            self::assertSame([$origin, $passing, $destination], $curve->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+            self::assertSame([3, 4], $mutable->toArray());
+            self::assertSame([5, 6], $immutable->toArray());
         }
     }
 
@@ -325,11 +322,11 @@ class MutableCircularStringTest extends TestCase
         $destination = new Point(2, 0);
         $replacement = new Point(null, 3);
         $curve = new CircularString([$origin, $passing, $destination]);
-        static::assertSame($curve, $curve->setOrigin($replacement));
-        static::assertSame([$replacement, $passing, $destination], $curve->getPoints());
-        static::assertSame([0, 0], $origin->toArray());
-        static::assertSame($replacement, $curve->getStartPoint());
-        static::assertSame($destination, $curve->getEndPoint());
+        self::assertSame($curve, $curve->setOrigin($replacement));
+        self::assertSame([$replacement, $passing, $destination], $curve->getPoints());
+        self::assertSame([0, 0], $origin->toArray());
+        self::assertSame($replacement, $curve->getStartPoint());
+        self::assertSame($destination, $curve->getEndPoint());
     }
 
     /** OverflowArc addressing fails without mutation. */
@@ -346,12 +343,12 @@ class MutableCircularStringTest extends TestCase
         try {
             $curve->replaceArc(9223372036854775807, $replacementPassing, $replacementDestination);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $curve->getPoints());
-            static::assertSame([0, 0], $origin->toArray());
-            static::assertSame([1, 2], $passing->toArray());
-            static::assertSame([3, 4], $destination->toArray());
-            static::assertSame([5, 6], $replacementPassing->toArray());
-            static::assertSame([7, 8], $replacementDestination->toArray());
+            self::assertSame([$origin, $passing, $destination], $curve->getPoints());
+            self::assertSame([0, 0], $origin->toArray());
+            self::assertSame([1, 2], $passing->toArray());
+            self::assertSame([3, 4], $destination->toArray());
+            self::assertSame([5, 6], $replacementPassing->toArray());
+            self::assertSame([7, 8], $replacementDestination->toArray());
         }
     }
 
@@ -369,10 +366,10 @@ class MutableCircularStringTest extends TestCase
         try {
             new \ReflectionMethod($curve, 'replaceArc')->invoke($curve, 0, $mutable, $immutable);
         } finally {
-            static::assertSame([$origin, $passing, $destination], $curve->getPoints());
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-            static::assertSame([3, 4], $mutable->toArray());
-            static::assertSame([5, 6], $immutable->toArray());
+            self::assertSame([$origin, $passing, $destination], $curve->getPoints());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+            self::assertSame([3, 4], $mutable->toArray());
+            self::assertSame([5, 6], $immutable->toArray());
         }
     }
 }

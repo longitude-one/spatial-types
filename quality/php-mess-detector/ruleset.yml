@@ -9,13 +9,17 @@ rules:
   - ref: rulesets/codesize.xml
     exclude:
       - CyclomaticComplexity
-      - ExcessiveClassComplexity
       - NPathComplexity
   - ref: rulesets/controversial.xml
   - ref: rulesets/design.xml
+  - ref: rulesets/naming.xml
     exclude:
-      - CountInLoopExpression
-      - NumberOfChildren
+      - ShortVariable
+      - ShortMethodName
+  - ref: rulesets/naming.xml/ShortVariable
+    properties:
+      exceptions: 'x,y,m,z'
+  - ref: rulesets/naming.xml/ShortMethodName
+    properties:
+      exceptions: 'at,xy'
   - ref: rulesets/unusedcode.xml
-    exclude:
-      - UnusedPrivateMethod

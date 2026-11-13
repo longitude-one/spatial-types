@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -33,8 +30,8 @@ class SridDefaultTest extends TestCase
     {
         $point = new PointImmutable(1, 2);
 
-        static::assertSame(0, $point->getSrid());
-        static::assertSame(0, $point->getSpatialReference()->srid());
-        static::assertSame(0, $point->jsonSerialize()['srid']);
+        self::assertSame(0, $point->getSrid());
+        self::assertSame(0, $point->getSpatialReference()->srid());
+        self::assertSame(0, $point->jsonSerialize()['srid']);
     }
 }

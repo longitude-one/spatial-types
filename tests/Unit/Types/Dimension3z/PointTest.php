@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -41,19 +38,19 @@ class PointTest extends TestCase
     public function testEditsAndDeclaredContextRetainIdentity(): void
     {
         $point = new Point(1, 2, 5, 4326);
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         $snapshot = $point->getCoordinates();
         $reference = SpatialReference::epsg(2154);
-        static::assertSame($point, $point->setX(3.5)->setY(4)->setZ(6)->setFamily(SpatialModelEnum::GEOGRAPHY)->setSpatialReference($reference));
-        static::assertSame([3.5, 4, 6], $point->toArray());
-        static::assertSame($reference, $point->getSpatialReference());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
-        static::assertSame(GeometryTypeEnum::POINT, $point->getType());
-        static::assertSame([1, 2, 5], $snapshot?->toArray());
-        static::assertSame($point, $point->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
-        static::assertSame(3857, $point->getSrid());
-        static::assertSame([3.5, 4, 6], $point->toArray());
+        self::assertSame($point, $point->setX(3.5)->setY(4)->setZ(6)->setFamily(SpatialModelEnum::GEOGRAPHY)->setSpatialReference($reference));
+        self::assertSame([3.5, 4, 6], $point->toArray());
+        self::assertSame($reference, $point->getSpatialReference());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+        self::assertSame(GeometryTypeEnum::POINT, $point->getType());
+        self::assertSame([1, 2, 5], $snapshot?->toArray());
+        self::assertSame($point, $point->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
+        self::assertSame(3857, $point->getSrid());
+        self::assertSame([3.5, 4, 6], $point->toArray());
     }
 
     /** Elevation rejects string without mutation. */
@@ -64,9 +61,9 @@ class PointTest extends TestCase
         try {
             $setter = new \ReflectionMethod($point, 'setZ')->getClosure($point);
             $setter('12');
-            static::fail('Numeric strings are not accepted for Z.');
+            self::fail('Numeric strings are not accepted for Z.');
         } catch (\TypeError) {
-            static::assertSame([1, 2, 5], $point->toArray());
+            self::assertSame([1, 2, 5], $point->toArray());
         }
     }
 
@@ -74,42 +71,42 @@ class PointTest extends TestCase
     public function testEmptyConstructionAndRecovery(): void
     {
         $point = new Point();
-        static::assertSame([], $point->toArray());
-        static::assertSame($point, $point->setY(0));
-        static::assertSame([null, 0, null], $point->toArray());
-        static::assertSame(0, $point->getLatitude());
-        static::assertNull($point->getLongitude());
+        self::assertSame([], $point->toArray());
+        self::assertSame($point, $point->setY(0));
+        self::assertSame([null, 0, null], $point->toArray());
+        self::assertSame(0, $point->getLatitude());
+        self::assertNull($point->getLongitude());
     }
 
     /** Geography construction and independent null transitions. */
     public function testGeographyConstructionAndIndependentNullTransitions(): void
     {
         $point = new Point(1, 2, 5, SpatialReference::epsg(4326), SpatialModelEnum::GEOGRAPHY);
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame($point, $point->setX(null));
-        static::assertNull($point->getX());
-        static::assertSame($point, $point->setY(null));
-        static::assertSame($point, $point->setZ(null));
-        static::assertNull($point->getZ());
-        static::assertSame([], $point->toArray());
-        static::assertNull($point->getCoordinates());
-        static::assertSame($point, $point->setX(0));
-        static::assertSame([0, null, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
-        static::assertSame(4326, $point->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame($point, $point->setX(null));
+        self::assertNull($point->getX());
+        self::assertSame($point, $point->setY(null));
+        self::assertSame($point, $point->setZ(null));
+        self::assertNull($point->getZ());
+        self::assertSame([], $point->toArray());
+        self::assertNull($point->getCoordinates());
+        self::assertSame($point, $point->setX(0));
+        self::assertSame([0, null, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+        self::assertSame(4326, $point->getSrid());
     }
 
     /** Mutable contract excludes immutable operations. */
     public function testMutableContractExcludesImmutableOperations(): void
     {
         $point = new Point();
-        static::assertContains(MutablePointInterface::class, class_implements($point));
-        static::assertContains(MutableSpatialInterface::class, class_implements($point));
-        static::assertNotContains(ImmutableSpatialInterface::class, class_implements($point));
-        static::assertFalse(new \ReflectionClass($point)->hasMethod('withCoordinates'));
-        static::assertFalse(new \ReflectionClass($point)->hasMethod('withSpatialReference'));
-        static::assertFalse(new \ReflectionClass($point)->hasMethod('withSrid'));
-        static::assertFalse(new \ReflectionClass($point)->hasMethod('setDimension'));
+        self::assertContains(MutablePointInterface::class, class_implements($point));
+        self::assertContains(MutableSpatialInterface::class, class_implements($point));
+        self::assertNotContains(ImmutableSpatialInterface::class, class_implements($point));
+        self::assertFalse(new \ReflectionClass($point)->hasMethod('withCoordinates'));
+        self::assertFalse(new \ReflectionClass($point)->hasMethod('withSpatialReference'));
+        self::assertFalse(new \ReflectionClass($point)->hasMethod('withSrid'));
+        self::assertFalse(new \ReflectionClass($point)->hasMethod('setDimension'));
     }
 
     /** Rejected abscissa parsing preserves receiver. */
@@ -119,11 +116,11 @@ class PointTest extends TestCase
 
         try {
             $point->setX('not a coordinate');
-            static::fail('Invalid coordinate must be rejected.');
+            self::fail('Invalid coordinate must be rejected.');
         } catch (InvalidValueException) {
-            static::assertSame([1, 2, 5], $point->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 5], $point->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -134,11 +131,11 @@ class PointTest extends TestCase
 
         try {
             $point->setY('not a coordinate');
-            static::fail('Invalid coordinate must be rejected.');
+            self::fail('Invalid coordinate must be rejected.');
         } catch (InvalidValueException) {
-            static::assertSame([1, 2, 5], $point->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+            self::assertSame([1, 2, 5], $point->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         }
     }
 
@@ -147,11 +144,11 @@ class PointTest extends TestCase
     {
         $point = new Point(1, 2, 5);
         $constructed = new Point("2°30'E", "48°30'N", 5);
-        static::assertSame($point, $point->setX("2°30'E")->setY("48°30'N"));
-        static::assertSame($constructed->getX(), $point->getX());
-        static::assertSame($constructed->getY(), $point->getY());
-        static::assertSame(2.5, $point->getLongitude());
-        static::assertSame(48.5, $point->getLatitude());
+        self::assertSame($point, $point->setX("2°30'E")->setY("48°30'N"));
+        self::assertSame($constructed->getX(), $point->getX());
+        self::assertSame($constructed->getY(), $point->getY());
+        self::assertSame(2.5, $point->getLongitude());
+        self::assertSame(48.5, $point->getLatitude());
     }
 
     /** Technical input rejection preserves receiver. */
@@ -161,9 +158,9 @@ class PointTest extends TestCase
 
         try {
             new \ReflectionMethod($point, 'setX')->invoke($point, []);
-            static::fail('Arrays are not coordinate input.');
+            self::fail('Arrays are not coordinate input.');
         } catch (\TypeError) {
-            static::assertSame([1, 2, 5], $point->toArray());
+            self::assertSame([1, 2, 5], $point->toArray());
         }
     }
 
@@ -174,10 +171,10 @@ class PointTest extends TestCase
 
         try {
             $point->setM(null);
-            static::fail('An unavailable axis must be rejected.');
+            self::fail('An unavailable axis must be rejected.');
         } catch (BadMethodCallException) {
-            static::assertSame([1, 2, 5], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+            self::assertSame([1, 2, 5], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
         }
     }
 
@@ -188,10 +185,10 @@ class PointTest extends TestCase
 
         try {
             $point->setM(9);
-            static::fail('An unavailable axis must be rejected.');
+            self::fail('An unavailable axis must be rejected.');
         } catch (BadMethodCallException) {
-            static::assertSame([1, 2, 5], $point->toArray());
-            static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+            self::assertSame([1, 2, 5], $point->toArray());
+            self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
         }
     }
 }

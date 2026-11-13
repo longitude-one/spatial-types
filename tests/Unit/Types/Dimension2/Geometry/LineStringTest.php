@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,12 +35,12 @@ class LineStringTest extends TestCase
     public function testConstructorWithCartesianPoints(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
-        static::assertCount(2, $lineString->getPoints());
-        static::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
+        self::assertCount(2, $lineString->getPoints());
+        self::assertEquals([[1, 2], [3, 4]], $lineString->toArray());
 
         $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4), new PointImmutable(1, 2)]);
-        static::assertCount(3, $lineString->getPoints());
-        static::assertEquals([[1, 2], [3, 4], [1, 2]], $lineString->toArray());
+        self::assertCount(3, $lineString->getPoints());
+        self::assertEquals([[1, 2], [3, 4], [1, 2]], $lineString->toArray());
     }
 
     /**
@@ -52,12 +49,12 @@ class LineStringTest extends TestCase
     public function testConstructorWithGeodesicPoints(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
-        static::assertCount(2, $lineString->getPoints());
-        static::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
+        self::assertCount(2, $lineString->getPoints());
+        self::assertEquals([[-40, -40], [-45, 45]], $lineString->toArray());
 
         $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326), new PointImmutable('40W', '40S', 4326)], 4326);
-        static::assertCount(3, $lineString->getPoints());
-        static::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $lineString->toArray());
+        self::assertCount(3, $lineString->getPoints());
+        self::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $lineString->toArray());
     }
 
     /**
@@ -66,9 +63,9 @@ class LineStringTest extends TestCase
     public function testEmptyConstructor(): void
     {
         $lineString = new LineStringImmutable([]);
-        static::assertEmpty($lineString->getPoints());
-        static::assertEquals([], $lineString->toArray());
-        static::assertEquals([], $lineString->getPoints());
+        self::assertEmpty($lineString->getPoints());
+        self::assertEquals([], $lineString->toArray());
+        self::assertEquals([], $lineString->getPoints());
     }
 
     /**
@@ -77,7 +74,7 @@ class LineStringTest extends TestCase
     public function testGetElements(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable(1, 2, 4326), new PointImmutable(3, 4, 4326)], 4326);
-        static::assertSame($lineString->getElements(), $lineString->getPoints());
+        self::assertSame($lineString->getElements(), $lineString->getPoints());
     }
 
     /**
@@ -86,17 +83,17 @@ class LineStringTest extends TestCase
     public function testGetPoint(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
-        static::assertCount(2, $lineString->getPoints());
-        static::assertSame(1, $lineString->getPoint(0)->getX());
-        static::assertSame(3, $lineString->getPoint(1)->getX());
-        static::assertSame(1, $lineString->getPoint(2)->getX());
-        static::assertSame(3, $lineString->getPoint(3)->getX());
-        static::assertSame(1, $lineString->getPoint(4)->getX());
+        self::assertCount(2, $lineString->getPoints());
+        self::assertSame(1, $lineString->getPoint(0)->getX());
+        self::assertSame(3, $lineString->getPoint(1)->getX());
+        self::assertSame(1, $lineString->getPoint(2)->getX());
+        self::assertSame(3, $lineString->getPoint(3)->getX());
+        self::assertSame(1, $lineString->getPoint(4)->getX());
 
-        static::assertSame(1, $lineString->getPoint(0)->getX());
-        static::assertSame(3, $lineString->getPoint(-1)->getX());
-        static::assertSame(1, $lineString->getPoint(-2)->getX());
-        static::assertSame(3, $lineString->getPoint(-3)->getX());
+        self::assertSame(1, $lineString->getPoint(0)->getX());
+        self::assertSame(3, $lineString->getPoint(-1)->getX());
+        self::assertSame(1, $lineString->getPoint(-2)->getX());
+        self::assertSame(3, $lineString->getPoint(-3)->getX());
 
         self::expectException(OutOfBoundsException::class);
         self::expectExceptionMessageIsOrContains('The current collection of points is empty.');
@@ -109,8 +106,8 @@ class LineStringTest extends TestCase
     public function testJsonSerialize(): void
     {
         $lineString = new LineStringImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
-        static::assertSame('{"type":"LineString","coordinates":[[-40,-40],[-45,45]],"srid":4326}', json_encode($lineString));
+        self::assertSame('{"type":"LineString","coordinates":[[-40,-40],[-45,45]],"srid":4326}', json_encode($lineString));
         $lineString = new LineStringImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
-        static::assertSame('{"type":"LineString","coordinates":[[1,2],[3,4]],"srid":0}', json_encode($lineString));
+        self::assertSame('{"type":"LineString","coordinates":[[1,2],[3,4]],"srid":0}', json_encode($lineString));
     }
 }

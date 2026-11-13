@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,12 +35,12 @@ class MultiLineStringWithPointTest extends TestCase
         ], 2154);
         $replacement = $multiLineString->withPoint(-1, -1, Coordinates::xy(4, 4));
 
-        static::assertNotSame($multiLineString, $replacement);
-        static::assertSame($multiLineString::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
-        static::assertSame([[[0, 0], [1, 1]], [[2, 2], [4, 4]]], $replacement->toArray());
-        static::assertNotSame($multiLineString->getLineString(0), $replacement->getLineString(0));
-        static::assertNotSame($multiLineString->getLineString(1), $replacement->getLineString(1));
+        self::assertNotSame($multiLineString, $replacement);
+        self::assertSame($multiLineString::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame([[[0, 0], [1, 1]], [[2, 2], [3, 3]]], $multiLineString->toArray());
+        self::assertSame([[[0, 0], [1, 1]], [[2, 2], [4, 4]]], $replacement->toArray());
+        self::assertNotSame($multiLineString->getLineString(0), $replacement->getLineString(0));
+        self::assertNotSame($multiLineString->getLineString(1), $replacement->getLineString(1));
     }
 }

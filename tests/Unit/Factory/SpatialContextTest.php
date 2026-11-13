@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -35,9 +32,9 @@ class SpatialContextTest extends TestCase
     {
         $context = new SpatialContext(4326, SpatialModelEnum::GEOGRAPHY, CoordinateDimensionEnum::XYZM);
 
-        static::assertSame(4326, $context->srid);
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $context->family);
-        static::assertSame(CoordinateDimensionEnum::XYZM, $context->dimension);
+        self::assertSame(4326, $context->srid);
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $context->family);
+        self::assertSame(CoordinateDimensionEnum::XYZM, $context->dimension);
     }
 
     /**
@@ -47,9 +44,9 @@ class SpatialContextTest extends TestCase
     {
         $context = new SpatialContext();
 
-        static::assertSame(0, $context->srid);
-        static::assertSame(0, $context->reference->srid());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $context->family);
-        static::assertSame(CoordinateDimensionEnum::XY, $context->dimension);
+        self::assertSame(0, $context->srid);
+        self::assertSame(0, $context->reference->srid());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $context->family);
+        self::assertSame(CoordinateDimensionEnum::XY, $context->dimension);
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -35,45 +32,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XY)->family(SpatialModelEnum::GEOGRAPHY);
         $point = $builder->point(0, null);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XY Geography mutable operations. */
@@ -81,45 +78,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XY)->family(SpatialModelEnum::GEOGRAPHY)->mutable();
         $point = $builder->point(0, null);
-        static::assertInstanceOf(MutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertInstanceOf(MutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XY Geometry immutable operations. */
@@ -127,45 +124,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XY)->family(SpatialModelEnum::GEOMETRY);
         $point = $builder->point(0, null);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XY Geometry mutable operations. */
@@ -173,45 +170,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XY)->family(SpatialModelEnum::GEOMETRY)->mutable();
         $point = $builder->point(0, null);
-        static::assertInstanceOf(MutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertInstanceOf(MutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XY, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XYM Geography immutable operations. */
@@ -219,45 +216,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XYM)->family(SpatialModelEnum::GEOGRAPHY);
         $point = $builder->point(0, null);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XYM Geography mutable operations. */
@@ -265,45 +262,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XYM)->family(SpatialModelEnum::GEOGRAPHY)->mutable();
         $point = $builder->point(0, null);
-        static::assertInstanceOf(MutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertInstanceOf(MutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XYM Geometry immutable operations. */
@@ -311,45 +308,45 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XYM)->family(SpatialModelEnum::GEOMETRY);
         $point = $builder->point(0, null);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(ImmutableSpatialInterface::class, $progressiveCollection);
     }
 
     /** Verify all supported XYM Geometry mutable operations. */
@@ -357,44 +354,44 @@ final class SpatialBuilderLayoutMatrixTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(CoordinateDimensionEnum::XYM)->family(SpatialModelEnum::GEOMETRY)->mutable();
         $point = $builder->point(0, null);
-        static::assertInstanceOf(MutableSpatialInterface::class, $point);
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertInstanceOf(MutableSpatialInterface::class, $point);
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
         $directLineString = $builder->createLineString([]);
         $progressiveLineString = $builder->lineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveLineString);
         $directCircularString = $builder->createCircularString([]);
         $progressiveCircularString = $builder->circularString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCircularString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCircularString);
         $directMultiPoint = $builder->createMultiPoint([]);
         $progressiveMultiPoint = $builder->multiPoint()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPoint);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPoint);
         $directCompoundCurve = $builder->createCompoundCurve([]);
         $progressiveCompoundCurve = $builder->compoundCurve()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCompoundCurve);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCompoundCurve);
         $directPolygon = $builder->createPolygon([]);
         $progressivePolygon = $builder->polygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressivePolygon);
         $directTriangle = $builder->createTriangle([]);
         $progressiveTriangle = $builder->triangle()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directTriangle);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveTriangle);
         $directMultiLineString = $builder->createMultiLineString([]);
         $progressiveMultiLineString = $builder->multiLineString()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiLineString);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiLineString);
         $directMultiPolygon = $builder->createMultiPolygon([]);
         $progressiveMultiPolygon = $builder->multiPolygon()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directMultiPolygon);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveMultiPolygon);
         $directCollection = $builder->createCollection([]);
         $progressiveCollection = $builder->collection()->build();
-        static::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
-        static::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $directCollection);
+        self::assertInstanceOf(MutableSpatialInterface::class, $progressiveCollection);
     }
 }

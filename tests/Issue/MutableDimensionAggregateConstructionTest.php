@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -53,7 +50,7 @@ class MutableDimensionAggregateConstructionTest extends TestCase
     public function testCustomCurveDescendantCannotBypassLayout(): void
     {
         $point = new XYZ\Point(1, 2, 3);
-        $curve = static::createStub(\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface::class);
+        $curve = self::createStub(\LongitudeOne\SpatialTypes\Interfaces\MutableLineStringInterface::class);
         $curve->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $curve->method('getElements')->willReturn([$point]);
         $curve->method('getStartPoint')->willReturn(null);
@@ -64,8 +61,8 @@ class MutableDimensionAggregateConstructionTest extends TestCase
         try {
             $collection->addElement($curve);
         } finally {
-            static::assertSame([], $collection->getElements());
-            static::assertSame([1, 2, 3], $point->toArray());
+            self::assertSame([], $collection->getElements());
+            self::assertSame([1, 2, 3], $point->toArray());
         }
     }
 

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -41,18 +38,18 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $collection = new MultiLineString([]);
 
         $collection->addElement($empty);
-        static::assertSame([$empty], $collection->getElements());
+        self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        static::assertSame([$empty, $populated], $collection->getElements());
+        self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
         $collection->removeElement(2);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        static::assertSame([$populated], $collection->getElements());
+        self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        static::assertSame([], $collection->getElements());
+        self::assertSame([], $collection->getElements());
     }
 
     /** Membership transitions retain EMPTY members and reflect each edit immediately. */
@@ -63,18 +60,18 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $collection = new MultiPoint([]);
 
         $collection->addElement($empty);
-        static::assertSame([$empty], $collection->getElements());
+        self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        static::assertSame([$empty, $populated], $collection->getElements());
+        self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
         $collection->removeElement(2);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        static::assertSame([$populated], $collection->getElements());
+        self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        static::assertSame([], $collection->getElements());
+        self::assertSame([], $collection->getElements());
     }
 
     /** Membership transitions retain EMPTY members and reflect each edit immediately. */
@@ -85,18 +82,18 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $collection = new MultiPolygon([]);
 
         $collection->addElement($empty);
-        static::assertSame([$empty], $collection->getElements());
+        self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        static::assertSame([$empty, $populated], $collection->getElements());
+        self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
         $collection->removeElement(2);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        static::assertSame([$populated], $collection->getElements());
+        self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        static::assertSame([], $collection->getElements());
+        self::assertSame([], $collection->getElements());
     }
 
     /** Different families and references remain representable with matching layouts. */
@@ -107,12 +104,12 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $collection = new \LongitudeOne\SpatialTypes\Types\Dimension3z\SpatialCollection([$point, $line], 4326);
 
         $point->setZ(1);
-        static::assertSame([null, null, 1], $point->toArray());
+        self::assertSame([null, null, 1], $point->toArray());
         $point->setZ(null);
-        static::assertSame([$point, $line], $collection->getElements());
-        static::assertSame(3857, $point->getSrid());
-        static::assertSame(2154, $line->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame([$point, $line], $collection->getElements());
+        self::assertSame(3857, $point->getSrid());
+        self::assertSame(2154, $line->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
     }
 
     /** Nested collections observe edits to a shared EMPTY point without reinsertion. */
@@ -124,13 +121,13 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $right = new SpatialCollection([$point, $left]);
 
         $point->setX(1);
-        static::assertSame([[1, null], [[[1, null], [1, null]]]], $right->toArray());
+        self::assertSame([[1, null], [[[1, null], [1, null]]]], $right->toArray());
         $point->setX(null);
-        static::assertSame([[], [[[], []]]], $right->toArray());
-        static::assertSame([$point, $point], $members->getElements());
-        static::assertSame([$point, $left], $right->getElements());
-        static::assertSame(3857, $point->getSrid());
-        static::assertSame(4326, $members->getSrid());
+        self::assertSame([[], [[[], []]]], $right->toArray());
+        self::assertSame([$point, $point], $members->getElements());
+        self::assertSame([$point, $left], $right->getElements());
+        self::assertSame(3857, $point->getSrid());
+        self::assertSame(4326, $members->getSrid());
     }
 
     /** Shared child edits propagate through both holders and a nested collection. */
@@ -142,12 +139,12 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $root = new SpatialCollection([$left, $right], 4326);
 
         $child->setArrayOfCoordinates([[0, 0], [1, 1]]);
-        static::assertSame([[0, 0], [1, 1]], $child->toArray());
+        self::assertSame([[0, 0], [1, 1]], $child->toArray());
         $child->setArrayOfCoordinates([]);
-        static::assertSame([$child], $left->getElements());
-        static::assertSame([$child], $right->getElements());
-        static::assertSame([[[]], [[]]], $root->toArray());
-        static::assertSame(4326, $child->getSrid());
+        self::assertSame([$child], $left->getElements());
+        self::assertSame([$child], $right->getElements());
+        self::assertSame([[[]], [[]]], $root->toArray());
+        self::assertSame(4326, $child->getSrid());
     }
 
     /** Shared child edits propagate through both holders and a nested collection. */
@@ -159,12 +156,12 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $root = new SpatialCollection([$left, $right], 4326);
 
         $child->setArrayOfCoordinates([[[0, 0], [2, 0], [0, 2], [0, 0]]]);
-        static::assertSame([[[0, 0], [2, 0], [0, 2], [0, 0]]], $child->toArray());
+        self::assertSame([[[0, 0], [2, 0], [0, 2], [0, 0]]], $child->toArray());
         $child->setArrayOfCoordinates([]);
-        static::assertSame([$child], $left->getElements());
-        static::assertSame([$child], $right->getElements());
-        static::assertSame([[[]], [[]]], $root->toArray());
-        static::assertSame(4326, $child->getSrid());
+        self::assertSame([$child], $left->getElements());
+        self::assertSame([$child], $right->getElements());
+        self::assertSame([[[]], [[]]], $root->toArray());
+        self::assertSame(4326, $child->getSrid());
     }
 
     /** Membership transitions retain EMPTY members and reflect each edit immediately. */
@@ -175,17 +172,17 @@ final class MutableCollectionEmptyTransitionTest extends TestCase
         $collection = new SpatialCollection([]);
 
         $collection->addElement($empty);
-        static::assertSame([$empty], $collection->getElements());
+        self::assertSame([$empty], $collection->getElements());
         $collection->insertElement(1, $populated);
-        static::assertSame([$empty, $populated], $collection->getElements());
+        self::assertSame([$empty, $populated], $collection->getElements());
         $collection->setElement(1, $empty);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->addElement($populated);
         $collection->removeElement(2);
-        static::assertSame([$empty, $empty], $collection->getElements());
+        self::assertSame([$empty, $empty], $collection->getElements());
         $collection->setElements([$populated]);
-        static::assertSame([$populated], $collection->getElements());
+        self::assertSame([$populated], $collection->getElements());
         $collection->setElements([]);
-        static::assertSame([], $collection->getElements());
+        self::assertSame([], $collection->getElements());
     }
 }

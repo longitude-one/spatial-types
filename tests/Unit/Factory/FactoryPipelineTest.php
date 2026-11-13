@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -119,9 +116,9 @@ class FactoryPipelineTest extends TestCase
         $familyFactories = self::geometricFactories();
         $registry = new SpatialFactoryRegistry($familyFactories);
 
-        static::assertSame($familyFactories->pointFactory, $registry->pointFactory(SpatialModelEnum::GEOMETRY));
-        static::assertSame($familyFactories->lineStringFactory, $registry->lineStringFactory(SpatialModelEnum::GEOMETRY));
-        static::assertSame($familyFactories->polygonFactory, $registry->polygonFactory(SpatialModelEnum::GEOMETRY));
+        self::assertSame($familyFactories->pointFactory, $registry->pointFactory(SpatialModelEnum::GEOMETRY));
+        self::assertSame($familyFactories->lineStringFactory, $registry->lineStringFactory(SpatialModelEnum::GEOMETRY));
+        self::assertSame($familyFactories->polygonFactory, $registry->polygonFactory(SpatialModelEnum::GEOMETRY));
     }
 
     /**
@@ -136,12 +133,12 @@ class FactoryPipelineTest extends TestCase
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZM)
         );
 
-        static::assertSame(1, $coordinates->x);
-        static::assertSame(2, $coordinates->y);
-        static::assertNull($coordinates->z);
-        static::assertNull($coordinates->m);
-        static::assertSame(5, $fourDimensionalCoordinates->z);
-        static::assertSame(6, $fourDimensionalCoordinates->m);
+        self::assertSame(1, $coordinates->x);
+        self::assertSame(2, $coordinates->y);
+        self::assertNull($coordinates->z);
+        self::assertNull($coordinates->m);
+        self::assertSame(5, $fourDimensionalCoordinates->z);
+        self::assertSame(6, $fourDimensionalCoordinates->m);
     }
 
     /** The measure diagnostic describes both permitted ordinate types. */
@@ -185,9 +182,9 @@ class FactoryPipelineTest extends TestCase
             $factory = DefaultSpatialFactoryFactory::create();
             $point = $factory->createPointFromIndexedArray([1, 2], new SpatialContext(2154, SpatialModelEnum::GEOMETRY));
 
-            static::assertSame([1, 2], $point->toArray());
-            static::assertSame(2154, $point->getSrid());
-            static::assertSame($factory, DefaultSpatialFactoryFactory::create());
+            self::assertSame([1, 2], $point->toArray());
+            self::assertSame(2154, $point->getSrid());
+            self::assertSame($factory, DefaultSpatialFactoryFactory::create());
         } finally {
             $property->setValue(null, $previousFactory);
         }
@@ -216,8 +213,8 @@ class FactoryPipelineTest extends TestCase
             new SpatialContext(0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ)
         );
 
-        static::assertSame([1, 2, null], $point->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
+        self::assertSame([1, 2, null], $point->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $point->getDimension());
     }
 
     /**
@@ -257,12 +254,12 @@ class FactoryPipelineTest extends TestCase
         $lineString = $factory->createLineString([$firstPoint, $secondPoint], $context);
         $polygon = $factory->createPolygon([$ring], $context);
 
-        static::assertSame([2, 3], $point->toArray());
-        static::assertSame([[0, 0], [1, 1]], $lineString->toArray());
-        static::assertSame([[[0, 0], [1, 1], [0, 1], [0, 0]]], $polygon->toArray());
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(2154, $lineString->getSrid());
-        static::assertSame(2154, $polygon->getSrid());
+        self::assertSame([2, 3], $point->toArray());
+        self::assertSame([[0, 0], [1, 1]], $lineString->toArray());
+        self::assertSame([[[0, 0], [1, 1], [0, 1], [0, 0]]], $polygon->toArray());
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(2154, $lineString->getSrid());
+        self::assertSame(2154, $polygon->getSrid());
     }
 
     /**

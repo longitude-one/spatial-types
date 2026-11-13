@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -80,7 +77,7 @@ class AggregateImmutabilityTest extends TestCase
             'removeElement',
         ] as $method) {
             if (method_exists($aggregate, $method)) {
-                static::assertFalse(new \ReflectionMethod($aggregate, $method)->isPublic(), \sprintf('%s::%s() must not be public.', $aggregate::class, $method));
+                self::assertFalse(new \ReflectionMethod($aggregate, $method)->isPublic(), \sprintf('%s::%s() must not be public.', $aggregate::class, $method));
             }
         }
     }
@@ -93,7 +90,7 @@ class AggregateImmutabilityTest extends TestCase
         $point = new PointImmutable(1, 2, 2154);
         $collection = new GeometryCollectionImmutable(2154, [$point]);
 
-        static::assertSame([$point], $collection->getElements());
-        static::assertSame([[1, 2]], $collection->toArray());
+        self::assertSame([$point], $collection->getElements());
+        self::assertSame([[1, 2]], $collection->toArray());
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,12 +35,12 @@ class CollectionWithElementTest extends TestCase
 
         $replacement = $collection->withElement(-1, new PointImmutable(5, 6, 2154));
 
-        static::assertNotSame($collection, $replacement);
-        static::assertSame($collection::class, new \ReflectionClass($replacement)->getName());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame([[1, 2], [3, 4]], $collection->toArray());
-        static::assertSame([[1, 2], [5, 6]], $replacement->toArray());
-        static::assertNotSame($collection->getElements()[0], $replacement->getElements()[0]);
-        static::assertNotSame($collection->getElements()[1], $replacement->getElements()[1]);
+        self::assertNotSame($collection, $replacement);
+        self::assertSame($collection::class, new \ReflectionClass($replacement)->getName());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame([[1, 2], [3, 4]], $collection->toArray());
+        self::assertSame([[1, 2], [5, 6]], $replacement->toArray());
+        self::assertNotSame($collection->getElements()[0], $replacement->getElements()[0]);
+        self::assertNotSame($collection->getElements()[1], $replacement->getElements()[1]);
     }
 }

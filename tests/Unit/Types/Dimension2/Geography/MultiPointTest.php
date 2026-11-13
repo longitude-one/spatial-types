@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -37,12 +34,12 @@ class MultiPointTest extends TestCase
     public function testConstructorWithCartesianPoints(): void
     {
         $multiPoint = new MultiPointImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4)]);
-        static::assertCount(2, $multiPoint->getPoints());
-        static::assertEquals([[1, 2], [3, 4]], $multiPoint->toArray());
+        self::assertCount(2, $multiPoint->getPoints());
+        self::assertEquals([[1, 2], [3, 4]], $multiPoint->toArray());
 
         $multiPoint = new MultiPointImmutable([new PointImmutable(1, 2), new PointImmutable(3, 4), new PointImmutable(1, 2)]);
-        static::assertCount(3, $multiPoint->getPoints());
-        static::assertEquals([[1, 2], [3, 4], [1, 2]], $multiPoint->toArray());
+        self::assertCount(3, $multiPoint->getPoints());
+        self::assertEquals([[1, 2], [3, 4], [1, 2]], $multiPoint->toArray());
     }
 
     /**
@@ -51,12 +48,12 @@ class MultiPointTest extends TestCase
     public function testConstructorWithGeodesicPoints(): void
     {
         $multiPoint = new MultiPointImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326)], 4326);
-        static::assertCount(2, $multiPoint->getPoints());
-        static::assertEquals([[-40, -40], [-45, 45]], $multiPoint->toArray());
+        self::assertCount(2, $multiPoint->getPoints());
+        self::assertEquals([[-40, -40], [-45, 45]], $multiPoint->toArray());
 
         $multiPoint = new MultiPointImmutable([new PointImmutable('40W', '40S', 4326), new PointImmutable('45W', '45N', 4326), new PointImmutable('40W', '40S', 4326)], 4326);
-        static::assertCount(3, $multiPoint->getPoints());
-        static::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $multiPoint->toArray());
+        self::assertCount(3, $multiPoint->getPoints());
+        self::assertEquals([[-40, -40], [-45, 45], [-40, -40]], $multiPoint->toArray());
     }
 
     /**
@@ -65,8 +62,8 @@ class MultiPointTest extends TestCase
     public function testEmptyConstructor(): void
     {
         $multiPoint = new MultiPointImmutable([]);
-        static::assertEmpty($multiPoint->getPoints());
-        static::assertEquals([], $multiPoint->toArray());
-        static::assertEquals([], $multiPoint->getPoints());
+        self::assertEmpty($multiPoint->getPoints());
+        self::assertEquals([], $multiPoint->toArray());
+        self::assertEquals([], $multiPoint->getPoints());
     }
 }

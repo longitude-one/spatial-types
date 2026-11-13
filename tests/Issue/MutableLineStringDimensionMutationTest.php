@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -39,11 +36,11 @@ class MutableLineStringDimensionMutationTest extends TestCase
         try {
             $aggregate->addPoint($incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getPoints());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getPoints());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -58,11 +55,11 @@ class MutableLineStringDimensionMutationTest extends TestCase
         try {
             $aggregate->insertPoint(1, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getPoints());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getPoints());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 
@@ -77,11 +74,11 @@ class MutableLineStringDimensionMutationTest extends TestCase
         try {
             $aggregate->setPoint(0, $incompatible);
         } finally {
-            static::assertSame([$member], $aggregate->getPoints());
-            static::assertSame(2154, $aggregate->getSrid());
+            self::assertSame([$member], $aggregate->getPoints());
+            self::assertSame(2154, $aggregate->getSrid());
             $aggregate->setSrid(4326);
-            static::assertSame(4326, $member->getSrid());
-            static::assertSame(0, $incompatible->getSrid());
+            self::assertSame(4326, $member->getSrid());
+            self::assertSame(0, $incompatible->getSrid());
         }
     }
 }

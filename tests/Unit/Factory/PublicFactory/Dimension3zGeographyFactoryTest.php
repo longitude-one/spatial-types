@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -81,22 +78,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = CircularStringFactory::create(points: [[0, null, 12]], srid: $reference);
         $emptyMutable = CircularStringFactory::create(points: [], srid: $reference);
 
-        static::assertInstanceOf(CircularStringImmutable::class, $immutable);
-        static::assertInstanceOf(CircularString::class, $mutable);
-        static::assertSame([[0, null, 12]], $immutable->toArray());
-        static::assertSame([[0, null, 12]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::CIRCULARSTRING, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::CIRCULARSTRING, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(CircularStringImmutable::class, $immutable);
+        self::assertInstanceOf(CircularString::class, $mutable);
+        self::assertSame([[0, null, 12]], $immutable->toArray());
+        self::assertSame([[0, null, 12]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::CIRCULARSTRING, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::CIRCULARSTRING, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Compound Curve Creates Both Representations. */
@@ -110,22 +107,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = CompoundCurveFactory::create(curves: [LineStringFactory::create(points: [[0, null, 12]], srid: $reference)], srid: $reference);
         $emptyMutable = CompoundCurveFactory::create(curves: [], srid: $reference);
 
-        static::assertInstanceOf(CompoundCurveImmutable::class, $immutable);
-        static::assertInstanceOf(CompoundCurve::class, $mutable);
-        static::assertSame([[[0, null, 12]]], $immutable->toArray());
-        static::assertSame([[[0, null, 12]]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(CompoundCurveImmutable::class, $immutable);
+        self::assertInstanceOf(CompoundCurve::class, $mutable);
+        self::assertSame([[[0, null, 12]]], $immutable->toArray());
+        self::assertSame([[[0, null, 12]]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Geography Collection Creates Both Representations. */
@@ -139,22 +136,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = GeographyCollectionFactory::create(elements: [PointFactory::create(x: 0, y: null, z: 12, srid: $reference)], srid: $reference);
         $emptyMutable = GeographyCollectionFactory::create(elements: [], srid: $reference);
 
-        static::assertInstanceOf(GeographyCollectionImmutable::class, $immutable);
-        static::assertInstanceOf(SpatialCollection::class, $mutable);
-        static::assertSame([[0, null, 12]], $immutable->toArray());
-        static::assertSame([[0, null, 12]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(GeographyCollectionImmutable::class, $immutable);
+        self::assertInstanceOf(SpatialCollection::class, $mutable);
+        self::assertSame([[0, null, 12]], $immutable->toArray());
+        self::assertSame([[0, null, 12]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::GEOMETRYCOLLECTION, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Line String Creates Both Representations. */
@@ -168,22 +165,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = LineStringFactory::create(points: [[0, null, 12]], srid: $reference);
         $emptyMutable = LineStringFactory::create(points: [], srid: $reference);
 
-        static::assertInstanceOf(LineStringImmutable::class, $immutable);
-        static::assertInstanceOf(LineString::class, $mutable);
-        static::assertSame([[0, null, 12]], $immutable->toArray());
-        static::assertSame([[0, null, 12]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::LINESTRING, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::LINESTRING, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(LineStringImmutable::class, $immutable);
+        self::assertInstanceOf(LineString::class, $mutable);
+        self::assertSame([[0, null, 12]], $immutable->toArray());
+        self::assertSame([[0, null, 12]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::LINESTRING, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::LINESTRING, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Multi Line String Creates Both Representations. */
@@ -197,22 +194,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = MultiLineStringFactory::create(lineStrings: [[[0, null, 12]]], srid: $reference);
         $emptyMutable = MultiLineStringFactory::create(lineStrings: [], srid: $reference);
 
-        static::assertInstanceOf(MultiLineStringImmutable::class, $immutable);
-        static::assertInstanceOf(MultiLineString::class, $mutable);
-        static::assertSame([[[0, null, 12]]], $immutable->toArray());
-        static::assertSame([[[0, null, 12]]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(MultiLineStringImmutable::class, $immutable);
+        self::assertInstanceOf(MultiLineString::class, $mutable);
+        self::assertSame([[[0, null, 12]]], $immutable->toArray());
+        self::assertSame([[[0, null, 12]]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Multi Point Creates Both Representations. */
@@ -226,22 +223,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = MultiPointFactory::create(points: [[0, null, 12]], srid: $reference);
         $emptyMutable = MultiPointFactory::create(points: [], srid: $reference);
 
-        static::assertInstanceOf(MultiPointImmutable::class, $immutable);
-        static::assertInstanceOf(MultiPoint::class, $mutable);
-        static::assertSame([[0, null, 12]], $immutable->toArray());
-        static::assertSame([[0, null, 12]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::MULTIPOINT, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::MULTIPOINT, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(MultiPointImmutable::class, $immutable);
+        self::assertInstanceOf(MultiPoint::class, $mutable);
+        self::assertSame([[0, null, 12]], $immutable->toArray());
+        self::assertSame([[0, null, 12]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::MULTIPOINT, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOINT, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Multi Polygon Creates Both Representations. */
@@ -255,22 +252,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = MultiPolygonFactory::create(polygons: [[[[0, null, 12]]]], srid: $reference);
         $emptyMutable = MultiPolygonFactory::create(polygons: [], srid: $reference);
 
-        static::assertInstanceOf(MultiPolygonImmutable::class, $immutable);
-        static::assertInstanceOf(MultiPolygon::class, $mutable);
-        static::assertSame([[[[0, null, 12]]]], $immutable->toArray());
-        static::assertSame([[[[0, null, 12]]]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(MultiPolygonImmutable::class, $immutable);
+        self::assertInstanceOf(MultiPolygon::class, $mutable);
+        self::assertSame([[[[0, null, 12]]]], $immutable->toArray());
+        self::assertSame([[[[0, null, 12]]]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Point Creates Both Representations. */
@@ -284,22 +281,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = PointFactory::create(x: 0, y: null, z: 12, srid: $reference);
         $emptyMutable = PointFactory::create(srid: $reference);
 
-        static::assertInstanceOf(PointImmutable::class, $immutable);
-        static::assertInstanceOf(Point::class, $mutable);
-        static::assertSame([0, null, 12], $immutable->toArray());
-        static::assertSame([0, null, 12], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::POINT, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::POINT, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(PointImmutable::class, $immutable);
+        self::assertInstanceOf(Point::class, $mutable);
+        self::assertSame([0, null, 12], $immutable->toArray());
+        self::assertSame([0, null, 12], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::POINT, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::POINT, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Polygon Creates Both Representations. */
@@ -313,22 +310,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = PolygonFactory::create(rings: [[[0, null, 12]]], srid: $reference);
         $emptyMutable = PolygonFactory::create(rings: [], srid: $reference);
 
-        static::assertInstanceOf(PolygonImmutable::class, $immutable);
-        static::assertInstanceOf(Polygon::class, $mutable);
-        static::assertSame([[[0, null, 12]]], $immutable->toArray());
-        static::assertSame([[[0, null, 12]]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::POLYGON, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::POLYGON, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(PolygonImmutable::class, $immutable);
+        self::assertInstanceOf(Polygon::class, $mutable);
+        self::assertSame([[[0, null, 12]]], $immutable->toArray());
+        self::assertSame([[[0, null, 12]]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::POLYGON, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::POLYGON, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Polyhedral Surface Creates Both Representations. */
@@ -342,22 +339,22 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = PolyhedralSurfaceFactory::create(patches: [[[[0, null, 12]]]], srid: $reference);
         $emptyMutable = PolyhedralSurfaceFactory::create(patches: [], srid: $reference);
 
-        static::assertInstanceOf(PolyhedralSurfaceImmutable::class, $immutable);
-        static::assertInstanceOf(PolyhedralSurface::class, $mutable);
-        static::assertSame([[[[0, null, 12]]]], $immutable->toArray());
-        static::assertSame([[[[0, null, 12]]]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(PolyhedralSurfaceImmutable::class, $immutable);
+        self::assertInstanceOf(PolyhedralSurface::class, $mutable);
+        self::assertSame([[[[0, null, 12]]]], $immutable->toArray());
+        self::assertSame([[[[0, null, 12]]]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::POLYHEDRALSURFACE, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 
     /** Triangle Creates Both Representations. */
@@ -371,21 +368,21 @@ final class Dimension3zGeographyFactoryTest extends TestCase
         $mutable = TriangleFactory::create(rings: [[[0, null, 12]]], srid: $reference);
         $emptyMutable = TriangleFactory::create(rings: [], srid: $reference);
 
-        static::assertInstanceOf(TriangleImmutable::class, $immutable);
-        static::assertInstanceOf(Triangle::class, $mutable);
-        static::assertSame([[[0, null, 12]]], $immutable->toArray());
-        static::assertSame([[[0, null, 12]]], $mutable->toArray());
-        static::assertSame([], $emptyImmutable->toArray());
-        static::assertSame([], $emptyMutable->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
-        static::assertSame(GeometryTypeEnum::TRIANGLE, $immutable->getType());
-        static::assertSame(GeometryTypeEnum::TRIANGLE, $mutable->getType());
-        static::assertSame($reference, $immutable->getSpatialReference());
-        static::assertSame($reference, $mutable->getSpatialReference());
-        static::assertSame($reference, $emptyImmutable->getSpatialReference());
-        static::assertSame($reference, $emptyMutable->getSpatialReference());
+        self::assertInstanceOf(TriangleImmutable::class, $immutable);
+        self::assertInstanceOf(Triangle::class, $mutable);
+        self::assertSame([[[0, null, 12]]], $immutable->toArray());
+        self::assertSame([[[0, null, 12]]], $mutable->toArray());
+        self::assertSame([], $emptyImmutable->toArray());
+        self::assertSame([], $emptyMutable->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $immutable->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $mutable->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $immutable->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $mutable->getFamily());
+        self::assertSame(GeometryTypeEnum::TRIANGLE, $immutable->getType());
+        self::assertSame(GeometryTypeEnum::TRIANGLE, $mutable->getType());
+        self::assertSame($reference, $immutable->getSpatialReference());
+        self::assertSame($reference, $mutable->getSpatialReference());
+        self::assertSame($reference, $emptyImmutable->getSpatialReference());
+        self::assertSame($reference, $emptyMutable->getSpatialReference());
     }
 }

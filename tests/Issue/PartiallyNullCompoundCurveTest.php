@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -42,26 +39,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -73,26 +70,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** An EMPTY member keeps its empty tuple beside a partially supplied point. */
@@ -102,12 +99,12 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $compound = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable([$line], 4326);
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
 
-        static::assertSame([[[0, null, 3], []]], $compound->toArray());
-        static::assertSame([[[0, null, 3], []]], $copy->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $copy->getEndPoint()?->getDimension());
-        static::assertSame(4326, $compound->getEndPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()->getSrid());
-        static::assertNotSame($compound->getEndPoint(), $copy->getEndPoint());
+        self::assertSame([[[0, null, 3], []]], $compound->toArray());
+        self::assertSame([[[0, null, 3], []]], $copy->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $copy->getEndPoint()?->getDimension());
+        self::assertSame(4326, $compound->getEndPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()->getSrid());
+        self::assertNotSame($compound->getEndPoint(), $copy->getEndPoint());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -119,26 +116,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $compound->toArray());
-        static::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $copy->toArray());
-        static::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null, 3.5, null], [null, 2, null, 4]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $compound->toArray());
+        self::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $copy->toArray());
+        self::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null, 3.5, null], [null, 2, null, 4]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -150,26 +147,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $compound->toArray());
-        static::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $copy->toArray());
-        static::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null, 3.5, null], [null, 2, null, 4]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $compound->toArray());
+        self::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $copy->toArray());
+        self::assertSame([[[0, null, 3.5, null], [null, 2, null, 4]], [[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null, 3.5, null], [null, 2, null, 4]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2, null, 4], [1.5, null, 3, null], [0, 5, null, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -181,26 +178,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -212,26 +209,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
-        static::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $compound->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $copy->toArray());
+        self::assertSame([[[0, null, null], [null, 2, 3.5]], [[null, 2, 3.5], [1.5, null, 4], [0, 5, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null, null], [null, 2, 3.5]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2, 3.5], [1.5, null, 4], [0, 5, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -243,26 +240,26 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $compound->toArray());
-        static::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $copy->toArray());
-        static::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null], [null, 2]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2], [1.5, null], [0, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $compound->toArray());
+        self::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $copy->toArray());
+        self::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null], [null, 2]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2], [1.5, null], [0, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geography\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 
     /** Null ordinates survive construction, access and independent reference copies. */
@@ -274,25 +271,25 @@ class PartiallyNullCompoundCurveTest extends TestCase
         $copy = $compound->withSpatialReference(SpatialReference::epsg(3857));
         $legacyCopy = $compound->withSrid(2154);
 
-        static::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $compound->toArray());
-        static::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $copy->toArray());
-        static::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $legacyCopy->toArray());
-        static::assertSame([[0, null], [null, 2]], $copy->getCurve(0)->toArray());
-        static::assertSame([[null, 2], [1.5, null], [0, null]], $copy->getCurve(1)->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $copy->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
-        static::assertNotSame($compound, $copy);
-        static::assertNotSame($line, $copy->getCurve(0));
-        static::assertNotSame($line->getPoint(0), $copy->getStartPoint());
-        static::assertNotSame($circular, $copy->getCurve(1));
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
-        static::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
-        static::assertSame(4326, $compound->getSrid());
-        static::assertSame(4326, $line->getPoint(0)->getSrid());
-        static::assertSame(3857, $copy->getSrid());
-        static::assertSame(3857, $copy->getStartPoint()?->getSrid());
-        static::assertSame(3857, $copy->getEndPoint()?->getSrid());
-        static::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
+        self::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $compound->toArray());
+        self::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $copy->toArray());
+        self::assertSame([[[0, null], [null, 2]], [[null, 2], [1.5, null], [0, null]]], $legacyCopy->toArray());
+        self::assertSame([[0, null], [null, 2]], $copy->getCurve(0)->toArray());
+        self::assertSame([[null, 2], [1.5, null], [0, null]], $copy->getCurve(1)->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $copy->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $copy->getFamily());
+        self::assertNotSame($compound, $copy);
+        self::assertNotSame($line, $copy->getCurve(0));
+        self::assertNotSame($line->getPoint(0), $copy->getStartPoint());
+        self::assertNotSame($circular, $copy->getCurve(1));
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CompoundCurveImmutable::class, new \ReflectionClass($copy)->getName());
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\LineStringImmutable::class, $copy->getCurve(0)::class);
+        self::assertSame(\LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\CircularStringImmutable::class, $copy->getCurve(1)::class);
+        self::assertSame(4326, $compound->getSrid());
+        self::assertSame(4326, $line->getPoint(0)->getSrid());
+        self::assertSame(3857, $copy->getSrid());
+        self::assertSame(3857, $copy->getStartPoint()?->getSrid());
+        self::assertSame(3857, $copy->getEndPoint()?->getSrid());
+        self::assertSame(2154, $legacyCopy->getStartPoint()?->getSrid());
     }
 }

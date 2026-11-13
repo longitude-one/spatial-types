@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -53,14 +50,14 @@ class MultiLineStringTest extends TestCase
     public function testGetDimension(): void
     {
         $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
-        static::assertTrue($multiLineString->hasZ());
-        static::assertFalse($multiLineString->hasM());
+        self::assertTrue($multiLineString->hasZ());
+        self::assertFalse($multiLineString->hasM());
         $ring = $multiLineString->getLineString(0);
-        static::assertTrue($ring->hasZ());
-        static::assertFalse($ring->hasM());
+        self::assertTrue($ring->hasZ());
+        self::assertFalse($ring->hasM());
         foreach ($ring->getPoints() as $point) {
-            static::assertTrue($point->hasZ());
-            static::assertFalse($point->hasM());
+            self::assertTrue($point->hasZ());
+            self::assertFalse($point->hasM());
         }
     }
 
@@ -71,11 +68,11 @@ class MultiLineStringTest extends TestCase
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
         $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
-        static::assertSame($expected, $multiLineString->getFamily());
+        self::assertSame($expected, $multiLineString->getFamily());
         $ring = $multiLineString->getLineString(0);
-        static::assertSame($expected, $ring->getFamily());
+        self::assertSame($expected, $ring->getFamily());
         foreach ($ring->getPoints() as $point) {
-            static::assertSame($expected, $point->getFamily());
+            self::assertSame($expected, $point->getFamily());
         }
     }
 
@@ -85,7 +82,7 @@ class MultiLineStringTest extends TestCase
     public function testGetType(): void
     {
         $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
-        static::assertSame(GeometryTypeEnum::MULTILINESTRING, $multiLineString->getType());
+        self::assertSame(GeometryTypeEnum::MULTILINESTRING, $multiLineString->getType());
     }
 
     /**
@@ -94,8 +91,8 @@ class MultiLineStringTest extends TestCase
     public function testJsonSerialize(): void
     {
         $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]]);
-        static::assertSame('{"type":"MultiLineString","coordinates":[[[1,2,-3],[3,4,5],[3,6,42.195],[1,2,-3]]],"srid":0}', json_encode($multiLineString));
+        self::assertSame('{"type":"MultiLineString","coordinates":[[[1,2,-3],[3,4,5],[3,6,42.195],[1,2,-3]]],"srid":0}', json_encode($multiLineString));
         $multiLineString = new MultiLineStringImmutable([[[1, 2, -3], [3, 4, 5], [3, 6, 42.195], [1, 2, -3]]], 4326);
-        static::assertSame('{"type":"MultiLineString","coordinates":[[[1,2,-3],[3,4,5],[3,6,42.195],[1,2,-3]]],"srid":4326}', json_encode($multiLineString));
+        self::assertSame('{"type":"MultiLineString","coordinates":[[[1,2,-3],[3,4,5],[3,6,42.195],[1,2,-3]]],"srid":4326}', json_encode($multiLineString));
     }
 }

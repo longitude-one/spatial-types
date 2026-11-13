@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -57,18 +54,18 @@ class LineStringWithSridTest extends TestCase
     {
         $lineStringWithSrid = $lineString->withSrid(2154);
 
-        static::assertNotSame($lineString, $lineStringWithSrid);
-        static::assertSame($lineString::class, new \ReflectionClass($lineStringWithSrid)->getName());
-        static::assertSame($lineString->toArray(), $lineStringWithSrid->toArray());
-        static::assertSame(4326, $lineString->getSrid());
-        static::assertSame(2154, $lineStringWithSrid->getSrid());
+        self::assertNotSame($lineString, $lineStringWithSrid);
+        self::assertSame($lineString::class, new \ReflectionClass($lineStringWithSrid)->getName());
+        self::assertSame($lineString->toArray(), $lineStringWithSrid->toArray());
+        self::assertSame(4326, $lineString->getSrid());
+        self::assertSame(2154, $lineStringWithSrid->getSrid());
 
         foreach ($lineStringWithSrid->getPoints() as $index => $point) {
-            static::assertNotSame($lineString->getPoint($index), $point);
-            static::assertSame(2154, $point->getSrid());
+            self::assertNotSame($lineString->getPoint($index), $point);
+            self::assertSame(2154, $point->getSrid());
         }
 
-        static::assertSame(4326, $lineString->getPoint(0)->getSrid());
-        static::assertSame(4326, $lineString->getPoint(1)->getSrid());
+        self::assertSame(4326, $lineString->getPoint(0)->getSrid());
+        self::assertSame(4326, $lineString->getPoint(1)->getSrid());
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -198,13 +195,13 @@ class ConcreteTypeContractTest extends TestCase
         };
 
         foreach ($spatialTypes as [$spatial, $type, $expectedCoordinates]) {
-            static::assertSame($family, $spatial->getFamily());
-            static::assertSame($type, $spatial->getType());
-            static::assertSame($expectedDimension, $spatial->getDimension());
-            static::assertSame($hasM, $spatial->hasM());
-            static::assertSame($hasZ, $spatial->hasZ());
-            static::assertSame($expectedCoordinates, $spatial->toArray());
-            static::assertSame([
+            self::assertSame($family, $spatial->getFamily());
+            self::assertSame($type, $spatial->getType());
+            self::assertSame($expectedDimension, $spatial->getDimension());
+            self::assertSame($hasM, $spatial->hasM());
+            self::assertSame($hasZ, $spatial->hasZ());
+            self::assertSame($expectedCoordinates, $spatial->toArray());
+            self::assertSame([
                 'type' => $type->value,
                 'coordinates' => $expectedCoordinates,
                 'srid' => 4326,

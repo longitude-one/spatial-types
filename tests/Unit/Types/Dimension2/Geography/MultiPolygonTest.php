@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -52,14 +49,14 @@ class MultiPolygonTest extends TestCase
     public function testGetDimension(): void
     {
         $multiPolygon = new MultiPolygonImmutable([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
-        static::assertFalse($multiPolygon->hasZ());
-        static::assertFalse($multiPolygon->hasM());
+        self::assertFalse($multiPolygon->hasZ());
+        self::assertFalse($multiPolygon->hasM());
         $polygon = $multiPolygon->getPolygon(0);
-        static::assertFalse($polygon->hasZ());
-        static::assertFalse($polygon->hasM());
+        self::assertFalse($polygon->hasZ());
+        self::assertFalse($polygon->hasM());
         foreach ($polygon->getRings() as $ring) {
-            static::assertFalse($ring->hasZ());
-            static::assertFalse($ring->hasM());
+            self::assertFalse($ring->hasZ());
+            self::assertFalse($ring->hasM());
         }
     }
 
@@ -70,11 +67,11 @@ class MultiPolygonTest extends TestCase
     {
         $expected = SpatialModelEnum::GEOGRAPHY;
         $multiPolygon = new MultiPolygonImmutable([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
-        static::assertSame($expected, $multiPolygon->getFamily());
+        self::assertSame($expected, $multiPolygon->getFamily());
         $polygon = $multiPolygon->getPolygon(0);
-        static::assertSame($expected, $polygon->getFamily());
+        self::assertSame($expected, $polygon->getFamily());
         foreach ($polygon->getRings() as $ring) {
-            static::assertSame($expected, $ring->getFamily());
+            self::assertSame($expected, $ring->getFamily());
         }
     }
 
@@ -84,7 +81,7 @@ class MultiPolygonTest extends TestCase
     public function testGetType(): void
     {
         $multiPolygon = new MultiPolygonImmutable([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
-        static::assertSame(GeometryTypeEnum::MULTIPOLYGON, $multiPolygon->getType());
+        self::assertSame(GeometryTypeEnum::MULTIPOLYGON, $multiPolygon->getType());
     }
 
     /**
@@ -93,8 +90,8 @@ class MultiPolygonTest extends TestCase
     public function testJsonSerialize(): void
     {
         $multiPolygon = new MultiPolygonImmutable([[[[1, 2], [3, 4], [3, 6], [1, 2]]]]);
-        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2],[3,4],[3,6],[1,2]]]],"srid":0}', json_encode($multiPolygon));
+        self::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2],[3,4],[3,6],[1,2]]]],"srid":0}', json_encode($multiPolygon));
         $multiPolygon = new MultiPolygonImmutable([[[[1, 2], [3, 4], [3, 6], [1, 2]]]], 4326);
-        static::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2],[3,4],[3,6],[1,2]]]],"srid":4326}', json_encode($multiPolygon));
+        self::assertSame('{"type":"MultiPolygon","coordinates":[[[[1,2],[3,4],[3,6],[1,2]]]],"srid":4326}', json_encode($multiPolygon));
     }
 }

@@ -2,3 +2,7 @@
 ,stories/
 vendor/
 composer.lock
+build/
+node_modules/
+package-lock.json
+!/phpunit.ci.xml

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -52,7 +49,7 @@ class PointTest extends TestCase
      */
     public function testConstructsLatitude(): void
     {
-        static::assertSame(45.1, new PointImmutable(-1.1, '45.1N', 42.195)->getY());
+        self::assertSame(45.1, new PointImmutable(-1.1, '45.1N', 42.195)->getY());
     }
 
     /**
@@ -60,7 +57,7 @@ class PointTest extends TestCase
      */
     public function testConstructsLongitude(): void
     {
-        static::assertSame(-1.1, new PointImmutable('1.1W', 45.1, 42.195)->getX());
+        self::assertSame(-1.1, new PointImmutable('1.1W', 45.1, 42.195)->getX());
     }
 
     /**
@@ -68,7 +65,7 @@ class PointTest extends TestCase
      */
     public function testGetFamily(): void
     {
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $this->point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $this->point->getFamily());
     }
 
     /**
@@ -76,7 +73,7 @@ class PointTest extends TestCase
      */
     public function testGetLatitude(): void
     {
-        static::assertSame(45.1, $this->point->getLatitude());
+        self::assertSame(45.1, $this->point->getLatitude());
     }
 
     /**
@@ -84,7 +81,7 @@ class PointTest extends TestCase
      */
     public function testGetLongitude(): void
     {
-        static::assertSame(-1.1, $this->point->getLongitude());
+        self::assertSame(-1.1, $this->point->getLongitude());
     }
 
     /**
@@ -102,7 +99,7 @@ class PointTest extends TestCase
      */
     public function testGetType(): void
     {
-        static::assertSame(GeometryTypeEnum::POINT, $this->point->getType());
+        self::assertSame(GeometryTypeEnum::POINT, $this->point->getType());
     }
 
     /**
@@ -110,7 +107,7 @@ class PointTest extends TestCase
      */
     public function testGetX(): void
     {
-        static::assertSame(-1.1, $this->point->getX());
+        self::assertSame(-1.1, $this->point->getX());
     }
 
     /**
@@ -118,7 +115,7 @@ class PointTest extends TestCase
      */
     public function testGetY(): void
     {
-        static::assertSame(45.1, $this->point->getY());
+        self::assertSame(45.1, $this->point->getY());
     }
 
     /**
@@ -126,7 +123,7 @@ class PointTest extends TestCase
      */
     public function testGetZ(): void
     {
-        static::assertSame(42.195, $this->point->getZ());
+        self::assertSame(42.195, $this->point->getZ());
     }
 
     /**
@@ -134,7 +131,7 @@ class PointTest extends TestCase
      */
     public function testHasM(): void
     {
-        static::assertFalse($this->point->hasM());
+        self::assertFalse($this->point->hasM());
     }
 
     /**
@@ -142,7 +139,7 @@ class PointTest extends TestCase
      */
     public function testHasZ(): void
     {
-        static::assertTrue($this->point->hasZ());
+        self::assertTrue($this->point->hasZ());
     }
 
     /**
@@ -150,9 +147,9 @@ class PointTest extends TestCase
      */
     public function testJsonSerialize(): void
     {
-        static::assertSame('{"type":"Point","coordinates":[-1.1,45.1,42.195],"srid":0}', json_encode($this->point));
+        self::assertSame('{"type":"Point","coordinates":[-1.1,45.1,42.195],"srid":0}', json_encode($this->point));
         $this->point = new PointImmutable(-1.1, 45.1, 42.195, 4326);
-        static::assertSame('{"type":"Point","coordinates":[-1.1,45.1,42.195],"srid":4326}', json_encode($this->point));
+        self::assertSame('{"type":"Point","coordinates":[-1.1,45.1,42.195],"srid":4326}', json_encode($this->point));
     }
 
     /**
@@ -160,6 +157,6 @@ class PointTest extends TestCase
      */
     public function testToArray(): void
     {
-        static::assertSame([-1.1, 45.1, 42.195], $this->point->toArray());
+        self::assertSame([-1.1, 45.1, 42.195], $this->point->toArray());
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -40,9 +37,9 @@ class FromIndexedArrayFactoryTest extends TestCase
     {
         $lineString = FromIndexedArrayFactory::createLineString([[0, 0], [1, 1]], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertCount(2, $lineString->getPoints());
-        static::assertSame(4326, $lineString->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $lineString->getFamily());
+        self::assertCount(2, $lineString->getPoints());
+        self::assertSame(4326, $lineString->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $lineString->getFamily());
     }
 
     /**
@@ -54,9 +51,9 @@ class FromIndexedArrayFactoryTest extends TestCase
 
         $lineString = FromIndexedArrayFactory::createLineString($points, 2154);
 
-        static::assertSame($points, $lineString->getPoints());
-        static::assertSame(2154, $lineString->getSrid());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $lineString->getFamily());
+        self::assertSame($points, $lineString->getPoints());
+        self::assertSame(2154, $lineString->getSrid());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $lineString->getFamily());
     }
 
     /**
@@ -78,10 +75,10 @@ class FromIndexedArrayFactoryTest extends TestCase
     {
         $point = FromIndexedArrayFactory::createPoint([1, 2], 2154, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertSame(1, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(1, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
     }
 
     /**
@@ -146,9 +143,9 @@ class FromIndexedArrayFactoryTest extends TestCase
             [[0.5, 0.5], [1, 0.5], [1, 1], [0.5, 0.5]],
         ], 4326, SpatialModelEnum::GEOGRAPHY);
 
-        static::assertCount(2, $polygon->getRings());
-        static::assertSame(4326, $polygon->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
+        self::assertCount(2, $polygon->getRings());
+        self::assertSame(4326, $polygon->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $polygon->getFamily());
     }
 
     /**
@@ -160,8 +157,8 @@ class FromIndexedArrayFactoryTest extends TestCase
 
         $polygon = FromIndexedArrayFactory::createPolygon($rings, 2154);
 
-        static::assertSame($rings, $polygon->getRings());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $polygon->getFamily());
+        self::assertSame($rings, $polygon->getRings());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $polygon->getFamily());
     }
 
     /**
@@ -183,8 +180,8 @@ class FromIndexedArrayFactoryTest extends TestCase
     {
         $polygon = FromIndexedArrayFactory::createPolygon([], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZ);
 
-        static::assertTrue($polygon->hasZ());
-        static::assertFalse($polygon->hasM());
+        self::assertTrue($polygon->hasZ());
+        self::assertFalse($polygon->hasM());
     }
 
     /**
@@ -194,9 +191,9 @@ class FromIndexedArrayFactoryTest extends TestCase
     {
         $lineString = FromIndexedArrayFactory::createLineString([[0, 0, 0]], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYM);
 
-        static::assertTrue($lineString->hasM());
-        static::assertFalse($lineString->hasZ());
-        static::assertSame([[0, 0, 0]], $lineString->toArray());
+        self::assertTrue($lineString->hasM());
+        self::assertFalse($lineString->hasZ());
+        self::assertSame([[0, 0, 0]], $lineString->toArray());
     }
 
     /**
@@ -206,8 +203,8 @@ class FromIndexedArrayFactoryTest extends TestCase
     {
         $point = FromIndexedArrayFactory::createPoint([1, 2, 3, 4], 0, SpatialModelEnum::GEOMETRY, CoordinateDimensionEnum::XYZM);
 
-        static::assertSame([1, 2, 3, 4], $point->toArray());
-        static::assertTrue($point->hasM());
-        static::assertTrue($point->hasZ());
+        self::assertSame([1, 2, 3, 4], $point->toArray());
+        self::assertTrue($point->hasM());
+        self::assertTrue($point->hasZ());
     }
 }

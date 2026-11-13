@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -39,16 +36,16 @@ class MutablePolygonContextTest extends TestCase
         $arc = new LineString([$point], $initial);
         $compound = new Polygon([$line, $arc], $initial);
         $owner = new Polygon([$line], $initial);
-        static::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $line->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $arc->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getRing(0)->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
-        static::assertSame($line, $compound->getRing(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $line->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $arc->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getRing(0)->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
+        self::assertSame($line, $compound->getRing(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Declared context preserves coordinates and shared component identity. */
@@ -60,16 +57,16 @@ class MutablePolygonContextTest extends TestCase
         $arc = new LineString([$point], $initial);
         $compound = new Polygon([$line, $arc], $initial);
         $owner = new Polygon([$line], $initial);
-        static::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getRing(0)->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
-        static::assertSame($line, $compound->getRing(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getRing(0)->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
+        self::assertSame($line, $compound->getRing(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Declared context preserves coordinates and shared component identity. */
@@ -82,16 +79,16 @@ class MutablePolygonContextTest extends TestCase
         $arc = new LineString([$point], $initial);
         $compound = new Polygon([$line, $arc], $initial);
         $owner = new Polygon([$line], $initial);
-        static::assertSame($compound, $compound->setSpatialReference($reference, false));
-        static::assertSame($reference, $compound->getSpatialReference());
-        static::assertSame($initial, $line->getSpatialReference());
-        static::assertSame($initial, $arc->getSpatialReference());
-        static::assertSame($initial, $point->getSpatialReference());
-        static::assertSame($initial, $owner->getRing(0)->getSpatialReference());
-        static::assertSame($initial, $owner->getSpatialReference());
-        static::assertSame($line, $compound->getRing(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSpatialReference($reference, false));
+        self::assertSame($reference, $compound->getSpatialReference());
+        self::assertSame($initial, $line->getSpatialReference());
+        self::assertSame($initial, $arc->getSpatialReference());
+        self::assertSame($initial, $point->getSpatialReference());
+        self::assertSame($initial, $owner->getRing(0)->getSpatialReference());
+        self::assertSame($initial, $owner->getSpatialReference());
+        self::assertSame($line, $compound->getRing(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Declared context preserves coordinates and shared component identity. */
@@ -104,16 +101,16 @@ class MutablePolygonContextTest extends TestCase
         $arc = new LineString([$point], $initial);
         $compound = new Polygon([$line, $arc], $initial);
         $owner = new Polygon([$line], $initial);
-        static::assertSame($compound, $compound->setSpatialReference($reference));
-        static::assertSame($reference, $compound->getSpatialReference());
-        static::assertSame($reference, $line->getSpatialReference());
-        static::assertSame($reference, $arc->getSpatialReference());
-        static::assertSame($reference, $point->getSpatialReference());
-        static::assertSame($reference, $owner->getRing(0)->getSpatialReference());
-        static::assertSame($initial, $owner->getSpatialReference());
-        static::assertSame($line, $compound->getRing(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSpatialReference($reference));
+        self::assertSame($reference, $compound->getSpatialReference());
+        self::assertSame($reference, $line->getSpatialReference());
+        self::assertSame($reference, $arc->getSpatialReference());
+        self::assertSame($reference, $point->getSpatialReference());
+        self::assertSame($reference, $owner->getRing(0)->getSpatialReference());
+        self::assertSame($initial, $owner->getSpatialReference());
+        self::assertSame($line, $compound->getRing(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Declared context preserves coordinates and shared component identity. */
@@ -125,16 +122,16 @@ class MutablePolygonContextTest extends TestCase
         $arc = new LineString([$point], $initial);
         $compound = new Polygon([$line, $arc], $initial);
         $owner = new Polygon([$line], $initial);
-        static::assertSame($compound, $compound->setSrid(3857, false));
-        static::assertSame(3857, $compound->getSrid());
-        static::assertSame(4326, $line->getSrid());
-        static::assertSame(4326, $arc->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(4326, $owner->getRing(0)->getSrid());
-        static::assertSame(4326, $owner->getSrid());
-        static::assertSame($line, $compound->getRing(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSrid(3857, false));
+        self::assertSame(3857, $compound->getSrid());
+        self::assertSame(4326, $line->getSrid());
+        self::assertSame(4326, $arc->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(4326, $owner->getRing(0)->getSrid());
+        self::assertSame(4326, $owner->getSrid());
+        self::assertSame($line, $compound->getRing(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Declared context preserves coordinates and shared component identity. */
@@ -146,15 +143,15 @@ class MutablePolygonContextTest extends TestCase
         $arc = new LineString([$point], $initial);
         $compound = new Polygon([$line, $arc], $initial);
         $owner = new Polygon([$line], $initial);
-        static::assertSame($compound, $compound->setSrid(3857));
-        static::assertSame(3857, $compound->getSrid());
-        static::assertSame(3857, $line->getSrid());
-        static::assertSame(3857, $arc->getSrid());
-        static::assertSame(3857, $point->getSrid());
-        static::assertSame(3857, $owner->getRing(0)->getSrid());
-        static::assertSame(4326, $owner->getSrid());
-        static::assertSame($line, $compound->getRing(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSrid(3857));
+        self::assertSame(3857, $compound->getSrid());
+        self::assertSame(3857, $line->getSrid());
+        self::assertSame(3857, $arc->getSrid());
+        self::assertSame(3857, $point->getSrid());
+        self::assertSame(3857, $owner->getRing(0)->getSrid());
+        self::assertSame(4326, $owner->getSrid());
+        self::assertSame($line, $compound->getRing(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 }

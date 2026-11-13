@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -35,7 +32,7 @@ class PointTest extends TestCase
      */
     public function testConstructsNegativeSouthLatitude(): void
     {
-        static::assertSame(-40, new PointImmutable(0, '-40S')->getLatitude());
+        self::assertSame(-40, new PointImmutable(0, '-40S')->getLatitude());
     }
 
     /**
@@ -43,6 +40,6 @@ class PointTest extends TestCase
      */
     public function testConstructsNegativeWestLongitude(): void
     {
-        static::assertSame(-40, new PointImmutable('-40W', 0)->getLongitude());
+        self::assertSame(-40, new PointImmutable('-40W', 0)->getLongitude());
     }
 }

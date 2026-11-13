@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -51,16 +48,16 @@ class SpatialTypesTest extends TestCase
         $lineString = new GeographicLineString([$first, $second, $third, $first]);
         $polygon = new GeographicPolygon([$lineString]);
 
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $first->getFamily());
-        static::assertTrue($first->hasM());
-        static::assertTrue($first->hasZ());
-        static::assertSame([-1, 2, 3, 4], $first->toArray());
-        static::assertSame([$first, $second, $first], new GeographicMultiPoint([$first, $second, $first])->getElements());
-        static::assertSame([$lineString], new GeographicMultiLineString([$lineString])->getElements());
-        static::assertSame([$polygon], new GeographicMultiPolygon([$polygon])->getElements());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $first->getFamily());
+        self::assertTrue($first->hasM());
+        self::assertTrue($first->hasZ());
+        self::assertSame([-1, 2, 3, 4], $first->toArray());
+        self::assertSame([$first, $second, $first], new GeographicMultiPoint([$first, $second, $first])->getElements());
+        self::assertSame([$lineString], new GeographicMultiLineString([$lineString])->getElements());
+        self::assertSame([$polygon], new GeographicMultiPolygon([$polygon])->getElements());
 
         $collection = new GeographyCollectionImmutable(0, [$polygon]);
-        static::assertSame([$polygon], $collection->getElements());
+        self::assertSame([$polygon], $collection->getElements());
     }
 
     /**
@@ -74,17 +71,17 @@ class SpatialTypesTest extends TestCase
         $lineString = new GeometricLineString([$first, $second, $third, $first]);
         $polygon = new GeometricPolygon([$lineString]);
 
-        static::assertSame(SpatialModelEnum::GEOMETRY, $first->getFamily());
-        static::assertTrue($first->hasM());
-        static::assertTrue($first->hasZ());
-        static::assertSame(3, $first->getZ());
-        static::assertSame(4, $first->getM());
-        static::assertSame([1, 2, 3, 4], $first->toArray());
-        static::assertSame([$first, $second, $first], new GeometricMultiPoint([$first, $second, $first])->getElements());
-        static::assertSame([$lineString], new GeometricMultiLineString([$lineString])->getElements());
-        static::assertSame([$polygon], new GeometricMultiPolygon([$polygon])->getElements());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $first->getFamily());
+        self::assertTrue($first->hasM());
+        self::assertTrue($first->hasZ());
+        self::assertSame(3, $first->getZ());
+        self::assertSame(4, $first->getM());
+        self::assertSame([1, 2, 3, 4], $first->toArray());
+        self::assertSame([$first, $second, $first], new GeometricMultiPoint([$first, $second, $first])->getElements());
+        self::assertSame([$lineString], new GeometricMultiLineString([$lineString])->getElements());
+        self::assertSame([$polygon], new GeometricMultiPolygon([$polygon])->getElements());
 
         $collection = new GeometryCollectionImmutable(0, [$polygon]);
-        static::assertSame([$polygon], $collection->getElements());
+        self::assertSame([$polygon], $collection->getElements());
     }
 }

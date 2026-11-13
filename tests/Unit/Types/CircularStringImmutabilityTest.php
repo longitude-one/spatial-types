@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -48,7 +45,7 @@ class CircularStringImmutabilityTest extends TestCase
         try {
             $curve->withPoint(1, Coordinates::xyz(1, 2, 3));
         } finally {
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
         }
     }
 
@@ -59,11 +56,11 @@ class CircularStringImmutabilityTest extends TestCase
         $replacement = $curve->withArrayOfCoordinates([[3, 0], [4, 1], [5, 0]]);
         $empty = $curve->withArrayOfCoordinates([]);
 
-        static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-        static::assertSame([[3, 0], [4, 1], [5, 0]], $replacement->toArray());
-        static::assertSame([], $empty->toArray());
-        static::assertSame($curve->getSpatialReference(), $replacement->getPoint(0)->getSpatialReference());
-        static::assertSame($curve->getSpatialReference(), $empty->getSpatialReference());
+        self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+        self::assertSame([[3, 0], [4, 1], [5, 0]], $replacement->toArray());
+        self::assertSame([], $empty->toArray());
+        self::assertSame($curve->getSpatialReference(), $replacement->getPoint(0)->getSpatialReference());
+        self::assertSame($curve->getSpatialReference(), $empty->getSpatialReference());
     }
 
     /** Reference changes retain empty values. */
@@ -72,9 +69,9 @@ class CircularStringImmutabilityTest extends TestCase
         $curve = new CircularStringImmutable([], 4326);
         $replacement = $curve->withSrid(2154);
 
-        static::assertSame([], $replacement->getPoints());
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame(4326, $curve->getSrid());
+        self::assertSame([], $replacement->getPoints());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame(4326, $curve->getSrid());
     }
 
     /** Indexed replacement copies points and retains the full reference identity. */
@@ -83,13 +80,13 @@ class CircularStringImmutabilityTest extends TestCase
         $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], SpatialReference::epsg(4326));
         $replacement = $curve->withPoint(-2, Coordinates::xy(1, 2));
 
-        static::assertNotSame($curve, $replacement);
-        static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-        static::assertSame([[0, 0], [1, 2], [2, 0]], $replacement->toArray());
-        static::assertNotSame($curve->getPoint(0), $replacement->getPoint(0));
-        static::assertNotSame($curve->getPoint(2), $replacement->getPoint(2));
-        static::assertSame($curve->getSpatialReference(), $replacement->getSpatialReference());
-        static::assertSame($curve->getSpatialReference(), $replacement->getPoint(0)->getSpatialReference());
+        self::assertNotSame($curve, $replacement);
+        self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+        self::assertSame([[0, 0], [1, 2], [2, 0]], $replacement->toArray());
+        self::assertNotSame($curve->getPoint(0), $replacement->getPoint(0));
+        self::assertNotSame($curve->getPoint(2), $replacement->getPoint(2));
+        self::assertSame($curve->getSpatialReference(), $replacement->getSpatialReference());
+        self::assertSame($curve->getSpatialReference(), $replacement->getPoint(0)->getSpatialReference());
     }
 
     /** A reference edit recursively changes declarations without transforming coordinates. */
@@ -99,14 +96,14 @@ class CircularStringImmutabilityTest extends TestCase
         $reference = SpatialReference::epsg(2154);
         $replacement = $curve->withSpatialReference($reference);
 
-        static::assertSame([[0, 0], [1, 1], [2, 0]], $replacement->toArray());
-        static::assertSame($reference, $replacement->getSpatialReference());
-        static::assertSame($reference, $replacement->getPoint(0)->getSpatialReference());
-        static::assertSame($reference, $replacement->getPoint(1)->getSpatialReference());
-        static::assertSame($reference, $replacement->getPoint(2)->getSpatialReference());
-        static::assertNotSame($curve->getPoint(0), $replacement->getPoint(0));
-        static::assertSame(4326, $curve->getSrid());
-        static::assertSame(4326, $curve->getPoint(0)->getSrid());
+        self::assertSame([[0, 0], [1, 1], [2, 0]], $replacement->toArray());
+        self::assertSame($reference, $replacement->getSpatialReference());
+        self::assertSame($reference, $replacement->getPoint(0)->getSpatialReference());
+        self::assertSame($reference, $replacement->getPoint(1)->getSpatialReference());
+        self::assertSame($reference, $replacement->getPoint(2)->getSpatialReference());
+        self::assertNotSame($curve->getPoint(0), $replacement->getPoint(0));
+        self::assertSame(4326, $curve->getSrid());
+        self::assertSame(4326, $curve->getPoint(0)->getSrid());
     }
 
     /** The legacy integer adapter also copies every defining point. */
@@ -115,12 +112,12 @@ class CircularStringImmutabilityTest extends TestCase
         $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0]], 4326);
         $replacement = $curve->withSrid(2154);
 
-        static::assertSame(2154, $replacement->getSrid());
-        static::assertSame(2154, $replacement->getPoint(0)->getSrid());
-        static::assertSame(2154, $replacement->getPoint(1)->getSrid());
-        static::assertSame(2154, $replacement->getPoint(2)->getSrid());
-        static::assertSame([[0, 0], [1, 1], [2, 0]], $replacement->toArray());
-        static::assertSame(4326, $curve->getSrid());
-        static::assertSame(4326, $curve->getPoint(0)->getSrid());
+        self::assertSame(2154, $replacement->getSrid());
+        self::assertSame(2154, $replacement->getPoint(0)->getSrid());
+        self::assertSame(2154, $replacement->getPoint(1)->getSrid());
+        self::assertSame(2154, $replacement->getPoint(2)->getSrid());
+        self::assertSame([[0, 0], [1, 1], [2, 0]], $replacement->toArray());
+        self::assertSame(4326, $curve->getSrid());
+        self::assertSame(4326, $curve->getPoint(0)->getSrid());
     }
 }

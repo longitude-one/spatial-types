@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -49,11 +46,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->getCurve(1);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -68,11 +65,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->removeCurve(1);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -87,11 +84,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->setCurve(1, $curve);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -101,28 +98,28 @@ class MutableCompoundCurveTest extends TestCase
         $line = new LineString([[0, null]], 4326);
         $arc = new CircularString([[9, 8]], 2154, SpatialModelEnum::GEOGRAPHY);
         $compound = new CompoundCurve([$line, $arc]);
-        static::assertSame([[[0, null]], [[9, 8]]], $compound->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $compound->getDimension());
-        static::assertSame(CoordinateDimensionEnum::XY, $arc->getDimension());
-        static::assertSame(2154, $arc->getSrid());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
+        self::assertSame([[[0, null]], [[9, 8]]], $compound->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $compound->getDimension());
+        self::assertSame(CoordinateDimensionEnum::XY, $arc->getDimension());
+        self::assertSame(2154, $arc->getSrid());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
     }
 
     /** Empty and incomplete components do not trigger geometric checks. */
     public function testEmptyAndIncompleteComponents(): void
     {
         $compound = new CompoundCurve();
-        static::assertNull($compound->getStartPoint());
-        static::assertNull($compound->getEndPoint());
+        self::assertNull($compound->getStartPoint());
+        self::assertNull($compound->getEndPoint());
         $empty = new LineString([]);
         $partial = new CircularString([[0, null]]);
         $compound->setCurves([$empty, $partial]);
-        static::assertNull($compound->getStartPoint());
-        static::assertSame([[], [[0, null]]], $compound->toArray());
+        self::assertNull($compound->getStartPoint());
+        self::assertSame([[], [[0, null]]], $compound->toArray());
         $compound->setCurves([$partial, $empty]);
-        static::assertNull($compound->getEndPoint());
+        self::assertNull($compound->getEndPoint());
         $compound->setCurves([$partial]);
-        static::assertSame($compound, $compound->setCurves([]));
+        self::assertSame($compound, $compound->setCurves([]));
     }
 
     /** Empty indexed access has no existing component. */
@@ -134,7 +131,7 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->getCurve(0);
         } finally {
-            static::assertSame([], $compound->getCurves());
+            self::assertSame([], $compound->getCurves());
         }
     }
 
@@ -147,16 +144,16 @@ class MutableCompoundCurveTest extends TestCase
         $arc = new CircularString([$point], $initial);
         $compound = new CompoundCurve([$line, $arc], $initial);
         $owner = new CompoundCurve([$line], $initial);
-        static::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $line->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $arc->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getCurve(0)->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
-        static::assertSame($line, $compound->getCurve(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $line->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $arc->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getCurve(0)->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
+        self::assertSame($line, $compound->getCurve(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Context updates reach shared descendants recursively. */
@@ -168,16 +165,16 @@ class MutableCompoundCurveTest extends TestCase
         $arc = new CircularString([$point], $initial);
         $compound = new CompoundCurve([$line, $arc], $initial);
         $owner = new CompoundCurve([$line], $initial);
-        static::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getCurve(0)->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
-        static::assertSame($line, $compound->getCurve(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $line->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $arc->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $owner->getCurve(0)->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
+        self::assertSame($line, $compound->getCurve(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Typed mutation rejects immutable components before modification. */
@@ -191,9 +188,9 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionMethod($compound, 'addCurve')->invoke($compound, $immutable);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
         }
     }
 
@@ -208,11 +205,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionClass(CompoundCurve::class)->newInstance([$immutable]);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
-            static::assertSame(2154, $immutable->getSrid());
-            static::assertSame(4326, $curve->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame(2154, $immutable->getSrid());
+            self::assertSame(4326, $curve->getSrid());
         }
     }
 
@@ -227,9 +224,9 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionMethod($compound, 'insertCurve')->invoke($compound, 0, $immutable);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
         }
     }
 
@@ -244,9 +241,9 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionMethod($compound, 'setCurve')->invoke($compound, 0, $immutable);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
         }
     }
 
@@ -261,11 +258,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionMethod($compound, 'setCurves')->invoke($compound, [$curve, $immutable]);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
-            static::assertSame(2154, $immutable->getSrid());
-            static::assertSame(4326, $curve->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame(2154, $immutable->getSrid());
+            self::assertSame(4326, $curve->getSrid());
         }
     }
 
@@ -280,11 +277,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->getCurve(-1);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -299,11 +296,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->insertCurve(-1, $curve);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -318,11 +315,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->removeCurve(-1);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -337,11 +334,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->setCurve(-1, $curve);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -356,11 +353,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionMethod($compound, 'setCurves')->invoke($compound, [$curve, new CompoundCurve()]);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
-            static::assertSame(2154, $immutable->getSrid());
-            static::assertSame(4326, $curve->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame(2154, $immutable->getSrid());
+            self::assertSame(4326, $curve->getSrid());
         }
     }
 
@@ -373,23 +370,23 @@ class MutableCompoundCurveTest extends TestCase
         $other = new LineString([[3, 4]]);
         $compound = new CompoundCurve([$line]);
         $owner = new CompoundCurve([$line]);
-        static::assertSame($compound, $compound->addCurve($arc)->insertCurve(1, $other));
-        static::assertSame([$line, $other, $arc], $compound->getCurves());
-        static::assertSame($compound, $compound->insertCurve(3, $line));
-        static::assertSame($compound, $compound->setCurve(1, $arc)->removeCurve(2));
-        static::assertSame([$line, $arc, $line], $compound->getElements());
-        static::assertSame($arc, $compound->getCurve(1));
-        static::assertSame($point, $compound->getStartPoint());
-        static::assertSame($point, $compound->getEndPoint());
+        self::assertSame($compound, $compound->addCurve($arc)->insertCurve(1, $other));
+        self::assertSame([$line, $other, $arc], $compound->getCurves());
+        self::assertSame($compound, $compound->insertCurve(3, $line));
+        self::assertSame($compound, $compound->setCurve(1, $arc)->removeCurve(2));
+        self::assertSame([$line, $arc, $line], $compound->getElements());
+        self::assertSame($arc, $compound->getCurve(1));
+        self::assertSame($point, $compound->getStartPoint());
+        self::assertSame($point, $compound->getEndPoint());
         $point->setY(7);
         $line->addPoint(new Point(null, 5));
-        static::assertSame([[[0, 7], [null, 5]]], $owner->toArray());
-        static::assertSame([[[0, 7], [null, 5]], [[9, 8]], [[0, 7], [null, 5]]], $compound->toArray());
-        static::assertSame($compound, $compound->setCurves([7 => $arc, 9 => $line]));
-        static::assertSame([$arc, $line], $compound->getCurves());
+        self::assertSame([[[0, 7], [null, 5]]], $owner->toArray());
+        self::assertSame([[[0, 7], [null, 5]], [[9, 8]], [[0, 7], [null, 5]]], $compound->toArray());
+        self::assertSame($compound, $compound->setCurves([7 => $arc, 9 => $line]));
+        self::assertSame([$arc, $line], $compound->getCurves());
         $returned = $compound->getCurves();
         $returned[0] = $other;
-        static::assertSame($arc, $compound->getCurve(0));
+        self::assertSame($arc, $compound->getCurve(0));
     }
 
     /** Invalid addressing leaves components unchanged. */
@@ -403,11 +400,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             $compound->insertCurve(2, $curve);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[1, 2]]], $compound->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame(2154, $compound->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[1, 2]]], $compound->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame(2154, $compound->getSrid());
         }
     }
 
@@ -415,16 +412,16 @@ class MutableCompoundCurveTest extends TestCase
     public function testPublicContracts(): void
     {
         $compound = new CompoundCurve();
-        static::assertContains(MutableCompoundCurveInterface::class, class_implements($compound));
-        static::assertContains(MutableSpatialInterface::class, class_implements($compound));
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
-        static::assertSame(CoordinateDimensionEnum::XY, $compound->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $compound->getFamily());
-        static::assertFalse(new \ReflectionClass($compound)->hasMethod('withSrid'));
-        static::assertFalse(new \ReflectionClass($compound)->hasMethod('withSpatialReference'));
-        static::assertFalse(new \ReflectionClass($compound)->hasMethod('withCurves'));
-        static::assertFalse(new \ReflectionClass($compound)->hasMethod('setDimension'));
-        static::assertSame('static', (string) new \ReflectionMethod($compound, 'setCurves')->getReturnType());
+        self::assertContains(MutableCompoundCurveInterface::class, class_implements($compound));
+        self::assertContains(MutableSpatialInterface::class, class_implements($compound));
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
+        self::assertSame(CoordinateDimensionEnum::XY, $compound->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $compound->getFamily());
+        self::assertFalse(new \ReflectionClass($compound)->hasMethod('withSrid'));
+        self::assertFalse(new \ReflectionClass($compound)->hasMethod('withSpatialReference'));
+        self::assertFalse(new \ReflectionClass($compound)->hasMethod('withCurves'));
+        self::assertFalse(new \ReflectionClass($compound)->hasMethod('setDimension'));
+        self::assertSame('static', (string) new \ReflectionMethod($compound, 'setCurves')->getReturnType());
     }
 
     /** Context updates remain local. */
@@ -437,16 +434,16 @@ class MutableCompoundCurveTest extends TestCase
         $arc = new CircularString([$point], $initial);
         $compound = new CompoundCurve([$line, $arc], $initial);
         $owner = new CompoundCurve([$line], $initial);
-        static::assertSame($compound, $compound->setSpatialReference($reference, false));
-        static::assertSame($reference, $compound->getSpatialReference());
-        static::assertSame($initial, $line->getSpatialReference());
-        static::assertSame($initial, $arc->getSpatialReference());
-        static::assertSame($initial, $point->getSpatialReference());
-        static::assertSame($initial, $owner->getCurve(0)->getSpatialReference());
-        static::assertSame($initial, $owner->getSpatialReference());
-        static::assertSame($line, $compound->getCurve(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSpatialReference($reference, false));
+        self::assertSame($reference, $compound->getSpatialReference());
+        self::assertSame($initial, $line->getSpatialReference());
+        self::assertSame($initial, $arc->getSpatialReference());
+        self::assertSame($initial, $point->getSpatialReference());
+        self::assertSame($initial, $owner->getCurve(0)->getSpatialReference());
+        self::assertSame($initial, $owner->getSpatialReference());
+        self::assertSame($line, $compound->getCurve(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Context updates reach shared descendants recursively. */
@@ -459,16 +456,16 @@ class MutableCompoundCurveTest extends TestCase
         $arc = new CircularString([$point], $initial);
         $compound = new CompoundCurve([$line, $arc], $initial);
         $owner = new CompoundCurve([$line], $initial);
-        static::assertSame($compound, $compound->setSpatialReference($reference));
-        static::assertSame($reference, $compound->getSpatialReference());
-        static::assertSame($reference, $line->getSpatialReference());
-        static::assertSame($reference, $arc->getSpatialReference());
-        static::assertSame($reference, $point->getSpatialReference());
-        static::assertSame($reference, $owner->getCurve(0)->getSpatialReference());
-        static::assertSame($initial, $owner->getSpatialReference());
-        static::assertSame($line, $compound->getCurve(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSpatialReference($reference));
+        self::assertSame($reference, $compound->getSpatialReference());
+        self::assertSame($reference, $line->getSpatialReference());
+        self::assertSame($reference, $arc->getSpatialReference());
+        self::assertSame($reference, $point->getSpatialReference());
+        self::assertSame($reference, $owner->getCurve(0)->getSpatialReference());
+        self::assertSame($initial, $owner->getSpatialReference());
+        self::assertSame($line, $compound->getCurve(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Context updates remain local. */
@@ -480,16 +477,16 @@ class MutableCompoundCurveTest extends TestCase
         $arc = new CircularString([$point], $initial);
         $compound = new CompoundCurve([$line, $arc], $initial);
         $owner = new CompoundCurve([$line], $initial);
-        static::assertSame($compound, $compound->setSrid(3857, false));
-        static::assertSame(3857, $compound->getSrid());
-        static::assertSame(4326, $line->getSrid());
-        static::assertSame(4326, $arc->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(4326, $owner->getCurve(0)->getSrid());
-        static::assertSame(4326, $owner->getSrid());
-        static::assertSame($line, $compound->getCurve(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSrid(3857, false));
+        self::assertSame(3857, $compound->getSrid());
+        self::assertSame(4326, $line->getSrid());
+        self::assertSame(4326, $arc->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(4326, $owner->getCurve(0)->getSrid());
+        self::assertSame(4326, $owner->getSrid());
+        self::assertSame($line, $compound->getCurve(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Context updates reach shared descendants recursively. */
@@ -501,16 +498,16 @@ class MutableCompoundCurveTest extends TestCase
         $arc = new CircularString([$point], $initial);
         $compound = new CompoundCurve([$line, $arc], $initial);
         $owner = new CompoundCurve([$line], $initial);
-        static::assertSame($compound, $compound->setSrid(3857));
-        static::assertSame(3857, $compound->getSrid());
-        static::assertSame(3857, $line->getSrid());
-        static::assertSame(3857, $arc->getSrid());
-        static::assertSame(3857, $point->getSrid());
-        static::assertSame(3857, $owner->getCurve(0)->getSrid());
-        static::assertSame(4326, $owner->getSrid());
-        static::assertSame($line, $compound->getCurve(0));
-        static::assertSame($point, $arc->getPoint(0));
-        static::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
+        self::assertSame($compound, $compound->setSrid(3857));
+        self::assertSame(3857, $compound->getSrid());
+        self::assertSame(3857, $line->getSrid());
+        self::assertSame(3857, $arc->getSrid());
+        self::assertSame(3857, $point->getSrid());
+        self::assertSame(3857, $owner->getCurve(0)->getSrid());
+        self::assertSame(4326, $owner->getSrid());
+        self::assertSame($line, $compound->getCurve(0));
+        self::assertSame($point, $arc->getPoint(0));
+        self::assertSame([[[0, null]], [[0, null]]], $compound->toArray());
     }
 
     /** Unsupported component input is rejected atomically. */
@@ -524,11 +521,11 @@ class MutableCompoundCurveTest extends TestCase
         try {
             new \ReflectionClass(CompoundCurve::class)->newInstance([[[1, 2]]]);
         } finally {
-            static::assertSame([$curve], $compound->getCurves());
-            static::assertSame([[[0, null]]], $compound->toArray());
-            static::assertSame([[3, 4]], $immutable->toArray());
-            static::assertSame(2154, $immutable->getSrid());
-            static::assertSame(4326, $curve->getSrid());
+            self::assertSame([$curve], $compound->getCurves());
+            self::assertSame([[[0, null]]], $compound->toArray());
+            self::assertSame([[3, 4]], $immutable->toArray());
+            self::assertSame(2154, $immutable->getSrid());
+            self::assertSame(4326, $curve->getSrid());
         }
     }
 
@@ -538,15 +535,15 @@ class MutableCompoundCurveTest extends TestCase
         $line = new \LongitudeOne\SpatialTypes\Types\Dimension3m\LineString([[0, null, 9]], 4326);
         $arc = new \LongitudeOne\SpatialTypes\Types\Dimension3m\CircularString([[0, null, 9]], 2154);
         $compound = new \LongitudeOne\SpatialTypes\Types\Dimension3m\CompoundCurve([$line, $arc], 0, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame(CoordinateDimensionEnum::XYM, $compound->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame([[[0, null, 9]], [[0, null, 9]]], $compound->toArray());
-        static::assertSame($compound, $compound->setCurve(0, $arc)->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
-        static::assertSame(CoordinateDimensionEnum::XYM, $compound->getDimension());
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
-        static::assertSame([[[0, null, 9]], [[0, null, 9]]], $compound->toArray());
-        static::assertSame(4326, $line->getSrid());
-        static::assertSame(3857, $arc->getPoint(0)->getSrid());
+        self::assertSame(CoordinateDimensionEnum::XYM, $compound->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame([[[0, null, 9]], [[0, null, 9]]], $compound->toArray());
+        self::assertSame($compound, $compound->setCurve(0, $arc)->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
+        self::assertSame(CoordinateDimensionEnum::XYM, $compound->getDimension());
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
+        self::assertSame([[[0, null, 9]], [[0, null, 9]]], $compound->toArray());
+        self::assertSame(4326, $line->getSrid());
+        self::assertSame(3857, $arc->getPoint(0)->getSrid());
     }
 
     /** XYZ layout preserves every supplied ordinate. */
@@ -555,15 +552,15 @@ class MutableCompoundCurveTest extends TestCase
         $line = new \LongitudeOne\SpatialTypes\Types\Dimension3z\LineString([[0, null, 8]], 4326);
         $arc = new \LongitudeOne\SpatialTypes\Types\Dimension3z\CircularString([[0, null, 8]], 2154);
         $compound = new \LongitudeOne\SpatialTypes\Types\Dimension3z\CompoundCurve([$line, $arc], 0, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame([[[0, null, 8]], [[0, null, 8]]], $compound->toArray());
-        static::assertSame($compound, $compound->setCurve(0, $arc)->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
-        static::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
-        static::assertSame([[[0, null, 8]], [[0, null, 8]]], $compound->toArray());
-        static::assertSame(4326, $line->getSrid());
-        static::assertSame(3857, $arc->getPoint(0)->getSrid());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame([[[0, null, 8]], [[0, null, 8]]], $compound->toArray());
+        self::assertSame($compound, $compound->setCurve(0, $arc)->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
+        self::assertSame(CoordinateDimensionEnum::XYZ, $compound->getDimension());
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
+        self::assertSame([[[0, null, 8]], [[0, null, 8]]], $compound->toArray());
+        self::assertSame(4326, $line->getSrid());
+        self::assertSame(3857, $arc->getPoint(0)->getSrid());
     }
 
     /** XYZM layout preserves every supplied ordinate. */
@@ -572,14 +569,14 @@ class MutableCompoundCurveTest extends TestCase
         $line = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\LineString([[0, null, 8, 9]], 4326);
         $arc = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\CircularString([[0, null, 8, 9]], 2154);
         $compound = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\CompoundCurve([$line, $arc], 0, SpatialModelEnum::GEOGRAPHY);
-        static::assertSame(CoordinateDimensionEnum::XYZM, $compound->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
-        static::assertSame([[[0, null, 8, 9]], [[0, null, 8, 9]]], $compound->toArray());
-        static::assertSame($compound, $compound->setCurve(0, $arc)->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
-        static::assertSame(CoordinateDimensionEnum::XYZM, $compound->getDimension());
-        static::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
-        static::assertSame([[[0, null, 8, 9]], [[0, null, 8, 9]]], $compound->toArray());
-        static::assertSame(4326, $line->getSrid());
-        static::assertSame(3857, $arc->getPoint(0)->getSrid());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $compound->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $compound->getFamily());
+        self::assertSame([[[0, null, 8, 9]], [[0, null, 8, 9]]], $compound->toArray());
+        self::assertSame($compound, $compound->setCurve(0, $arc)->setSrid(3857)->setFamily(SpatialModelEnum::GEOMETRY));
+        self::assertSame(CoordinateDimensionEnum::XYZM, $compound->getDimension());
+        self::assertSame(GeometryTypeEnum::COMPOUNDCURVE, $compound->getType());
+        self::assertSame([[[0, null, 8, 9]], [[0, null, 8, 9]]], $compound->toArray());
+        self::assertSame(4326, $line->getSrid());
+        self::assertSame(3857, $arc->getPoint(0)->getSrid());
     }
 }

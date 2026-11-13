@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -37,14 +34,14 @@ class Issue79BuilderTest extends TestCase
         $builder = SpatialBuilder::create()->multiPolygon();
         $polygon = new Polygon([[[1, 2]]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('exclusively immutable spatial components');
+        $this->expectExceptionMessageIsOrContains('exclusively immutable spatial components');
 
         try {
             $builder->addPolygon($polygon);
         } finally {
-            static::assertSame([], $builder->build()->toArray());
-            static::assertSame([[[1, 2]]], $polygon->toArray());
-            static::assertSame(4326, $polygon->getSrid());
+            self::assertSame([], $builder->build()->toArray());
+            self::assertSame([[[1, 2]]], $polygon->toArray());
+            self::assertSame(4326, $polygon->getSrid());
         }
     }
 
@@ -53,12 +50,12 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->compoundCurve();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('CircularStringInterface or LineStringInterface');
+        $this->expectExceptionMessageIsOrContains('CircularStringInterface or LineStringInterface');
 
         try {
             $builder->addCurve(new CompoundCurveImmutable([]));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -71,7 +68,7 @@ class Issue79BuilderTest extends TestCase
         try {
             new \ReflectionMethod($builder, 'addRing')->invoke($builder, new \stdClass());
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -80,12 +77,12 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->multiLineString();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('LineStringInterface');
+        $this->expectExceptionMessageIsOrContains('LineStringInterface');
 
         try {
             $builder->addLineString(new PointImmutable(1, 2));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -94,12 +91,12 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->dimension(\LongitudeOne\Core\Enum\CoordinateDimensionEnum::XYZ)->polyhedralSurface();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('PolygonInterface');
+        $this->expectExceptionMessageIsOrContains('PolygonInterface');
 
         try {
             $builder->addPatch(new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\PointImmutable(1, 2, 3));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -108,12 +105,12 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->lineString()->addPoint(1, 2);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('PointInterface');
+        $this->expectExceptionMessageIsOrContains('PointInterface');
 
         try {
             $builder->addPointComponent(new PolygonImmutable([]));
         } finally {
-            static::assertSame([[1, 2]], $builder->build()->toArray());
+            self::assertSame([[1, 2]], $builder->build()->toArray());
         }
     }
 
@@ -122,12 +119,12 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->multiPolygon();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('PolygonInterface');
+        $this->expectExceptionMessageIsOrContains('PolygonInterface');
 
         try {
             $builder->addPolygon(new PointImmutable(1, 2));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 
@@ -136,12 +133,12 @@ class Issue79BuilderTest extends TestCase
     {
         $builder = SpatialBuilder::create()->polygon();
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('LineStringInterface');
+        $this->expectExceptionMessageIsOrContains('LineStringInterface');
 
         try {
             $builder->addRing(new PointImmutable(1, 2));
         } finally {
-            static::assertSame([], $builder->build()->toArray());
+            self::assertSame([], $builder->build()->toArray());
         }
     }
 }

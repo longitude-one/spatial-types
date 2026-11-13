@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -44,19 +41,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, null, 3], $point->toArray());
-        static::assertSame([0, null, 3], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertNull($point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, null, 3], $point->toArray());
+        self::assertSame([0, null, 3], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertNull($point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -68,19 +65,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, null, null], $point->toArray());
-        static::assertSame([0, null, null], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertNull($point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, null, null], $point->toArray());
+        self::assertSame([0, null, null], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertNull($point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -92,19 +89,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, 2, 3], $point->toArray());
-        static::assertSame([0, 2, 3], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, 2, 3], $point->toArray());
+        self::assertSame([0, 2, 3], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -116,19 +113,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, 2, null], $point->toArray());
-        static::assertSame([0, 2, null], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, 2, null], $point->toArray());
+        self::assertSame([0, 2, null], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Shared aggregate constructors and replacements preserve null ordinates. */
@@ -138,11 +135,11 @@ class PartiallyNullXYMPointTest extends TestCase
         $replacement = $line->withPoint(1, Coordinates::xym(null, null, 4));
         $multiPoint = new MultiPointImmutable([[0, null, 3], [null, 2, null]], 4326);
 
-        static::assertSame([[0, null, 3], [null, 2, null]], $line->toArray());
-        static::assertSame([[0, null, 3], [null, null, 4]], $replacement->toArray());
-        static::assertSame([[0, null, 3], [null, 2, null]], $multiPoint->toArray());
-        static::assertSame(4326, $replacement->getPoint(1)->getSrid());
-        static::assertSame(CoordinateDimensionEnum::XYM, $replacement->getPoint(1)->getDimension());
+        self::assertSame([[0, null, 3], [null, 2, null]], $line->toArray());
+        self::assertSame([[0, null, 3], [null, null, 4]], $replacement->toArray());
+        self::assertSame([[0, null, 3], [null, 2, null]], $multiPoint->toArray());
+        self::assertSame(4326, $replacement->getPoint(1)->getSrid());
+        self::assertSame(CoordinateDimensionEnum::XYM, $replacement->getPoint(1)->getDimension());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -154,19 +151,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([null, null, 3], $point->toArray());
-        static::assertSame([null, null, 3], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertNull($point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([null, null, 3], $point->toArray());
+        self::assertSame([null, null, 3], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertNull($point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -178,19 +175,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([], $point->toArray());
-        static::assertSame([null, null, null], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertNull($point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertNull($point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([], $point->toArray());
+        self::assertSame([null, null, null], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertNull($point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertNull($point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -202,19 +199,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([null, 2, 3], $point->toArray());
-        static::assertSame([null, 2, 3], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([null, 2, 3], $point->toArray());
+        self::assertSame([null, 2, 3], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -226,19 +223,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeographyPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([null, 2, null], $point->toArray());
-        static::assertSame([null, 2, null], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([null, 2, null], $point->toArray());
+        self::assertSame([null, 2, null], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -250,19 +247,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, null, 3], $point->toArray());
-        static::assertSame([0, null, 3], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertNull($point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, null, 3], $point->toArray());
+        self::assertSame([0, null, 3], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertNull($point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -274,19 +271,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, null, null], $point->toArray());
-        static::assertSame([0, null, null], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertNull($point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, null, null], $point->toArray());
+        self::assertSame([0, null, null], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertNull($point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -298,19 +295,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, 2, 3], $point->toArray());
-        static::assertSame([0, 2, 3], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, 2, 3], $point->toArray());
+        self::assertSame([0, 2, 3], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -322,19 +319,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([0, 2, null], $point->toArray());
-        static::assertSame([0, 2, null], $coordinates->toArray());
-        static::assertSame(0, $point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([0, 2, null], $point->toArray());
+        self::assertSame([0, 2, null], $coordinates->toArray());
+        self::assertSame(0, $point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -346,19 +343,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([null, null, 3], $point->toArray());
-        static::assertSame([null, null, 3], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertNull($point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([null, null, 3], $point->toArray());
+        self::assertSame([null, null, 3], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertNull($point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -370,19 +367,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([], $point->toArray());
-        static::assertSame([null, null, null], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertNull($point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertNull($point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([], $point->toArray());
+        self::assertSame([null, null, null], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertNull($point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertNull($point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -394,19 +391,19 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([null, 2, 3], $point->toArray());
-        static::assertSame([null, 2, 3], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertSame(3, $point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([null, 2, 3], $point->toArray());
+        self::assertSame([null, 2, 3], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertSame(3, $point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 
     /** Preserve supplied and null ordinates through every public point path. */
@@ -418,18 +415,18 @@ class PartiallyNullXYMPointTest extends TestCase
         $original = new GeometryPoint(1, 2, 3, 4326);
         $replacement = $original->withCoordinates($coordinates);
 
-        static::assertSame([null, 2, null], $point->toArray());
-        static::assertSame([null, 2, null], $coordinates->toArray());
-        static::assertNull($point->getX());
-        static::assertSame(2, $point->getY());
-        static::assertNull($point->getM());
-        static::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(4326, $point->getSrid());
-        static::assertEquals($coordinates, $point->getCoordinates());
-        static::assertEquals($point, $factoryPoint);
-        static::assertEquals($point, $replacement);
-        static::assertNotSame($original, $replacement);
-        static::assertSame([1, 2, 3], $original->toArray());
+        self::assertSame([null, 2, null], $point->toArray());
+        self::assertSame([null, 2, null], $coordinates->toArray());
+        self::assertNull($point->getX());
+        self::assertSame(2, $point->getY());
+        self::assertNull($point->getM());
+        self::assertSame(CoordinateDimensionEnum::XYM, $point->getDimension());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(4326, $point->getSrid());
+        self::assertEquals($coordinates, $point->getCoordinates());
+        self::assertEquals($point, $factoryPoint);
+        self::assertEquals($point, $replacement);
+        self::assertNotSame($original, $replacement);
+        self::assertSame([1, 2, 3], $original->toArray());
     }
 }

@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,7 +35,7 @@ class CircularStringValidationTest extends TestCase
     {
         $curve = new CircularStringImmutable([[0, 0], [1, 0], [2, 0]]);
 
-        static::assertSame([[0, 0], [1, 0], [2, 0]], $curve->toArray());
+        self::assertSame([[0, 0], [1, 0], [2, 0]], $curve->toArray());
     }
 
     /** A repeated endpoint defines a complete circle. */
@@ -46,8 +43,8 @@ class CircularStringValidationTest extends TestCase
     {
         $curve = new CircularStringImmutable([new PointImmutable(1, 0), new PointImmutable(-1, 0), new PointImmutable(1, 0)]);
 
-        static::assertSame([[1, 0], [-1, 0], [1, 0]], $curve->toArray());
-        static::assertTrue($curve->getPoint(0)->equalsTo($curve->getPoint(-1)));
+        self::assertSame([[1, 0], [-1, 0], [1, 0]], $curve->toArray());
+        self::assertTrue($curve->getPoint(0)->equalsTo($curve->getPoint(-1)));
     }
 
     /** Accessing an empty curve fails explicitly. */
@@ -60,7 +57,7 @@ class CircularStringValidationTest extends TestCase
     /** Line strings share the approved curve category. */
     public function testLineStringIsCurve(): void
     {
-        static::assertContains(CurveInterface::class, class_implements(new LineStringImmutable([[0, 0], [1, 1]])));
+        self::assertContains(CurveInterface::class, class_implements(new LineStringImmutable([[0, 0], [1, 1]])));
     }
 
     /** Two arcs share their connecting endpoint without duplicating it. */
@@ -68,8 +65,8 @@ class CircularStringValidationTest extends TestCase
     {
         $curve = new CircularStringImmutable([[0, 0], [1, 1], [2, 0], [3, -1], [4, 0]]);
 
-        static::assertSame([[0, 0], [1, 1], [2, 0], [3, -1], [4, 0]], $curve->toArray());
-        static::assertCount(5, $curve->getPoints());
+        self::assertSame([[0, 0], [1, 1], [2, 0], [3, -1], [4, 0]], $curve->toArray());
+        self::assertCount(5, $curve->getPoints());
     }
 
     /** Non-point elements are invalid. */

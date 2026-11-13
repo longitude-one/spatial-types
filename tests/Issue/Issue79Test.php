@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,14 +35,14 @@ class Issue79Test extends TestCase
         $invalid = new PolygonImmutable([]);
         $destination = new \LongitudeOne\SpatialTypes\Types\Dimension2\Point(2, 0, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutablePointInterface');
+        $this->expectExceptionMessageIsOrContains('MutablePointInterface');
 
         try {
             $curve->appendArc($invalid, $destination);
         } finally {
-            static::assertSame([$origin], $curve->getPoints());
-            static::assertSame([[0, 0]], $curve->toArray());
-            static::assertSame(2154, $destination->getSrid());
+            self::assertSame([$origin], $curve->getPoints());
+            self::assertSame([[0, 0]], $curve->toArray());
+            self::assertSame(2154, $destination->getSrid());
         }
     }
 
@@ -56,14 +53,14 @@ class Issue79Test extends TestCase
         $invalid = new PolygonImmutable([]);
         $destination = new \LongitudeOne\SpatialTypes\Types\Dimension2\Point(4, 0, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutablePointInterface');
+        $this->expectExceptionMessageIsOrContains('MutablePointInterface');
 
         try {
             $curve->replaceArc(0, $invalid, $destination);
         } finally {
-            static::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
-            static::assertSame(4326, $curve->getSrid());
-            static::assertSame([4, 0], $destination->toArray());
+            self::assertSame([[0, 0], [1, 1], [2, 0]], $curve->toArray());
+            self::assertSame(4326, $curve->getSrid());
+            self::assertSame([4, 0], $destination->toArray());
         }
     }
 
@@ -74,12 +71,12 @@ class Issue79Test extends TestCase
         $empty = new PolygonImmutable([], 2154);
         $collection = new MultiPolygonImmutable([$polygon, $empty, [[[3, 4]]]], 4326);
 
-        static::assertSame([$polygon, $empty, $collection->getPolygon(2)], $collection->getPolygons());
-        static::assertSame([[[[1, 2]]], [], [[[3, 4]]]], $collection->toArray());
-        static::assertSame(4326, $collection->getSrid());
-        static::assertSame(2154, $collection->getPolygon(1)->getSrid());
-        static::assertInstanceOf(PolygonImmutable::class, $collection->getPolygon(2));
-        static::assertSame([[[1, 2]]], $polygon->toArray());
+        self::assertSame([$polygon, $empty, $collection->getPolygon(2)], $collection->getPolygons());
+        self::assertSame([[[[1, 2]]], [], [[[3, 4]]]], $collection->toArray());
+        self::assertSame(4326, $collection->getSrid());
+        self::assertSame(2154, $collection->getPolygon(1)->getSrid());
+        self::assertInstanceOf(PolygonImmutable::class, $collection->getPolygon(2));
+        self::assertSame([[[1, 2]]], $polygon->toArray());
     }
 
     /** Immutable replacement rejects mutable spatial values before copying members. */
@@ -89,15 +86,15 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\GeometryCollectionImmutable(4326, [$point]);
         $replacement = new \LongitudeOne\SpatialTypes\Types\Dimension2\Point(3, 4, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutableSpatialInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutableSpatialInterface');
 
         try {
             $source->withElement(0, $replacement);
         } finally {
-            static::assertSame([$point], $source->getElements());
-            static::assertSame([[1, 2]], $source->toArray());
-            static::assertSame([3, 4], $replacement->toArray());
-            static::assertSame(2154, $replacement->getSrid());
+            self::assertSame([$point], $source->getElements());
+            self::assertSame([[1, 2]], $source->toArray());
+            self::assertSame([3, 4], $replacement->toArray());
+            self::assertSame(2154, $replacement->getSrid());
         }
     }
 
@@ -106,7 +103,7 @@ class Issue79Test extends TestCase
     {
         $polygon = new Polygon([]);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         new \ReflectionClass(MultiPolygonImmutable::class)->newInstance([$polygon]);
     }
@@ -116,7 +113,7 @@ class Issue79Test extends TestCase
     {
         $point = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable(1, 2);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         new \ReflectionClass(MultiPolygonImmutable::class)->newInstance([$point]);
     }
@@ -126,7 +123,7 @@ class Issue79Test extends TestCase
     {
         $line = new \LongitudeOne\SpatialTypes\Types\Dimension3m\LineString([[1, 2, 9]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutableLineStringInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutableLineStringInterface');
 
         new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension3m\Geometry\MultiLineStringImmutable::class)->newInstance([$line], 4326);
     }
@@ -136,13 +133,13 @@ class Issue79Test extends TestCase
     {
         $polygon = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Polygon([[[1, 2, 3, 4]]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         try {
             new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension4zm\Geography\PolyhedralSurfaceImmutable::class)->newInstance([$polygon], 2154);
         } finally {
-            static::assertSame([[[1, 2, 3, 4]]], $polygon->toArray());
-            static::assertSame(4326, $polygon->getSrid());
+            self::assertSame([[[1, 2, 3, 4]]], $polygon->toArray());
+            self::assertSame(4326, $polygon->getSrid());
         }
     }
 
@@ -151,7 +148,7 @@ class Issue79Test extends TestCase
     {
         $polygon = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon([[[1, 2, 3]]], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('ImmutablePolygonInterface');
+        $this->expectExceptionMessageIsOrContains('ImmutablePolygonInterface');
 
         new \ReflectionClass(\LongitudeOne\SpatialTypes\Types\Dimension3z\Geography\MultiPolygonImmutable::class)->newInstance([$polygon], 4326);
     }
@@ -163,14 +160,14 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension2\SpatialCollection([$point], 4326);
         $immutable = new \LongitudeOne\SpatialTypes\Types\Dimension2\Geometry\PointImmutable(3, 4, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableSpatialInterface');
+        $this->expectExceptionMessageIsOrContains('MutableSpatialInterface');
 
         try {
             $source->setElement(0, $immutable);
         } finally {
-            static::assertSame([$point], $source->getElements());
-            static::assertSame([[1, 2]], $source->toArray());
-            static::assertSame([3, 4], $immutable->toArray());
+            self::assertSame([$point], $source->getElements());
+            self::assertSame([[1, 2]], $source->toArray());
+            self::assertSame([3, 4], $immutable->toArray());
         }
     }
 
@@ -181,15 +178,15 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension3m\MultiPoint([$point], 4326);
         $replacement = new \LongitudeOne\SpatialTypes\Types\Dimension3m\Geography\PointImmutable(3, 4, 8, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableSpatialInterface');
+        $this->expectExceptionMessageIsOrContains('MutableSpatialInterface');
 
         try {
             $source->addElement($replacement);
         } finally {
-            static::assertSame([$point], $source->getElements());
-            static::assertSame([[1, 2, 9]], $source->toArray());
-            static::assertSame(4326, $point->getSrid());
-            static::assertSame([3, 4, 8], $replacement->toArray());
+            self::assertSame([$point], $source->getElements());
+            self::assertSame([[1, 2, 9]], $source->toArray());
+            self::assertSame(4326, $point->getSrid());
+            self::assertSame([3, 4, 8], $replacement->toArray());
         }
     }
 
@@ -200,14 +197,14 @@ class Issue79Test extends TestCase
         $source = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\MultiPolygon([$polygon], 4326);
         $replacement = new \LongitudeOne\SpatialTypes\Types\Dimension4zm\Point(5, 6, 7, 8, 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('mutable Polygon');
+        $this->expectExceptionMessageIsOrContains('mutable Polygon');
 
         try {
             $source->setElement(0, $replacement);
         } finally {
-            static::assertSame([$polygon], $source->getElements());
-            static::assertSame([[[[1, 2, 3, 4]]]], $source->toArray());
-            static::assertSame([5, 6, 7, 8], $replacement->toArray());
+            self::assertSame([$polygon], $source->getElements());
+            self::assertSame([[[[1, 2, 3, 4]]]], $source->toArray());
+            self::assertSame([5, 6, 7, 8], $replacement->toArray());
         }
     }
 
@@ -218,14 +215,14 @@ class Issue79Test extends TestCase
         $surface = new \LongitudeOne\SpatialTypes\Types\Dimension3z\PolyhedralSurface([$patch], 4326);
         $ring = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Geometry\LineStringImmutable([[4, 5, 6]], 2154);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableLineStringInterface');
+        $this->expectExceptionMessageIsOrContains('MutableLineStringInterface');
 
         try {
             $surface->addRing(0, $ring);
         } finally {
-            static::assertSame([$patch], $surface->getPatches());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
-            static::assertSame([[4, 5, 6]], $ring->toArray());
+            self::assertSame([$patch], $surface->getPatches());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([[4, 5, 6]], $ring->toArray());
         }
     }
 
@@ -237,14 +234,14 @@ class Issue79Test extends TestCase
         $patch = new \LongitudeOne\SpatialTypes\Types\Dimension3z\Polygon([$ring], 4326);
         $surface = new \LongitudeOne\SpatialTypes\Types\Dimension3z\PolyhedralSurface([$patch], 4326);
         $this->expectException(SpatialTypeExceptionInterface::class);
-        $this->expectExceptionMessage('MutableLineStringInterface');
+        $this->expectExceptionMessageIsOrContains('MutableLineStringInterface');
 
         try {
             $surface->insertRing(0, 1, $point);
         } finally {
-            static::assertSame([$ring], $patch->getRings());
-            static::assertSame([$point], $ring->getPoints());
-            static::assertSame([[[[1, 2, 3]]]], $surface->toArray());
+            self::assertSame([$ring], $patch->getRings());
+            self::assertSame([$point], $ring->getPoints());
+            self::assertSame([[[[1, 2, 3]]]], $surface->toArray());
         }
     }
 
@@ -257,7 +254,7 @@ class Issue79Test extends TestCase
         try {
             new \ReflectionMethod($source, 'addPoint')->invoke($source, new \stdClass());
         } finally {
-            static::assertSame([[1, 2]], $source->toArray());
+            self::assertSame([[1, 2]], $source->toArray());
         }
     }
 
@@ -270,7 +267,7 @@ class Issue79Test extends TestCase
         try {
             new \ReflectionMethod($source, 'addElement')->invoke($source, 7);
         } finally {
-            static::assertSame([], $source->getElements());
+            self::assertSame([], $source->getElements());
         }
     }
 }

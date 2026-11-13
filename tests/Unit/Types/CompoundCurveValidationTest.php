@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -46,9 +43,9 @@ class CompoundCurveValidationTest extends TestCase
             new CircularStringImmutable([[2, 0], [3, -1], [4, 0]]),
         ]);
 
-        static::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(0));
-        static::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(1));
-        static::assertSame([[[0, 0], [1, 1], [2, 0]], [[2, 0], [3, -1], [4, 0]]], $compound->toArray());
+        self::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(0));
+        self::assertInstanceOf(CircularStringImmutable::class, $compound->getCurve(1));
+        self::assertSame([[[0, 0], [1, 1], [2, 0]], [[2, 0], [3, -1], [4, 0]]], $compound->toArray());
     }
 
     /** A complete circle preserves its equal endpoint representation. */
@@ -56,8 +53,8 @@ class CompoundCurveValidationTest extends TestCase
     {
         $circle = new CircularStringImmutable([[1, 0], [-1, 0], [1, 0]]);
 
-        static::assertSame($circle->getPoint(0), $circle->getStartPoint());
-        static::assertSame($circle->getPoint(-1), $circle->getEndPoint());
+        self::assertSame($circle->getPoint(0), $circle->getStartPoint());
+        self::assertSame($circle->getPoint(-1), $circle->getEndPoint());
     }
 
     /** A closed line exposes the same endpoints as its point accessors. */
@@ -65,14 +62,14 @@ class CompoundCurveValidationTest extends TestCase
     {
         $line = new LineStringImmutable([[0, 0], [1, 1], [0, 0]]);
 
-        static::assertSame($line->getPoint(0), $line->getStartPoint());
-        static::assertSame($line->getPoint(-1), $line->getEndPoint());
+        self::assertSame($line->getPoint(0), $line->getStartPoint());
+        self::assertSame($line->getPoint(-1), $line->getEndPoint());
     }
 
     /** Components need only the immutable curve contract, not concrete interfaces. */
     public function testCommonCurveImplementation(): void
     {
-        $component = static::createStub(ImmutableCurveInterface::class);
+        $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('getType')->willReturn(GeometryTypeEnum::LINESTRING);
         $component->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $component->method('hasZ')->willReturn(false);
@@ -84,17 +81,17 @@ class CompoundCurveValidationTest extends TestCase
         $component->method('toArray')->willReturn([[0, 0], [1, 1]]);
         $compound = new CompoundCurveImmutable([$component]);
 
-        static::assertSame($component, $compound->getCurve(0));
-        static::assertSame([[[0, 0], [1, 1]]], $compound->toArray());
+        self::assertSame($component, $compound->getCurve(0));
+        self::assertSame([[[0, 0], [1, 1]]], $compound->toArray());
     }
 
     /** Booleans are not normalized into numeric component ordinates. */
     public function testComponentRejectsBooleanOrdinate(): void
     {
-        $component = static::createStub(ImmutableCurveInterface::class);
+        $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('toArray')->willReturn([[0, false]]);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
+        $this->expectExceptionMessageIsOrContains('A compound curve component must expose numeric or null ordinates.');
 
         new CompoundCurveImmutable([$component]);
     }
@@ -102,10 +99,10 @@ class CompoundCurveValidationTest extends TestCase
     /** Strings remain invalid component ordinates when null is accepted. */
     public function testComponentRejectsNumericStringOrdinate(): void
     {
-        $component = static::createStub(ImmutableCurveInterface::class);
+        $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('toArray')->willReturn([[0, '2']]);
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('A compound curve component must expose numeric or null ordinates.');
+        $this->expectExceptionMessageIsOrContains('A compound curve component must expose numeric or null ordinates.');
 
         new CompoundCurveImmutable([$component]);
     }
@@ -121,7 +118,7 @@ class CompoundCurveValidationTest extends TestCase
     /** Nested component coordinates cannot masquerade as point ordinates. */
     public function testInvalidComponentOrdinate(): void
     {
-        $component = static::createStub(ImmutableCurveInterface::class);
+        $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('getType')->willReturn(GeometryTypeEnum::LINESTRING);
         $component->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $component->method('hasZ')->willReturn(false);
@@ -139,7 +136,7 @@ class CompoundCurveValidationTest extends TestCase
     /** A component violating its tuple representation is rejected on construction. */
     public function testInvalidComponentTuple(): void
     {
-        $component = static::createStub(ImmutableCurveInterface::class);
+        $component = self::createStub(ImmutableCurveInterface::class);
         $component->method('getType')->willReturn(GeometryTypeEnum::LINESTRING);
         $component->method('getDimension')->willReturn(CoordinateDimensionEnum::XY);
         $component->method('hasZ')->willReturn(false);
@@ -160,12 +157,12 @@ class CompoundCurveValidationTest extends TestCase
         $compound = new CompoundCurveImmutable([new LineStringImmutable([[0, 0], [1, 1]])]);
         $copy = $compound->withSrid(4326);
 
-        static::assertSame(0, $compound->getSrid());
-        static::assertSame(0, $compound->getStartPoint()?->getSrid());
-        static::assertSame(4326, $copy->getStartPoint()?->getSrid());
-        static::assertSame(4326, $copy->getEndPoint()?->getSrid());
-        static::assertSame([[[0, 0], [1, 1]]], $copy->toArray());
-        static::assertSame([
+        self::assertSame(0, $compound->getSrid());
+        self::assertSame(0, $compound->getStartPoint()?->getSrid());
+        self::assertSame(4326, $copy->getStartPoint()?->getSrid());
+        self::assertSame(4326, $copy->getEndPoint()?->getSrid());
+        self::assertSame([[[0, 0], [1, 1]]], $copy->toArray());
+        self::assertSame([
             'type' => 'CompoundCurve',
             'coordinates' => [[[0, 0], [1, 1]]],
             'srid' => 4326,
@@ -180,9 +177,9 @@ class CompoundCurveValidationTest extends TestCase
             new LineStringImmutable([[1, 1], [2, 0]]),
         ]);
 
-        static::assertSame([0, 0], $compound->getStartPoint()?->toArray());
-        static::assertSame([2, 0], $compound->getEndPoint()?->toArray());
-        static::assertSame([[[0, 0], [1, 1]], [[1, 1], [2, 0]]], $compound->toArray());
+        self::assertSame([0, 0], $compound->getStartPoint()?->toArray());
+        self::assertSame([2, 0], $compound->getEndPoint()?->toArray());
+        self::assertSame([[[0, 0], [1, 1]], [[1, 1], [2, 0]]], $compound->toArray());
     }
 
     /** Construction rejects values outside the common curve contract. */
@@ -209,7 +206,7 @@ class CompoundCurveValidationTest extends TestCase
         $curves = $compound->getCurves();
         $curves[] = new LineStringImmutable([[1, 1], [2, 2]]);
 
-        static::assertCount(2, $curves);
-        static::assertSame([$line], $compound->getCurves());
+        self::assertCount(2, $curves);
+        self::assertSame([$line], $compound->getCurves());
     }
 }

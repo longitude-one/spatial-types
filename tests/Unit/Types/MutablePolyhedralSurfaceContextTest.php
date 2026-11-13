@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -42,19 +39,19 @@ class MutablePolyhedralSurfaceContextTest extends TestCase
         $second = new Polygon([$secondRing], $initial);
         $surface = new PolyhedralSurface([$first, $second], $initial);
         $owner = new PolyhedralSurface([$first], $initial);
-        static::assertSame($surface, $surface->setFamily(SpatialModelEnum::GEOGRAPHY, false));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $first->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $second->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $firstRing->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $secondRing->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
-        static::assertSame($first, $surface->getPatch(0));
-        static::assertSame($first, $owner->getPatch(0));
-        static::assertSame($point, $second->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
-        static::assertSame([[[[0, null, 8]]]], $owner->toArray());
+        self::assertSame($surface, $surface->setFamily(SpatialModelEnum::GEOGRAPHY, false));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $first->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $second->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $firstRing->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $secondRing->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
+        self::assertSame($first, $surface->getPatch(0));
+        self::assertSame($first, $owner->getPatch(0));
+        self::assertSame($point, $second->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
+        self::assertSame([[[[0, null, 8]]]], $owner->toArray());
     }
 
     /** Declared context edits retain coordinates through every patch, ring and point. */
@@ -68,19 +65,19 @@ class MutablePolyhedralSurfaceContextTest extends TestCase
         $second = new Polygon([$secondRing], $initial);
         $surface = new PolyhedralSurface([$first, $second], $initial);
         $owner = new PolyhedralSurface([$first], $initial);
-        static::assertSame($surface, $surface->setFamily(SpatialModelEnum::GEOGRAPHY));
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $first->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $second->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $firstRing->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $secondRing->getFamily());
-        static::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
-        static::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
-        static::assertSame($first, $surface->getPatch(0));
-        static::assertSame($first, $owner->getPatch(0));
-        static::assertSame($point, $second->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
-        static::assertSame([[[[0, null, 8]]]], $owner->toArray());
+        self::assertSame($surface, $surface->setFamily(SpatialModelEnum::GEOGRAPHY));
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $surface->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $first->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $second->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $firstRing->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $secondRing->getFamily());
+        self::assertSame(SpatialModelEnum::GEOGRAPHY, $point->getFamily());
+        self::assertSame(SpatialModelEnum::GEOMETRY, $owner->getFamily());
+        self::assertSame($first, $surface->getPatch(0));
+        self::assertSame($first, $owner->getPatch(0));
+        self::assertSame($point, $second->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
+        self::assertSame([[[[0, null, 8]]]], $owner->toArray());
     }
 
     /** Declared context edits retain coordinates through every patch, ring and point. */
@@ -95,19 +92,19 @@ class MutablePolyhedralSurfaceContextTest extends TestCase
         $second = new Polygon([$secondRing], $initial);
         $surface = new PolyhedralSurface([$first, $second], $initial);
         $owner = new PolyhedralSurface([$first], $initial);
-        static::assertSame($surface, $surface->setSpatialReference($reference, false));
-        static::assertSame($reference, $surface->getSpatialReference());
-        static::assertSame($initial, $first->getSpatialReference());
-        static::assertSame($initial, $second->getSpatialReference());
-        static::assertSame($initial, $firstRing->getSpatialReference());
-        static::assertSame($initial, $secondRing->getSpatialReference());
-        static::assertSame($initial, $point->getSpatialReference());
-        static::assertSame($initial, $owner->getSpatialReference());
-        static::assertSame($first, $surface->getPatch(0));
-        static::assertSame($first, $owner->getPatch(0));
-        static::assertSame($point, $second->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
-        static::assertSame([[[[0, null, 8]]]], $owner->toArray());
+        self::assertSame($surface, $surface->setSpatialReference($reference, false));
+        self::assertSame($reference, $surface->getSpatialReference());
+        self::assertSame($initial, $first->getSpatialReference());
+        self::assertSame($initial, $second->getSpatialReference());
+        self::assertSame($initial, $firstRing->getSpatialReference());
+        self::assertSame($initial, $secondRing->getSpatialReference());
+        self::assertSame($initial, $point->getSpatialReference());
+        self::assertSame($initial, $owner->getSpatialReference());
+        self::assertSame($first, $surface->getPatch(0));
+        self::assertSame($first, $owner->getPatch(0));
+        self::assertSame($point, $second->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
+        self::assertSame([[[[0, null, 8]]]], $owner->toArray());
     }
 
     /** Declared context edits retain coordinates through every patch, ring and point. */
@@ -122,19 +119,19 @@ class MutablePolyhedralSurfaceContextTest extends TestCase
         $second = new Polygon([$secondRing], $initial);
         $surface = new PolyhedralSurface([$first, $second], $initial);
         $owner = new PolyhedralSurface([$first], $initial);
-        static::assertSame($surface, $surface->setSpatialReference($reference));
-        static::assertSame($reference, $surface->getSpatialReference());
-        static::assertSame($reference, $first->getSpatialReference());
-        static::assertSame($reference, $second->getSpatialReference());
-        static::assertSame($reference, $firstRing->getSpatialReference());
-        static::assertSame($reference, $secondRing->getSpatialReference());
-        static::assertSame($reference, $point->getSpatialReference());
-        static::assertSame($initial, $owner->getSpatialReference());
-        static::assertSame($first, $surface->getPatch(0));
-        static::assertSame($first, $owner->getPatch(0));
-        static::assertSame($point, $second->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
-        static::assertSame([[[[0, null, 8]]]], $owner->toArray());
+        self::assertSame($surface, $surface->setSpatialReference($reference));
+        self::assertSame($reference, $surface->getSpatialReference());
+        self::assertSame($reference, $first->getSpatialReference());
+        self::assertSame($reference, $second->getSpatialReference());
+        self::assertSame($reference, $firstRing->getSpatialReference());
+        self::assertSame($reference, $secondRing->getSpatialReference());
+        self::assertSame($reference, $point->getSpatialReference());
+        self::assertSame($initial, $owner->getSpatialReference());
+        self::assertSame($first, $surface->getPatch(0));
+        self::assertSame($first, $owner->getPatch(0));
+        self::assertSame($point, $second->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
+        self::assertSame([[[[0, null, 8]]]], $owner->toArray());
     }
 
     /** Declared context edits retain coordinates through every patch, ring and point. */
@@ -148,19 +145,19 @@ class MutablePolyhedralSurfaceContextTest extends TestCase
         $second = new Polygon([$secondRing], $initial);
         $surface = new PolyhedralSurface([$first, $second], $initial);
         $owner = new PolyhedralSurface([$first], $initial);
-        static::assertSame($surface, $surface->setSrid(2154, false));
-        static::assertSame(2154, $surface->getSrid());
-        static::assertSame(4326, $first->getSrid());
-        static::assertSame(4326, $second->getSrid());
-        static::assertSame(4326, $firstRing->getSrid());
-        static::assertSame(4326, $secondRing->getSrid());
-        static::assertSame(4326, $point->getSrid());
-        static::assertSame(4326, $owner->getSrid());
-        static::assertSame($first, $surface->getPatch(0));
-        static::assertSame($first, $owner->getPatch(0));
-        static::assertSame($point, $second->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
-        static::assertSame([[[[0, null, 8]]]], $owner->toArray());
+        self::assertSame($surface, $surface->setSrid(2154, false));
+        self::assertSame(2154, $surface->getSrid());
+        self::assertSame(4326, $first->getSrid());
+        self::assertSame(4326, $second->getSrid());
+        self::assertSame(4326, $firstRing->getSrid());
+        self::assertSame(4326, $secondRing->getSrid());
+        self::assertSame(4326, $point->getSrid());
+        self::assertSame(4326, $owner->getSrid());
+        self::assertSame($first, $surface->getPatch(0));
+        self::assertSame($first, $owner->getPatch(0));
+        self::assertSame($point, $second->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
+        self::assertSame([[[[0, null, 8]]]], $owner->toArray());
     }
 
     /** Declared context edits retain coordinates through every patch, ring and point. */
@@ -174,18 +171,18 @@ class MutablePolyhedralSurfaceContextTest extends TestCase
         $second = new Polygon([$secondRing], $initial);
         $surface = new PolyhedralSurface([$first, $second], $initial);
         $owner = new PolyhedralSurface([$first], $initial);
-        static::assertSame($surface, $surface->setSrid(2154));
-        static::assertSame(2154, $surface->getSrid());
-        static::assertSame(2154, $first->getSrid());
-        static::assertSame(2154, $second->getSrid());
-        static::assertSame(2154, $firstRing->getSrid());
-        static::assertSame(2154, $secondRing->getSrid());
-        static::assertSame(2154, $point->getSrid());
-        static::assertSame(4326, $owner->getSrid());
-        static::assertSame($first, $surface->getPatch(0));
-        static::assertSame($first, $owner->getPatch(0));
-        static::assertSame($point, $second->getRing(0)->getPoint(0));
-        static::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
-        static::assertSame([[[[0, null, 8]]]], $owner->toArray());
+        self::assertSame($surface, $surface->setSrid(2154));
+        self::assertSame(2154, $surface->getSrid());
+        self::assertSame(2154, $first->getSrid());
+        self::assertSame(2154, $second->getSrid());
+        self::assertSame(2154, $firstRing->getSrid());
+        self::assertSame(2154, $secondRing->getSrid());
+        self::assertSame(2154, $point->getSrid());
+        self::assertSame(4326, $owner->getSrid());
+        self::assertSame($first, $surface->getPatch(0));
+        self::assertSame($first, $owner->getPatch(0));
+        self::assertSame($point, $second->getRing(0)->getPoint(0));
+        self::assertSame([[[[0, null, 8]]], [[[0, null, 8]]]], $surface->toArray());
+        self::assertSame([[[[0, null, 8]]]], $owner->toArray());
     }
 }

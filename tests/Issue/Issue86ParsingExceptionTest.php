@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -38,11 +35,11 @@ class Issue86ParsingExceptionTest extends TestCase
     {
         try {
             new XyPoint('181W', 0);
-            static::fail('An invalid longitude must fail parsing.');
+            self::fail('An invalid longitude must fail parsing.');
         } catch (InvalidValueException $exception) {
-            static::assertSame('Out of range longitude value, longitude must be between -180 and 180, got "181W".', $exception->getMessage());
-            static::assertSame(180, $exception->getCode());
-            static::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
+            self::assertSame('Out of range longitude value, longitude must be between -180 and 180, got "181W".', $exception->getMessage());
+            self::assertSame(180, $exception->getCode());
+            self::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
         }
     }
 
@@ -51,11 +48,11 @@ class Issue86ParsingExceptionTest extends TestCase
     {
         try {
             new XymPoint('79:60:55.832W', 0, 8);
-            static::fail('Invalid minutes must fail parsing.');
+            self::fail('Invalid minutes must fail parsing.');
         } catch (InvalidValueException $exception) {
-            static::assertSame('Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".', $exception->getMessage());
-            static::assertSame(3600, $exception->getCode());
-            static::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
+            self::assertSame('Out of range minute value, minute must be between 0 and 59, got "79:60:55.832W".', $exception->getMessage());
+            self::assertSame(3600, $exception->getCode());
+            self::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
         }
     }
 
@@ -64,11 +61,11 @@ class Issue86ParsingExceptionTest extends TestCase
     {
         try {
             new XyzPoint(0, '100N', 12);
-            static::fail('An invalid latitude must fail parsing.');
+            self::fail('An invalid latitude must fail parsing.');
         } catch (InvalidValueException $exception) {
-            static::assertSame('Out of range latitude value, latitude must be between -90 and 90, got "100N".', $exception->getMessage());
-            static::assertSame(90, $exception->getCode());
-            static::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
+            self::assertSame('Out of range latitude value, latitude must be between -90 and 90, got "100N".', $exception->getMessage());
+            self::assertSame(90, $exception->getCode());
+            self::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
         }
     }
 
@@ -77,11 +74,11 @@ class Issue86ParsingExceptionTest extends TestCase
     {
         try {
             new XyzmPoint('79:55:60.832W', 0, 12, 8);
-            static::fail('Invalid seconds must fail parsing.');
+            self::fail('Invalid seconds must fail parsing.');
         } catch (InvalidValueException $exception) {
-            static::assertSame('Out of range second value, second must be between 0 and 59, got "79:55:60.832W".', $exception->getMessage());
-            static::assertSame(60, $exception->getCode());
-            static::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
+            self::assertSame('Out of range second value, second must be between 0 and 59, got "79:55:60.832W".', $exception->getMessage());
+            self::assertSame(60, $exception->getCode());
+            self::assertInstanceOf(GeoParserRangeException::class, $exception->getPrevious());
         }
     }
 }

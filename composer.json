@@ -21,7 +21,8 @@
         "longitude-one/spatial-core": "^1.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^13",
+        "ext-dom": "*",
+        "phpunit/phpunit": "^13.2",
         "ext-pcov": "*"
     },
     "prefer-stable": true,
@@ -37,24 +38,45 @@
         }
     },
     "scripts": {
-        "quality": [
-            "quality/php-cs-fixer/vendor/bin/php-cs-fixer fix --config=quality/php-cs-fixer/.php-cs-fixer.php --allow-risky=yes",
-            "quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M",
+        "test": "@php vendor/bin/phpunit --no-coverage",
+        "coverage": "@php -d pcov.enabled=1 -d pcov.directory=lib vendor/bin/phpunit --coverage-text=build/coverage/coverage.txt --coverage-clover=build/coverage/clover.xml --coverage-html=build/coverage/html",
+        "coverage-ci": "@php -d pcov.enabled=1 -d pcov.directory=lib vendor/bin/phpunit --configuration=phpunit.ci.xml --coverage-clover=build/coverage/clover.xml",
+        "coverage-check": "@php quality/coverage-check.php build/coverage/clover.xml 96",
+        "cs-check": "quality/php-cs-fixer/vendor/bin/php-cs-fixer fix --config=quality/php-cs-fixer/.php-cs-fixer.php --allow-risky=yes --dry-run --diff",
+        "cs-fix": "quality/php-cs-fixer/vendor/bin/php-cs-fixer fix --config=quality/php-cs-fixer/.php-cs-fixer.php --allow-risky=yes",
+        "phpstan": "quality/php-stan/vendor/bin/phpstan analyse --configuration=quality/php-stan/php-stan.neon lib tests --error-format=table --no-progress --no-interaction --no-ansi --level=9 --memory-limit=256M",
+        "phpmd": [
             "quality/php-mess-detector/vendor/bin/phpmd analyze lib --format text --ruleset quality/php-mess-detector/ruleset.yml",
-            "quality/php-mess-detector/vendor/bin/phpmd analyze tests --format text --ruleset quality/php-mess-detector/test-ruleset.yml",
-            "quality/php-code-sniffer/vendor/bin/phpcs --standard=quality/php-code-sniffer/phpcs.xml -s"
+            "quality/php-mess-detector/vendor/bin/phpmd analyze tests --format text --ruleset quality/php-mess-detector/test-ruleset.yml"
         ],
-        "upgrade-tools": [
-            "composer update",
-            "composer update --working-dir=quality/php-cs-fixer",
-            "composer update --working-dir=quality/php-stan",
-            "composer update --working-dir=quality/php-mess-detector",
-            "composer update --working-dir=quality/php-code-sniffer"
+        "phpcs": "quality/php-code-sniffer/vendor/bin/phpcs --standard=quality/php-code-sniffer/phpcs.xml -s",
+        "markdown": "npm run lint:markdown",
+        "quality": [
+            "@cs-check",
+            "@phpstan",
+            "@phpmd",
+            "@phpcs",
+            "@markdown"
         ],
-        "test": "phpunit",
-        "test-local": [
-            "phpunit",
-            "cat .phpunit-cache/coverage-results.txt"
+        "update-tools": [
+            "@composer update --working-dir=quality/php-cs-fixer",
+            "@composer update --working-dir=quality/php-stan",
+            "@composer update --working-dir=quality/php-mess-detector",
+            "@composer update --working-dir=quality/php-code-sniffer"
+        ],
+        "audit-dependencies": [
+            "@composer audit",
+            "@composer audit --working-dir=quality/php-cs-fixer",
+            "@composer audit --working-dir=quality/php-stan",
+            "@composer audit --working-dir=quality/php-mess-detector",
+            "@composer audit --working-dir=quality/php-code-sniffer"
+        ],
+        "check": [
+            "@composer validate --strict",
+            "@audit-dependencies",
+            "@coverage",
+            "@coverage-check",
+            "@quality"
         ]
     }
 }

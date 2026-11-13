@@ -1,14 +1,11 @@
 <?php
-/**
- * This file is part of the spatial project.
+
+/*
+ * This file is part of the LongitudeOne Spatial project.
  *
- * PHP 8.4 | 8.5
+ * Copyright (c) 2026 Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
- * Copyright Alexandre Tranchant <alexandre.tranchant@gmail.com> 2026
- * Copyright Longitude One 2026
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * See LICENSE for copyright and license information.
  *
  */
 
@@ -67,7 +64,7 @@ class CoordinatesTest extends TestCase
     public function testConstructorRejectsUnexpectedElevationForTwoDimensionalCoordinates(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessage('do not match the XY coordinate dimension');
+        self::expectExceptionMessageIsOrContains('do not match the XY coordinate dimension');
 
         new Coordinates(CoordinateDimensionEnum::XY, 1, 2, 3);
     }
@@ -78,10 +75,10 @@ class CoordinatesTest extends TestCase
         $coordinates = Coordinates::xyz(1, 2, 3);
         $replacement = $coordinates->withX(null)->withY(null)->withZ(null);
 
-        static::assertNotSame($coordinates, $replacement);
-        static::assertSame([1, 2, 3], $coordinates->toArray());
-        static::assertSame([null, null, null], $replacement->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZ, $replacement->dimension);
+        self::assertNotSame($coordinates, $replacement);
+        self::assertSame([1, 2, 3], $coordinates->toArray());
+        self::assertSame([null, null, null], $replacement->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZ, $replacement->dimension);
     }
 
     /** Null replacement preserves the layout and the original coordinate value. */
@@ -90,10 +87,10 @@ class CoordinatesTest extends TestCase
         $coordinates = Coordinates::xyzm(1, 2, 3, 4);
         $replacement = $coordinates->withX(null)->withY(null)->withZ(null)->withM(null);
 
-        static::assertNotSame($coordinates, $replacement);
-        static::assertSame([1, 2, 3, 4], $coordinates->toArray());
-        static::assertSame([null, null, null, null], $replacement->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYZM, $replacement->dimension);
+        self::assertNotSame($coordinates, $replacement);
+        self::assertSame([1, 2, 3, 4], $coordinates->toArray());
+        self::assertSame([null, null, null, null], $replacement->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYZM, $replacement->dimension);
     }
 
     /** Null replacement preserves the layout and the original coordinate value. */
@@ -102,10 +99,10 @@ class CoordinatesTest extends TestCase
         $coordinates = Coordinates::xym(1, 2, 3);
         $replacement = $coordinates->withX(null)->withY(null)->withM(null);
 
-        static::assertNotSame($coordinates, $replacement);
-        static::assertSame([1, 2, 3], $coordinates->toArray());
-        static::assertSame([null, null, null], $replacement->toArray());
-        static::assertSame(CoordinateDimensionEnum::XYM, $replacement->dimension);
+        self::assertNotSame($coordinates, $replacement);
+        self::assertSame([1, 2, 3], $coordinates->toArray());
+        self::assertSame([null, null, null], $replacement->toArray());
+        self::assertSame(CoordinateDimensionEnum::XYM, $replacement->dimension);
     }
 
     /**
@@ -126,7 +123,7 @@ class CoordinatesTest extends TestCase
     public function testReplacingElevationRejectsTwoDimensionalCoordinates(): void
     {
         self::expectException(InvalidDimensionException::class);
-        self::expectExceptionMessage('has no Z ordinate');
+        self::expectExceptionMessageIsOrContains('has no Z ordinate');
 
         Coordinates::xy(1, 2)->withZ(3);
     }
@@ -139,9 +136,9 @@ class CoordinatesTest extends TestCase
         $coordinates = Coordinates::xyzm(1, 2, 3, 4);
         $updatedCoordinates = $coordinates->withX(5);
 
-        static::assertNotSame($coordinates, $updatedCoordinates);
-        static::assertSame([1, 2, 3, 4], $coordinates->toArray());
-        static::assertSame([5, 2, 3, 4], $updatedCoordinates->toArray());
+        self::assertNotSame($coordinates, $updatedCoordinates);
+        self::assertSame([1, 2, 3, 4], $coordinates->toArray());
+        self::assertSame([5, 2, 3, 4], $updatedCoordinates->toArray());
     }
 
     /**
@@ -151,21 +148,21 @@ class CoordinatesTest extends TestCase
     {
         $xym = Coordinates::xym(1, 2, 3);
         $xymWithM = $xym->withM(4);
-        static::assertNotSame($xym, $xymWithM);
-        static::assertSame([1, 2, 3], $xym->toArray());
-        static::assertSame([1, 2, 4], $xymWithM->toArray());
+        self::assertNotSame($xym, $xymWithM);
+        self::assertSame([1, 2, 3], $xym->toArray());
+        self::assertSame([1, 2, 4], $xymWithM->toArray());
 
         $xyz = Coordinates::xyz(1, 2, 3);
         $xyzWithY = $xyz->withY(4);
-        static::assertNotSame($xyz, $xyzWithY);
-        static::assertSame([1, 2, 3], $xyz->toArray());
-        static::assertSame([1, 4, 3], $xyzWithY->toArray());
+        self::assertNotSame($xyz, $xyzWithY);
+        self::assertSame([1, 2, 3], $xyz->toArray());
+        self::assertSame([1, 4, 3], $xyzWithY->toArray());
 
         $xyzm = Coordinates::xyzm(1, 2, 3, 4);
         $xyzmWithZ = $xyzm->withZ(5);
-        static::assertNotSame($xyzm, $xyzmWithZ);
-        static::assertSame([1, 2, 3, 4], $xyzm->toArray());
-        static::assertSame([1, 2, 5, 4], $xyzmWithZ->toArray());
+        self::assertNotSame($xyzm, $xyzmWithZ);
+        self::assertSame([1, 2, 3, 4], $xyzm->toArray());
+        self::assertSame([1, 2, 5, 4], $xyzmWithZ->toArray());
     }
 
     /**
@@ -173,10 +170,10 @@ class CoordinatesTest extends TestCase
      */
     public function testToArrayUsesCoordinateDimensionOrder(): void
     {
-        static::assertSame([1, 2], Coordinates::xy(1, 2)->toArray());
-        static::assertSame([1, 2, 3], Coordinates::xym(1, 2, 3)->toArray());
-        static::assertSame([1, 2, 3], Coordinates::xyz(1, 2, 3)->toArray());
-        static::assertSame([1, 2, 3, 4], Coordinates::xyzm(1, 2, 3, 4)->toArray());
+        self::assertSame([1, 2], Coordinates::xy(1, 2)->toArray());
+        self::assertSame([1, 2, 3], Coordinates::xym(1, 2, 3)->toArray());
+        self::assertSame([1, 2, 3], Coordinates::xyz(1, 2, 3)->toArray());
+        self::assertSame([1, 2, 3, 4], Coordinates::xyzm(1, 2, 3, 4)->toArray());
     }
 
     /** Null replacement preserves the layout and the original coordinate value. */
@@ -185,9 +182,9 @@ class CoordinatesTest extends TestCase
         $coordinates = Coordinates::xy(1, 2);
         $replacement = $coordinates->withX(null)->withY(null);
 
-        static::assertNotSame($coordinates, $replacement);
-        static::assertSame([1, 2], $coordinates->toArray());
-        static::assertSame([null, null], $replacement->toArray());
-        static::assertSame(CoordinateDimensionEnum::XY, $replacement->dimension);
+        self::assertNotSame($coordinates, $replacement);
+        self::assertSame([1, 2], $coordinates->toArray());
+        self::assertSame([null, null], $replacement->toArray());
+        self::assertSame(CoordinateDimensionEnum::XY, $replacement->dimension);
     }
 }
