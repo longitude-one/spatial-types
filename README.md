@@ -15,7 +15,7 @@ geographic data.
 ## Installation
 
 ```bash
-composer require longitude-one/spatial-types:^1.0
+composer require longitude-one/spatial-types:1.0.0-RC.1
 ```
 
 ## Documentation
