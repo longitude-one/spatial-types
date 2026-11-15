@@ -312,7 +312,7 @@ Commit descriptions SHOULD be concise, imperative, and describe one coherent cha
 
 The repository uses `commit-and-tag-version` for release generation and changelog management.
 
-The repository's `.versionrc.json` is authoritative for commit types recognized by the release tooling.
+The repository's `quality/commit-and-tag-version/.versionrc.json` is authoritative for commit types recognized by the release tooling.
 
 Currently configured types are:
 
@@ -349,7 +349,7 @@ fix(factory): preserve spatial reference in collections
 test(types): add empty geometry cases
 ```
 
-Agents MUST NOT invent new commit types without updating `.versionrc.json` and receiving approval when that change affects release or changelog conventions.
+Agents MUST NOT invent new commit types without updating `quality/commit-and-tag-version/.versionrc.json` and receiving approval when that change affects release or changelog conventions.
 
 ### Breaking Changes
 
